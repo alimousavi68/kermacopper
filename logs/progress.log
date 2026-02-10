@@ -1,1 +1,0 @@
-2026-02-10T12:16:59Z [INFO] Task: Fix submodule update issue | Start: 2026-02-10T12:10:00Z | End: 2026-02-10T12:16:59Z | Files: .gitmodules, _hasht_core | Result: Success | Description: Removed empty directory, re-added submodule using git submodule add.
