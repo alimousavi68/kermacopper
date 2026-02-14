@@ -160,3 +160,70 @@ class KermanCopper_Nav_Walker extends Walker_Nav_Menu {
         $output .= "</li>";
     }
 }
+
+class KermanCopper_Mobile_Nav_Walker extends Walker_Nav_Menu {
+    public function start_lvl( &$output, $depth = 0, $args = null ) {
+        $output .= '<ul class="mobile-submenu hidden mt-2 space-y-2 pr-4 border-r border-slate-100 list-none">';
+    }
+
+    public function end_lvl( &$output, $depth = 0, $args = null ) {
+        $output .= '</ul>';
+    }
+
+    public function start_el( &$output, $item, $depth = 0, $args = null, $id = 0 ) {
+        $classes = empty( $item->classes ) ? array() : (array) $item->classes;
+        $has_children = in_array( 'menu-item-has-children', $classes );
+
+        $classes[] = 'mobile-menu-item';
+        $class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args, $depth ) );
+        $class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
+
+        $output .= '<li' . $class_names . '>';
+
+        $atts = array();
+        $atts['title']  = ! empty( $item->attr_title ) ? $item->attr_title : '';
+        $atts['target'] = ! empty( $item->target )     ? $item->target     : '';
+        $atts['rel']    = ! empty( $item->xfn )        ? $item->xfn        : '';
+        $atts['href']   = ! empty( $item->url )        ? $item->url        : '';
+
+        $link_class = $depth === 0
+            ? 'block py-3 text-base font-bold text-slate-800 hover:text-copper transition-colors'
+            : 'block py-2 text-sm text-slate-600 hover:text-copper transition-colors';
+
+        $atts['class'] = $link_class;
+
+        $atts = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args, $depth );
+        $attributes = '';
+        foreach ( $atts as $attr => $value ) {
+            if ( ! empty( $value ) ) {
+                $value = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
+                $attributes .= ' ' . $attr . '="' . $value . '"';
+            }
+        }
+
+        $title = apply_filters( 'the_title', $item->title, $item->ID );
+        $title = apply_filters( 'nav_menu_item_title', $title, $item, $args, $depth );
+
+        if ( $depth === 0 ) {
+            $output .= '<div class="flex items-center justify-between gap-3 border-b border-slate-100 pb-2 last:border-0">';
+        }
+
+        $output .= '<a' . $attributes . '>';
+        $output .= $args->link_before . $title . $args->link_after;
+        $output .= '</a>';
+
+        if ( $depth === 0 && $has_children ) {
+            $output .= '<button type="button" class="mobile-submenu-toggle w-9 h-9 flex items-center justify-center rounded-sm border border-slate-100 text-slate-500 hover:text-copper hover:border-copper transition-colors" aria-expanded="false">';
+            $output .= '<i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>';
+            $output .= '</button>';
+        }
+
+        if ( $depth === 0 ) {
+            $output .= '</div>';
+        }
+    }
+
+    public function end_el( &$output, $item, $depth = 0, $args = null ) {
+        $output .= "</li>";
+    }
+}

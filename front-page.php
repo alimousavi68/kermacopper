@@ -114,6 +114,7 @@
                         <button data-filter="all" class="px-6 py-2 rounded-sm font-bold transition-all text-sm bg-copper text-white">همه</button>
                         <button data-filter="auction" class="px-6 py-2 rounded-sm font-bold transition-all text-sm text-slate-500 hover:bg-slate-50">مزایدات</button>
                         <button data-filter="tender" class="px-6 py-2 rounded-sm font-bold transition-all text-sm text-slate-500 hover:bg-slate-50">مناقصات</button>
+                        <button data-filter="other" class="px-6 py-2 rounded-sm font-bold transition-all text-sm text-slate-500 hover:bg-slate-50">سایر</button>
                     </div>
                 </div>
 
@@ -176,15 +177,15 @@
                         </div>
                     </div>
                     <!-- Ad 4 -->
-                    <div class="ad-item bg-white rounded-sm overflow-hidden shadow-sm border border-slate-100 card-hover transition-all fade-in-section" data-type="auction">
+                    <div class="ad-item bg-white rounded-sm overflow-hidden shadow-sm border border-slate-100 card-hover transition-all fade-in-section" data-type="other">
                         <div class="h-48 relative overflow-hidden group">
                             <img src="<?php echo get_template_directory_uri(); ?>/images/image2.jpg" alt="خودرو سنگین" class="w-full h-full object-cover" />
                             <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-2.5 py-1 rounded-sm text-[10px] font-normal shadow-sm text-slate-700 uppercase tracking-tight flex items-center gap-1">
-                                <i data-lucide="gavel" class="w-2.5 h-2.5 text-copper stroke-[1.5]"></i> مزایده
+                                <i data-lucide="file-text" class="w-2.5 h-2.5 text-copper stroke-[1.5]"></i> سایر
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="font-bold text-base mb-4 h-12 line-clamp-2 text-slate-800 leading-relaxed">مزایده خودروهای سنگین کارکرده</h3>
+                            <h3 class="font-bold text-base mb-4 h-12 line-clamp-2 text-slate-800 leading-relaxed">فراخوان تامین خدمات آزمایشگاهی و کنترل کیفیت</h3>
                             <div class="flex justify-between items-center text-[12px] text-slate-500 mb-6 border-t border-slate-50 pt-4">
                                 <div class="flex items-center gap-1 font-medium"><i data-lucide="calendar" class="w-2.5 h-2.5 text-slate-400 stroke-[1.5]"></i> مهلت : ۱۴۰۲/۱۲/۲۵</div>
                                 <div class="px-2 py-0.5 rounded-sm font-medium text-[11px] bg-green-50 text-green-700 border border-green-100">فعال</div>
@@ -199,123 +200,185 @@
         </section>
 
         <!-- News Section -->
+        <?php
+        $news_category = (int) kermancopper_get_home_setting( 'kermancopper_home_news_category' );
+        $notices_category = (int) kermancopper_get_home_setting( 'kermancopper_home_notices_category' );
+        $news_enabled = $news_category > 0;
+        $notices_enabled = $notices_category > 0;
+        $news_title = kermancopper_get_home_setting( 'kermancopper_home_news_title' );
+        $news_kicker = kermancopper_get_home_setting( 'kermancopper_home_news_kicker' );
+        $news_count = (int) kermancopper_get_home_setting( 'kermancopper_home_news_count' );
+        $news_archive_text = kermancopper_get_home_setting( 'kermancopper_home_news_archive_text' );
+        $news_show_date = (bool) kermancopper_get_home_setting( 'kermancopper_home_news_show_date' );
+        $news_archive_url = $news_enabled ? get_category_link( $news_category ) : '';
+        $news_slides = array();
+        if ( $news_enabled && $news_count > 0 ) {
+            $news_query = new WP_Query( array(
+                'cat'            => $news_category,
+                'posts_per_page' => $news_count,
+                'post_status'    => 'publish',
+            ) );
+            if ( $news_query->have_posts() ) {
+                while ( $news_query->have_posts() ) {
+                    $news_query->the_post();
+                    $image = get_the_post_thumbnail_url( get_the_ID(), 'full' );
+                    if ( ! $image ) {
+                        continue;
+                    }
+                    $news_slides[] = array(
+                        'title'   => get_the_title(),
+                        'excerpt' => get_the_excerpt(),
+                        'date'    => get_the_date(),
+                        'url'     => get_permalink(),
+                        'image'   => $image,
+                    );
+                }
+            }
+            wp_reset_postdata();
+        }
+        $news_has_content = $news_enabled && ! empty( $news_slides );
+        $notices_title = kermancopper_get_home_setting( 'kermancopper_home_notices_title' );
+        $notices_kicker = kermancopper_get_home_setting( 'kermancopper_home_notices_kicker' );
+        $notices_count = (int) kermancopper_get_home_setting( 'kermancopper_home_notices_count' );
+        $notices_archive_text = kermancopper_get_home_setting( 'kermancopper_home_notices_archive_text' );
+        $notices_show_date = (bool) kermancopper_get_home_setting( 'kermancopper_home_notices_show_date' );
+        $notices_archive_url = $notices_enabled ? get_category_link( $notices_category ) : '';
+        $notices_items = array();
+        if ( $notices_enabled && $notices_count > 0 ) {
+            $notices_query = new WP_Query( array(
+                'cat'            => $notices_category,
+                'posts_per_page' => $notices_count,
+                'post_status'    => 'publish',
+            ) );
+            if ( $notices_query->have_posts() ) {
+                while ( $notices_query->have_posts() ) {
+                    $notices_query->the_post();
+                    $image = get_the_post_thumbnail_url( get_the_ID(), 'large' );
+                    if ( ! $image ) {
+                        continue;
+                    }
+                    $notices_items[] = array(
+                        'title' => get_the_title(),
+                        'date'  => get_the_date(),
+                        'url'   => get_permalink(),
+                        'image' => $image,
+                    );
+                }
+            }
+            wp_reset_postdata();
+        }
+        $notices_has_content = $notices_enabled && ! empty( $notices_items );
+        ?>
+        <?php if ( $news_has_content || $notices_has_content ) : ?>
         <section id="news" class="py-24 bg-white">
             <div class="container mx-auto px-4">
-                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6 fade-in-section">
-                    <div>
-                        <span class="text-copper font-bold mb-2 block text-sm flex items-center gap-2"><span class="w-8 h-[2px] bg-copper"></span> اتاق خبر</span>
-                        <h2 class="text-4xl font-black text-slate-900">تازه‌ترین اخبار و رویدادها</h2>
-                    </div>
-                    <a href="#" class="group flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-copper transition-colors border-b border-transparent hover:border-copper pb-1">
-                        مشاهده آرشیو اخبار <i data-lucide="arrow-left" class="w-4 h-4 transition-transform group-hover:-translate-x-1"></i>
-                    </a>
-                </div>
-                
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 fade-in-section">
-                    <!-- Featured News (Large) -->
-                    <div class="lg:col-span-2 group cursor-pointer relative rounded-sm overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 h-[500px]">
-                        <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&q=80&w=1200" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90"></div>
-                        <div class="absolute bottom-0 left-0 right-0 p-8 md:p-12">
-                            <div class="flex items-center gap-4 mb-4 text-white/80 text-xs font-bold">
-                                <span class="bg-copper text-white px-3 py-1 rounded-full">ویژه</span>
-                                <span>۲۰ اسفند ۱۴۰۲</span>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 fade-in-section items-stretch">
+                    <?php if ( $news_has_content ) : ?>
+                    <div class="<?php echo $notices_has_content ? 'lg:col-span-8' : 'lg:col-span-12'; ?> flex flex-col h-full">
+                        <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-6 min-h-[96px]">
+                            <div>
+                                <?php if ( $news_kicker !== '' ) : ?>
+                                    <span class="text-copper font-bold mb-2 block text-sm flex items-center gap-2"><span class="w-8 h-[2px] bg-copper"></span> <?php echo wp_kses_post( $news_kicker ); ?></span>
+                                <?php endif; ?>
+                                <h2 class="text-4xl font-black text-slate-900"><?php echo esc_html( $news_title ); ?></h2>
                             </div>
-                            <h3 class="font-black text-white text-2xl md:text-4xl leading-tight mb-4 group-hover:text-copper transition-colors">رکوردشکنی تاریخی در استخراج مس سرچشمه؛ دستاوردی بزرگ برای صنعت کشور</h3>
-                            <p class="text-slate-200 text-sm md:text-base leading-relaxed line-clamp-2 mb-6 max-w-2xl opacity-90">
-                                با همت متخصصان داخلی و بهره‌گیری از تکنولوژی‌های نوین، میزان استخراج ماهانه از مرز پیش‌بینی شده عبور کرد و برگ زرین دیگری در تاریخ صنعت مس رقم خورد.
-                            </p>
-                            <span class="inline-flex items-center gap-2 text-white font-bold border-b border-white/30 pb-1 group-hover:border-copper group-hover:text-copper transition-all">
-                                مطالعه کامل خبر <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                            </span>
-                        </div>
-                    </div>
-
-                    <!-- Side News List -->
-                    <div class="flex flex-col gap-6">
-                        <!-- Side Item 1 -->
-                        <div class="flex-1 group cursor-pointer bg-slate-50 rounded-sm p-4 flex gap-4 transition-all hover:bg-white hover:shadow-xl border border-slate-100">
-                            <div class="w-32 h-32 rounded-sm overflow-hidden flex-shrink-0 relative">
-                                <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                            </div>
-                            <div class="flex flex-col justify-center">
-                                <div class="text-[10px] font-bold text-copper mb-2">۱۸ اسفند ۱۴۰۲</div>
-                                <h4 class="font-bold text-slate-800 text-base leading-snug mb-2 group-hover:text-copper transition-colors line-clamp-2">هوش مصنوعی در معادن: آینده صنعت استخراج و فرآوری</h4>
-                                <span class="text-xs text-slate-400 mt-auto flex items-center gap-1 group-hover:text-copper transition-colors">بیشتر بخوانید <i data-lucide="chevron-left" class="w-3 h-3"></i></span>
-                            </div>
+                            <?php if ( ! empty( $news_archive_text ) && ! empty( $news_archive_url ) ) : ?>
+                                <a href="<?php echo esc_url( $news_archive_url ); ?>" class="group flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-copper transition-colors border-b border-transparent hover:border-copper pb-1">
+                                    <?php echo esc_html( $news_archive_text ); ?> <i data-lucide="arrow-left" class="w-4 h-4 transition-transform group-hover:-translate-x-1"></i>
+                                </a>
+                            <?php endif; ?>
                         </div>
 
-                        <!-- Side Item 2 -->
-                        <div class="flex-1 group cursor-pointer bg-slate-50 rounded-sm p-4 flex gap-4 transition-all hover:bg-white hover:shadow-xl border border-slate-100">
-                            <div class="w-32 h-32 rounded-sm overflow-hidden flex-shrink-0 relative">
-                                <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                        <div id="news-carousel" class="relative rounded-sm overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 flex-1 min-h-[520px]">
+                            <div class="absolute inset-0">
+                                <?php foreach ( $news_slides as $index => $slide ) : ?>
+                                    <a href="<?php echo esc_url( $slide['url'] ); ?>" class="news-slide absolute inset-0 <?php echo $index === 0 ? 'opacity-100' : 'opacity-0'; ?> transition-opacity duration-500 block">
+                                        <img src="<?php echo esc_url( $slide['image'] ); ?>" class="w-full h-full object-cover" />
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-95"></div>
+                                        <div class="absolute bottom-0 left-0 right-0 p-8 md:p-12">
+                                            <?php if ( $news_show_date && ! empty( $slide['date'] ) ) : ?>
+                                                <div class="flex items-center gap-4 mb-4 text-white/80 text-xs font-bold">
+                                                    <span><?php echo esc_html( $slide['date'] ); ?></span>
+                                                </div>
+                                            <?php endif; ?>
+                                            <h3 class="font-black text-white text-2xl md:text-4xl leading-tight mb-4"><?php echo esc_html( $slide['title'] ); ?></h3>
+                                            <?php if ( ! empty( $slide['excerpt'] ) ) : ?>
+                                                <p class="text-slate-200 text-sm md:text-base leading-relaxed line-clamp-2 mb-6 max-w-2xl opacity-90"><?php echo esc_html( $slide['excerpt'] ); ?></p>
+                                            <?php endif; ?>
+                                            <span class="inline-flex items-center gap-2 text-white font-bold border-b border-white/30 pb-1 hover:border-copper hover:text-copper transition-all">
+                                                مطالعه کامل خبر <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                                            </span>
+                                        </div>
+                                    </a>
+                                <?php endforeach; ?>
                             </div>
-                            <div class="flex flex-col justify-center">
-                                <div class="text-[10px] font-bold text-copper mb-2">۱۵ اسفند ۱۴۰۲</div>
-                                <h4 class="font-bold text-slate-800 text-base leading-snug mb-2 group-hover:text-copper transition-colors line-clamp-2">آغاز عملیات ساخت بیمارستان تخصصی در منطقه محروم</h4>
-                                <span class="text-xs text-slate-400 mt-auto flex items-center gap-1 group-hover:text-copper transition-colors">بیشتر بخوانید <i data-lucide="chevron-left" class="w-3 h-3"></i></span>
-                            </div>
-                        </div>
-                        
-                         <!-- Side Item 3 -->
-                        <div class="flex-1 group cursor-pointer bg-slate-50 rounded-sm p-4 flex gap-4 transition-all hover:bg-white hover:shadow-xl border border-slate-100">
-                            <div class="w-32 h-32 rounded-sm overflow-hidden flex-shrink-0 relative">
-                                <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                            </div>
-                            <div class="flex flex-col justify-center">
-                                <div class="text-[10px] font-bold text-copper mb-2">۱۲ اسفند ۱۴۰۲</div>
-                                <h4 class="font-bold text-slate-800 text-base leading-snug mb-2 group-hover:text-copper transition-colors line-clamp-2">افتتاح خط تولید جدید کنسانتره مس</h4>
-                                <span class="text-xs text-slate-400 mt-auto flex items-center gap-1 group-hover:text-copper transition-colors">بیشتر بخوانید <i data-lucide="chevron-left" class="w-3 h-3"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Icon Links -->
-        <section class="py-16 bg-slate-900 text-white overflow-hidden">
-            <div class="container mx-auto px-4">
-                <div class="grid grid-cols-2 md:grid-cols-5 gap-6 fade-in-section">
-                    <div class="flex flex-col items-center text-center p-6 rounded-sm hover:bg-white/5 transition-all border border-white/5 group hover:-translate-y-1">
-                        <div class="w-14 h-14 bg-copper/10 rounded-sm flex items-center justify-center text-copper mb-4">
-                            <i data-lucide="bar-chart" class="w-[28px] h-[28px]"></i>
+                            <?php if ( count( $news_slides ) > 1 ) : ?>
+                                <div class="absolute bottom-6 left-6 flex items-center gap-3">
+                                    <button id="news-prev" class="group w-11 h-11 border border-copper text-copper hover:text-white hover:bg-copper hover:border-copper transition-all flex items-center justify-center leading-none p-0">
+                                        <i data-lucide="chevron-right" class="w-7 h-7 block stroke-[2]"></i>
+                                    </button>
+                                    <button id="news-next" class="group w-11 h-11 border border-copper text-copper hover:text-white hover:bg-copper hover:border-copper transition-all flex items-center justify-center leading-none p-0">
+                                        <i data-lucide="chevron-left" class="w-7 h-7 block stroke-[2]"></i>
+                                    </button>
+                                </div>
+
+                                <div class="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2">
+                                    <?php foreach ( $news_slides as $index => $slide ) : ?>
+                                        <button class="news-dot <?php echo $index === 0 ? 'w-6 h-2.5 bg-copper' : 'w-2.5 h-2.5 bg-white/50'; ?> rounded-full transition-all"></button>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php endif; ?>
                         </div>
-                        <h4 class="font-bold text-sm mb-1">گزارش‌های مالی</h4>
-                        <p class="text-slate-500 text-[10px] uppercase tracking-wide">صورت‌های سود و زیان</p>
                     </div>
-                    <div class="flex flex-col items-center text-center p-6 rounded-sm hover:bg-white/5 transition-all border border-white/5 group hover:-translate-y-1">
-                        <div class="w-14 h-14 bg-copper/10 rounded-sm flex items-center justify-center text-copper mb-4">
-                            <i data-lucide="hard-hat" class="w-[28px] h-[28px]"></i>
+                    <?php endif; ?>
+
+                    <?php if ( $notices_has_content ) : ?>
+                    <div class="<?php echo $news_has_content ? 'lg:col-span-4' : 'lg:col-span-12'; ?> flex flex-col h-full">
+                        <div class="flex flex-col md:flex-row justify-between items-end mb-8 gap-6 min-h-[96px]">
+                            <div>
+                                <?php if ( $notices_kicker !== '' ) : ?>
+                                    <span class="text-copper font-bold mb-2 block text-sm flex items-center gap-2"><span class="w-8 h-[2px] bg-copper"></span> <?php echo wp_kses_post( $notices_kicker ); ?></span>
+                                <?php endif; ?>
+                                <h3 class="text-2xl font-black text-slate-900"><?php echo esc_html( $notices_title ); ?></h3>
+                            </div>
+                            <?php if ( ! empty( $notices_archive_text ) && ! empty( $notices_archive_url ) ) : ?>
+                                <a href="<?php echo esc_url( $notices_archive_url ); ?>" class="group flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-copper transition-colors border-b border-transparent hover:border-copper pb-1">
+                                    <?php echo esc_html( $notices_archive_text ); ?> <i data-lucide="arrow-left" class="w-4 h-4 transition-transform group-hover:-translate-x-1"></i>
+                                </a>
+                            <?php endif; ?>
                         </div>
-                        <h4 class="font-bold text-sm mb-1">پایداری و ایمنی</h4>
-                        <p class="text-slate-500 text-[10px] uppercase tracking-wide">استاندارد‌های HSE</p>
-                    </div>
-                    <div class="flex flex-col items-center text-center p-6 rounded-sm hover:bg-white/5 transition-all border border-white/5 group hover:-translate-y-1">
-                        <div class="w-14 h-14 bg-copper/10 rounded-sm flex items-center justify-center text-copper mb-4">
-                            <i data-lucide="file-text" class="w-[28px] h-[28px]"></i>
+
+                        <div id="news-notices-grid" class="grid grid-cols-2 gap-6 flex-1">
+                            <?php foreach ( $notices_items as $notice ) : ?>
+                                <a href="<?php echo esc_url( $notice['url'] ); ?>" class="group relative rounded-sm overflow-hidden shadow-sm hover:shadow-xl transition-all aspect-[3/4] block">
+                                    <img src="<?php echo esc_url( $notice['image'] ); ?>" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                                    <div class="absolute bottom-0 left-0 right-0 p-4">
+                                        <?php if ( $notices_show_date && ! empty( $notice['date'] ) ) : ?>
+                                            <div class="text-[10px] font-bold text-white/80 mb-2"><?php echo esc_html( $notice['date'] ); ?></div>
+                                        <?php endif; ?>
+                                        <h4 class="text-white font-bold text-sm leading-snug line-clamp-2"><?php echo esc_html( $notice['title'] ); ?></h4>
+                                    </div>
+                                </a>
+                            <?php endforeach; ?>
                         </div>
-                        <h4 class="font-bold text-sm mb-1">فرم‌ها و راهنماها</h4>
-                        <p class="text-slate-500 text-[10px] uppercase tracking-wide">فایل‌های اداری</p>
                     </div>
-                    <div class="flex flex-col items-center text-center p-6 rounded-sm hover:bg-white/5 transition-all border border-white/5 group hover:-translate-y-1">
-                        <div class="w-14 h-14 bg-copper/10 rounded-sm flex items-center justify-center text-copper mb-4">
-                            <i data-lucide="settings" class="w-[28px] h-[28px]"></i>
-                        </div>
-                        <h4 class="font-bold text-sm mb-1">شرکت‌های تابعه</h4>
-                        <p class="text-slate-500 text-[10px] uppercase tracking-wide">زیرمجموعه‌های گروه</p>
-                    </div>
-                    <div class="flex flex-col items-center text-center p-6 rounded-sm hover:bg-white/5 transition-all border border-white/5 group hover:-translate-y-1">
-                        <div class="w-14 h-14 bg-copper/10 rounded-sm flex items-center justify-center text-copper mb-4">
-                            <i data-lucide="users" class="w-[28px] h-[28px]"></i>
-                        </div>
-                        <h4 class="font-bold text-sm mb-1">پورتال پیمانکاران</h4>
-                        <p class="text-slate-500 text-[10px] uppercase tracking-wide">سامانه متمرکز خدمات</p>
-                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>
+        <?php endif; ?>
 
+        <section class="py-16 bg-white">
+            <div class="w-full max-w-[1400px] mx-auto px-4">
+                <?php if ( is_active_sidebar( 'home-news-below' ) ) : ?>
+                    <?php dynamic_sidebar( 'home-news-below' ); ?>
+                <?php endif; ?>
+            </div>
+        </section>
+
+    
         <!-- FAQ Section -->
         <section class="py-24 bg-white border-b border-slate-50">
             <div class="container mx-auto px-4">
@@ -396,7 +459,7 @@
             <div class="container mx-auto px-4">
                  <div class="text-center mb-16 fade-in-section">
                      <span class="text-copper font-bold mb-2 block text-sm">زیرمجموعه‌ها</span>
-                     <h2 class="text-4xl font-black text-slate-900">شرکت‌های تابعه و همکار</h2>
+                    <h2 class="text-4xl font-black text-slate-900">پیوندها</h2>
                 </div>
             
                 <div class="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12 fade-in-section">

@@ -136,21 +136,21 @@
     <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
         <?php if ( get_theme_mod( 'kermancopper_show_topbar', true ) ) : ?>
         <!-- Top Bar -->
-        <div id="top-bar" class="bg-white border-b border-slate-100 hidden md:block transition-all duration-300 overflow-hidden h-10">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-10 flex justify-between items-center text-[11px] font-medium text-slate-500">
-                <div class="flex items-center gap-6">
+        <div id="top-bar" class="bg-white border-b border-slate-100 transition-all duration-300 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 md:py-0 min-h-[40px] flex flex-col md:flex-row md:justify-between md:items-center gap-2 text-[11px] font-medium text-slate-500">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
                     <div class="flex items-center gap-2">
                         <i data-lucide="map-pin" class="w-[10px] h-[10px] text-copper"></i>
                         <span><?php echo esc_html( get_theme_mod( 'kermancopper_address', 'تهران، سعادت آباد، خیابان مروارید ۲۶۴۹' ) ); ?></span>
                     </div>
-                    <div class="flex items-center gap-2 border-r border-slate-200 pr-6 mr-6">
+                    <div class="flex items-center gap-2 sm:border-r border-slate-200 sm:pr-6 sm:mr-6">
                         <i data-lucide="mail" class="w-[10px] h-[10px] text-copper"></i>
                         <span><?php echo esc_html( get_theme_mod( 'kermancopper_email', 'info@copperindustry.com' ) ); ?></span>
                     </div>
                 </div>
                 
-                <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-3 border-l border-slate-200 pl-4 ml-2">
+                <div class="flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-3 sm:border-l border-slate-200 sm:pl-4 sm:ml-2">
                         <?php if ( $instagram = get_theme_mod( 'kermancopper_social_instagram' ) ) : ?>
                             <a href="<?php echo esc_url( $instagram ); ?>" target="_blank"><i data-lucide="instagram" class="w-[14px] h-[14px] cursor-pointer text-slate-400/80 hover:text-copper transition-colors"></i></a>
                         <?php endif; ?>
@@ -291,29 +291,24 @@
                     </button>
                 </div>
                 
-                <div class="space-y-1">
+                <div class="space-y-2">
                     <?php
                     if ( has_nav_menu( 'primary' ) ) {
                         wp_nav_menu( array(
                             'theme_location' => 'primary',
                             'container'      => false,
-                            'menu_class'     => '',
+                            'menu_class'     => 'space-y-2 list-none',
                             'fallback_cb'    => false,
-                            'items_wrap'     => '%3$s', // Just output items
-                            // Note: We need a walker for proper mobile styles, but for now simple list.
-                            // However, the original mobile menu is div > a.block. 
-                            // WP Menu outputs ul > li > a.
-                            // We can use a simple walker later. For now, let's keep static mobile menu or assume standard WP menu.
-                            // Since user asked for Phase 2 fixes on Header, let's just leave static mobile menu as is or use WP menu without styles?
-                            // Let's use the static one as fallback for now to keep it looking good.
+                            'items_wrap'     => '<ul class="%2$s">%3$s</ul>',
+                            'walker'         => new KermanCopper_Mobile_Nav_Walker(),
                         ) );
                     } else {
                         ?>
-                        <div><a href="#" class="block py-3 text-lg font-bold border-b border-slate-50 transition-colors text-slate-800 hover:text-copper">صفحه اصلی</a></div>
-                        <div><a href="#ads" class="block py-3 text-lg font-bold border-b border-slate-50 transition-colors text-slate-800 hover:text-copper">آگهی ها</a></div>
-                        <div><a href="#news" class="block py-3 text-lg font-bold border-b border-slate-50 transition-colors text-slate-800 hover:text-copper">اخبار و رویداد ها</a></div>
-                        <div><a href="#about" class="block py-3 text-lg font-bold border-b border-slate-50 transition-colors text-slate-800 hover:text-copper">درباره ما</a></div>
-                        <div><a href="#contact" class="block py-3 text-lg font-bold border-b border-slate-50 transition-colors text-slate-800 hover:text-copper">تماس با ما</a></div>
+                        <div class="mobile-menu-item border-b border-slate-100 pb-2"><a href="#" class="block py-3 text-base font-bold text-slate-800 hover:text-copper transition-colors">صفحه اصلی</a></div>
+                        <div class="mobile-menu-item border-b border-slate-100 pb-2"><a href="#ads" class="block py-3 text-base font-bold text-slate-800 hover:text-copper transition-colors">آگهی ها</a></div>
+                        <div class="mobile-menu-item border-b border-slate-100 pb-2"><a href="#news" class="block py-3 text-base font-bold text-slate-800 hover:text-copper transition-colors">اخبار و رویداد ها</a></div>
+                        <div class="mobile-menu-item border-b border-slate-100 pb-2"><a href="#about" class="block py-3 text-base font-bold text-slate-800 hover:text-copper transition-colors">درباره ما</a></div>
+                        <div class="mobile-menu-item border-b border-slate-100 pb-2"><a href="#contact" class="block py-3 text-base font-bold text-slate-800 hover:text-copper transition-colors">تماس با ما</a></div>
                         <?php
                     }
                     ?>

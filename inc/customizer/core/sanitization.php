@@ -44,3 +44,33 @@ function kermancopper_sanitize_url( $url ) {
 function kermancopper_sanitize_text( $text ) {
     return sanitize_text_field( $text );
 }
+
+function kermancopper_sanitize_text_100( $text ) {
+    $text = sanitize_text_field( $text );
+    return mb_substr( $text, 0, 100 );
+}
+
+function kermancopper_sanitize_text_50( $text ) {
+    $text = sanitize_text_field( $text );
+    return mb_substr( $text, 0, 50 );
+}
+
+function kermancopper_sanitize_number_range_1_20( $value ) {
+    $value = absint( $value );
+    if ( $value < 1 || $value > 20 ) {
+        return 0;
+    }
+    return $value;
+}
+
+function kermancopper_sanitize_category_id( $value ) {
+    $value = absint( $value );
+    if ( $value === 0 ) {
+        return 0;
+    }
+    $term = get_term( $value, 'category' );
+    if ( $term && ! is_wp_error( $term ) ) {
+        return $value;
+    }
+    return 0;
+}

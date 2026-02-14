@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Lucide Icons
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+
     // Back to Top Logic
     const backToTopBtn = document.getElementById('back-to-top');
     
@@ -113,6 +118,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Navbar Scroll Logic
     const nav = document.getElementById('main-nav');
     const topBar = document.getElementById('top-bar');
+
+    function updateTopBarHeight() {
+        if (!topBar) return;
+        topBar.style.height = `${topBar.scrollHeight}px`;
+    }
+
+    if (topBar) {
+        updateTopBarHeight();
+        topBar.style.opacity = '1';
+        window.addEventListener('resize', () => {
+            if (window.scrollY <= 40) {
+                updateTopBarHeight();
+            }
+        });
+    }
     
     if (nav) {
         window.addEventListener('scroll', () => {
@@ -133,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Show Top Bar
                 if (topBar) {
-                    topBar.style.height = '40px'; // h-10 is 2.5rem = 40px
+                    updateTopBarHeight();
                     topBar.style.opacity = '1';
                 }
             }
@@ -159,10 +179,10 @@ document.addEventListener('DOMContentLoaded', () => {
             sidebar.classList.remove('translate-x-full', 'opacity-0');
             
             // Change menu icon to X (Optional)
-             if (mobileBtn && typeof lucide !== 'undefined') {
-                 mobileBtn.innerHTML = '<i data-lucide="x" class="w-[26px] h-[26px]"></i>';
-                 lucide.createIcons({ attrs: { class: "w-[26px] h-[26px]" }, nameAttr: 'data-lucide' }); 
-             }
+            if (mobileBtn && typeof lucide !== 'undefined') {
+                mobileBtn.innerHTML = '<i data-lucide="x" class="w-[26px] h-[26px]"></i>';
+                lucide.createIcons();
+            }
         } else {
             // Close
             overlay.classList.add('opacity-0');
@@ -174,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Change X icon to menu
             if (mobileBtn && typeof lucide !== 'undefined') {
                 mobileBtn.innerHTML = '<i data-lucide="menu" class="w-[26px] h-[26px]"></i>';
-                lucide.createIcons({ attrs: { class: "w-[26px] h-[26px]" }, nameAttr: 'data-lucide' });
+                lucide.createIcons();
             }
         }
     }
@@ -182,6 +202,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mobileBtn) mobileBtn.addEventListener('click', toggleMobileMenu);
     if (closeMobileBtn) closeMobileBtn.addEventListener('click', toggleMobileMenu);
     if (overlay) overlay.addEventListener('click', toggleMobileMenu);
+
+    const mobileSubmenuToggles = document.querySelectorAll('.mobile-submenu-toggle');
+    mobileSubmenuToggles.forEach(toggle => {
+        toggle.addEventListener('click', event => {
+            event.preventDefault();
+            const parent = toggle.closest('.mobile-menu-item');
+            const submenu = parent ? parent.querySelector('.mobile-submenu') : null;
+            if (!submenu) return;
+            const willOpen = submenu.classList.contains('hidden');
+            submenu.classList.toggle('hidden');
+            toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+            const icon = toggle.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('rotate-180', willOpen);
+            }
+        });
+    });
 
     // Ads Filter Logic
     const filterBtns = document.querySelectorAll('[data-filter]');
@@ -274,6 +311,99 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize
     startSlider();
+
+    const newsSlides = document.querySelectorAll('.news-slide');
+    const newsDots = document.querySelectorAll('.news-dot');
+    const newsPrev = document.getElementById('news-prev');
+    const newsNext = document.getElementById('news-next');
+    let currentNewsSlide = 0;
+    let newsInterval;
+
+    function showNewsSlide(index) {
+        if (index < 0 || index >= newsSlides.length) return;
+        newsSlides.forEach(slide => {
+            slide.classList.remove('opacity-100');
+            slide.classList.add('opacity-0');
+        });
+        const targetSlide = newsSlides[index];
+        if (targetSlide) {
+            targetSlide.classList.remove('opacity-0');
+            targetSlide.classList.add('opacity-100');
+        }
+        newsDots.forEach(d => {
+            d.classList.remove('w-6', 'bg-copper');
+            d.classList.add('w-2.5', 'bg-white/50');
+        });
+        const activeDot = newsDots[index];
+        if (activeDot) {
+            activeDot.classList.remove('w-2.5', 'bg-white/50');
+            activeDot.classList.add('w-6', 'bg-copper');
+        }
+        currentNewsSlide = index;
+    }
+
+    function nextNewsSlide() {
+        let next = currentNewsSlide + 1;
+        if (next >= newsSlides.length) next = 0;
+        showNewsSlide(next);
+    }
+
+    function prevNewsSlide() {
+        let prev = currentNewsSlide - 1;
+        if (prev < 0) prev = newsSlides.length - 1;
+        showNewsSlide(prev);
+    }
+
+    function startNewsSlider() {
+        if (newsSlides.length > 0) {
+            newsInterval = setInterval(nextNewsSlide, 6000);
+        }
+    }
+
+    function resetNewsTimer() {
+        clearInterval(newsInterval);
+        startNewsSlider();
+    }
+
+    newsDots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            showNewsSlide(index);
+            resetNewsTimer();
+        });
+    });
+
+    if (newsNext) {
+        newsNext.addEventListener('click', () => {
+            nextNewsSlide();
+            resetNewsTimer();
+        });
+    }
+
+    if (newsPrev) {
+        newsPrev.addEventListener('click', () => {
+            prevNewsSlide();
+            resetNewsTimer();
+        });
+    }
+
+    startNewsSlider();
+
+    const newsCarousel = document.getElementById('news-carousel');
+    const newsNoticesGrid = document.getElementById('news-notices-grid');
+
+    function syncNewsHeight() {
+        if (!newsCarousel || !newsNoticesGrid) return;
+        const gridHeight = newsNoticesGrid.offsetHeight;
+        if (gridHeight > 0) {
+            newsCarousel.style.height = `${gridHeight}px`;
+        }
+    }
+
+    if (newsCarousel && newsNoticesGrid) {
+        window.addEventListener('load', syncNewsHeight);
+        window.addEventListener('resize', syncNewsHeight);
+        setTimeout(syncNewsHeight, 0);
+    }
 
     // Contact Form Logic
     const contactForm = document.getElementById('contact-form');
