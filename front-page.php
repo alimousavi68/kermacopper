@@ -455,7 +455,7 @@
             array_filter(
                 $partners_items,
                 function( $item ) {
-                    return is_array( $item ) && ( ! empty( $item['name'] ) || ! empty( $item['link'] ) || ! empty( $item['image_url'] ) );
+                    return is_array( $item ) && ( ! empty( $item['name'] ) || ! empty( $item['link'] ) || ! empty( $item['image_id'] ) || ! empty( $item['image_url'] ) );
                 }
             )
         );

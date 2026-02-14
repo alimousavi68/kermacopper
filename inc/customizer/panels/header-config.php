@@ -297,6 +297,9 @@ JS;
 add_action( 'customize_controls_enqueue_scripts', 'kermancopper_customize_faq_controls_assets' );
 
 function kermancopper_customize_partners_controls_assets() {
+    if ( function_exists( 'wp_enqueue_media' ) ) {
+        wp_enqueue_media();
+    }
     $nonce = wp_create_nonce( 'kermancopper_partners_nonce' );
     $data = wp_json_encode(
         array(
@@ -337,7 +340,7 @@ jQuery(function($){
             serializePartners($control);
         });
     });
-    $(document).on('input','.kermancopper-partners-control .partners-name, .kermancopper-partners-control .partners-link, .kermancopper-partners-control .partners-image',function(){
+    $(document).on('input','.kermancopper-partners-control .partners-name, .kermancopper-partners-control .partners-link',function(){
         var $control=$(this).closest('.kermancopper-partners-control');
         serializePartners($control);
     });
@@ -373,7 +376,7 @@ JS;
 }
 add_action( 'customize_controls_enqueue_scripts', 'kermancopper_customize_partners_controls_assets' );
 
-function kermancopper_partners_item_markup( $index = 0, $name = '', $link = '', $image_url = '' ) {
+function kermancopper_partners_item_markup( $index = 0, $name = '', $link = '', $image_id = 0, $image_url = '' ) {
     ob_start();
     ?>
     <div class="kermancopper-partners-item" data-index="<?php echo esc_attr( $index ); ?>">
@@ -385,10 +388,29 @@ function kermancopper_partners_item_markup( $index = 0, $name = '', $link = '', 
             <label><?php echo esc_html__( 'لینک شرکت', 'kermancopper' ); ?></label>
             <input type="url" class="widefat partners-link" value="<?php echo esc_attr( $link ); ?>" />
         </p>
-        <p>
-            <label><?php echo esc_html__( 'آدرس تصویر (URL)', 'kermancopper' ); ?></label>
-            <input type="url" class="widefat partners-image" value="<?php echo esc_attr( $image_url ); ?>" />
-        </p>
+        <div class="partners-image-wrapper">
+            <label><?php echo esc_html__( 'تصویر لوگو', 'kermancopper' ); ?></label>
+            <div class="partners-image-preview" style="margin:8px 0;">
+                <?php
+                $preview_src = '';
+                $image_id = absint( $image_id );
+                if ( $image_id ) {
+                    $src = wp_get_attachment_image_url( $image_id, 'medium' );
+                    if ( $src ) {
+                        $preview_src = $src;
+                    }
+                } elseif ( $image_url ) {
+                    $preview_src = $image_url;
+                }
+                if ( $preview_src ) {
+                    echo '<img src="' . esc_url( $preview_src ) . '" style="max-width:120px;height:auto;" />';
+                }
+                ?>
+            </div>
+            <input type="hidden" class="partners-image-id" value="<?php echo esc_attr( $image_id ); ?>" />
+            <button type="button" class="button partners-image-select"><?php echo esc_html__( 'انتخاب تصویر', 'kermancopper' ); ?></button>
+            <button type="button" class="button-link-delete partners-image-remove"><?php echo esc_html__( 'حذف تصویر', 'kermancopper' ); ?></button>
+        </div>
         <button type="button" class="button-link-delete partners-remove"><?php echo esc_html__( 'حذف', 'kermancopper' ); ?></button>
     </div>
     <?php
