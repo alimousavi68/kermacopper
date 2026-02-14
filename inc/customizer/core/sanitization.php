@@ -74,3 +74,57 @@ function kermancopper_sanitize_category_id( $value ) {
     }
     return 0;
 }
+
+function kermancopper_sanitize_faq_items( $value ) {
+    if ( empty( $value ) ) {
+        return '';
+    }
+    $items = json_decode( $value, true );
+    if ( ! is_array( $items ) ) {
+        return '';
+    }
+    $sanitized = array();
+    foreach ( $items as $item ) {
+        if ( ! is_array( $item ) ) {
+            continue;
+        }
+        $question = isset( $item['question'] ) ? sanitize_text_field( $item['question'] ) : '';
+        $answer = isset( $item['answer'] ) ? sanitize_text_field( $item['answer'] ) : '';
+        if ( $question === '' && $answer === '' ) {
+            continue;
+        }
+        $sanitized[] = array(
+            'question' => $question,
+            'answer'   => $answer,
+        );
+    }
+    return wp_json_encode( $sanitized );
+}
+
+function kermancopper_sanitize_partners_items( $value ) {
+    if ( empty( $value ) ) {
+        return '';
+    }
+    $items = json_decode( $value, true );
+    if ( ! is_array( $items ) ) {
+        return '';
+    }
+    $sanitized = array();
+    foreach ( $items as $item ) {
+        if ( ! is_array( $item ) ) {
+            continue;
+        }
+        $name = isset( $item['name'] ) ? sanitize_text_field( $item['name'] ) : '';
+        $link = isset( $item['link'] ) ? esc_url_raw( $item['link'] ) : '';
+        $image_id = isset( $item['image_id'] ) ? absint( $item['image_id'] ) : 0;
+        if ( $name === '' && $link === '' && $image_id === 0 ) {
+            continue;
+        }
+        $sanitized[] = array(
+            'name'      => $name,
+            'link'      => $link,
+            'image_id'  => $image_id,
+        );
+    }
+    return wp_json_encode( $sanitized );
+}

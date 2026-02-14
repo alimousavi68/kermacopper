@@ -379,128 +379,135 @@
         </section>
 
     
-        <!-- FAQ Section -->
+        <?php
+        $faq_kicker = kermancopper_get_home_setting( 'kermancopper_home_faq_kicker' );
+        $faq_title = kermancopper_get_home_setting( 'kermancopper_home_faq_title' );
+        $faq_description = kermancopper_get_home_setting( 'kermancopper_home_faq_description' );
+        $faq_link_text = kermancopper_get_home_setting( 'kermancopper_home_faq_link_text' );
+        $faq_link_url = kermancopper_get_home_setting( 'kermancopper_home_faq_link_url' );
+        $faq_items_raw = kermancopper_get_home_setting( 'kermancopper_home_faq_items' );
+        $faq_items = json_decode( $faq_items_raw, true );
+        if ( ! is_array( $faq_items ) ) {
+            $faq_items = array();
+        }
+        $faq_items = array_values(
+            array_filter(
+                $faq_items,
+                function( $item ) {
+                    return is_array( $item ) && ( ! empty( $item['question'] ) || ! empty( $item['answer'] ) );
+                }
+            )
+        );
+        $faq_has_items = ! empty( $faq_items );
+        ?>
+        <?php if ( $faq_has_items ) : ?>
         <section class="py-24 bg-white border-b border-slate-50">
             <div class="container mx-auto px-4">
                 <div class="flex flex-col lg:flex-row gap-16">
-                    <!-- Title Column -->
                     <div class="lg:w-1/3 fade-in-section">
-                        <span class="text-copper font-bold mb-2 block text-sm">پشتیبانی و راهنما</span>
-                        <h2 class="text-4xl font-black mb-6 leading-tight">سوالات متداول شما</h2>
-                        <p class="text-slate-500 leading-relaxed mb-8">
-                            پاسخ به پرسش‌های رایج درباره فرآیندهای کاری، مناقصات و همکاری با ما. اگر پاسخ خود را نیافتید، با ما تماس بگیرید.
-                        </p>
-                        <a href="#contact" class="inline-flex items-center gap-2 font-bold text-copper border-b-2 border-copper/20 pb-1 hover:border-copper transition-all">
-                            تماس با پشتیبانی <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                        </a>
+                        <?php if ( ! empty( $faq_kicker ) ) : ?>
+                            <span class="text-copper font-bold mb-2 block text-sm"><?php echo esc_html( $faq_kicker ); ?></span>
+                        <?php endif; ?>
+                        <?php if ( ! empty( $faq_title ) ) : ?>
+                            <h2 class="text-4xl font-black mb-6 leading-tight"><?php echo esc_html( $faq_title ); ?></h2>
+                        <?php endif; ?>
+                        <?php if ( ! empty( $faq_description ) ) : ?>
+                            <p class="text-slate-500 leading-relaxed mb-8"><?php echo esc_html( $faq_description ); ?></p>
+                        <?php endif; ?>
+                        <?php if ( ! empty( $faq_link_text ) && ! empty( $faq_link_url ) ) : ?>
+                            <a href="<?php echo esc_url( $faq_link_url ); ?>" class="inline-flex items-center gap-2 font-bold text-copper border-b-2 border-copper/20 pb-1 hover:border-copper transition-all">
+                                <?php echo esc_html( $faq_link_text ); ?> <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                            </a>
+                        <?php endif; ?>
                     </div>
 
-                    <!-- Accordion Column -->
                     <div class="lg:w-2/3 space-y-4 fade-in-section" id="faq-container">
-                        <div class="border border-slate-100 rounded-sm overflow-hidden group bg-slate-50 hover:bg-white transition-colors">
-                            <button class="w-full flex items-center justify-between p-6 text-right transition-colors">
-                                <span class="font-bold text-slate-800 text-lg">چگونه می‌توان در مناقصات شرکت کرد؟</span>
-                                <div class="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-[.active]:bg-copper group-[.active]:text-white group-[.active]:border-copper transition-all">
-                                    <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300 group-[.active]:rotate-180"></i>
-                                </div>
-                            </button>
-                            <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out text-slate-600 leading-loose px-6">
-                                <div class="pb-6 pt-2 border-t border-slate-100/50">
-                                    برای شرکت در مناقصات، ابتدا باید در سامانه تامین‌کنندگان ثبت‌نام کنید. پس از تایید مدارک و دریافت کد کاربری، می‌توانید به کارتابل خود مراجعه کرده و لیست مناقصات فعال را مشاهده و اسناد مربوطه را دریافت نمایید.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border border-slate-100 rounded-sm overflow-hidden group bg-slate-50 hover:bg-white transition-colors">
-                            <button class="w-full flex items-center justify-between p-6 text-right transition-colors">
-                                <span class="font-bold text-slate-800 text-lg">مدارک مورد نیاز برای ثبت‌نام پیمانکاران چیست؟</span>
-                                <div class="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-[.active]:bg-copper group-[.active]:text-white group-[.active]:border-copper transition-all">
-                                    <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300 group-[.active]:rotate-180"></i>
-                                </div>
-                            </button>
-                            <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out text-slate-600 leading-loose px-6">
-                                <div class="pb-6 pt-2 border-t border-slate-100/50">
-                                    مدارک ثبتی شرکت (اساسنامه، روزنامه رسمی)، گواهی‌نامه‌های صلاحیت ایمنی و فنی، سوابق کاری مرتبط در ۵ سال گذشته، گواهی حسن انجام کار از کارفرمایان قبلی و مدارک مالیاتی معتبر.
+                        <?php foreach ( $faq_items as $faq_item ) : ?>
+                            <div class="border border-slate-100 rounded-sm overflow-hidden group bg-slate-50 hover:bg-white transition-colors">
+                                <button class="w-full flex items-center justify-between p-6 text-right transition-colors">
+                                    <span class="font-bold text-slate-800 text-lg"><?php echo esc_html( $faq_item['question'] ); ?></span>
+                                    <div class="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-[.active]:bg-copper group-[.active]:text-white group-[.active]:border-copper transition-all">
+                                        <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300 group-[.active]:rotate-180"></i>
+                                    </div>
+                                </button>
+                                <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out text-slate-600 leading-loose px-6">
+                                    <div class="pb-6 pt-2 border-t border-slate-100/50">
+                                        <?php echo esc_html( $faq_item['answer'] ); ?>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="border border-slate-100 rounded-sm overflow-hidden group bg-slate-50 hover:bg-white transition-colors">
-                            <button class="w-full flex items-center justify-between p-6 text-right transition-colors">
-                                <span class="font-bold text-slate-800 text-lg">فرآیند پرداخت صورت‌وضعیت‌ها چگونه است؟</span>
-                                <div class="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-[.active]:bg-copper group-[.active]:text-white group-[.active]:border-copper transition-all">
-                                    <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300 group-[.active]:rotate-180"></i>
-                                </div>
-                            </button>
-                            <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out text-slate-600 leading-loose px-6">
-                                <div class="pb-6 pt-2 border-t border-slate-100/50">
-                                    پس از ارسال صورت‌وضعیت توسط پیمانکار، ناظر پروژه آن را بررسی می‌کند. پس از تایید فنی، پرونده به واحد مالی ارجاع شده و طبق زمان‌بندی قرارداد و تخصیص بودجه، پرداخت انجام می‌شود.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="border border-slate-100 rounded-sm overflow-hidden group bg-slate-50 hover:bg-white transition-colors">
-                            <button class="w-full flex items-center justify-between p-6 text-right transition-colors">
-                                <span class="font-bold text-slate-800 text-lg">چگونه می‌توانم از نتایج مناقصات مطلع شوم؟</span>
-                                <div class="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-[.active]:bg-copper group-[.active]:text-white group-[.active]:border-copper transition-all">
-                                    <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300 group-[.active]:rotate-180"></i>
-                                </div>
-                            </button>
-                            <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out text-slate-600 leading-loose px-6">
-                                <div class="pb-6 pt-2 border-t border-slate-100/50">
-                                    نتایج تمامی مناقصات و مزایدات از طریق سامانه رسمی شرکت و همچنین ارسال پیامک به نمایندگان شرکت‌های حاضر در مناقصه اطلاع‌رسانی می‌شود.
-                                </div>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
         </section>
+        <?php endif; ?>
 
-        <!-- Subsidiaries & Partners -->
+        <?php
+        $partners_kicker = kermancopper_get_home_setting( 'kermancopper_home_partners_kicker' );
+        $partners_title = kermancopper_get_home_setting( 'kermancopper_home_partners_title' );
+        $partners_items_raw = kermancopper_get_home_setting( 'kermancopper_home_partners_items' );
+        $partners_items = json_decode( $partners_items_raw, true );
+        if ( ! is_array( $partners_items ) ) {
+            $partners_items = array();
+        }
+        $partners_items = array_values(
+            array_filter(
+                $partners_items,
+                function( $item ) {
+                    return is_array( $item ) && ( ! empty( $item['name'] ) || ! empty( $item['link'] ) || ! empty( $item['image_url'] ) );
+                }
+            )
+        );
+        $partners_has_items = ! empty( $partners_items );
+        ?>
+        <?php if ( $partners_has_items ) : ?>
         <section id="partners" class="py-24 bg-slate-50 overflow-hidden">
             <div class="container mx-auto px-4">
                  <div class="text-center mb-16 fade-in-section">
-                     <span class="text-copper font-bold mb-2 block text-sm">زیرمجموعه‌ها</span>
-                    <h2 class="text-4xl font-black text-slate-900">پیوندها</h2>
+                     <?php if ( ! empty( $partners_kicker ) ) : ?>
+                        <span class="text-copper font-bold mb-2 block text-sm"><?php echo esc_html( $partners_kicker ); ?></span>
+                     <?php endif; ?>
+                     <?php if ( ! empty( $partners_title ) ) : ?>
+                        <h2 class="text-4xl font-black text-slate-900"><?php echo esc_html( $partners_title ); ?></h2>
+                     <?php endif; ?>
                 </div>
             
                 <div class="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12 fade-in-section">
-                    <!-- Item 1 -->
-                    <a href="#" class="flex flex-col items-center gap-4 group cursor-pointer opacity-70 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300">
-                        <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 group-hover:text-copper group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/logo/subcompany-3.png" alt="Company 3" class="w-24 h-24 object-contain opacity-80 group-hover:opacity-100">
+                    <?php foreach ( $partners_items as $partner ) : ?>
+                        <?php
+                        $image_src = '';
+                        if ( ! empty( $partner['image_id'] ) ) {
+                            $image_src = wp_get_attachment_image_url( absint( $partner['image_id'] ), 'medium' );
+                        }
+                        if ( empty( $image_src ) && ! empty( $partner['image_url'] ) ) {
+                            $image_src = $partner['image_url'];
+                        }
+                        $link = ! empty( $partner['link'] ) ? $partner['link'] : '';
+                        ?>
+                        <?php if ( $link ) : ?>
+                        <a href="<?php echo esc_url( $link ); ?>" class="flex flex-col items-center gap-4 group cursor-pointer opacity-70 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300">
+                        <?php else : ?>
+                        <div class="flex flex-col items-center gap-4 group cursor-default opacity-70 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300">
+                        <?php endif; ?>
+                            <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 group-hover:text-copper group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
+                                <?php if ( ! empty( $image_src ) ) : ?>
+                                    <img src="<?php echo esc_url( $image_src ); ?>" alt="<?php echo esc_attr( $partner['name'] ); ?>" class="w-24 h-24 object-contain opacity-80 group-hover:opacity-100">
+                                <?php endif; ?>
+                            </div>
+                            <?php if ( ! empty( $partner['name'] ) ) : ?>
+                                <h4 class="font-bold text-slate-700 group-hover:text-copper transition-colors"><?php echo esc_html( $partner['name'] ); ?></h4>
+                            <?php endif; ?>
+                        <?php if ( $link ) : ?>
+                        </a>
+                        <?php else : ?>
                         </div>
-                        <h4 class="font-bold text-slate-700 group-hover:text-copper transition-colors">شرکت سرمایه گذاری آتیه اندیشان مس</h4>
-                    </a>
-                    <!-- Item 2 -->
-                    <a href="#" class="flex flex-col items-center gap-4 group cursor-pointer opacity-70 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300">
-                        <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 group-hover:text-copper group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/logo/subcompany-2.png" alt="Company 3" class="w-24 h-24 object-contain opacity-80 group-hover:opacity-100">
-                        </div>
-                        <h4 class="font-bold text-slate-700 group-hover:text-copper transition-colors">شرکت معدنکاری اولنگ</h4>
-                    </a>
-                    <!-- Item 3 -->
-                    <a href="#" class="flex flex-col items-center gap-4 group cursor-pointer opacity-70 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300">
-                        <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 group-hover:text-copper group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/logo/subcompany-4.png" alt="Company 4" class="w-24 h-24 object-contain opacity-80 group-hover:opacity-100">
-                        </div>
-                        <h4 class="font-bold text-slate-700 group-hover:text-copper transition-colors">شرکت سرمایه گذاری مس سرچشمه</h4>
-                    </a>
-                    <!-- Item 4 -->
-                    <a href="#" class="flex flex-col items-center gap-4 group cursor-pointer opacity-70 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300">
-                        <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 group-hover:text-copper group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/logo/subcompany-7.png" alt="Company 5" class="w-24 h-24 object-contain opacity-80 group-hover:opacity-100">
-                        </div>
-                        <h4 class="font-bold text-slate-700 group-hover:text-copper transition-colors">منطقه ویژه اقتصادی رفسنجان</h4>
-                    </a>
-                    <!-- Item 5 -->
-                    <a href="#" class="flex flex-col items-center gap-4 group cursor-pointer opacity-70 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300">
-                        <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 group-hover:text-copper group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/logo/subcompany-6.png" alt="Company 6" class="w-24 h-24 object-contain opacity-80 group-hover:opacity-100">
-                        </div>
-                        <h4 class="font-bold text-slate-700 group-hover:text-copper transition-colors">شرکت خدمات فنی و مهندسی صنایع و معادن کانی مس</h4>
-                    </a>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
+        <?php endif; ?>
 
         <!-- Contact Section -->
         <section id="contact" class="py-24 bg-white">
