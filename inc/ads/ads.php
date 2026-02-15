@@ -12,6 +12,30 @@ if ( ! defined( 'KERMANCOPPER_AD_META_EXPIRY_DATE' ) ) {
 if ( ! defined( 'KERMANCOPPER_AD_META_STATUS' ) ) {
     define( 'KERMANCOPPER_AD_META_STATUS', 'kermancopper_ad_status' );
 }
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_POST_TYPE' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_POST_TYPE', 'kermancopper_ad_request' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_AD_ID' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_AD_ID', 'kermancopper_ad_request_ad_id' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_NAME' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_NAME', 'kermancopper_ad_request_name' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_MOBILE' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_MOBILE', 'kermancopper_ad_request_mobile' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_EMAIL' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_EMAIL', 'kermancopper_ad_request_email' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_COMPANY' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_COMPANY', 'kermancopper_ad_request_company' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_NOTE' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_NOTE', 'kermancopper_ad_request_note' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS', 'kermancopper_ad_request_attachments' );
+}
 
 function kermancopper_jalali_to_gregorian( $jy, $jm, $jd ) {
     $jy = (int) $jy;
@@ -239,6 +263,206 @@ function kermancopper_ads_register_meta() {
     );
 }
 add_action( 'init', 'kermancopper_ads_register_meta' );
+
+function kermancopper_ads_register_request_post_type() {
+    $labels = array(
+        'name'               => __( 'درخواست‌ها', 'kermancopper' ),
+        'singular_name'      => __( 'درخواست', 'kermancopper' ),
+        'menu_name'          => __( 'درخواست‌ها', 'kermancopper' ),
+        'add_new_item'       => __( 'افزودن درخواست', 'kermancopper' ),
+        'edit_item'          => __( 'ویرایش درخواست', 'kermancopper' ),
+        'new_item'           => __( 'درخواست جدید', 'kermancopper' ),
+        'view_item'          => __( 'مشاهده درخواست', 'kermancopper' ),
+        'search_items'       => __( 'جستجوی درخواست‌ها', 'kermancopper' ),
+        'not_found'          => __( 'موردی یافت نشد', 'kermancopper' ),
+        'not_found_in_trash' => __( 'موردی در زباله‌دان نیست', 'kermancopper' ),
+    );
+    $args = array(
+        'labels'        => $labels,
+        'public'        => false,
+        'show_ui'       => true,
+        'show_in_menu'  => 'edit.php?post_type=kermancopper_ad',
+        'supports'      => array( 'title' ),
+        'capability_type' => 'post',
+    );
+    register_post_type( KERMANCOPPER_AD_REQUEST_POST_TYPE, $args );
+}
+add_action( 'init', 'kermancopper_ads_register_request_post_type' );
+
+function kermancopper_ads_register_request_meta() {
+    $meta_items = array(
+        KERMANCOPPER_AD_REQUEST_META_AD_ID   => array( 'type' => 'integer' ),
+        KERMANCOPPER_AD_REQUEST_META_NAME    => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_MOBILE  => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_EMAIL   => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_COMPANY => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_NOTE    => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS => array( 'type' => 'array' ),
+    );
+    foreach ( $meta_items as $key => $meta_args ) {
+        register_post_meta(
+            KERMANCOPPER_AD_REQUEST_POST_TYPE,
+            $key,
+            array(
+                'type'              => $meta_args['type'],
+                'single'            => true,
+                'show_in_rest'      => false,
+                'auth_callback'     => function () {
+                    return current_user_can( 'edit_posts' );
+                },
+            )
+        );
+    }
+}
+add_action( 'init', 'kermancopper_ads_register_request_meta' );
+
+function kermancopper_ads_handle_request_submission() {
+    if ( $_SERVER['REQUEST_METHOD'] !== 'POST' ) {
+        wp_safe_redirect( home_url( '/' ) );
+        exit;
+    }
+    $ad_id = isset( $_POST['ad_id'] ) ? absint( $_POST['ad_id'] ) : 0;
+    $redirect_url = $ad_id ? get_permalink( $ad_id ) : home_url( '/' );
+    if ( ! $ad_id || get_post_type( $ad_id ) !== 'kermancopper_ad' ) {
+        wp_safe_redirect( add_query_arg( 'ad_request', 'invalid_ad', $redirect_url ) );
+        exit;
+    }
+    $nonce = isset( $_POST['kermancopper_ad_request_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['kermancopper_ad_request_nonce'] ) ) : '';
+    if ( ! wp_verify_nonce( $nonce, 'kermancopper_ad_request_submit' ) ) {
+        wp_safe_redirect( add_query_arg( 'ad_request', 'invalid_nonce', $redirect_url ) );
+        exit;
+    }
+    $expiry_date = get_post_meta( $ad_id, KERMANCOPPER_AD_META_EXPIRY_DATE, true );
+    $status = get_post_meta( $ad_id, KERMANCOPPER_AD_META_STATUS, true );
+    if ( $status === '' ) {
+        $today = current_time( 'Y-m-d' );
+        if ( $expiry_date && $expiry_date < $today ) {
+            $status = 'closed';
+        } else {
+            $status = 'active';
+        }
+    }
+    $today = current_time( 'Y-m-d' );
+    if ( $status === 'closed' || ( $expiry_date && $expiry_date < $today ) ) {
+        wp_safe_redirect( add_query_arg( 'ad_request', 'expired', $redirect_url ) );
+        exit;
+    }
+    $name = isset( $_POST['request_name'] ) ? sanitize_text_field( wp_unslash( $_POST['request_name'] ) ) : '';
+    $mobile = isset( $_POST['request_mobile'] ) ? sanitize_text_field( wp_unslash( $_POST['request_mobile'] ) ) : '';
+    $email = isset( $_POST['request_email'] ) ? sanitize_email( wp_unslash( $_POST['request_email'] ) ) : '';
+    $company = isset( $_POST['request_company'] ) ? sanitize_text_field( wp_unslash( $_POST['request_company'] ) ) : '';
+    $note = isset( $_POST['request_note'] ) ? sanitize_textarea_field( wp_unslash( $_POST['request_note'] ) ) : '';
+    if ( $name === '' || $mobile === '' || $email === '' ) {
+        wp_safe_redirect( add_query_arg( 'ad_request', 'missing', $redirect_url ) );
+        exit;
+    }
+    if ( ! is_email( $email ) ) {
+        wp_safe_redirect( add_query_arg( 'ad_request', 'invalid_email', $redirect_url ) );
+        exit;
+    }
+    $mobile_digits = preg_replace( '/\D+/', '', $mobile );
+    if ( $mobile_digits === '' || strlen( $mobile_digits ) < 10 || strlen( $mobile_digits ) > 15 ) {
+        wp_safe_redirect( add_query_arg( 'ad_request', 'invalid_mobile', $redirect_url ) );
+        exit;
+    }
+    $files = isset( $_FILES['ad_attachments'] ) ? $_FILES['ad_attachments'] : null;
+    $attachment_ids = array();
+    if ( $files && is_array( $files['name'] ) ) {
+        $allowed_mime = array(
+            'application/vnd.ms-excel',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'image/jpeg',
+            'image/png',
+            'application/zip',
+            'application/x-zip-compressed',
+        );
+        $max_size = 10 * 1024 * 1024;
+        $file_count = count( $files['name'] );
+        $has_upload = false;
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+        require_once ABSPATH . 'wp-admin/includes/image.php';
+        for ( $i = 0; $i < $file_count; $i++ ) {
+            if ( $files['name'][ $i ] === '' ) {
+                continue;
+            }
+            $has_upload = true;
+            if ( $files['error'][ $i ] !== UPLOAD_ERR_OK ) {
+                wp_safe_redirect( add_query_arg( 'ad_request', 'upload', $redirect_url ) );
+                exit;
+            }
+            if ( $files['size'][ $i ] > $max_size ) {
+                wp_safe_redirect( add_query_arg( 'ad_request', 'file_size', $redirect_url ) );
+                exit;
+            }
+            $file = array(
+                'name'     => $files['name'][ $i ],
+                'type'     => $files['type'][ $i ],
+                'tmp_name' => $files['tmp_name'][ $i ],
+                'error'    => $files['error'][ $i ],
+                'size'     => $files['size'][ $i ],
+            );
+            $filetype = wp_check_filetype( $file['name'] );
+            if ( empty( $filetype['type'] ) || ! in_array( $filetype['type'], $allowed_mime, true ) ) {
+                wp_safe_redirect( add_query_arg( 'ad_request', 'file_type', $redirect_url ) );
+                exit;
+            }
+            $uploaded = wp_handle_upload( $file, array( 'test_form' => false ) );
+            if ( ! isset( $uploaded['file'] ) ) {
+                wp_safe_redirect( add_query_arg( 'ad_request', 'upload', $redirect_url ) );
+                exit;
+            }
+            $attachment_id = wp_insert_attachment(
+                array(
+                    'post_mime_type' => $uploaded['type'],
+                    'post_title'     => sanitize_file_name( $file['name'] ),
+                    'post_status'    => 'private',
+                ),
+                $uploaded['file']
+            );
+            if ( ! $attachment_id || is_wp_error( $attachment_id ) ) {
+                wp_safe_redirect( add_query_arg( 'ad_request', 'upload', $redirect_url ) );
+                exit;
+            }
+            $attachment_data = wp_generate_attachment_metadata( $attachment_id, $uploaded['file'] );
+            if ( $attachment_data ) {
+                wp_update_attachment_metadata( $attachment_id, $attachment_data );
+            }
+            $attachment_ids[] = $attachment_id;
+        }
+        if ( ! $has_upload ) {
+            wp_safe_redirect( add_query_arg( 'ad_request', 'no_files', $redirect_url ) );
+            exit;
+        }
+    } else {
+        wp_safe_redirect( add_query_arg( 'ad_request', 'no_files', $redirect_url ) );
+        exit;
+    }
+    $request_id = wp_insert_post(
+        array(
+            'post_type'   => KERMANCOPPER_AD_REQUEST_POST_TYPE,
+            'post_title'  => $name . ' - ' . current_time( 'Y-m-d H:i' ),
+            'post_status' => 'private',
+        )
+    );
+    if ( ! $request_id || is_wp_error( $request_id ) ) {
+        wp_safe_redirect( add_query_arg( 'ad_request', 'submit_error', $redirect_url ) );
+        exit;
+    }
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_AD_ID, $ad_id );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_NAME, $name );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_MOBILE, $mobile );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_EMAIL, $email );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_COMPANY, $company );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_NOTE, $note );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS, $attachment_ids );
+    wp_safe_redirect( add_query_arg( 'ad_request', 'success', $redirect_url ) );
+    exit;
+}
+add_action( 'admin_post_kermancopper_ad_request_submit', 'kermancopper_ads_handle_request_submission' );
+add_action( 'admin_post_nopriv_kermancopper_ad_request_submit', 'kermancopper_ads_handle_request_submission' );
 
 function kermancopper_ads_add_meta_boxes() {
     add_meta_box(
