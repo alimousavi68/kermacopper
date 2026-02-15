@@ -1,5 +1,18 @@
 <?php
 
+if ( ! defined( 'KERMANCOPPER_AD_META_EXCEL_FORMS' ) ) {
+    define( 'KERMANCOPPER_AD_META_EXCEL_FORMS', 'kermancopper_ad_excel_forms' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_META_EXCEL_URL' ) ) {
+    define( 'KERMANCOPPER_AD_META_EXCEL_URL', 'kermancopper_ad_excel_url' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_META_EXPIRY_DATE' ) ) {
+    define( 'KERMANCOPPER_AD_META_EXPIRY_DATE', 'kermancopper_ad_expiry_date' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_META_STATUS' ) ) {
+    define( 'KERMANCOPPER_AD_META_STATUS', 'kermancopper_ad_status' );
+}
+
 function kermancopper_jalali_to_gregorian( $jy, $jm, $jd ) {
     $jy = (int) $jy;
     $jm = (int) $jm;
@@ -64,6 +77,31 @@ function kermancopper_gregorian_to_jalali( $gy, $gm, $gd ) {
     return array( $jy, $jm, $jd );
 }
 
+function kermancopper_ads_format_expiry_date_for_display( $expiry_date ) {
+    if ( $expiry_date && preg_match( '/^\d{4}-\d{2}-\d{2}$/', $expiry_date ) ) {
+        $parts = explode( '-', $expiry_date );
+        if ( count( $parts ) === 3 ) {
+            $jalali = kermancopper_gregorian_to_jalali( (int) $parts[0], (int) $parts[1], (int) $parts[2] );
+            return sprintf( '%04d/%02d/%02d', $jalali[0], $jalali[1], $jalali[2] );
+        }
+    }
+    if ( $expiry_date && preg_match( '/^\d{4}\/\d{2}\/\d{2}$/', $expiry_date ) ) {
+        return $expiry_date;
+    }
+    return '';
+}
+
+function kermancopper_ads_normalize_expiry_date_for_storage( $expiry_date ) {
+    if ( $expiry_date && preg_match( '/^\d{4}\/\d{2}\/\d{2}$/', $expiry_date ) ) {
+        $parts = explode( '/', $expiry_date );
+        if ( count( $parts ) === 3 ) {
+            $gregorian = kermancopper_jalali_to_gregorian( (int) $parts[0], (int) $parts[1], (int) $parts[2] );
+            return sprintf( '%04d-%02d-%02d', $gregorian[0], $gregorian[1], $gregorian[2] );
+        }
+    }
+    return '';
+}
+
 function kermancopper_ads_sanitize_excel_forms( $value ) {
     if ( ! is_array( $value ) ) {
         return array();
@@ -84,6 +122,30 @@ function kermancopper_ads_sanitize_excel_forms( $value ) {
         );
     }
     return $sanitized;
+}
+
+function kermancopper_ads_sanitize_expiry_date( $value ) {
+    $value = is_string( $value ) ? trim( $value ) : '';
+    if ( $value === '' ) {
+        return '';
+    }
+    if ( preg_match( '/^\d{4}-\d{2}-\d{2}$/', $value ) ) {
+        return $value;
+    }
+    if ( preg_match( '/^\d{4}\/\d{2}\/\d{2}$/', $value ) ) {
+        $parts = explode( '/', $value );
+        if ( count( $parts ) === 3 ) {
+            $gregorian = kermancopper_jalali_to_gregorian( (int) $parts[0], (int) $parts[1], (int) $parts[2] );
+            return sprintf( '%04d-%02d-%02d', $gregorian[0], $gregorian[1], $gregorian[2] );
+        }
+    }
+    return '';
+}
+
+function kermancopper_ads_sanitize_status( $value ) {
+    $value = is_string( $value ) ? trim( $value ) : '';
+    $allowed = array( 'active', 'closed' );
+    return in_array( $value, $allowed, true ) ? $value : '';
 }
 
 function kermancopper_ads_register_post_type() {
@@ -138,7 +200,7 @@ add_action( 'init', 'kermancopper_ads_register_taxonomy' );
 function kermancopper_ads_register_meta() {
     register_post_meta(
         'kermancopper_ad',
-        'kermancopper_ad_excel_forms',
+        KERMANCOPPER_AD_META_EXCEL_FORMS,
         array(
             'type'              => 'array',
             'single'            => true,
@@ -151,11 +213,11 @@ function kermancopper_ads_register_meta() {
     );
     register_post_meta(
         'kermancopper_ad',
-        'kermancopper_ad_expiry_date',
+        KERMANCOPPER_AD_META_EXPIRY_DATE,
         array(
             'type'              => 'string',
             'single'            => true,
-            'sanitize_callback' => 'sanitize_text_field',
+            'sanitize_callback' => 'kermancopper_ads_sanitize_expiry_date',
             'show_in_rest'      => true,
             'auth_callback'     => function () {
                 return current_user_can( 'edit_posts' );
@@ -164,11 +226,11 @@ function kermancopper_ads_register_meta() {
     );
     register_post_meta(
         'kermancopper_ad',
-        'kermancopper_ad_status',
+        KERMANCOPPER_AD_META_STATUS,
         array(
             'type'              => 'string',
             'single'            => true,
-            'sanitize_callback' => 'sanitize_text_field',
+            'sanitize_callback' => 'kermancopper_ads_sanitize_status',
             'show_in_rest'      => true,
             'auth_callback'     => function () {
                 return current_user_can( 'edit_posts' );
@@ -192,12 +254,12 @@ add_action( 'add_meta_boxes', 'kermancopper_ads_add_meta_boxes' );
 
 function kermancopper_ads_render_meta_box( $post ) {
     wp_nonce_field( 'kermancopper_ad_details_save', 'kermancopper_ad_details_nonce' );
-    $excel_forms = get_post_meta( $post->ID, 'kermancopper_ad_excel_forms', true );
+    $excel_forms = get_post_meta( $post->ID, KERMANCOPPER_AD_META_EXCEL_FORMS, true );
     if ( ! is_array( $excel_forms ) ) {
         $excel_forms = array();
     }
     if ( empty( $excel_forms ) ) {
-        $legacy_excel_url = get_post_meta( $post->ID, 'kermancopper_ad_excel_url', true );
+        $legacy_excel_url = get_post_meta( $post->ID, KERMANCOPPER_AD_META_EXCEL_URL, true );
         if ( $legacy_excel_url ) {
             $excel_forms[] = array(
                 'name' => __( 'فرم اکسل', 'kermancopper' ),
@@ -211,18 +273,9 @@ function kermancopper_ads_render_meta_box( $post ) {
             'url'  => '',
         );
     }
-    $expiry_date = get_post_meta( $post->ID, 'kermancopper_ad_expiry_date', true );
-    $status = get_post_meta( $post->ID, 'kermancopper_ad_status', true );
-    $display_expiry_date = '';
-    if ( $expiry_date && preg_match( '/^\d{4}-\d{2}-\d{2}$/', $expiry_date ) ) {
-        $parts = explode( '-', $expiry_date );
-        if ( count( $parts ) === 3 ) {
-            $jalali = kermancopper_gregorian_to_jalali( (int) $parts[0], (int) $parts[1], (int) $parts[2] );
-            $display_expiry_date = sprintf( '%04d/%02d/%02d', $jalali[0], $jalali[1], $jalali[2] );
-        }
-    } elseif ( $expiry_date && preg_match( '/^\d{4}\/\d{2}\/\d{2}$/', $expiry_date ) ) {
-        $display_expiry_date = $expiry_date;
-    }
+    $expiry_date = get_post_meta( $post->ID, KERMANCOPPER_AD_META_EXPIRY_DATE, true );
+    $status = get_post_meta( $post->ID, KERMANCOPPER_AD_META_STATUS, true );
+    $display_expiry_date = kermancopper_ads_format_expiry_date_for_display( $expiry_date );
     $status_options = array(
         'active' => __( 'فعال', 'kermancopper' ),
         'closed' => __( 'بسته', 'kermancopper' ),
@@ -294,46 +347,26 @@ function kermancopper_ads_save_meta( $post_id ) {
         return;
     }
     $forms_raw = isset( $_POST['kermancopper_ad_excel_forms'] ) && is_array( $_POST['kermancopper_ad_excel_forms'] ) ? wp_unslash( $_POST['kermancopper_ad_excel_forms'] ) : array();
-    $forms = array();
-    foreach ( $forms_raw as $form ) {
-        if ( ! is_array( $form ) ) {
-            continue;
-        }
-        $name = isset( $form['name'] ) ? sanitize_text_field( $form['name'] ) : '';
-        $url = isset( $form['url'] ) ? esc_url_raw( $form['url'] ) : '';
-        if ( $url === '' ) {
-            continue;
-        }
-        $forms[] = array(
-            'name' => $name,
-            'url'  => $url,
-        );
-    }
+    $forms = kermancopper_ads_sanitize_excel_forms( $forms_raw );
     if ( ! empty( $forms ) ) {
-        update_post_meta( $post_id, 'kermancopper_ad_excel_forms', $forms );
+        update_post_meta( $post_id, KERMANCOPPER_AD_META_EXCEL_FORMS, $forms );
     } else {
-        delete_post_meta( $post_id, 'kermancopper_ad_excel_forms' );
+        delete_post_meta( $post_id, KERMANCOPPER_AD_META_EXCEL_FORMS );
     }
-    delete_post_meta( $post_id, 'kermancopper_ad_excel_url' );
+    delete_post_meta( $post_id, KERMANCOPPER_AD_META_EXCEL_URL );
     $expiry_date = isset( $_POST['kermancopper_ad_expiry_date'] ) ? sanitize_text_field( wp_unslash( $_POST['kermancopper_ad_expiry_date'] ) ) : '';
-    if ( $expiry_date && preg_match( '/^\d{4}\/\d{2}\/\d{2}$/', $expiry_date ) ) {
-        $parts = explode( '/', $expiry_date );
-        if ( count( $parts ) === 3 ) {
-            $gregorian = kermancopper_jalali_to_gregorian( (int) $parts[0], (int) $parts[1], (int) $parts[2] );
-            $gregorian_value = sprintf( '%04d-%02d-%02d', $gregorian[0], $gregorian[1], $gregorian[2] );
-            update_post_meta( $post_id, 'kermancopper_ad_expiry_date', $gregorian_value );
-        } else {
-            delete_post_meta( $post_id, 'kermancopper_ad_expiry_date' );
-        }
+    $expiry_value = kermancopper_ads_sanitize_expiry_date( $expiry_date );
+    if ( $expiry_value !== '' ) {
+        update_post_meta( $post_id, KERMANCOPPER_AD_META_EXPIRY_DATE, $expiry_value );
     } else {
-        delete_post_meta( $post_id, 'kermancopper_ad_expiry_date' );
+        delete_post_meta( $post_id, KERMANCOPPER_AD_META_EXPIRY_DATE );
     }
     $status = isset( $_POST['kermancopper_ad_status'] ) ? sanitize_text_field( wp_unslash( $_POST['kermancopper_ad_status'] ) ) : '';
-    $allowed_status = array( 'active', 'closed' );
-    if ( in_array( $status, $allowed_status, true ) ) {
-        update_post_meta( $post_id, 'kermancopper_ad_status', $status );
+    $status_value = kermancopper_ads_sanitize_status( $status );
+    if ( $status_value !== '' ) {
+        update_post_meta( $post_id, KERMANCOPPER_AD_META_STATUS, $status_value );
     } else {
-        delete_post_meta( $post_id, 'kermancopper_ad_status' );
+        delete_post_meta( $post_id, KERMANCOPPER_AD_META_STATUS );
     }
 }
 add_action( 'save_post', 'kermancopper_ads_save_meta' );
@@ -344,87 +377,24 @@ function kermancopper_ads_admin_assets() {
         return;
     }
     wp_enqueue_media();
+    $admin_css_path = get_template_directory() . '/assets/admin/ads-admin.css';
+    $admin_js_path = get_template_directory() . '/assets/admin/ads-admin.js';
     wp_enqueue_style( 'kermancopper-jalalidatepicker', get_template_directory_uri() . '/assets/vendor/jalalidatepicker/jalalidatepicker.min.css', array(), '1.3.0' );
+    wp_enqueue_style( 'kermancopper-ads-admin', get_template_directory_uri() . '/assets/admin/ads-admin.css', array(), file_exists( $admin_css_path ) ? filemtime( $admin_css_path ) : null );
     wp_enqueue_script( 'kermancopper-jalalidatepicker', get_template_directory_uri() . '/assets/vendor/jalalidatepicker/jalalidatepicker.min.js', array(), '1.3.0', true );
-    $styles = <<<CSS
-.kermancopper-ad-fields-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 12px; }
-.kermancopper-ad-field label { display: block; font-weight: 600; margin-bottom: 4px; }
-@media (max-width: 782px) { .kermancopper-ad-fields-row { grid-template-columns: 1fr; } }
-#kermancopper-ad-excel-forms { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
-.kermancopper-ad-excel-title { font-weight: 600; margin-bottom: 6px; }
-.kermancopper-ad-excel-separator { border-top: 1px solid #e2e8f0; margin: 14px 0 10px; }
-.kermancopper-ad-excel-row { border: 1px solid #e2e8f0; background: #fff; padding: 12px; border-radius: 6px; display: flex; flex-direction: column; gap: 10px; }
-.kermancopper-ad-excel-label { display: block; font-weight: 600; margin-bottom: 4px; }
-.kermancopper-ad-excel-row-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.kermancopper-ad-excel-url { min-width: 240px; }
-.kermancopper-ad-excel-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
-#kermancopper_ad_excel_add { width: 100%; }
-.jdp-container { z-index: 999999; }
-CSS;
-    wp_add_inline_style( 'kermancopper-jalalidatepicker', $styles );
-    $inline = <<<JS
-jQuery(function($){
-    var frame;
-    var currentUrlField;
-    var container = $('#kermancopper-ad-excel-forms');
-    var index = parseInt(container.data('index'), 10) || 0;
-    function openMedia(){
-        if (frame) {
-            frame.open();
-            return;
-        }
-        frame = wp.media({
-            title: 'انتخاب فرم اکسل',
-            button: { text: 'انتخاب' },
-            multiple: false
-        });
-        frame.on('select', function(){
-            var attachment = frame.state().get('selection').first().toJSON();
-            if (currentUrlField) {
-                currentUrlField.val(attachment.url);
-            }
-        });
-        frame.open();
-    }
-    function buildRow(rowIndex){
-        var row = $('<div class="kermancopper-ad-excel-row">\
-            <div>\
-                <label class="kermancopper-ad-excel-label">نام فرم</label>\
-                <input type="text" name="kermancopper_ad_excel_forms[' + rowIndex + '][name]" class="widefat kermancopper-ad-excel-name" placeholder="نام فرم" value="" />\
-            </div>\
-            <div>\
-                <label class="kermancopper-ad-excel-label">فایل فرم</label>\
-                <div class="kermancopper-ad-excel-row-actions">\
-                    <input type="text" name="kermancopper_ad_excel_forms[' + rowIndex + '][url]" class="widefat kermancopper-ad-excel-url" readonly value="" />\
-                    <div class="kermancopper-ad-excel-buttons">\
-                        <button type="button" class="button kermancopper-ad-excel-select">انتخاب فایل</button>\
-                        <button type="button" class="button kermancopper-ad-excel-remove">حذف</button>\
-                    </div>\
-                </div>\
-            </div>\
-        </div>');
-        return row;
-    }
-    $('#kermancopper_ad_excel_add').on('click', function(e){
-        e.preventDefault();
-        container.append(buildRow(index));
-        index++;
-        container.data('index', index);
-    });
-    container.on('click', '.kermancopper-ad-excel-select', function(e){
-        e.preventDefault();
-        currentUrlField = $(this).closest('.kermancopper-ad-excel-row').find('.kermancopper-ad-excel-url');
-        openMedia();
-    });
-    container.on('click', '.kermancopper-ad-excel-remove', function(e){
-        e.preventDefault();
-        $(this).closest('.kermancopper-ad-excel-row').remove();
-    });
-    if (typeof jalaliDatepicker !== 'undefined') {
-        jalaliDatepicker.startWatch();
-    }
-});
-JS;
-    wp_add_inline_script( 'kermancopper-jalalidatepicker', $inline );
+    wp_enqueue_script( 'kermancopper-ads-admin', get_template_directory_uri() . '/assets/admin/ads-admin.js', array( 'jquery', 'kermancopper-jalalidatepicker' ), file_exists( $admin_js_path ) ? filemtime( $admin_js_path ) : null, true );
+    wp_localize_script(
+        'kermancopper-ads-admin',
+        'kermancopperAdsAdmin',
+        array(
+            'mediaTitle'         => __( 'انتخاب فرم اکسل', 'kermancopper' ),
+            'mediaButton'        => __( 'انتخاب', 'kermancopper' ),
+            'formNameLabel'      => __( 'نام فرم', 'kermancopper' ),
+            'formNamePlaceholder'=> __( 'نام فرم', 'kermancopper' ),
+            'formFileLabel'      => __( 'فایل فرم', 'kermancopper' ),
+            'selectFileText'     => __( 'انتخاب فایل', 'kermancopper' ),
+            'removeText'         => __( 'حذف', 'kermancopper' ),
+        )
+    );
 }
 add_action( 'admin_enqueue_scripts', 'kermancopper_ads_admin_assets' );

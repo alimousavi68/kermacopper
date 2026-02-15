@@ -218,91 +218,96 @@
                         <span class="text-copper font-bold mb-2 block text-sm">فرصت‌های همکاری</span>
                         <h2 class="text-4xl font-black">آگهی‌های مزایده و مناقصه</h2>
                     </div>
+                    <?php
+                    $ads_terms = get_terms( array(
+                        'taxonomy'   => 'kermancopper_ad_type',
+                        'hide_empty' => true,
+                    ) );
+                    $ads_has_terms = ! is_wp_error( $ads_terms ) && ! empty( $ads_terms );
+                    ?>
                     <div class="flex bg-white p-1 rounded-sm shadow-sm border border-slate-200" id="ads-filter-container">
                         <button data-filter="all" class="px-6 py-2 rounded-sm font-bold transition-all text-sm bg-copper text-white">همه</button>
-                        <button data-filter="auction" class="px-6 py-2 rounded-sm font-bold transition-all text-sm text-slate-500 hover:bg-slate-50">مزایدات</button>
-                        <button data-filter="tender" class="px-6 py-2 rounded-sm font-bold transition-all text-sm text-slate-500 hover:bg-slate-50">مناقصات</button>
-                        <button data-filter="other" class="px-6 py-2 rounded-sm font-bold transition-all text-sm text-slate-500 hover:bg-slate-50">سایر</button>
+                        <?php if ( $ads_has_terms ) : ?>
+                            <?php foreach ( $ads_terms as $term ) : ?>
+                                <button data-filter="<?php echo esc_attr( $term->slug ); ?>" class="px-6 py-2 rounded-sm font-bold transition-all text-sm text-slate-500 hover:bg-slate-50"><?php echo esc_html( $term->name ); ?></button>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" id="ads-grid">
-                    <!-- Ad 1 -->
-                    <div class="ad-item bg-white rounded-sm overflow-hidden shadow-sm border border-slate-100 card-hover transition-all fade-in-section" data-type="tender">
-                        <div class="h-48 relative overflow-hidden group">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/cmms-2-800x480-1.jpg" alt="خرید قطعات یدکی" class="w-full h-full object-cover" />
-                            <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-2.5 py-1 rounded-sm text-[10px] font-normal shadow-sm text-slate-700 uppercase tracking-tight flex items-center gap-1">
-                                <i data-lucide="file-text" class="w-2.5 h-2.5 text-copper stroke-[1.5]"></i> مناقصه
+                    <?php
+                    $ads_query = new WP_Query( array(
+                        'post_type'      => 'kermancopper_ad',
+                        'post_status'    => 'publish',
+                        'posts_per_page' => 8,
+                        'orderby'        => 'date',
+                        'order'          => 'DESC',
+                    ) );
+                    ?>
+                    <?php if ( $ads_query->have_posts() ) : ?>
+                        <?php while ( $ads_query->have_posts() ) : ?>
+                            <?php
+                            $ads_query->the_post();
+                            $ad_id = get_the_ID();
+                            $ad_terms = get_the_terms( $ad_id, 'kermancopper_ad_type' );
+                            $ad_term = ! empty( $ad_terms ) && ! is_wp_error( $ad_terms ) ? $ad_terms[0] : null;
+                            $ad_type_slug = $ad_term ? $ad_term->slug : 'other';
+                            $ad_type_label = $ad_term ? $ad_term->name : __( 'سایر', 'kermancopper' );
+                            $ad_type_icon = 'file-text';
+                            if ( $ad_term ) {
+                                if ( strpos( $ad_term->slug, 'auction' ) !== false || strpos( $ad_term->name, 'مزایده' ) !== false ) {
+                                    $ad_type_icon = 'gavel';
+                                } elseif ( strpos( $ad_term->slug, 'tender' ) !== false || strpos( $ad_term->name, 'مناقصه' ) !== false ) {
+                                    $ad_type_icon = 'file-text';
+                                }
+                            }
+                            $thumbnail = get_the_post_thumbnail_url( $ad_id, 'large' );
+                            if ( ! $thumbnail ) {
+                                $thumbnail = get_template_directory_uri() . '/images/image2.jpg';
+                            }
+                            $expiry_date = get_post_meta( $ad_id, KERMANCOPPER_AD_META_EXPIRY_DATE, true );
+                            $expiry_display = kermancopper_ads_format_expiry_date_for_display( $expiry_date );
+                            if ( $expiry_display === '' ) {
+                                $expiry_display = '—';
+                            }
+                            $status = get_post_meta( $ad_id, KERMANCOPPER_AD_META_STATUS, true );
+                            if ( $status === '' ) {
+                                $today = current_time( 'Y-m-d' );
+                                if ( $expiry_date && $expiry_date < $today ) {
+                                    $status = 'closed';
+                                } else {
+                                    $status = 'active';
+                                }
+                            }
+                            $status_label = $status === 'closed' ? __( 'بسته', 'kermancopper' ) : __( 'فعال', 'kermancopper' );
+                            $status_class = $status === 'closed'
+                                ? 'bg-slate-50 text-slate-500 border border-slate-100'
+                                : 'bg-green-50 text-green-700 border border-green-100';
+                            ?>
+                            <div class="ad-item bg-white rounded-sm overflow-hidden shadow-sm border border-slate-100 card-hover transition-all fade-in-section" data-type="<?php echo esc_attr( $ad_type_slug ); ?>">
+                                <div class="h-48 relative overflow-hidden group">
+                                    <img src="<?php echo esc_url( $thumbnail ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="w-full h-full object-cover" />
+                                    <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-2.5 py-1 rounded-sm text-[10px] font-normal shadow-sm text-slate-700 uppercase tracking-tight flex items-center gap-1">
+                                        <i data-lucide="<?php echo esc_attr( $ad_type_icon ); ?>" class="w-2.5 h-2.5 text-copper stroke-[1.5]"></i> <?php echo esc_html( $ad_type_label ); ?>
+                                    </div>
+                                </div>
+                                <div class="p-6">
+                                    <h3 class="font-bold text-base mb-4 h-12 line-clamp-2 text-slate-800 leading-relaxed"><?php echo esc_html( get_the_title() ); ?></h3>
+                                    <div class="flex justify-between items-center text-[12px] text-slate-500 mb-6 border-t border-slate-50 pt-4">
+                                        <div class="flex items-center gap-1 font-medium"><i data-lucide="calendar" class="w-2.5 h-2.5 text-slate-400 stroke-[1.5]"></i> مهلت : <?php echo esc_html( $expiry_display ); ?></div>
+                                        <div class="px-2 py-0.5 rounded-sm font-medium text-[11px] <?php echo esc_attr( $status_class ); ?>"><?php echo esc_html( $status_label ); ?></div>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <a href="<?php echo esc_url( get_permalink() ); ?>" class="flex-1 bg-white text-copper border border-copper py-2.5 rounded-sm text-sm font-bold hover:bg-[var(--color-copper)] hover:text-white transition-all shadow-sm text-center">جزئیات آگهی</a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="font-bold text-base mb-4 h-12 line-clamp-2 text-slate-800 leading-relaxed">خرید قطعات یدکی دستگاه سنگ‌شکن</h3>
-                            <div class="flex justify-between items-center text-[12px] text-slate-500 mb-6 border-t border-slate-50 pt-4">
-                                <div class="flex items-center gap-1 font-medium"><i data-lucide="calendar" class="w-2.5 h-2.5 text-slate-400 stroke-[1.5]"></i> مهلت : ۱۴۰۲/۱۲/۱۵</div>
-                                <div class="px-2 py-0.5 rounded-sm font-medium text-[11px] bg-green-50 text-green-700 border border-green-100">فعال</div>
-                            </div>
-                            <div class="flex gap-2">
-                                <button class="flex-1 bg-white text-copper border border-copper py-2.5 rounded-sm text-sm font-bold hover:bg-[var(--color-copper)] hover:text-white transition-all shadow-sm">جزئیات آگهی</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Ad 2 -->
-                    <div class="ad-item bg-white rounded-sm overflow-hidden shadow-sm border border-slate-100 card-hover transition-all fade-in-section" data-type="auction">
-                        <div class="h-48 relative overflow-hidden group">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/ورق مس.jpg" alt="فروش کاتد مس" class="w-full h-full object-cover" />
-                            <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-2.5 py-1 rounded-sm text-[10px] font-normal shadow-sm text-slate-700 uppercase tracking-tight flex items-center gap-1">
-                                <i data-lucide="gavel" class="w-2.5 h-2.5 text-copper stroke-[1.5]"></i> مزایده
-                            </div>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="font-bold text-base mb-4 h-12 line-clamp-2 text-slate-800 leading-relaxed">فروش ۳۰ تن کاتد مس درجه دو</h3>
-                            <div class="flex justify-between items-center text-[12px] text-slate-500 mb-6 border-t border-slate-50 pt-4">
-                                <div class="flex items-center gap-1 font-medium"><i data-lucide="calendar" class="w-2.5 h-2.5 text-slate-400 stroke-[1.5]"></i> مهلت : ۱۴۰۲/۱۲/۲۰</div>
-                                <div class="px-2 py-0.5 rounded-sm font-medium text-[11px] bg-green-50 text-green-700 border border-green-100">فعال</div>
-                            </div>
-                            <div class="flex gap-2">
-                                <button class="flex-1 bg-white text-copper border border-copper py-2.5 rounded-sm text-sm font-bold hover:bg-[var(--[vlor-coar(-)]-color-copper)] hover:text-white transition-all shadow-sm">جزئیات آگهی</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Ad 3 -->
-                    <div class="ad-item bg-white rounded-sm overflow-hidden shadow-sm border border-slate-100 card-hover transition-all fade-in-section" data-type="tender">
-                        <div class="h-48 relative overflow-hidden group">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/copper-sheet-bahonar.webp" alt="حمل و نقل" class="w-full h-full object-cover" />
-                            <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-2.5 py-1 rounded-sm text-[10px] font-normal shadow-sm text-slate-700 uppercase tracking-tight flex items-center gap-1">
-                                <i data-lucide="file-text" class="w-2.5 h-2.5 text-copper stroke-[1.5]"></i> مناقصه
-                            </div>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="font-bold text-base mb-4 h-12 line-clamp-2 text-slate-800 leading-relaxed">مناقصه عمومی حمل و نقل مواد معدنی</h3>
-                            <div class="flex justify-between items-center text-[12px] text-slate-500 mb-6 border-t border-slate-50 pt-4">
-                                <div class="flex items-center gap-1 font-medium"><i data-lucide="calendar" class="w-2.5 h-2.5 text-slate-400 stroke-[1.5]"></i> مهلت : ۱۴۰۲/۱۲/۲۲</div>
-                                <div class="px-2 py-0.5 rounded-sm font-medium text-[11px] bg-slate-50 text-slate-500 border border-slate-100">به زودی</div>
-                            </div>
-                            <div class="flex gap-2">
-                                <button class="flex-1 bg-white text-copper border border-copper py-2.5 rounded-sm text-sm font-bold hover:bg-[var(--color-copper)] hover:text-white transition-all shadow-sm">جزئیات آگهی</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Ad 4 -->
-                    <div class="ad-item bg-white rounded-sm overflow-hidden shadow-sm border border-slate-100 card-hover transition-all fade-in-section" data-type="other">
-                        <div class="h-48 relative overflow-hidden group">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/image2.jpg" alt="خودرو سنگین" class="w-full h-full object-cover" />
-                            <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-2.5 py-1 rounded-sm text-[10px] font-normal shadow-sm text-slate-700 uppercase tracking-tight flex items-center gap-1">
-                                <i data-lucide="file-text" class="w-2.5 h-2.5 text-copper stroke-[1.5]"></i> سایر
-                            </div>
-                        </div>
-                        <div class="p-6">
-                            <h3 class="font-bold text-base mb-4 h-12 line-clamp-2 text-slate-800 leading-relaxed">فراخوان تامین خدمات آزمایشگاهی و کنترل کیفیت</h3>
-                            <div class="flex justify-between items-center text-[12px] text-slate-500 mb-6 border-t border-slate-50 pt-4">
-                                <div class="flex items-center gap-1 font-medium"><i data-lucide="calendar" class="w-2.5 h-2.5 text-slate-400 stroke-[1.5]"></i> مهلت : ۱۴۰۲/۱۲/۲۵</div>
-                                <div class="px-2 py-0.5 rounded-sm font-medium text-[11px] bg-green-50 text-green-700 border border-green-100">فعال</div>
-                            </div>
-                            <div class="flex gap-2">
-                                <button class="flex-1 bg-white text-copper border border-copper py-2.5 rounded-sm text-sm font-bold hover:bg-[var(--color-copper)] hover:text-white transition-all shadow-sm">جزئیات آگهی</button>
-                            </div>
-                        </div>
-                    </div>
+                        <?php endwhile; ?>
+                        <?php wp_reset_postdata(); ?>
+                    <?php else : ?>
+                        <div class="col-span-full text-center text-slate-500">آگهی‌ای برای نمایش وجود ندارد.</div>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>
@@ -551,92 +556,7 @@
         </section>
         <?php endif; ?>
 
-        <!-- Contact Section -->
-        <section id="contact" class="pt-24 pb-[150px] bg-white relative">
-            <div class="container mx-auto px-4">
-                <div class="bg-[#0F1B2E] rounded-3xl overflow-hidden flex flex-col md:flex-row items-stretch fade-in-section px-8 py-8 md:px-12 md:py-12 shadow-[0_24px_48px_rgba(15,23,42,0.25)] max-w-6xl mx-auto">
-                    <div class="w-full md:w-1/2 bg-white rounded-2xl p-8 md:p-12 shadow-2xl ring-4 md:ring-8 ring-[#0F1B2E] relative overflow-hidden">
-                        <h3 class="text-base md:text-lg font-bold mb-6 text-slate-900 text-center">ارسال پیام سریع</h3>
-                        <form class="space-y-6" id="contact-form">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="block text-[11px] font-bold mb-2 text-slate-500 uppercase tracking-widest">نام و نام خانوادگی</label>
-                                    <input type="text" required class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1E76FF]/30 focus:border-[#1E76FF] transition-all text-sm shadow-sm hover:border-[#1E76FF]/50" placeholder="مثلا: علی محمدی" />
-                                </div>
-                                <div>
-                                    <label class="block text-[11px] font-bold mb-2 text-slate-500 uppercase tracking-widest">پست الکترونیک</label>
-                                    <input type="email" required class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1E76FF]/30 focus:border-[#1E76FF] transition-all text-sm shadow-sm hover:border-[#1E76FF]/50" placeholder="example@mail.com" />
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold mb-2 text-slate-500 uppercase tracking-widest">موضوع پیام</label>
-                                <div class="relative">
-                                    <select class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1E76FF]/30 focus:border-[#1E76FF] transition-all text-sm appearance-none shadow-sm hover:border-[#1E76FF]/50">
-                                        <option>سرمایه‌گذاری</option>
-                                        <option>مزایده و مناقصه</option>
-                                        <option>رسانه و اخبار</option>
-                                        <option>سایر موارد</option>
-                                    </select>
-                                    <i data-lucide="chevron-down" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold mb-2 text-slate-500 uppercase tracking-widest">متن پیام</label>
-                                <textarea rows="4" required class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1E76FF]/30 focus:border-[#1E76FF] transition-all text-sm shadow-sm hover:border-[#1E76FF]/50" placeholder="پیام خود را اینجا بنویسید..."></textarea>
-                            </div>
-                            <button type="submit" class="w-full bg-gradient-to-r from-[#1E76FF] to-[#2A84FF] text-white py-4 rounded-lg font-bold flex items-center justify-center gap-2 hover:to-[#3A92FF] transition-all shadow-[0_12px_24px_rgba(30,118,255,0.35)] hover:shadow-[0_16px_32px_rgba(30,118,255,0.45)] hover:-translate-y-0.5 active:translate-y-0">
-                                ارسال پیام <i data-lucide="send" class="w-[18px] h-[18px]"></i>
-                            </button>
-                        </form>
-                    </div>
-                    <div class="w-full md:w-1/2 text-white px-8 md:px-12 py-8 md:py-12">
-                        <h2 class="text-2xl md:text-3xl font-black mb-8">با ما در ارتباط باشید</h2>
-                        <div class="space-y-6">
-                            <div class="flex items-start gap-4">
-                                <div class="w-8 h-8 bg-copper rounded-sm flex items-center justify-center text-white flex-shrink-0"><i data-lucide="map-pin" class="w-[18px] h-[18px]"></i></div>
-                                <div>
-                                    <h4 class="font-bold mb-1 text-sm">دفتر مرکزی</h4>
-                                    <p class="text-slate-300 text-[13px] leading-relaxed">تهران، سعادت آباد، خیابان مروارید، پلاک ۸۲، ساختمان مرکزی صنایع مس</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-4">
-                                <div class="w-8 h-8 bg-copper rounded-sm flex items-center justify-center text-white flex-shrink-0"><i data-lucide="phone" class="w-[18px] h-[18px]"></i></div>
-                                <div>
-                                    <h4 class="font-bold mb-1 text-sm">تلفن تماس</h4>
-                                    <p class="text-slate-300 text-[13px]" dir="ltr">+۹۸ ۲۱ ۲۸۴۲ ۰۹۰۹</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-4">
-                                <div class="w-8 h-8 bg-copper rounded-sm flex items-center justify-center text-white flex-shrink-0"><i data-lucide="mail" class="w-[18px] h-[18px]"></i></div>
-                                <div>
-                                    <h4 class="font-bold mb-1 text-sm">پست الکترونیک</h4>
-                                    <p class="text-slate-300 text-[13px]">info@copperindustry.co.ir</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-12 pt-12 border-t border-white/10">
-                            <h4 class="font-bold text-xs mb-6 uppercase tracking-widest text-slate-400">شبکه‌های اجتماعی</h4>
-                            <div class="flex gap-3">
-                                <a href="#" class="w-8 h-8 rounded-sm bg-white/10 border border-white/10 flex items-center justify-center hover:bg-copper hover:text-white transition-all text-slate-300">
-                                    <i data-lucide="instagram" class="w-[14px] h-[14px]"></i>
-                                </a>
-                                <a href="#" class="w-8 h-8 rounded-sm bg-white/10 border border-white/10 flex items-center justify-center hover:bg-copper hover:text-white transition-all text-slate-300">
-                                    <i data-lucide="linkedin" class="w-[14px] h-[14px]"></i>
-                                </a>
-                                <a href="#" class="w-8 h-8 rounded-sm bg-white/10 border border-white/10 flex items-center justify-center hover:bg-copper hover:text-white transition-all text-slate-300">
-                                    <i data-lucide="twitter" class="w-[14px] h-[14px]"></i>
-                                </a>
-                                <a href="#" class="w-8 h-8 rounded-sm bg-white/10 border border-white/10 flex items-center justify-center hover:bg-copper hover:text-white transition-all text-slate-300">
-                                    <i data-lucide="facebook" class="w-[14px] h-[14px]"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
+       
         <?php
         $partners_kicker = kermancopper_get_home_setting( 'kermancopper_home_partners_kicker' );
         $partners_title = kermancopper_get_home_setting( 'kermancopper_home_partners_title' );
