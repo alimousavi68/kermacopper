@@ -150,3 +150,5 @@ function kermancopper_sync_home_archive_urls() {
     }
 }
 add_action( 'customize_save_after', 'kermancopper_sync_home_archive_urls' );
+
+require_once KERMANCOPPER_DIR . '/inc/ads/ads.php';

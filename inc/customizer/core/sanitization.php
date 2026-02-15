@@ -12,7 +12,7 @@
  * @return bool Whether the checkbox is checked.
  */
 function kermancopper_sanitize_checkbox( $checked ) {
-    return ( ( isset( $checked ) && true === $checked ) ? true : false );
+    return ( isset( $checked ) && ( true === $checked || '1' === $checked || 1 === $checked ) );
 }
 
 /**
@@ -63,6 +63,10 @@ function kermancopper_sanitize_number_range_1_20( $value ) {
     return $value;
 }
 
+function kermancopper_sanitize_number_nonnegative( $value ) {
+    return absint( $value );
+}
+
 function kermancopper_sanitize_category_id( $value ) {
     $value = absint( $value );
     if ( $value === 0 ) {
@@ -70,6 +74,18 @@ function kermancopper_sanitize_category_id( $value ) {
     }
     $term = get_term( $value, 'category' );
     if ( $term && ! is_wp_error( $term ) ) {
+        return $value;
+    }
+    return 0;
+}
+
+function kermancopper_sanitize_image_id( $value ) {
+    $value = absint( $value );
+    if ( $value === 0 ) {
+        return 0;
+    }
+    $attachment = get_post( $value );
+    if ( $attachment && 'attachment' === $attachment->post_type ) {
         return $value;
     }
     return 0;

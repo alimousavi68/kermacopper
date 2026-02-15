@@ -547,6 +547,270 @@ function kermancopper_customize_homepage( $wp_customize ) {
         'type'    => 'text',
     ) );
 
+    $wp_customize->add_section( 'kermancopper_home_hero_section', array(
+        'title'    => __( 'مدیریت هدر اصلی', 'kermancopper' ),
+        'panel'    => 'kermancopper_homepage_panel',
+        'priority' => 15,
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_hero_slide_1_image_id', array(
+        'sanitize_callback' => 'kermancopper_sanitize_image_id',
+    ) );
+    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'kermancopper_home_hero_slide_1_image_id', array(
+        'label'     => __( 'تصویر اسلاید اول', 'kermancopper' ),
+        'section'   => 'kermancopper_home_hero_section',
+        'mime_type' => 'image',
+    ) ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_hero_slide_1_alt', array(
+        'sanitize_callback' => 'kermancopper_sanitize_text_100',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_hero_slide_1_alt', array(
+        'label'   => __( 'متن جایگزین اسلاید اول', 'kermancopper' ),
+        'section' => 'kermancopper_home_hero_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_hero_slide_2_image_id', array(
+        'sanitize_callback' => 'kermancopper_sanitize_image_id',
+    ) );
+    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'kermancopper_home_hero_slide_2_image_id', array(
+        'label'     => __( 'تصویر اسلاید دوم', 'kermancopper' ),
+        'section'   => 'kermancopper_home_hero_section',
+        'mime_type' => 'image',
+    ) ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_hero_slide_2_alt', array(
+        'sanitize_callback' => 'kermancopper_sanitize_text_100',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_hero_slide_2_alt', array(
+        'label'   => __( 'متن جایگزین اسلاید دوم', 'kermancopper' ),
+        'section' => 'kermancopper_home_hero_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_hero_pattern_image_id', array(
+        'sanitize_callback' => 'kermancopper_sanitize_image_id',
+    ) );
+    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'kermancopper_home_hero_pattern_image_id', array(
+        'label'     => __( 'تصویر پترن هدر', 'kermancopper' ),
+        'section'   => 'kermancopper_home_hero_section',
+        'mime_type' => 'image',
+    ) ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_hero_title', array(
+        'sanitize_callback' => 'kermancopper_sanitize_text_100',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_hero_title', array(
+        'label'   => __( 'عنوان اصلی هدر', 'kermancopper' ),
+        'section' => 'kermancopper_home_hero_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_hero_subtitle', array(
+        'sanitize_callback' => 'kermancopper_sanitize_text_100',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_hero_subtitle', array(
+        'label'   => __( 'زیرعنوان هدر', 'kermancopper' ),
+        'section' => 'kermancopper_home_hero_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_hero_description', array(
+        'sanitize_callback' => 'kermancopper_sanitize_text',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_hero_description', array(
+        'label'   => __( 'توضیحات هدر', 'kermancopper' ),
+        'section' => 'kermancopper_home_hero_section',
+        'type'    => 'textarea',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_hero_button_primary_text', array(
+        'sanitize_callback' => 'kermancopper_sanitize_text_100',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_hero_button_primary_text', array(
+        'label'   => __( 'متن دکمه اول', 'kermancopper' ),
+        'section' => 'kermancopper_home_hero_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_hero_button_primary_url', array(
+        'sanitize_callback' => 'kermancopper_sanitize_url',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_hero_button_primary_url', array(
+        'label'   => __( 'لینک دکمه اول', 'kermancopper' ),
+        'section' => 'kermancopper_home_hero_section',
+        'type'    => 'url',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_hero_button_secondary_text', array(
+        'sanitize_callback' => 'kermancopper_sanitize_text_100',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_hero_button_secondary_text', array(
+        'label'   => __( 'متن دکمه دوم', 'kermancopper' ),
+        'section' => 'kermancopper_home_hero_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_hero_button_secondary_url', array(
+        'sanitize_callback' => 'kermancopper_sanitize_url',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_hero_button_secondary_url', array(
+        'label'   => __( 'لینک دکمه دوم', 'kermancopper' ),
+        'section' => 'kermancopper_home_hero_section',
+        'type'    => 'url',
+    ) );
+
+    $wp_customize->add_section( 'kermancopper_home_about_section', array(
+        'title'    => __( 'مدیریت درباره ما', 'kermancopper' ),
+        'panel'    => 'kermancopper_homepage_panel',
+        'priority' => 20,
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_about_kicker', array(
+        'sanitize_callback' => 'kermancopper_sanitize_text_100',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_about_kicker', array(
+        'label'   => __( 'متن بالای عنوان', 'kermancopper' ),
+        'section' => 'kermancopper_home_about_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_about_title_highlight', array(
+        'sanitize_callback' => 'kermancopper_sanitize_text_100',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_about_title_highlight', array(
+        'label'   => __( 'بخش رنگی عنوان', 'kermancopper' ),
+        'section' => 'kermancopper_home_about_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_about_title_rest', array(
+        'sanitize_callback' => 'kermancopper_sanitize_text_100',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_about_title_rest', array(
+        'label'   => __( 'ادامه عنوان', 'kermancopper' ),
+        'section' => 'kermancopper_home_about_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_about_description', array(
+        'sanitize_callback' => 'kermancopper_sanitize_text',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_about_description', array(
+        'label'   => __( 'توضیحات درباره ما', 'kermancopper' ),
+        'section' => 'kermancopper_home_about_section',
+        'type'    => 'textarea',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_about_mission_title', array(
+        'sanitize_callback' => 'kermancopper_sanitize_text_50',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_about_mission_title', array(
+        'label'   => __( 'عنوان ماموریت', 'kermancopper' ),
+        'section' => 'kermancopper_home_about_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_about_mission_text', array(
+        'sanitize_callback' => 'kermancopper_sanitize_text',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_about_mission_text', array(
+        'label'   => __( 'متن ماموریت', 'kermancopper' ),
+        'section' => 'kermancopper_home_about_section',
+        'type'    => 'textarea',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_about_vision_title', array(
+        'sanitize_callback' => 'kermancopper_sanitize_text_50',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_about_vision_title', array(
+        'label'   => __( 'عنوان چشم‌انداز', 'kermancopper' ),
+        'section' => 'kermancopper_home_about_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_about_vision_text', array(
+        'sanitize_callback' => 'kermancopper_sanitize_text',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_about_vision_text', array(
+        'label'   => __( 'متن چشم‌انداز', 'kermancopper' ),
+        'section' => 'kermancopper_home_about_section',
+        'type'    => 'textarea',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_about_button_primary_text', array(
+        'sanitize_callback' => 'kermancopper_sanitize_text_100',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_about_button_primary_text', array(
+        'label'   => __( 'متن دکمه اول', 'kermancopper' ),
+        'section' => 'kermancopper_home_about_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_about_button_primary_url', array(
+        'sanitize_callback' => 'kermancopper_sanitize_url',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_about_button_primary_url', array(
+        'label'   => __( 'لینک دکمه اول', 'kermancopper' ),
+        'section' => 'kermancopper_home_about_section',
+        'type'    => 'url',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_about_button_secondary_text', array(
+        'sanitize_callback' => 'kermancopper_sanitize_text_100',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_about_button_secondary_text', array(
+        'label'   => __( 'متن دکمه دوم', 'kermancopper' ),
+        'section' => 'kermancopper_home_about_section',
+        'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_about_button_secondary_url', array(
+        'sanitize_callback' => 'kermancopper_sanitize_url',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_about_button_secondary_url', array(
+        'label'   => __( 'لینک دکمه دوم', 'kermancopper' ),
+        'section' => 'kermancopper_home_about_section',
+        'type'    => 'url',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_about_pattern_image_id', array(
+        'sanitize_callback' => 'kermancopper_sanitize_image_id',
+    ) );
+    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'kermancopper_home_about_pattern_image_id', array(
+        'label'      => __( 'تصویر پس‌زمینه پترن', 'kermancopper' ),
+        'section'    => 'kermancopper_home_about_section',
+        'mime_type'  => 'image',
+    ) ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_about_main_image_id', array(
+        'sanitize_callback' => 'kermancopper_sanitize_image_id',
+    ) );
+    $wp_customize->add_control( new WP_Customize_Media_Control( $wp_customize, 'kermancopper_home_about_main_image_id', array(
+        'label'     => __( 'تصویر اصلی درباره ما', 'kermancopper' ),
+        'section'   => 'kermancopper_home_about_section',
+        'mime_type' => 'image',
+    ) ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_about_experience_count', array(
+        'sanitize_callback' => 'kermancopper_sanitize_number_nonnegative',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_about_experience_count', array(
+        'label'   => __( 'عدد سابقه', 'kermancopper' ),
+        'section' => 'kermancopper_home_about_section',
+        'type'    => 'number',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_about_experience_label', array(
+        'sanitize_callback' => 'kermancopper_sanitize_text_100',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_about_experience_label', array(
+        'label'   => __( 'متن سابقه', 'kermancopper' ),
+        'section' => 'kermancopper_home_about_section',
+        'type'    => 'text',
+    ) );
+
     $wp_customize->add_setting( 'kermancopper_home_notices_category', array(
         'sanitize_callback' => 'kermancopper_sanitize_category_id',
     ) );

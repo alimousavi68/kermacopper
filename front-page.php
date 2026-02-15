@@ -1,103 +1,211 @@
 <?php get_header(); ?>
 
     <main>
+        <?php
+        $hero_slide_1_image_id = absint( kermancopper_get_home_setting( 'kermancopper_home_hero_slide_1_image_id' ) );
+        $hero_slide_1_image_src = $hero_slide_1_image_id ? wp_get_attachment_image_url( $hero_slide_1_image_id, 'full' ) : '';
+        $hero_slide_1_alt = kermancopper_get_home_setting( 'kermancopper_home_hero_slide_1_alt' );
+        $hero_slide_2_image_id = absint( kermancopper_get_home_setting( 'kermancopper_home_hero_slide_2_image_id' ) );
+        $hero_slide_2_image_src = $hero_slide_2_image_id ? wp_get_attachment_image_url( $hero_slide_2_image_id, 'full' ) : '';
+        $hero_slide_2_alt = kermancopper_get_home_setting( 'kermancopper_home_hero_slide_2_alt' );
+        $hero_pattern_image_id = absint( kermancopper_get_home_setting( 'kermancopper_home_hero_pattern_image_id' ) );
+        $hero_pattern_image_src = $hero_pattern_image_id ? wp_get_attachment_image_url( $hero_pattern_image_id, 'full' ) : '';
+        $hero_title = kermancopper_get_home_setting( 'kermancopper_home_hero_title' );
+        $hero_subtitle = kermancopper_get_home_setting( 'kermancopper_home_hero_subtitle' );
+        $hero_description = kermancopper_get_home_setting( 'kermancopper_home_hero_description' );
+        $hero_button_primary_text = kermancopper_get_home_setting( 'kermancopper_home_hero_button_primary_text' );
+        $hero_button_primary_url = kermancopper_get_home_setting( 'kermancopper_home_hero_button_primary_url' );
+        $hero_button_secondary_text = kermancopper_get_home_setting( 'kermancopper_home_hero_button_secondary_text' );
+        $hero_button_secondary_url = kermancopper_get_home_setting( 'kermancopper_home_hero_button_secondary_url' );
+        $hero_slides = array();
+        if ( $hero_slide_1_image_src ) {
+            $hero_slides[] = array(
+                'src' => $hero_slide_1_image_src,
+                'alt' => $hero_slide_1_alt,
+            );
+        }
+        if ( $hero_slide_2_image_src ) {
+            $hero_slides[] = array(
+                'src' => $hero_slide_2_image_src,
+                'alt' => $hero_slide_2_alt,
+            );
+        }
+        ?>
         <!-- Hero Section -->
         <div class="relative h-[calc(100vh-200px)] sm:h-[80vh] flex items-center overflow-hidden mt-[100px] sm:mt-[125px]">
             <div class="absolute inset-0 z-0" id="hero-slider">
-                <!-- Slide 1 -->
-                <div class="hero-slide absolute inset-0 transition-opacity duration-1000 opacity-100" data-index="0">
-                    <img src="<?php echo get_template_directory_uri(); ?>/images/pano sarcheshmeh.jpg" class="w-full h-full object-cover" alt="Sarcheshmeh Mine" />
-                    <div class="absolute inset-0 hero-gradient"></div>
-                </div>
-                <!-- Slide 2 -->
-                <div class="hero-slide absolute inset-0 transition-opacity duration-1000 opacity-0" data-index="1">
-                    <img src="<?php echo get_template_directory_uri(); ?>/images/14164.jpg" class="w-full h-full object-cover" alt="Industry" />
-                    <div class="absolute inset-0 hero-gradient"></div>
-                </div>
+                <?php foreach ( $hero_slides as $index => $slide ) : ?>
+                    <div class="hero-slide absolute inset-0 transition-opacity duration-1000 <?php echo $index === 0 ? 'opacity-100' : 'opacity-0'; ?>" data-index="<?php echo esc_attr( $index ); ?>">
+                        <img src="<?php echo esc_url( $slide['src'] ); ?>" class="w-full h-full object-cover" alt="<?php echo esc_attr( $slide['alt'] ); ?>" />
+                        <div class="absolute inset-0 hero-gradient"></div>
+                    </div>
+                <?php endforeach; ?>
             </div>
 
-            <!-- Hero Pattern -->
-            <div class="absolute left-0 top-0 bottom-0 w-1/3 opacity-60 pointer-events-none z-10 pattern-bg" style="background-image: url('<?php echo get_template_directory_uri(); ?>/images/patt-right.webp'); background-repeat: no-repeat; background-position: right center; background-size: contain; transform: scaleX(-1); filter: invert(1);"></div>
+            <?php if ( $hero_pattern_image_src ) : ?>
+            <div class="absolute left-0 top-0 bottom-0 w-1/3 opacity-60 pointer-events-none z-10 pattern-bg" style="background-image: url('<?php echo esc_url( $hero_pattern_image_src ); ?>'); background-repeat: no-repeat; background-position: right center; background-size: contain; transform: scaleX(-1) translateY(-6.25px); filter: invert(1);" data-flipped="true"></div>
+            <?php endif; ?>
 
             <div class="container mx-auto px-4 z-10 text-white">
                 <div class="max-w-3xl fade-in-section">
-                    <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">نوآوری در قلب صنعت مس <br /> <span class="text-2xl md:text-5xl font-light opacity-90 block mt-6">Innovation at the Heart of Industry</span></h1>
+                    <?php if ( $hero_title || $hero_subtitle ) : ?>
+                    <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">
+                        <?php if ( $hero_title ) : ?>
+                            <?php echo esc_html( $hero_title ); ?>
+                        <?php endif; ?>
+                        <?php if ( $hero_subtitle ) : ?>
+                            <br /> <span class="text-2xl md:text-5xl font-light opacity-90 block mt-6"><?php echo esc_html( $hero_subtitle ); ?></span>
+                        <?php endif; ?>
+                    </h1>
+                    <?php endif; ?>
+                    <?php if ( $hero_description ) : ?>
                     <p class="text-base md:text-lg mb-10 text-slate-200 leading-relaxed font-light max-w-2xl opacity-80">
-                        ما با تکیه بر دانش بومی و تکنولوژی‌های روز، استانداردهای جدیدی در بهره‌وری و حفظ محیط زیست خلق می‌کنیم. به ما بپیوندید تا آینده‌ای پایدار بسازیم.
+                        <?php echo esc_html( $hero_description ); ?>
                     </p>
+                    <?php endif; ?>
+                    <?php if ( ( $hero_button_primary_text && $hero_button_primary_url ) || ( $hero_button_secondary_text && $hero_button_secondary_url ) ) : ?>
                     <div class="flex flex-wrap gap-4">
-                        <a href="#ads" class="bg-copper hover:opacity-90 text-white px-10 py-4 rounded-sm font-bold transition-all shadow-xl text-sm md:text-base tracking-wide border border-transparent">
-                            فرصت‌های همکاری
+                        <?php if ( $hero_button_primary_text && $hero_button_primary_url ) : ?>
+                        <a href="<?php echo esc_url( $hero_button_primary_url ); ?>" class="bg-copper hover:opacity-90 text-white px-10 py-4 rounded-sm font-bold transition-all shadow-xl text-sm md:text-base tracking-wide border border-transparent">
+                            <?php echo esc_html( $hero_button_primary_text ); ?>
                         </a>
-                        <a href="#about" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-10 py-4 rounded-sm font-bold transition-all text-sm md:text-base tracking-wide">
-                            درباره ما
+                        <?php endif; ?>
+                        <?php if ( $hero_button_secondary_text && $hero_button_secondary_url ) : ?>
+                        <a href="<?php echo esc_url( $hero_button_secondary_url ); ?>" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-10 py-4 rounded-sm font-bold transition-all text-sm md:text-base tracking-wide">
+                            <?php echo esc_html( $hero_button_secondary_text ); ?>
                         </a>
+                        <?php endif; ?>
                     </div>
+                    <?php endif; ?>
                 </div>
             </div>
-            
+
+            <?php if ( count( $hero_slides ) > 1 ) : ?>
             <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-3 z-10">
-                <button class="hero-dot w-6 h-2.5 rounded-full transition-all duration-300 bg-copper" data-index="0"></button>
-                <button class="hero-dot w-2.5 h-2.5 rounded-full transition-all duration-300 bg-white/40" data-index="1"></button>
+                <?php foreach ( $hero_slides as $index => $slide ) : ?>
+                    <button class="hero-dot <?php echo $index === 0 ? 'w-6 h-2.5 bg-copper' : 'w-2.5 h-2.5 bg-white/40'; ?> rounded-full transition-all duration-300" data-index="<?php echo esc_attr( $index ); ?>"></button>
+                <?php endforeach; ?>
             </div>
+            <?php endif; ?>
         </div>
 
+        <?php
+        $about_kicker = kermancopper_get_home_setting( 'kermancopper_home_about_kicker' );
+        $about_title_highlight = kermancopper_get_home_setting( 'kermancopper_home_about_title_highlight' );
+        $about_title_rest = kermancopper_get_home_setting( 'kermancopper_home_about_title_rest' );
+        $about_description = kermancopper_get_home_setting( 'kermancopper_home_about_description' );
+        $about_mission_title = kermancopper_get_home_setting( 'kermancopper_home_about_mission_title' );
+        $about_mission_text = kermancopper_get_home_setting( 'kermancopper_home_about_mission_text' );
+        $about_vision_title = kermancopper_get_home_setting( 'kermancopper_home_about_vision_title' );
+        $about_vision_text = kermancopper_get_home_setting( 'kermancopper_home_about_vision_text' );
+        $about_button_primary_text = kermancopper_get_home_setting( 'kermancopper_home_about_button_primary_text' );
+        $about_button_primary_url = kermancopper_get_home_setting( 'kermancopper_home_about_button_primary_url' );
+        $about_button_secondary_text = kermancopper_get_home_setting( 'kermancopper_home_about_button_secondary_text' );
+        $about_button_secondary_url = kermancopper_get_home_setting( 'kermancopper_home_about_button_secondary_url' );
+        $about_pattern_image_id = absint( kermancopper_get_home_setting( 'kermancopper_home_about_pattern_image_id' ) );
+        $about_pattern_image_src = $about_pattern_image_id ? wp_get_attachment_image_url( $about_pattern_image_id, 'full' ) : '';
+        $about_main_image_id = absint( kermancopper_get_home_setting( 'kermancopper_home_about_main_image_id' ) );
+        $about_main_image_src = $about_main_image_id ? wp_get_attachment_image_url( $about_main_image_id, 'full' ) : '';
+        $about_experience_count = absint( kermancopper_get_home_setting( 'kermancopper_home_about_experience_count' ) );
+        $about_experience_label = kermancopper_get_home_setting( 'kermancopper_home_about_experience_label' );
+        ?>
         <!-- About Us -->
         <section id="about" class="py-24 bg-white overflow-hidden relative">
-             <div class="absolute right-0 top-0 bottom-0 w-1/3 opacity-30 pointer-events-none z-0 hidden md:block pattern-bg" style="background-image: url('<?php echo get_template_directory_uri(); ?>/images/patt-right.webp'); background-repeat: no-repeat; background-position: right center; background-size: contain;"></div>
+            <?php if ( $about_pattern_image_src ) : ?>
+            <div class="absolute right-0 top-0 bottom-0 w-1/3 opacity-30 pointer-events-none z-0 hidden md:block pattern-bg" style="background-image: url('<?php echo esc_url( $about_pattern_image_src ); ?>'); background-repeat: no-repeat; background-position: right center; background-size: contain;"></div>
+            <?php endif; ?>
             <div class="container mx-auto px-4 relative z-10">
                 <div class="flex flex-col md:flex-row items-center gap-16">
                     <!-- Text Content -->
                     <div class="w-full md:w-1/2 fade-in-section">
                         <div class="relative">
                             <div class="absolute -top-10 -right-10 w-40 h-40 bg-soft-gold/20 rounded-full blur-3xl"></div>
+                            <?php if ( $about_kicker ) : ?>
                             <span class="text-copper font-bold tracking-widest mb-4 block text-sm flex items-center gap-2">
-                                <span class="w-8 h-[2px] bg-copper"></span> درباره ما
+                                <span class="w-8 h-[2px] bg-copper"></span> <?php echo esc_html( $about_kicker ); ?>
                             </span>
-                            <h2 class="text-4xl font-black mb-8 leading-snug"><span class="text-copper">مس کرمان زمین</span>؛ پیشگام در صنعت استخراج</h2>
+                            <?php endif; ?>
+                            <?php if ( $about_title_highlight || $about_title_rest ) : ?>
+                            <h2 class="text-4xl font-black mb-8 leading-snug">
+                                <?php if ( $about_title_highlight ) : ?>
+                                    <span class="text-copper"><?php echo esc_html( $about_title_highlight ); ?></span>
+                                <?php endif; ?>
+                                <?php if ( $about_title_rest ) : ?>
+                                    <?php echo esc_html( ( $about_title_highlight ? ' ' : '' ) . $about_title_rest ); ?>
+                                <?php endif; ?>
+                            </h2>
+                            <?php endif; ?>
+                            <?php if ( $about_description ) : ?>
                             <p class="text-slate-600 text-lg leading-loose mb-8 text-justify">
-                                مجموعه‌ای پیشرو در ارائه خدمات جامع مهندسی و استخراج معادن در تراز جهانی است. ما با بهره‌گیری از تکنولوژی‌های هوشمند و مشارکت‌های راهبردی، به دنبال بهینه‌سازی زنجیره ارزش تولید مس هستیم.
+                                <?php echo esc_html( $about_description ); ?>
                             </p>
-                            
+                            <?php endif; ?>
+
+                            <?php if ( $about_mission_title || $about_mission_text || $about_vision_title || $about_vision_text ) : ?>
                             <!-- Mission & Vision -->
                             <div class="flex gap-8 border-t border-slate-100 pt-8 mt-8 mb-8">
+                                <?php if ( $about_mission_title || $about_mission_text ) : ?>
                                 <div class="border-r-2 border-copper pr-4">
-                                    <h4 class="font-bold text-copper mb-2 text-sm">ماموریت</h4>
-                                    <p class="text-xs text-slate-500 leading-relaxed">ارتقای سطح تکنولوژی استخراج و بومی‌سازی قطعات استراتژیک.</p>
+                                    <?php if ( $about_mission_title ) : ?>
+                                    <h4 class="font-bold text-copper mb-2 text-sm"><?php echo esc_html( $about_mission_title ); ?></h4>
+                                    <?php endif; ?>
+                                    <?php if ( $about_mission_text ) : ?>
+                                    <p class="text-xs text-slate-500 leading-relaxed"><?php echo esc_html( $about_mission_text ); ?></p>
+                                    <?php endif; ?>
                                 </div>
+                                <?php endif; ?>
+                                <?php if ( $about_vision_title || $about_vision_text ) : ?>
                                 <div class="border-r-2 border-copper pr-4">
-                                    <h4 class="font-bold text-copper mb-2 text-sm">چشم‌انداز</h4>
-                                    <p class="text-xs text-slate-500 leading-relaxed">دستیابی به رتبه نخست بهره‌وری در میان شرکت‌های معدنی منطقه.</p>
+                                    <?php if ( $about_vision_title ) : ?>
+                                    <h4 class="font-bold text-copper mb-2 text-sm"><?php echo esc_html( $about_vision_title ); ?></h4>
+                                    <?php endif; ?>
+                                    <?php if ( $about_vision_text ) : ?>
+                                    <p class="text-xs text-slate-500 leading-relaxed"><?php echo esc_html( $about_vision_text ); ?></p>
+                                    <?php endif; ?>
                                 </div>
+                                <?php endif; ?>
                             </div>
+                            <?php endif; ?>
 
+                            <?php if ( ( $about_button_primary_text && $about_button_primary_url ) || ( $about_button_secondary_text && $about_button_secondary_url ) ) : ?>
                             <div class="flex flex-wrap gap-4">
-                                <button class="group bg-white text-copper border border-copper px-8 py-3 rounded-sm font-bold flex items-center gap-2 hover:bg-[var(--color-copper)] hover:text-white transition-all shadow-lg hover:shadow-xl">
+                                <?php if ( $about_button_primary_text && $about_button_primary_url ) : ?>
+                                <a href="<?php echo esc_url( $about_button_primary_url ); ?>" class="group bg-white text-copper border border-copper px-8 py-3 rounded-sm font-bold flex items-center gap-2 hover:bg-[var(--color-copper)] hover:text-white transition-all shadow-lg hover:shadow-xl">
                                     <i data-lucide="file-text" class="w-4 h-4"></i>
-                                    مشاهده سوابق و گواهینامه‌ها
-                                </button>
-                                <button class="group flex items-center gap-2 text-sm font-bold text-slate-900 transition-all hover:text-copper border border-slate-200 px-6 py-3 rounded-sm hover:border-copper">
-                                    بیشتر بدانید <i data-lucide="arrow-left" class="w-4 h-4 transition-transform group-hover:-translate-x-1"></i>
-                                </button>
+                                    <?php echo esc_html( $about_button_primary_text ); ?>
+                                </a>
+                                <?php endif; ?>
+                                <?php if ( $about_button_secondary_text && $about_button_secondary_url ) : ?>
+                                <a href="<?php echo esc_url( $about_button_secondary_url ); ?>" class="group flex items-center gap-2 text-sm font-bold text-slate-900 transition-all hover:text-copper border border-slate-200 px-6 py-3 rounded-sm hover:border-copper">
+                                    <?php echo esc_html( $about_button_secondary_text ); ?> <i data-lucide="arrow-left" class="w-4 h-4 transition-transform group-hover:-translate-x-1"></i>
+                                </a>
+                                <?php endif; ?>
                             </div>
+                            <?php endif; ?>
                         </div>
                     </div>
-                    
+
                     <!-- Image Content -->
+                    <?php if ( $about_main_image_src ) : ?>
                     <div class="w-full md:w-1/2 fade-in-section relative">
                          <div class="relative rounded-sm overflow-hidden shadow-2xl group">
-                           <img src="<?php echo get_template_directory_uri(); ?>/images/pano sarcheshmeh.jpg" class="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-105" alt="Industrial Complex" />
+                           <img src="<?php echo esc_url( $about_main_image_src ); ?>" class="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-105" alt="<?php echo esc_attr( $about_title_highlight ? $about_title_highlight : $about_title_rest ); ?>" />
                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                           
+
+                           <?php if ( $about_experience_count || $about_experience_label ) : ?>
                            <!-- Experience Box -->
                            <div class="absolute bottom-0 right-0 bg-copper text-white p-8 md:p-10 shadow-2xl max-w-[200px] md:max-w-[250px]">
-                               <div class="text-5xl md:text-6xl font-black mb-2 flex items-center justify-center gap-1" dir="ltr">+<span id="experience-counter">0</span></div>
-                               <div class="text-sm md:text-base font-medium text-center text-white/90">سال سابقه درخشان صنعتی</div>
+                               <div class="text-5xl md:text-6xl font-black mb-2 flex items-center justify-center gap-1" dir="ltr">+<span id="experience-counter"><?php echo esc_html( $about_experience_count ); ?></span></div>
+                               <?php if ( $about_experience_label ) : ?>
+                               <div class="text-sm md:text-base font-medium text-center text-white/90"><?php echo esc_html( $about_experience_label ); ?></div>
+                               <?php endif; ?>
                            </div>
+                           <?php endif; ?>
                          </div>
                          <!-- Decorative Element -->
                          <div class="absolute -bottom-6 -left-6 w-full h-full border-2 border-slate-100 rounded-sm -z-10 hidden md:block"></div>
                     </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>
@@ -443,6 +551,92 @@
         </section>
         <?php endif; ?>
 
+        <!-- Contact Section -->
+        <section id="contact" class="pt-24 pb-[150px] bg-white relative">
+            <div class="container mx-auto px-4">
+                <div class="bg-[#0F1B2E] rounded-3xl overflow-hidden flex flex-col md:flex-row items-stretch fade-in-section px-8 py-8 md:px-12 md:py-12 shadow-[0_24px_48px_rgba(15,23,42,0.25)] max-w-6xl mx-auto">
+                    <div class="w-full md:w-1/2 bg-white rounded-2xl p-8 md:p-12 shadow-2xl ring-4 md:ring-8 ring-[#0F1B2E] relative overflow-hidden">
+                        <h3 class="text-base md:text-lg font-bold mb-6 text-slate-900 text-center">ارسال پیام سریع</h3>
+                        <form class="space-y-6" id="contact-form">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-[11px] font-bold mb-2 text-slate-500 uppercase tracking-widest">نام و نام خانوادگی</label>
+                                    <input type="text" required class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1E76FF]/30 focus:border-[#1E76FF] transition-all text-sm shadow-sm hover:border-[#1E76FF]/50" placeholder="مثلا: علی محمدی" />
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold mb-2 text-slate-500 uppercase tracking-widest">پست الکترونیک</label>
+                                    <input type="email" required class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1E76FF]/30 focus:border-[#1E76FF] transition-all text-sm shadow-sm hover:border-[#1E76FF]/50" placeholder="example@mail.com" />
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold mb-2 text-slate-500 uppercase tracking-widest">موضوع پیام</label>
+                                <div class="relative">
+                                    <select class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1E76FF]/30 focus:border-[#1E76FF] transition-all text-sm appearance-none shadow-sm hover:border-[#1E76FF]/50">
+                                        <option>سرمایه‌گذاری</option>
+                                        <option>مزایده و مناقصه</option>
+                                        <option>رسانه و اخبار</option>
+                                        <option>سایر موارد</option>
+                                    </select>
+                                    <i data-lucide="chevron-down" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-bold mb-2 text-slate-500 uppercase tracking-widest">متن پیام</label>
+                                <textarea rows="4" required class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1E76FF]/30 focus:border-[#1E76FF] transition-all text-sm shadow-sm hover:border-[#1E76FF]/50" placeholder="پیام خود را اینجا بنویسید..."></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-gradient-to-r from-[#1E76FF] to-[#2A84FF] text-white py-4 rounded-lg font-bold flex items-center justify-center gap-2 hover:to-[#3A92FF] transition-all shadow-[0_12px_24px_rgba(30,118,255,0.35)] hover:shadow-[0_16px_32px_rgba(30,118,255,0.45)] hover:-translate-y-0.5 active:translate-y-0">
+                                ارسال پیام <i data-lucide="send" class="w-[18px] h-[18px]"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="w-full md:w-1/2 text-white px-8 md:px-12 py-8 md:py-12">
+                        <h2 class="text-2xl md:text-3xl font-black mb-8">با ما در ارتباط باشید</h2>
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-copper rounded-sm flex items-center justify-center text-white flex-shrink-0"><i data-lucide="map-pin" class="w-[18px] h-[18px]"></i></div>
+                                <div>
+                                    <h4 class="font-bold mb-1 text-sm">دفتر مرکزی</h4>
+                                    <p class="text-slate-300 text-[13px] leading-relaxed">تهران، سعادت آباد، خیابان مروارید، پلاک ۸۲، ساختمان مرکزی صنایع مس</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-copper rounded-sm flex items-center justify-center text-white flex-shrink-0"><i data-lucide="phone" class="w-[18px] h-[18px]"></i></div>
+                                <div>
+                                    <h4 class="font-bold mb-1 text-sm">تلفن تماس</h4>
+                                    <p class="text-slate-300 text-[13px]" dir="ltr">+۹۸ ۲۱ ۲۸۴۲ ۰۹۰۹</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 bg-copper rounded-sm flex items-center justify-center text-white flex-shrink-0"><i data-lucide="mail" class="w-[18px] h-[18px]"></i></div>
+                                <div>
+                                    <h4 class="font-bold mb-1 text-sm">پست الکترونیک</h4>
+                                    <p class="text-slate-300 text-[13px]">info@copperindustry.co.ir</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-12 pt-12 border-t border-white/10">
+                            <h4 class="font-bold text-xs mb-6 uppercase tracking-widest text-slate-400">شبکه‌های اجتماعی</h4>
+                            <div class="flex gap-3">
+                                <a href="#" class="w-8 h-8 rounded-sm bg-white/10 border border-white/10 flex items-center justify-center hover:bg-copper hover:text-white transition-all text-slate-300">
+                                    <i data-lucide="instagram" class="w-[14px] h-[14px]"></i>
+                                </a>
+                                <a href="#" class="w-8 h-8 rounded-sm bg-white/10 border border-white/10 flex items-center justify-center hover:bg-copper hover:text-white transition-all text-slate-300">
+                                    <i data-lucide="linkedin" class="w-[14px] h-[14px]"></i>
+                                </a>
+                                <a href="#" class="w-8 h-8 rounded-sm bg-white/10 border border-white/10 flex items-center justify-center hover:bg-copper hover:text-white transition-all text-slate-300">
+                                    <i data-lucide="twitter" class="w-[14px] h-[14px]"></i>
+                                </a>
+                                <a href="#" class="w-8 h-8 rounded-sm bg-white/10 border border-white/10 flex items-center justify-center hover:bg-copper hover:text-white transition-all text-slate-300">
+                                    <i data-lucide="facebook" class="w-[14px] h-[14px]"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <?php
         $partners_kicker = kermancopper_get_home_setting( 'kermancopper_home_partners_kicker' );
         $partners_title = kermancopper_get_home_setting( 'kermancopper_home_partners_title' );
@@ -462,139 +656,89 @@
         $partners_has_items = ! empty( $partners_items );
         ?>
         <?php if ( $partners_has_items ) : ?>
-        <section id="partners" class="py-24 bg-slate-50 overflow-hidden">
+        <section id="partners-showcase" class="py-24 bg-white">
             <div class="container mx-auto px-4">
-                 <div class="text-center mb-16 fade-in-section">
-                     <?php if ( ! empty( $partners_kicker ) ) : ?>
-                        <span class="text-copper font-bold mb-2 block text-sm"><?php echo esc_html( $partners_kicker ); ?></span>
-                     <?php endif; ?>
-                     <?php if ( ! empty( $partners_title ) ) : ?>
-                        <h2 class="text-4xl font-black text-slate-900"><?php echo esc_html( $partners_title ); ?></h2>
-                     <?php endif; ?>
-                </div>
-            
-                <div class="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12 fade-in-section">
-                    <?php foreach ( $partners_items as $partner ) : ?>
-                        <?php
-                        $image_src = '';
-                        if ( ! empty( $partner['image_id'] ) ) {
-                            $image_src = wp_get_attachment_image_url( absint( $partner['image_id'] ), 'medium' );
-                        }
-                        if ( empty( $image_src ) && ! empty( $partner['image_url'] ) ) {
-                            $image_src = $partner['image_url'];
-                        }
-                        $link = ! empty( $partner['link'] ) ? $partner['link'] : '';
-                        ?>
-                        <?php if ( $link ) : ?>
-                        <a href="<?php echo esc_url( $link ); ?>" class="flex flex-col items-center gap-4 group cursor-pointer opacity-70 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300">
-                        <?php else : ?>
-                        <div class="flex flex-col items-center gap-4 group cursor-default opacity-70 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300">
-                        <?php endif; ?>
-                            <div class="w-32 h-32 bg-white rounded-full flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 group-hover:text-copper group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
-                                <?php if ( ! empty( $image_src ) ) : ?>
-                                    <img src="<?php echo esc_url( $image_src ); ?>" alt="<?php echo esc_attr( $partner['name'] ); ?>" class="w-24 h-24 object-contain opacity-80 group-hover:opacity-100">
-                                <?php endif; ?>
+                <div class="max-w-[86.4rem] mx-auto">
+                    <div class="relative z-0 rounded-[28px] bg-[#2B3446] overflow-hidden">
+                        <div class="absolute inset-0 bg-[url('<?php echo get_template_directory_uri(); ?>/images/pano sarcheshmeh.jpg')] bg-cover bg-center opacity-25"></div>
+                        <div class="absolute inset-0 bg-[#2B3446]/90"></div>
+                        <div class="relative z-10 flex flex-col md:flex-row items-center gap-10 px-10 pt-16 pb-40 md:px-14 md:pt-20 md:pb-48 text-white">
+                            <div class="w-full md:w-2/3">
+                                <h2 class="text-2xl md:text-3xl font-black mb-5">تماس با ما</h2>
+                                <form class="grid grid-cols-1 md:grid-cols-2 gap-2 text-right">
+                                    <div class="md:col-span-1">
+                                        <label class="block text-xs text-slate-200 mb-1">نام و نام خانوادگی</label>
+                                        <input type="text" class="w-full h-11 rounded-lg border border-[color:var(--color-copper)] bg-transparent px-4 text-sm text-white placeholder:text-slate-300 focus:outline-none focus:border-[color:var(--color-copper)]" placeholder="نام و نام خانوادگی" />
+                                    </div>
+                                    <div class="md:col-span-1">
+                                        <label class="block text-xs text-slate-200 mb-1">پست الکترونیک</label>
+                                        <input type="email" class="w-full h-11 rounded-lg border border-[color:var(--color-copper)] bg-transparent px-4 text-sm text-white placeholder:text-slate-300 focus:outline-none focus:border-[color:var(--color-copper)]" placeholder="example@email.com" />
+                                    </div>
+                                    <div class="md:col-span-2">
+                                        <label class="block text-xs text-slate-200 mb-1">موضوع پیام</label>
+                                        <input type="text" class="w-full h-11 rounded-lg border border-[color:var(--color-copper)] bg-transparent px-4 text-sm text-white placeholder:text-slate-300 focus:outline-none focus:border-[color:var(--color-copper)]" placeholder="موضوع پیام" />
+                                    </div>
+                                    <div class="md:col-span-2">
+                                        <label class="block text-xs text-slate-200 mb-1">متن پیام</label>
+                                        <textarea rows="3" class="w-full rounded-lg border border-[color:var(--color-copper)] bg-transparent px-4 py-3 text-sm text-white placeholder:text-slate-300 focus:outline-none focus:border-[color:var(--color-copper)]" placeholder="متن پیام شما"></textarea>
+                                    </div>
+                                    <div class="md:col-span-2">
+                                        <button type="submit" class="w-full md:w-auto h-11 px-6 rounded-lg bg-[color:var(--color-copper)] hover:brightness-110 text-white font-bold transition-all">
+                                            ارسال پیام
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
-                            <?php if ( ! empty( $partner['name'] ) ) : ?>
-                                <h4 class="font-bold text-slate-700 group-hover:text-copper transition-colors"><?php echo esc_html( $partner['name'] ); ?></h4>
-                            <?php endif; ?>
-                        <?php if ( $link ) : ?>
-                        </a>
-                        <?php else : ?>
+                            <div class="w-full md:w-1/3 flex justify-center">
+                                <div class="bg-white rounded-[22px] p-2 shadow-[0_18px_36px_rgba(15,23,42,0.2)]">
+                                    <img src="<?php echo get_template_directory_uri(); ?>/images/pano sarcheshmeh.jpg" alt="Company" class="w-[220px] h-[220px] md:w-[240px] md:h-[240px] object-cover rounded-[18px]" />
+                                </div>
+                            </div>
                         </div>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
+                    </div>
+                    <div class="relative z-20 w-[103%] max-w-[76.8rem] mx-auto -mt-24 md:-mt-28 rounded-[20px] bg-white border border-[#EEF2F7] shadow-[0_16px_32px_rgba(15,23,42,0.12),0_2px_6px_rgba(15,23,42,0.06)] px-8 py-4">
+                        <div class="text-center mb-3">
+                            <?php if ( ! empty( $partners_title ) ) : ?>
+                                <h3 class="text-base md:text-lg font-bold text-slate-800"><?php echo esc_html( $partners_title ); ?></h3>
+                            <?php endif; ?>
+                        </div>
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-14">
+                        <?php foreach ( $partners_items as $partner ) : ?>
+                            <?php
+                            $image_src = '';
+                            if ( ! empty( $partner['image_id'] ) ) {
+                                $image_src = wp_get_attachment_image_url( absint( $partner['image_id'] ), 'medium' );
+                            }
+                            if ( empty( $image_src ) && ! empty( $partner['image_url'] ) ) {
+                                $image_src = $partner['image_url'];
+                            }
+                            $link = ! empty( $partner['link'] ) ? $partner['link'] : '';
+                            ?>
+                            <?php if ( $link ) : ?>
+                            <a href="<?php echo esc_url( $link ); ?>" class="flex flex-col items-center gap-2 group cursor-pointer opacity-70 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300">
+                            <?php else : ?>
+                            <div class="flex flex-col items-center gap-2 group cursor-default opacity-70 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300">
+                            <?php endif; ?>
+                                <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center text-slate-300 shadow-sm border border-slate-100 group-hover:text-[color:var(--color-copper)] group-hover:shadow-xl group-hover:scale-105 transition-all duration-300">
+                                    <?php if ( ! empty( $image_src ) ) : ?>
+                                        <img src="<?php echo esc_url( $image_src ); ?>" alt="<?php echo esc_attr( $partner['name'] ); ?>" class="w-16 h-16 object-contain opacity-80 group-hover:opacity-100">
+                                    <?php endif; ?>
+                                </div>
+                                <?php if ( ! empty( $partner['name'] ) ) : ?>
+                                    <h4 class="font-bold text-[12px] leading-5 text-slate-700 group-hover:text-[color:var(--color-copper)] transition-colors text-center"><?php echo esc_html( $partner['name'] ); ?></h4>
+                                <?php endif; ?>
+                            <?php if ( $link ) : ?>
+                            </a>
+                            <?php else : ?>
+                            </div>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
         <?php endif; ?>
-
-        <!-- Contact Section -->
-        <section id="contact" class="py-24 bg-white">
-            <div class="container mx-auto px-4">
-                <div class="bg-slate-900 rounded-sm overflow-hidden flex flex-col md:flex-row fade-in-section">
-                    <div class="w-full md:w-1/2 p-12 md:p-20 text-white">
-                        <h2 class="text-3xl font-black mb-8">با ما در ارتباط باشید</h2>
-                        <div class="space-y-8">
-                            <div class="flex items-start gap-4">
-                                <div class="w-10 h-10 bg-white/5 rounded-sm flex items-center justify-center text-copper flex-shrink-0"><i data-lucide="map-pin" class="w-[20px] h-[20px]"></i></div>
-                                <div>
-                                    <h4 class="font-bold mb-1 text-sm">دفتر مرکزی</h4>
-                                    <p class="text-slate-400 text-[13px] leading-relaxed">تهران، سعادت آباد، خیابان مروارید، پلاک ۸۲، ساختمان مرکزی صنایع مس</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-4">
-                                <div class="w-10 h-10 bg-white/5 rounded-sm flex items-center justify-center text-copper flex-shrink-0"><i data-lucide="phone" class="w-[20px] h-[20px]"></i></div>
-                                <div>
-                                    <h4 class="font-bold mb-1 text-sm">تلفن تماس</h4>
-                                    <p class="text-slate-400 text-[13px]" dir="ltr">+۹۸ ۲۱ ۲۸۴۲ ۰۹۰۹</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-4">
-                                <div class="w-10 h-10 bg-white/5 rounded-sm flex items-center justify-center text-copper flex-shrink-0"><i data-lucide="mail" class="w-[20px] h-[20px]"></i></div>
-                                <div>
-                                    <h4 class="font-bold mb-1 text-sm">پست الکترونیک</h4>
-                                    <p class="text-slate-400 text-[13px]">info@copperindustry.co.ir</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-16 pt-16 border-t border-white/5">
-                            <h4 class="font-bold text-xs mb-6 uppercase tracking-widest text-slate-500">شبکه‌های اجتماعی</h4>
-                            <div class="flex gap-4">
-                                <a href="#" class="w-10 h-10 rounded-sm border border-white/10 flex items-center justify-center hover:bg-copper hover:text-white transition-all text-slate-400">
-                                    <i data-lucide="instagram" class="w-[18px] h-[18px]"></i>
-                                </a>
-                                <a href="#" class="w-10 h-10 rounded-sm border border-white/10 flex items-center justify-center hover:bg-copper hover:text-white transition-all text-slate-400">
-                                    <i data-lucide="linkedin" class="w-[18px] h-[18px]"></i>
-                                </a>
-                                <a href="#" class="w-10 h-10 rounded-sm border border-white/10 flex items-center justify-center hover:bg-copper hover:text-white transition-all text-slate-400">
-                                    <i data-lucide="twitter" class="w-[18px] h-[18px]"></i>
-                                </a>
-                                <a href="#" class="w-10 h-10 rounded-sm border border-white/10 flex items-center justify-center hover:bg-copper hover:text-white transition-all text-slate-400">
-                                    <i data-lucide="facebook" class="w-[18px] h-[18px]"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="w-full md:w-1/2 bg-white m-4 rounded-2xl p-12 shadow-2xl border border-slate-100/50 relative overflow-hidden">
-                         <div class="absolute top-0 right-0 w-32 h-32 bg-copper/5 rounded-bl-full -mr-16 -mt-16 pointer-events-none"></div>
-                        <h3 class="text-xl font-bold mb-8 text-slate-900 border-r-4 border-copper pr-4">ارسال پیام سریع</h3>
-                        <form class="space-y-6" id="contact-form">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="block text-[11px] font-bold mb-2 text-slate-500 uppercase tracking-tighter">نام و نام خانوادگی</label>
-                                    <input type="text" required class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-copper/20 focus:border-copper transition-all text-sm shadow-sm hover:border-copper/50" placeholder="مثلا: علی محمدی" />
-                                </div>
-                                <div>
-                                    <label class="block text-[11px] font-bold mb-2 text-slate-500 uppercase tracking-tighter">پست الکترونیک</label>
-                                    <input type="email" required class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-copper/20 focus:border-copper transition-all text-sm shadow-sm hover:border-copper/50" placeholder="example@mail.com" />
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold mb-2 text-slate-500 uppercase tracking-tighter">موضوع پیام</label>
-                                <div class="relative">
-                                    <select class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-copper/20 focus:border-copper transition-all text-sm appearance-none shadow-sm hover:border-copper/50">
-                                        <option>سرمایه‌گذاری</option>
-                                        <option>مزایده و مناقصه</option>
-                                        <option>رسانه و اخبار</option>
-                                        <option>سایر موارد</option>
-                                    </select>
-                                    <i data-lucide="chevron-down" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none"></i>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold mb-2 text-slate-500 uppercase tracking-tighter">متن پیام</label>
-                                <textarea rows="4" required class="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-copper/20 focus:border-copper transition-all text-sm shadow-sm hover:border-copper/50" placeholder="پیام خود را اینجا بنویسید..."></textarea>
-                            </div>
-                            <button type="submit" class="w-full bg-copper text-white py-4 rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-copper/90 transition-all shadow-lg shadow-copper/30 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0">
-                                ارسال پیام <i data-lucide="send" class="w-[18px] h-[18px]"></i>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section>
 
     </main>
 
