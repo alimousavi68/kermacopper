@@ -7,16 +7,7 @@
                 <div class="col-span-1 md:col-span-1">
                     <?php if ( is_active_sidebar( 'footer-1' ) ) : ?>
                         <?php dynamic_sidebar( 'footer-1' ); ?>
-                    <?php else : ?>
-                        <!-- Fallback Content -->
-                        <div class="flex flex-col items-center text-center">
-                            <div class="mb-6">
-                                <img src="<?php echo get_template_directory_uri(); ?>/images/sbsm-logo-3.png" alt="Logo" class="h-16 w-auto object-contain">
-                            </div>
-                            <p class="text-slate-500 text-xs leading-relaxed mb-8 max-w-xs">
-                                پیشرو در صنعت استخراج و فرآوری مس، متعهد به پایداری، نوآوری و شکوفایی اقتصادی کشور عزیزمان ایران.
-                            </p>
-                        </div>
+                    
                     <?php endif; ?>
                 </div>
 
@@ -26,14 +17,7 @@
                         <div class="footer-widget-area">
                             <?php dynamic_sidebar( 'footer-2' ); ?>
                         </div>
-                    <?php else : ?>
-                         <h4 class="font-bold text-slate-900 mb-6 text-sm border-r-2 border-copper pr-2">دسترسی سریع</h4>
-                        <ul class="space-y-4 text-slate-500 text-xs">
-                            <li><a href="#" class="hover:text-copper transition-colors">صفحه اصلی</a></li>
-                            <li><a href="#" class="hover:text-copper transition-colors">اخبار و رویدادها</a></li>
-                            <li><a href="#" class="hover:text-copper transition-colors">مزایدات و مناقصات</a></li>
-                            <li><a href="#" class="hover:text-copper transition-colors">سرمایه‌گذاران</a></li>
-                        </ul>
+                   
                     <?php endif; ?>
                 </div>
 
@@ -43,14 +27,7 @@
                         <div class="footer-widget-area">
                             <?php dynamic_sidebar( 'footer-3' ); ?>
                         </div>
-                    <?php else : ?>
-                        <h4 class="font-bold text-slate-900 mb-6 text-sm border-r-2 border-copper pr-2">بخش‌های شرکت</h4>
-                        <ul class="space-y-4 text-slate-500 text-xs">
-                            <li><a href="#" class="hover:text-copper transition-colors">واحد تحقیق و توسعه</a></li>
-                            <li><a href="#" class="hover:text-copper transition-colors">مدیریت محیط زیست</a></li>
-                            <li><a href="#" class="hover:text-copper transition-colors">فرصت‌های شغلی</a></li>
-                            <li><a href="#" class="hover:text-copper transition-colors">تماس با ما</a></li>
-                        </ul>
+
                     <?php endif; ?>
                 </div>
 
@@ -60,22 +37,7 @@
                         <div class="footer-widget-area">
                             <?php dynamic_sidebar( 'footer-4' ); ?>
                         </div>
-                    <?php else : ?>
-                        <h4 class="font-bold text-slate-900 mb-6 text-sm border-r-2 border-copper pr-2">ارتباط با ما</h4>
-                        <ul class="space-y-4 text-slate-500 text-xs">
-                            <li class="flex items-start gap-3">
-                                <i data-lucide="map-pin" class="w-4 h-4 text-copper shrink-0 mt-1"></i>
-                                <span>تهران، سعادت آباد، خیابان مروارید، پلاک ۱۲</span>
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <i data-lucide="phone" class="w-4 h-4 text-copper shrink-0"></i>
-                                <span dir="ltr">+98 21 8888 1234</span>
-                            </li>
-                            <li class="flex items-center gap-3">
-                                <i data-lucide="mail" class="w-4 h-4 text-copper shrink-0"></i>
-                                <span>info@copperindustry.com</span>
-                            </li>
-                        </ul>
+                  
                     <?php endif; ?>
 
                     <?php if ( get_theme_mod( 'kermancopper_show_social', true ) ) : ?>
@@ -104,8 +66,8 @@
                     <?php endif; ?>
                 </div>
             </div>
-            <div class="border-t border-slate-100 py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] text-slate-400 font-medium">
-                <p><?php echo wp_kses_post( get_theme_mod( 'kermancopper_copyright_text', '© ۱۴۰۲ کلیه حقوق مادی و معنوی این سایت متعلق به شرکت صنایع مس می‌باشد.' ) ); ?></p>
+            <div class="container border-t border-slate-100 py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] text-slate-400 font-medium">
+                <p><?php echo wp_kses_post( get_theme_mod( 'kermancopper_copyright_text','' ) ); ?></p>
                 <div class="flex gap-6">
                     <span class="text-slate-500">طراحی و توسعه : <a href="https://ihasht.ir/" target="_blank" class="hover:text-copper transition-colors">هشت بهشت</a></span>
                 </div>

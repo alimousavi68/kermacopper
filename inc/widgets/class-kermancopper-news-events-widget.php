@@ -154,7 +154,7 @@ class KermanCopper_News_Events_Widget extends WP_Widget {
                 $featured_excerpt = wp_trim_words( get_the_excerpt( $featured_id ), 28, '...' );
                 $featured_date = $show_date ? $this->get_date_label( $featured_id, $date_format ) : '';
 
-                echo '<article class="lg:col-span-2 group relative rounded-sm overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 h-[460px]">';
+                echo '<article class="lg:col-span-2 group relative rounded-lg overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 h-[460px]">';
                 echo '<a href="' . esc_url( get_permalink( $featured_id ) ) . '" class="absolute inset-0">';
                 if ( $featured_thumb ) {
                     echo '<img src="' . esc_url( $featured_thumb ) . '" alt="' . esc_attr( get_the_title( $featured_id ) ) . '" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">';
@@ -187,14 +187,14 @@ class KermanCopper_News_Events_Widget extends WP_Widget {
                 $side_thumb = get_the_post_thumbnail_url( $side_id, 'medium' );
                 $side_date = $show_date ? $this->get_date_label( $side_id, $date_format ) : '';
 
-                echo '<article class="group bg-slate-50 rounded-sm p-4 flex gap-4 transition-all hover:bg-white hover:shadow-xl border border-slate-100">';
+                echo '<article class="group bg-slate-50 rounded-lg p-4 flex gap-4 transition-all hover:bg-white hover:shadow-xl border border-slate-100">';
                 echo '<a href="' . esc_url( get_permalink( $side_id ) ) . '" class="flex gap-4 w-full">';
-                echo '<div class="w-28 h-28 sm:w-32 sm:h-32 rounded-sm overflow-hidden flex-shrink-0 relative">';
+                echo '<div class="w-28 h-28 sm:w-32 sm:h-32 rounded-lg overflow-hidden flex-shrink-0 relative">';
                 if ( $side_thumb ) {
                     echo '<img src="' . esc_url( $side_thumb ) . '" alt="' . esc_attr( get_the_title( $side_id ) ) . '" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">';
                 } else {
                     echo '<div class="w-full h-full bg-white flex items-center justify-center text-slate-300">';
-                    echo '<i data-lucide="image" class="w-6 h-6"></i>';
+                    echo '<i data-lucide="image" class="w-6 h-6"></i>2222';
                     echo '</div>';
                 }
                 echo '</div>';
@@ -221,7 +221,7 @@ class KermanCopper_News_Events_Widget extends WP_Widget {
                 $excerpt = wp_trim_words( get_the_excerpt( $post_id ), 18, '...' );
                 $date_label = $show_date ? $this->get_date_label( $post_id, $date_format ) : '';
 
-                echo '<article class="group min-w-[260px] sm:min-w-[320px] lg:min-w-[360px] snap-start rounded-sm overflow-hidden border border-slate-100 bg-white shadow-sm hover:shadow-xl transition-all">';
+                echo '<article class="group min-w-[260px] sm:min-w-[320px] lg:min-w-[360px] snap-start rounded-lg overflow-hidden border border-slate-100 bg-white shadow-sm hover:shadow-xl transition-all">';
                 echo '<a href="' . esc_url( get_permalink( $post_id ) ) . '" class="block">';
                 echo '<div class="relative h-48 overflow-hidden bg-slate-100">';
                 if ( $thumb ) {
@@ -233,7 +233,7 @@ class KermanCopper_News_Events_Widget extends WP_Widget {
                 }
                 echo '<div class="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent opacity-70"></div>';
                 if ( $show_date ) {
-                    echo '<span class="absolute top-3 right-3 bg-white/90 text-slate-700 text-[10px] font-bold px-2 py-1 rounded-sm">' . esc_html( $date_label ) . '</span>';
+                    echo '<span class="absolute top-3 right-3 bg-white/90 text-slate-700 text-[10px] font-bold px-2 py-1 rounded-lg">' . esc_html( $date_label ) . '</span>';
                 }
                 echo '</div>';
                 echo '<div class="p-5 flex flex-col gap-3">';
@@ -257,8 +257,8 @@ class KermanCopper_News_Events_Widget extends WP_Widget {
                 $date_label = $show_date ? $this->get_date_label( $post_id, $date_format ) : '';
                 $number = str_pad( (string) ( $index + 1 ), 2, '0', STR_PAD_LEFT );
 
-                echo '<article class="group bg-white border border-slate-100 rounded-sm p-4 sm:p-5 flex flex-col md:flex-row gap-5 hover:shadow-xl transition-all">';
-                echo '<a href="' . esc_url( get_permalink( $post_id ) ) . '" class="md:w-56 w-full h-40 rounded-sm overflow-hidden bg-slate-100 flex-shrink-0">';
+                echo '<article class="group bg-white border border-slate-100 rounded-lg p-4 sm:p-5 flex flex-col md:flex-row gap-5 hover:shadow-xl transition-all">';
+                echo '<a href="' . esc_url( get_permalink( $post_id ) ) . '" class="md:w-56 w-full h-40 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0">';
                 if ( $thumb ) {
                     echo '<img src="' . esc_url( $thumb ) . '" alt="' . esc_attr( get_the_title( $post_id ) ) . '" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">';
                 } else {
@@ -291,7 +291,7 @@ class KermanCopper_News_Events_Widget extends WP_Widget {
                 $thumb = get_the_post_thumbnail_url( $post_id, 'large' );
                 $excerpt = wp_trim_words( get_the_excerpt( $post_id ), 18, '...' );
                 $date_label = $show_date ? $this->get_date_label( $post_id, $date_format ) : '';
-                $wrapper_classes = 'group overflow-hidden rounded-sm border border-slate-100 bg-white transition-all duration-300';
+                $wrapper_classes = 'group overflow-hidden rounded-lg border border-slate-100 bg-white transition-all duration-300';
                 if ( $style === 'bento' ) {
                     if ( $index === 0 ) {
                         $wrapper_classes .= ' md:col-span-4 md:row-span-2 shadow-md hover:shadow-2xl';

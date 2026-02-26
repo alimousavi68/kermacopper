@@ -59,4 +59,48 @@ jQuery(function($){
     if (window.jalaliDatepicker) {
         window.jalaliDatepicker.startWatch();
     }
+    var drawer = $('#kermancopper-requests-drawer');
+    if (drawer.length) {
+        var drawerBody = drawer.find('.kermancopper-requests-drawer-body');
+        function closeDrawer() {
+            drawer.removeClass('is-open').attr('aria-hidden', 'true');
+        }
+        function openDrawer(requestId, row) {
+            drawerBody.html('<div class="kermancopper-requests-loading">در حال بارگذاری...</div>');
+            drawer.addClass('is-open').attr('aria-hidden', 'false');
+            $.post(strings.ajaxUrl, {
+                action: 'kermancopper_ad_request_detail',
+                request_id: requestId,
+                nonce: strings.requestNonce
+            }).done(function(response){
+                if (response && response.success && response.data && response.data.html) {
+                    drawerBody.html(response.data.html);
+                    if (row) {
+                        row.removeClass('kermancopper-requests-new');
+                    }
+                    var badge = $('#adminmenu a[href="edit.php?post_type=kermancopper_ad&page=kermancopper-ad-requests"] .update-plugins .plugin-count');
+                    if (badge.length) {
+                        var count = parseInt(badge.text(), 10) || 0;
+                        if (count > 0) {
+                            badge.text(count - 1);
+                        }
+                    }
+                } else {
+                    drawerBody.html('<div class="kermancopper-requests-empty">جزئیات در دسترس نیست.</div>');
+                }
+            }).fail(function(){
+                drawerBody.html('<div class="kermancopper-requests-empty">جزئیات در دسترس نیست.</div>');
+            });
+        }
+        $(document).on('click', '.kermancopper-requests-open', function(){
+            var requestId = $(this).data('request-id');
+            var row = $(this).closest('tr');
+            if (requestId) {
+                openDrawer(requestId, row);
+            }
+        });
+        drawer.on('click', '.kermancopper-requests-drawer-backdrop, .kermancopper-requests-drawer-close', function(){
+            closeDrawer();
+        });
+    }
 });

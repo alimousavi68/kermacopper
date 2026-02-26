@@ -131,45 +131,74 @@
     <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
+<?php
+$is_home = is_front_page();
+$header_position_class = $is_home ? 'absolute' : 'relative';
+$top_bar_classes = $is_home ? 'bg-transparent border-white/10 text-white/80' : 'bg-white border-slate-100 text-slate-500';
+$nav_bg_classes = $is_home ? 'bg-transparent' : 'bg-white';
+$nav_text_classes = $is_home ? 'text-white/90' : 'text-slate-600';
+$icon_button_classes = $is_home ? 'text-white hover:bg-white/10' : 'text-slate-900 hover:bg-slate-50';
+$mobile_button_classes = $is_home ? 'text-white hover:bg-white/10' : 'text-slate-900 hover:bg-slate-50';
+$separator_classes = $is_home ? 'text-white/30' : 'text-slate-200';
+$social_icon_classes = $is_home ? 'text-white/70 hover:text-white' : 'text-slate-400/80 hover:text-copper';
+$lang_active_classes = $is_home ? 'text-white' : 'text-copper';
+$lang_hover_classes = $is_home ? 'hover:text-white' : 'hover:text-copper';
+$icon_color_classes = $is_home ? 'text-white' : 'text-copper';
+$border_social_classes = $is_home ? 'sm:border-white/15' : 'sm:border-slate-200';
+$border_lang_classes = $is_home ? 'sm:border-white/15' : 'sm:border-slate-200';
+$underline_classes = $is_home ? 'bg-white/70' : 'bg-copper';
+$topbar_link_hover = $is_home ? 'hover:text-white' : 'hover:text-copper';
+$topbar_address = trim( (string) get_theme_mod( 'kermancopper_address', '' ) );
+$topbar_email = trim( (string) get_theme_mod( 'kermancopper_email', '' ) );
+$topbar_phone = trim( (string) get_theme_mod( 'kermancopper_phone', '' ) );
+?>
 
     <!-- Header -->
-    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <header id="main-header" class="<?php echo esc_attr( $header_position_class ); ?> top-0 left-0 right-0 z-50 transition-all duration-300">
         <?php if ( get_theme_mod( 'kermancopper_show_topbar', true ) ) : ?>
         <!-- Top Bar -->
-        <div id="top-bar" class="bg-white border-b border-slate-100 transition-all duration-300 overflow-hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 md:py-0 min-h-[40px] flex flex-col md:flex-row md:justify-between md:items-center gap-2 text-[11px] font-medium text-slate-500">
+        <div id="top-bar" class="<?php echo esc_attr( $top_bar_classes ); ?> border-b transition-all duration-300 overflow-hidden hidden md:block">
+            <div class="container mx-auto  py-2 md:py-0 min-h-[40px] flex flex-col md:flex-row md:justify-between md:items-center gap-2 text-[11px] font-medium">
                 <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
-                    <div class="flex items-center gap-2">
-                        <i data-lucide="map-pin" class="w-[10px] h-[10px] text-copper"></i>
-                        <span><?php echo esc_html( get_theme_mod( 'kermancopper_address', 'تهران، سعادت آباد، خیابان مروارید ۲۶۴۹' ) ); ?></span>
-                    </div>
-                    <div class="flex items-center gap-2 sm:border-r border-slate-200 sm:pr-6 sm:mr-6">
-                        <i data-lucide="mail" class="w-[10px] h-[10px] text-copper"></i>
-                        <span><?php echo esc_html( get_theme_mod( 'kermancopper_email', 'info@copperindustry.com' ) ); ?></span>
-                    </div>
+                    <?php if ( $topbar_address ) : ?>
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="map-pin" class="w-[10px] h-[10px] <?php echo esc_attr( $icon_color_classes ); ?>"></i>
+                            <span><?php echo esc_html( $topbar_address ); ?></span>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ( $topbar_email ) : ?>
+                        <div class="flex items-center gap-2 sm:border-r <?php echo esc_attr( $border_social_classes ); ?> sm:pr-6 sm:mr-6">
+                            <i data-lucide="mail" class="w-[10px] h-[10px] <?php echo esc_attr( $icon_color_classes ); ?>"></i>
+                            <a href="mailto:<?php echo esc_attr( $topbar_email ); ?>" class="transition-colors <?php echo esc_attr( $topbar_link_hover ); ?>"><?php echo esc_html( $topbar_email ); ?></a>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ( $topbar_phone ) : ?>
+                        <div class="flex items-center gap-2 sm:border-r <?php echo esc_attr( $border_social_classes ); ?> sm:pr-6 sm:mr-6">
+                            <i data-lucide="phone" class="w-[10px] h-[10px] <?php echo esc_attr( $icon_color_classes ); ?>"></i>
+                            <a href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', $topbar_phone ) ); ?>" class="transition-colors <?php echo esc_attr( $topbar_link_hover ); ?>"><?php echo esc_html( $topbar_phone ); ?></a>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 
                 <div class="flex items-center justify-between gap-4">
-                    <div class="flex items-center gap-3 sm:border-l border-slate-200 sm:pl-4 sm:ml-2">
+                    <div class="flex items-center gap-3 sm:border-l <?php echo esc_attr( $border_lang_classes ); ?> sm:pl-4 sm:ml-2">
                         <?php if ( $instagram = get_theme_mod( 'kermancopper_social_instagram' ) ) : ?>
-                            <a href="<?php echo esc_url( $instagram ); ?>" target="_blank"><i data-lucide="instagram" class="w-[14px] h-[14px] cursor-pointer text-slate-400/80 hover:text-copper transition-colors"></i></a>
+                            <a href="<?php echo esc_url( $instagram ); ?>" target="_blank"><i data-lucide="instagram" class="w-[14px] h-[14px] cursor-pointer <?php echo esc_attr( $social_icon_classes ); ?> transition-colors"></i></a>
                         <?php endif; ?>
                         <?php if ( $linkedin = get_theme_mod( 'kermancopper_social_linkedin' ) ) : ?>
-                            <a href="<?php echo esc_url( $linkedin ); ?>" target="_blank"><i data-lucide="linkedin" class="w-[14px] h-[14px] cursor-pointer text-slate-400/80 hover:text-copper transition-colors"></i></a>
+                            <a href="<?php echo esc_url( $linkedin ); ?>" target="_blank"><i data-lucide="linkedin" class="w-[14px] h-[14px] cursor-pointer <?php echo esc_attr( $social_icon_classes ); ?> transition-colors"></i></a>
                         <?php endif; ?>
                         <?php if ( $twitter = get_theme_mod( 'kermancopper_social_twitter' ) ) : ?>
-                            <a href="<?php echo esc_url( $twitter ); ?>" target="_blank"><i data-lucide="twitter" class="w-[14px] h-[14px] cursor-pointer text-slate-400/80 hover:text-copper transition-colors"></i></a>
+                            <a href="<?php echo esc_url( $twitter ); ?>" target="_blank"><i data-lucide="twitter" class="w-[14px] h-[14px] cursor-pointer <?php echo esc_attr( $social_icon_classes ); ?> transition-colors"></i></a>
                         <?php endif; ?>
                         <?php if ( $facebook = get_theme_mod( 'kermancopper_social_facebook' ) ) : ?>
-                            <a href="<?php echo esc_url( $facebook ); ?>" target="_blank"><i data-lucide="facebook" class="w-[14px] h-[14px] cursor-pointer text-slate-400/80 hover:text-copper transition-colors"></i></a>
+                            <a href="<?php echo esc_url( $facebook ); ?>" target="_blank"><i data-lucide="facebook" class="w-[14px] h-[14px] cursor-pointer <?php echo esc_attr( $social_icon_classes ); ?> transition-colors"></i></a>
                         <?php endif; ?>
                     </div>
                     <div class="flex items-center gap-3">
-                        <span class="text-copper font-bold cursor-default">Fa</span>
-                        <span class="text-slate-300">|</span>
-                        <span class="cursor-pointer hover:text-copper transition-colors">Ar</span>
-                        <span class="text-slate-300">|</span>
-                        <span class="cursor-pointer hover:text-copper transition-colors">En</span>
+                        <span class="<?php echo esc_attr( $lang_active_classes ); ?> font-bold cursor-default">Fa</span>
+                        <span class="<?php echo esc_attr( $separator_classes ); ?>">|</span>
+                        <span class="cursor-pointer <?php echo esc_attr( $lang_hover_classes ); ?> transition-colors">En</span>
                     </div>
                 </div>
             </div>
@@ -177,8 +206,8 @@
         <?php endif; ?>
 
         <!-- Main Navigation -->
-        <nav id="main-nav" class="w-full transition-all duration-300 bg-white py-3">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav id="main-nav" class="w-full transition-all duration-300 <?php echo esc_attr( $nav_bg_classes ); ?> py-3">
+            <div class="container mx-auto ">
                 <div class="flex justify-between items-center h-16 sm:h-20">
                     
                     <!-- Logo Section -->
@@ -188,18 +217,14 @@
                             $custom_logo_id = get_theme_mod( 'custom_logo' );
                             $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );
                             if ( has_custom_logo() ) {
-                                echo '<a href="' . esc_url( home_url( '/' ) ) . '"><img src="' . esc_url( $logo[0] ) . '" class="h-[68px] w-auto object-contain" alt="' . get_bloginfo( 'name' ) . '"></a>';
+                                echo '<a href="' . esc_url( home_url( '/' ) ) . '"><img src="' . esc_url( $logo[0] ) . '" class="h-[80px] w-auto object-contain" alt="' . get_bloginfo( 'name' ) . '"></a>';
                             }
                             ?>
-                        <?php else : ?>
-                            <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
-                                <img src="<?php echo get_template_directory_uri(); ?>/images/sbsm-logo-3.png" alt="Copper Industry Logo" class="h-[68px] w-auto object-contain">
-                            </a>
                         <?php endif; ?>
                     </div>
 
                     <!-- Desktop Menu -->
-                    <div class="hidden lg:flex items-center gap-8 xl:gap-12 text-[14px] font-normal text-slate-600">
+                    <div class="hidden lg:flex items-center gap-8 xl:gap-12 text-[14px] font-normal <?php echo esc_attr( $nav_text_classes ); ?>">
                         <?php
                         if ( has_nav_menu( 'primary' ) ) {
                             wp_nav_menu( array(
@@ -213,18 +238,18 @@
                             ?>
                             <!-- Static Menu (Fallback) -->
                             <div class="relative group py-4">
-                                <a href="#" class="nav-link flex items-center gap-1 transition-colors duration-200 text-copper" data-target="home">
+                                <a href="#" class="nav-link flex items-center gap-1 transition-colors duration-200 <?php echo esc_attr( $is_home ? 'text-white' : 'text-copper' ); ?>" data-target="home">
                                     صفحه اصلی
                                 </a>
-                                <div class="nav-underline absolute bottom-1 left-1/2 -translate-x-1/2 h-[2.5px] bg-copper w-1/2 rounded-full transition-all duration-300 opacity-100"></div>
+                                <div class="nav-underline absolute bottom-1 left-1/2 -translate-x-1/2 h-[2.5px] <?php echo esc_attr( $underline_classes ); ?> w-1/2 rounded-full transition-all duration-300 opacity-100"></div>
                             </div>
-                            <span class="text-slate-200">|</span>
+                            <span class="<?php echo esc_attr( $separator_classes ); ?>">|</span>
                             <div class="relative group py-4">
-                                <a href="#ads" class="nav-link flex items-center gap-1 transition-colors duration-200 hover:text-copper" data-target="ads">
+                                <a href="#ads" class="nav-link flex items-center gap-1 transition-colors duration-200 <?php echo esc_attr( $is_home ? 'hover:text-white' : 'hover:text-copper' ); ?>" data-target="ads">
                                     آگهی ها
                                     <i data-lucide="chevron-down" class="w-2.5 h-2.5 opacity-50"></i>
                                 </a>
-                                <div class="nav-underline absolute bottom-1 left-1/2 -translate-x-1/2 h-[2.5px] bg-copper w-1/2 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
+                                <div class="nav-underline absolute bottom-1 left-1/2 -translate-x-1/2 h-[2.5px] <?php echo esc_attr( $underline_classes ); ?> w-1/2 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
                                 <!-- Dropdown -->
                                 <div id="ads-dropdown" class="absolute right-0 top-full mt-0 w-56 bg-[#c86429] text-white shadow-xl z-[100] rounded-sm">
                                     <div class="py-1">
@@ -233,26 +258,26 @@
                                     </div>
                                 </div>
                             </div>
-                            <span class="text-slate-200">|</span>
+                            <span class="<?php echo esc_attr( $separator_classes ); ?>">|</span>
                             <div class="relative group py-4">
-                                <a href="#news" class="nav-link flex items-center gap-1 transition-colors duration-200 hover:text-copper" data-target="news">
+                                <a href="#news" class="nav-link flex items-center gap-1 transition-colors duration-200 <?php echo esc_attr( $is_home ? 'hover:text-white' : 'hover:text-copper' ); ?>" data-target="news">
                                     اخبار و رویداد ها
                                 </a>
-                                <div class="nav-underline absolute bottom-1 left-1/2 -translate-x-1/2 h-[2.5px] bg-copper w-1/2 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
+                                <div class="nav-underline absolute bottom-1 left-1/2 -translate-x-1/2 h-[2.5px] <?php echo esc_attr( $underline_classes ); ?> w-1/2 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
                             </div>
-                            <span class="text-slate-200">|</span>
+                            <span class="<?php echo esc_attr( $separator_classes ); ?>">|</span>
                             <div class="relative group py-4">
-                                <a href="#about" class="nav-link flex items-center gap-1 transition-colors duration-200 hover:text-copper" data-target="about">
+                                <a href="#about" class="nav-link flex items-center gap-1 transition-colors duration-200 <?php echo esc_attr( $is_home ? 'hover:text-white' : 'hover:text-copper' ); ?>" data-target="about">
                                     درباره ما
                                 </a>
-                                <div class="nav-underline absolute bottom-1 left-1/2 -translate-x-1/2 h-[2.5px] bg-copper w-1/2 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
+                                <div class="nav-underline absolute bottom-1 left-1/2 -translate-x-1/2 h-[2.5px] <?php echo esc_attr( $underline_classes ); ?> w-1/2 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
                             </div>
-                            <span class="text-slate-200">|</span>
+                            <span class="<?php echo esc_attr( $separator_classes ); ?>">|</span>
                             <div class="relative group py-4">
-                                <a href="#contact" class="nav-link flex items-center gap-1 transition-colors duration-200 hover:text-copper" data-target="contact">
+                                <a href="#contact" class="nav-link flex items-center gap-1 transition-colors duration-200 <?php echo esc_attr( $is_home ? 'hover:text-white' : 'hover:text-copper' ); ?>" data-target="contact">
                                     تماس با ما
                                 </a>
-                                <div class="nav-underline absolute bottom-1 left-1/2 -translate-x-1/2 h-[2.5px] bg-copper w-1/2 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
+                                <div class="nav-underline absolute bottom-1 left-1/2 -translate-x-1/2 h-[2.5px] <?php echo esc_attr( $underline_classes ); ?> w-1/2 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
                             </div>
                             <?php
                         }
@@ -261,10 +286,10 @@
 
                     <!-- Utility Icons & Menu Trigger -->
                     <div class="flex items-center gap-2">
-                        <div class="w-10 h-10 flex items-center justify-center rounded-sm hover:bg-slate-50 cursor-pointer text-slate-900 hover:text-copper transition-all">
+                        <div class="w-10 h-10 flex items-center justify-center rounded-sm cursor-pointer <?php echo esc_attr( $icon_button_classes ); ?> transition-all">
                             <i data-lucide="search" class="w-[20px] h-[20px]"></i>
                         </div>
-                        <button id="mobile-menu-btn" class="w-10 h-10 flex items-center justify-center rounded-sm text-slate-900 hover:bg-slate-50 transition-colors" aria-label="Menu">
+                        <button id="mobile-menu-btn" class="w-10 h-10 flex items-center justify-center rounded-sm <?php echo esc_attr( $mobile_button_classes ); ?> transition-colors" aria-label="Menu">
                             <i data-lucide="menu" class="w-[26px] h-[26px]"></i>
                         </button>
                     </div>

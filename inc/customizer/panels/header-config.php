@@ -60,6 +60,17 @@ function kermancopper_customize_header( $wp_customize ) {
         'section'  => 'kermancopper_topbar_section',
         'type'     => 'text',
     ) );
+
+    $wp_customize->add_setting( 'kermancopper_phone', array(
+        'default'           => '',
+        'sanitize_callback' => 'kermancopper_sanitize_text',
+        'transport'         => 'postMessage',
+    ) );
+    $wp_customize->add_control( 'kermancopper_phone', array(
+        'label'    => __( 'شماره تماس', 'kermancopper' ),
+        'section'  => 'kermancopper_topbar_section',
+        'type'     => 'text',
+    ) );
 }
 add_action( 'customize_register', 'kermancopper_customize_header' );
 

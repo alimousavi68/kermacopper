@@ -115,51 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
          lucide.createIcons();
      }
 
-    // Navbar Scroll Logic
-    const nav = document.getElementById('main-nav');
-    const topBar = document.getElementById('top-bar');
-
-    function updateTopBarHeight() {
-        if (!topBar) return;
-        topBar.style.height = `${topBar.scrollHeight}px`;
-    }
-
-    if (topBar) {
-        updateTopBarHeight();
-        topBar.style.opacity = '1';
-        window.addEventListener('resize', () => {
-            if (window.scrollY <= 40) {
-                updateTopBarHeight();
-            }
-        });
-    }
-    
-    if (nav) {
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 40) {
-                // Sticky State
-                nav.classList.add('scrolled', 'shadow-md', 'py-1');
-                nav.classList.remove('py-3');
-                
-                // Hide Top Bar
-                if (topBar) {
-                    topBar.style.height = '0px';
-                    topBar.style.opacity = '0';
-                }
-            } else {
-                // Normal State
-                nav.classList.remove('scrolled', 'shadow-md', 'py-1');
-                nav.classList.add('py-3');
-                
-                // Show Top Bar
-                if (topBar) {
-                    updateTopBarHeight();
-                    topBar.style.opacity = '1';
-                }
-            }
-        });
-    }
-
     // Mobile Menu Logic
     const mobileBtn = document.getElementById('mobile-menu-btn');
     const closeMobileBtn = document.getElementById('close-mobile-menu');
@@ -456,12 +411,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Active Link Highlighting (Simple)
     const links = document.querySelectorAll('.nav-link');
+    const isHome = document.body.classList.contains('home');
+    const navBaseClass = isHome ? 'text-white/80' : 'text-slate-600';
+    const navActiveClass = isHome ? 'text-white' : 'text-copper';
     links.forEach(link => {
         link.addEventListener('click', function() {
             // Remove active state from all
             links.forEach(l => {
-                l.classList.remove('text-copper');
-                l.classList.add('text-slate-600');
+                l.classList.remove(navActiveClass);
+                l.classList.add(navBaseClass);
                 // Find sibling underline and hide it
                 const parent = l.parentElement;
                 const underline = parent.querySelector('.nav-underline');
@@ -469,8 +427,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             
             // Add active state to current
-            this.classList.remove('text-slate-600');
-            this.classList.add('text-copper');
+            this.classList.remove(navBaseClass);
+            this.classList.add(navActiveClass);
             // Show sibling underline
             const parent = this.parentElement;
             const underline = parent.querySelector('.nav-underline');

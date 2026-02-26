@@ -32,7 +32,7 @@
         }
         ?>
         <!-- Hero Section -->
-        <div class="relative h-[calc(100vh-200px)] sm:h-[80vh] flex items-center overflow-hidden mt-[100px] sm:mt-[125px]">
+        <div class="relative h-[calc(100vh-200px)] sm:h-[100vh] flex items-center overflow-hidden">
             <div class="absolute inset-0 z-0" id="hero-slider">
                 <?php foreach ( $hero_slides as $index => $slide ) : ?>
                     <div class="hero-slide absolute inset-0 transition-opacity duration-1000 <?php echo $index === 0 ? 'opacity-100' : 'opacity-0'; ?>" data-index="<?php echo esc_attr( $index ); ?>">
@@ -66,12 +66,12 @@
                     <?php if ( ( $hero_button_primary_text && $hero_button_primary_url ) || ( $hero_button_secondary_text && $hero_button_secondary_url ) ) : ?>
                     <div class="flex flex-wrap gap-4">
                         <?php if ( $hero_button_primary_text && $hero_button_primary_url ) : ?>
-                        <a href="<?php echo esc_url( $hero_button_primary_url ); ?>" class="bg-copper hover:opacity-90 text-white px-10 py-4 rounded-sm font-bold transition-all shadow-xl text-sm md:text-base tracking-wide border border-transparent">
+                        <a href="<?php echo esc_url( $hero_button_primary_url ); ?>" class="bg-copper hover:opacity-90 text-white px-10 py-4 rounded-full font-bold transition-all shadow-xl text-sm md:text-base tracking-wide border border-transparent">
                             <?php echo esc_html( $hero_button_primary_text ); ?>
                         </a>
                         <?php endif; ?>
                         <?php if ( $hero_button_secondary_text && $hero_button_secondary_url ) : ?>
-                        <a href="<?php echo esc_url( $hero_button_secondary_url ); ?>" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-10 py-4 rounded-sm font-bold transition-all text-sm md:text-base tracking-wide">
+                        <a href="<?php echo esc_url( $hero_button_secondary_url ); ?>" class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-10 py-4 rounded-full font-bold transition-all text-sm md:text-base tracking-wide">
                             <?php echo esc_html( $hero_button_secondary_text ); ?>
                         </a>
                         <?php endif; ?>
@@ -80,8 +80,19 @@
                 </div>
             </div>
 
+            <div class="hero-curve">
+                <img src="<?php echo esc_url( get_template_directory_uri() . '/images/Union.png' ); ?>"
+                    srcset="<?php echo esc_url( get_template_directory_uri() . '/images/Union.png' ); ?> 1440w, <?php echo esc_url( get_template_directory_uri() . '/images/Union-300x37.png' ); ?> 300w, <?php echo esc_url( get_template_directory_uri() . '/images/Union-1024x127.png' ); ?> 1024w, <?php echo esc_url( get_template_directory_uri() . '/images/Union-768x95.png' ); ?> 768w"
+                    sizes="(max-width: 1440px) 100vw, 1440px"
+                    class="hero-curve-image"
+                    alt="" />
+                <a href="#about" class="hero-curve-arrow" aria-label="بخش بعدی">
+                    <i data-lucide="chevrons-down" class="hero-curve-arrow-icon"></i>
+                </a>
+            </div>
+
             <?php if ( count( $hero_slides ) > 1 ) : ?>
-            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-3 z-10">
+            <div class="absolute bottom-16 sm:bottom-20 left-1/2 -translate-x-1/2 flex gap-3 z-10">
                 <?php foreach ( $hero_slides as $index => $slide ) : ?>
                     <button class="hero-dot <?php echo $index === 0 ? 'w-6 h-2.5 bg-copper' : 'w-2.5 h-2.5 bg-white/40'; ?> rounded-full transition-all duration-300" data-index="<?php echo esc_attr( $index ); ?>"></button>
                 <?php endforeach; ?>
@@ -170,13 +181,13 @@
                             <?php if ( ( $about_button_primary_text && $about_button_primary_url ) || ( $about_button_secondary_text && $about_button_secondary_url ) ) : ?>
                             <div class="flex flex-wrap gap-4">
                                 <?php if ( $about_button_primary_text && $about_button_primary_url ) : ?>
-                                <a href="<?php echo esc_url( $about_button_primary_url ); ?>" class="group bg-white text-copper border border-copper px-8 py-3 rounded-sm font-bold flex items-center gap-2 hover:bg-[var(--color-copper)] hover:text-white transition-all shadow-lg hover:shadow-xl">
+                                <a href="<?php echo esc_url( $about_button_primary_url ); ?>" class="group bg-white text-copper border border-copper px-8 py-3 rounded-full font-bold flex items-center gap-2 hover:bg-[var(--color-copper)] hover:text-white transition-all shadow-lg hover:shadow-xl">
                                     <i data-lucide="file-text" class="w-4 h-4"></i>
                                     <?php echo esc_html( $about_button_primary_text ); ?>
                                 </a>
                                 <?php endif; ?>
                                 <?php if ( $about_button_secondary_text && $about_button_secondary_url ) : ?>
-                                <a href="<?php echo esc_url( $about_button_secondary_url ); ?>" class="group flex items-center gap-2 text-sm font-bold text-slate-900 transition-all hover:text-copper border border-slate-200 px-6 py-3 rounded-sm hover:border-copper">
+                                <a href="<?php echo esc_url( $about_button_secondary_url ); ?>" class="group flex items-center gap-2 text-sm font-bold text-slate-900 transition-all hover:text-copper border border-slate-200 px-6 py-3 rounded-full hover:border-copper">
                                     <?php echo esc_html( $about_button_secondary_text ); ?> <i data-lucide="arrow-left" class="w-4 h-4 transition-transform group-hover:-translate-x-1"></i>
                                 </a>
                                 <?php endif; ?>
@@ -188,7 +199,7 @@
                     <!-- Image Content -->
                     <?php if ( $about_main_image_src ) : ?>
                     <div class="w-full md:w-1/2 fade-in-section relative">
-                         <div class="relative rounded-sm overflow-hidden shadow-2xl group">
+                         <div class="relative rounded-lg overflow-hidden shadow-2xl group">
                            <img src="<?php echo esc_url( $about_main_image_src ); ?>" class="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-105" alt="<?php echo esc_attr( $about_title_highlight ? $about_title_highlight : $about_title_rest ); ?>" />
                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
 
@@ -203,7 +214,7 @@
                            <?php endif; ?>
                          </div>
                          <!-- Decorative Element -->
-                         <div class="absolute -bottom-6 -left-6 w-full h-full border-2 border-slate-100 rounded-sm -z-10 hidden md:block"></div>
+                         <div class="absolute -bottom-6 -left-6 w-full h-full border-2 border-slate-100 rounded-full -z-10 hidden md:block"></div>
                     </div>
                     <?php endif; ?>
                 </div>
@@ -221,15 +232,17 @@
                     <?php
                     $ads_terms = get_terms( array(
                         'taxonomy'   => 'kermancopper_ad_type',
-                        'hide_empty' => true,
+                        'hide_empty' => false,
+                        'orderby' => 'term_id',
+                        'order'   => 'DESC',
                     ) );
                     $ads_has_terms = ! is_wp_error( $ads_terms ) && ! empty( $ads_terms );
                     ?>
-                    <div class="flex bg-white p-1 rounded-sm shadow-sm border border-slate-200" id="ads-filter-container">
-                        <button data-filter="all" class="px-6 py-2 rounded-sm font-bold transition-all text-sm bg-copper text-white">همه</button>
+                    <div class="flex bg-white p-1 rounded-full shadow-sm border border-slate-200" id="ads-filter-container">
+                        <button data-filter="all" class="px-6 py-2 rounded-full font-bold transition-all text-sm bg-copper text-white">همه</button>
                         <?php if ( $ads_has_terms ) : ?>
                             <?php foreach ( $ads_terms as $term ) : ?>
-                                <button data-filter="<?php echo esc_attr( $term->slug ); ?>" class="px-6 py-2 rounded-sm font-bold transition-all text-sm text-slate-500 hover:bg-slate-50"><?php echo esc_html( $term->name ); ?></button>
+                                <button data-filter="<?php echo esc_attr( $term->slug ); ?>" class="px-6 py-2 rounded-full font-bold transition-all text-sm text-slate-500 hover:bg-slate-50"><?php echo esc_html( $term->name ); ?></button>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </div>
@@ -285,10 +298,10 @@
                                 ? 'bg-slate-50 text-slate-500 border border-slate-100'
                                 : 'bg-green-50 text-green-700 border border-green-100';
                             ?>
-                            <div class="ad-item bg-white rounded-sm overflow-hidden shadow-sm border border-slate-100 card-hover transition-all fade-in-section" data-type="<?php echo esc_attr( $ad_type_slug ); ?>">
+                            <div class="ad-item bg-white overflow-hidden shadow-sm border border-slate-200 rounded-lg cursor-pointer card-hover transition-all fade-in-section" data-type="<?php echo esc_attr( $ad_type_slug ); ?>">
                                 <div class="h-48 relative overflow-hidden group">
-                                    <img src="<?php echo esc_url( $thumbnail ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="w-full h-full object-cover" />
-                                    <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-2.5 py-1 rounded-sm text-[10px] font-normal shadow-sm text-slate-700 uppercase tracking-tight flex items-center gap-1">
+                                    <img src="<?php echo esc_url( $thumbnail ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="w-full h-full object-cover object-cover transition-transform duration-500 group-hover:scale-105 rounded-lg" />
+                                    <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-2.5 py-1 rounded-lg text-[10px] font-normal shadow-sm text-slate-700 uppercase tracking-tight flex items-center gap-1">
                                         <i data-lucide="<?php echo esc_attr( $ad_type_icon ); ?>" class="w-2.5 h-2.5 text-copper stroke-[1.5]"></i> <?php echo esc_html( $ad_type_label ); ?>
                                     </div>
                                 </div>
@@ -296,10 +309,10 @@
                                     <h3 class="font-bold text-base mb-4 h-12 line-clamp-2 text-slate-800 leading-relaxed"><?php echo esc_html( get_the_title() ); ?></h3>
                                     <div class="flex justify-between items-center text-[12px] text-slate-500 mb-6 border-t border-slate-50 pt-4">
                                         <div class="flex items-center gap-1 font-medium"><i data-lucide="calendar" class="w-2.5 h-2.5 text-slate-400 stroke-[1.5]"></i> مهلت : <?php echo esc_html( $expiry_display ); ?></div>
-                                        <div class="px-2 py-0.5 rounded-sm font-medium text-[11px] <?php echo esc_attr( $status_class ); ?>"><?php echo esc_html( $status_label ); ?></div>
+                                        <div class="px-2 py-0.5 rounded-lg font-medium text-[11px] <?php echo esc_attr( $status_class ); ?>"><?php echo esc_html( $status_label ); ?></div>
                                     </div>
                                     <div class="flex gap-2">
-                                        <a href="<?php echo esc_url( get_permalink() ); ?>" class="flex-1 bg-white text-copper border border-copper py-2.5 rounded-sm text-sm font-bold hover:bg-[var(--color-copper)] hover:text-white transition-all shadow-sm text-center">جزئیات آگهی</a>
+                                        <a href="<?php echo esc_url( get_permalink() ); ?>" class="flex-1 bg-white text-copper border border-copper py-2.5 rounded-lg text-sm font-bold hover:bg-[var(--color-copper)] hover:text-white transition-all shadow-sm text-center">جزئیات آگهی</a>
                                     </div>
                                 </div>
                             </div>
@@ -402,11 +415,11 @@
                             <?php endif; ?>
                         </div>
 
-                        <div id="news-carousel" class="relative rounded-sm overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 flex-1 min-h-[520px]">
+                        <div id="news-carousel" class="relative rounded-lg overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 flex-1 min-h-[520px]">
                             <div class="absolute inset-0">
                                 <?php foreach ( $news_slides as $index => $slide ) : ?>
                                     <a href="<?php echo esc_url( $slide['url'] ); ?>" class="news-slide absolute inset-0 <?php echo $index === 0 ? 'opacity-100' : 'opacity-0'; ?> transition-opacity duration-500 block">
-                                        <img src="<?php echo esc_url( $slide['image'] ); ?>" class="w-full h-full object-cover" />
+                                        <img src="<?php echo esc_url( $slide['image'] ); ?>" class="w-full h-full object-cover object-cover transition-transform duration-500 group-hover:scale-105" />
                                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-95"></div>
                                         <div class="absolute bottom-0 left-0 right-0 p-8 md:p-12">
                                             <?php if ( $news_show_date && ! empty( $slide['date'] ) ) : ?>
@@ -464,7 +477,7 @@
 
                         <div id="news-notices-grid" class="grid grid-cols-2 gap-6 flex-1">
                             <?php foreach ( $notices_items as $notice ) : ?>
-                                <a href="<?php echo esc_url( $notice['url'] ); ?>" class="group relative rounded-sm overflow-hidden shadow-sm hover:shadow-xl transition-all aspect-[3/4] block">
+                                <a href="<?php echo esc_url( $notice['url'] ); ?>" class="group relative rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all aspect-[3/4] block">
                                     <img src="<?php echo esc_url( $notice['image'] ); ?>" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
                                     <div class="absolute bottom-0 left-0 right-0 p-4">

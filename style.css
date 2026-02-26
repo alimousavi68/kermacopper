@@ -9,3 +9,123 @@ License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: kermancopper
 */
+.ad-content {
+    background: linear-gradient(180deg, #ffffff 0%, #fdf7f2 100%);
+    border: 1px solid #f3e8df;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.ad-content table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 1.5rem 0;
+    font-size: 0.95rem;
+}
+
+.ad-content thead th {
+    background-color: #c86429;
+    color: #ffffff;
+    padding: 0.75rem 1rem;
+    text-align: right;
+    border-bottom: none;
+}
+
+.ad-content tbody td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #f3e8df;
+}
+
+.ad-content tbody tr:nth-child(odd) {
+    background-color: #fdf2e8;
+}
+
+.ad-content tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+.ad-content table tr:first-child th:first-child {
+    border-top-right-radius: 0.125rem;
+}
+
+.ad-content table tr:first-child th:last-child {
+    border-top-left-radius: 0.125rem;
+}
+
+.ad-content table tr:last-child td:first-child {
+    border-bottom-right-radius: 0.125rem;
+}
+
+.ad-content table tr:last-child td:last-child {
+    border-bottom-left-radius: 0.125rem;
+}
+
+.ad-excel-link {
+    transition: all 0.2s ease;
+}
+
+.ad-excel-link:hover {
+    background-color: #c86429;
+    color: #ffffff;
+    border-color: #c86429;
+}
+
+.ad-excel-link:hover .ad-excel-meta {
+    color: #ffffff;
+    opacity: 0.9;
+}
+.hero-curve {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    z-index: 20;
+    pointer-events: none;
+}
+.hero-curve-image {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+.hero-curve-arrow {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -35%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    pointer-events: auto;
+    animation: hero-bounce 1.6s ease-in-out infinite;
+}
+.hero-curve-arrow-icon {
+    width: 30px;
+    height: 30px;
+    color: #c86429;
+}
+body.home #main-nav .menu-separator {
+    color: rgba(255, 255, 255, 0.3);
+}
+body.home #main-nav .nav-underline {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+body.home #main-nav .nav-link {
+    color: rgba(255, 255, 255, 0.9);
+}
+body.home #main-nav .nav-link:hover {
+    color: #ffffff;
+}
+@keyframes hero-bounce {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 5px); }
+}
+@media (max-width: 1024px) {
+    .hero-curve-arrow { width: 28px; height: 28px; }
+    .hero-curve-arrow-icon { width: 30px; height: 30px; }
+}
+@media (max-width: 640px) {
+    .hero-curve-arrow { width: 26px; height: 26px; }
+    .hero-curve-arrow-icon { width: 20px; height: 20px; }
+}
