@@ -28,6 +28,8 @@ class KermanCopper_Custom_Menu_Widget extends WP_Widget {
      */
     public function widget( $args, $instance ) {
         $nav_menu = ! empty( $instance['nav_menu'] ) ? wp_get_nav_menu_object( $instance['nav_menu'] ) : false;
+        $layout = ! empty( $instance['layout'] ) ? $instance['layout'] : 'vertical';
+        $layout = $layout === 'horizontal' ? 'horizontal' : 'vertical';
 
         if ( ! $nav_menu ) {
             return;
@@ -36,42 +38,58 @@ class KermanCopper_Custom_Menu_Widget extends WP_Widget {
         echo $args['before_widget'];
         
         $title = ! empty( $instance['title'] ) ? $instance['title'] : '';
-        if ( empty( $title ) ) {
-            $title = $nav_menu->name;
-        }
+        
 
         if ( ! empty( $title ) ) {
             echo $args['before_title'] . apply_filters( 'widget_title', $title ) . $args['after_title'];
         }
 
+        $menu_class = $layout === 'horizontal'
+            ? 'flex flex-wrap items-center justify-between gap-y-3 text-slate-500 text-xs sm:text-sm md:text-base divide-x divide-slate-200/60 divide-x-reverse'
+            : 'space-y-4 text-slate-500 text-xs';
+
         $nav_menu_args = array(
             'fallback_cb' => '',
             'menu'        => $nav_menu,
             'container'   => false,
-            'menu_class'  => 'space-y-4 text-slate-500 text-xs',
+            'menu_class'  => $menu_class,
             'link_before' => '',
             'link_after'  => '',
             'depth'       => 1, // Limit to level 1 items only
         );
 
-        // Add filter to add classes to links for this widget only
+        $this->current_layout = $layout;
         add_filter( 'nav_menu_link_attributes', array( $this, 'add_link_classes' ), 10, 4 );
+        add_filter( 'nav_menu_css_class', array( $this, 'add_item_classes' ), 10, 4 );
         
         wp_nav_menu( $nav_menu_args );
         
         remove_filter( 'nav_menu_link_attributes', array( $this, 'add_link_classes' ), 10, 4 );
+        remove_filter( 'nav_menu_css_class', array( $this, 'add_item_classes' ), 10, 4 );
+        $this->current_layout = null;
 
         echo $args['after_widget'];
     }
     
     public function add_link_classes( $atts, $item, $args, $depth ) {
-        // hover:text-copper transition-colors
+        $layout = isset( $this->current_layout ) ? $this->current_layout : 'vertical';
+        $base_class = $layout === 'horizontal'
+            ? 'inline-flex items-center'
+            : 'block';
         if ( empty( $atts['class'] ) ) {
-            $atts['class'] = 'hover:text-copper transition-colors';
+            $atts['class'] = $base_class . ' hover:text-copper transition-colors';
         } else {
-            $atts['class'] .= ' hover:text-copper transition-colors';
+            $atts['class'] .= ' ' . $base_class . ' hover:text-copper transition-colors';
         }
         return $atts;
+    }
+
+    public function add_item_classes( $classes, $item, $args, $depth ) {
+        $layout = isset( $this->current_layout ) ? $this->current_layout : 'vertical';
+        if ( $layout === 'horizontal' ) {
+            $classes[] = 'px-3';
+        }
+        return $classes;
     }
 
     /**
@@ -84,6 +102,7 @@ class KermanCopper_Custom_Menu_Widget extends WP_Widget {
     public function form( $instance ) {
         $title = ! empty( $instance['title'] ) ? $instance['title'] : '';
         $nav_menu = isset( $instance['nav_menu'] ) ? $instance['nav_menu'] : '';
+        $layout = ! empty( $instance['layout'] ) ? $instance['layout'] : 'vertical';
 
         // Get menus
         $menus = wp_get_nav_menus();
@@ -103,6 +122,13 @@ class KermanCopper_Custom_Menu_Widget extends WP_Widget {
                 <?php endforeach; ?>
             </select>
         </p>
+        <p>
+            <label for="<?php echo esc_attr( $this->get_field_id( 'layout' ) ); ?>"><?php esc_html_e( 'چیدمان نمایش:', 'kermancopper' ); ?></label>
+            <select id="<?php echo esc_attr( $this->get_field_id( 'layout' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'layout' ) ); ?>">
+                <option value="vertical" <?php selected( $layout, 'vertical' ); ?>><?php esc_html_e( 'عمودی', 'kermancopper' ); ?></option>
+                <option value="horizontal" <?php selected( $layout, 'horizontal' ); ?>><?php esc_html_e( 'افقی', 'kermancopper' ); ?></option>
+            </select>
+        </p>
         <?php 
     }
 
@@ -120,6 +146,7 @@ class KermanCopper_Custom_Menu_Widget extends WP_Widget {
         $instance = array();
         $instance['title'] = ( ! empty( $new_instance['title'] ) ) ? sanitize_text_field( $new_instance['title'] ) : '';
         $instance['nav_menu'] = ( ! empty( $new_instance['nav_menu'] ) ) ? (int) $new_instance['nav_menu'] : 0;
+        $instance['layout'] = ( ! empty( $new_instance['layout'] ) && $new_instance['layout'] === 'horizontal' ) ? 'horizontal' : 'vertical';
 
         return $instance;
     }

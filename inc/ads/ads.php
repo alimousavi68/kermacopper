@@ -1,5 +1,7 @@
 <?php
 
+require_once get_template_directory() . '/inc/ads/provinces-cities.php';
+
 if ( ! defined( 'KERMANCOPPER_AD_META_EXCEL_FORMS' ) ) {
     define( 'KERMANCOPPER_AD_META_EXCEL_FORMS', 'kermancopper_ad_excel_forms' );
 }
@@ -26,6 +28,75 @@ if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_MOBILE' ) ) {
 }
 if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_EMAIL' ) ) {
     define( 'KERMANCOPPER_AD_REQUEST_META_EMAIL', 'kermancopper_ad_request_email' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_COMPANY_TYPE' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_COMPANY_TYPE', 'kermancopper_ad_request_company_type' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_ACTIVITY_TYPE' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_ACTIVITY_TYPE', 'kermancopper_ad_request_activity_type' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_COMPANY_NAME_EN' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_COMPANY_NAME_EN', 'kermancopper_ad_request_company_name_en' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_NATIONAL_ID' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_NATIONAL_ID', 'kermancopper_ad_request_national_id' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_ESTABLISHMENT_DATE' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_ESTABLISHMENT_DATE', 'kermancopper_ad_request_establishment_date' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_ECONOMIC_NUMBER' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_ECONOMIC_NUMBER', 'kermancopper_ad_request_economic_number' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_REGISTRATION_NUMBER' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_REGISTRATION_NUMBER', 'kermancopper_ad_request_registration_number' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_REGISTRATION_LOCATION' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_REGISTRATION_LOCATION', 'kermancopper_ad_request_registration_location' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_INSURANCE_BRANCH' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_INSURANCE_BRANCH', 'kermancopper_ad_request_insurance_branch' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_CEO_NAME' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_CEO_NAME', 'kermancopper_ad_request_ceo_name' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_CEO_NATIONAL_ID' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_CEO_NATIONAL_ID', 'kermancopper_ad_request_ceo_national_id' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_CEO_MOBILE' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_CEO_MOBILE', 'kermancopper_ad_request_ceo_mobile' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_PHONE' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_PHONE', 'kermancopper_ad_request_phone' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_FAX' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_FAX', 'kermancopper_ad_request_fax' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_WEBSITE' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_WEBSITE', 'kermancopper_ad_request_website' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_POSTAL_CODE' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_POSTAL_CODE', 'kermancopper_ad_request_postal_code' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_PROVINCE' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_PROVINCE', 'kermancopper_ad_request_province' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_CITY' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_CITY', 'kermancopper_ad_request_city' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_ADDRESS' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_ADDRESS', 'kermancopper_ad_request_address' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_BANK_SHEBA' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_BANK_SHEBA', 'kermancopper_ad_request_bank_sheba' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_BANK_ACCOUNT' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_BANK_ACCOUNT', 'kermancopper_ad_request_bank_account' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_BANK_BRANCH' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_BANK_BRANCH', 'kermancopper_ad_request_bank_branch' );
+}
+if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_REGISTRATION_REASON' ) ) {
+    define( 'KERMANCOPPER_AD_REQUEST_META_REGISTRATION_REASON', 'kermancopper_ad_request_registration_reason' );
 }
 if ( ! defined( 'KERMANCOPPER_AD_REQUEST_META_COMPANY' ) ) {
     define( 'KERMANCOPPER_AD_REQUEST_META_COMPANY', 'kermancopper_ad_request_company' );
@@ -297,13 +368,36 @@ add_action( 'init', 'kermancopper_ads_register_request_post_type' );
 
 function kermancopper_ads_register_request_meta() {
     $meta_items = array(
-        KERMANCOPPER_AD_REQUEST_META_AD_ID   => array( 'type' => 'integer' ),
-        KERMANCOPPER_AD_REQUEST_META_NAME    => array( 'type' => 'string' ),
-        KERMANCOPPER_AD_REQUEST_META_MOBILE  => array( 'type' => 'string' ),
-        KERMANCOPPER_AD_REQUEST_META_EMAIL   => array( 'type' => 'string' ),
-        KERMANCOPPER_AD_REQUEST_META_COMPANY => array( 'type' => 'string' ),
-        KERMANCOPPER_AD_REQUEST_META_NOTE    => array( 'type' => 'string' ),
-        KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS => array( 'type' => 'array' ),
+        KERMANCOPPER_AD_REQUEST_META_AD_ID           => array( 'type' => 'integer' ),
+        KERMANCOPPER_AD_REQUEST_META_NAME            => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_MOBILE          => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_EMAIL           => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_COMPANY         => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_COMPANY_TYPE    => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_ACTIVITY_TYPE   => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_COMPANY_NAME_EN => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_NATIONAL_ID     => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_ESTABLISHMENT_DATE => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_ECONOMIC_NUMBER => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_REGISTRATION_NUMBER => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_REGISTRATION_LOCATION => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_INSURANCE_BRANCH => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_CEO_NAME        => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_CEO_NATIONAL_ID => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_CEO_MOBILE      => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_PHONE           => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_FAX             => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_WEBSITE         => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_POSTAL_CODE     => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_PROVINCE        => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_CITY            => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_ADDRESS         => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_BANK_SHEBA      => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_BANK_ACCOUNT    => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_BANK_BRANCH     => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_REGISTRATION_REASON => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_NOTE            => array( 'type' => 'string' ),
+        KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS     => array( 'type' => 'array' ),
     );
     foreach ( $meta_items as $key => $meta_args ) {
         register_post_meta(
@@ -341,16 +435,58 @@ function kermancopper_ads_is_ad_open( $ad_id ) {
 }
 
 function kermancopper_ads_collect_request_payload( $ad_id, $redirect_url, $use_ajax = false ) {
-    $name = isset( $_POST['request_name'] ) ? sanitize_text_field( wp_unslash( $_POST['request_name'] ) ) : '';
     $mobile = isset( $_POST['request_mobile'] ) ? sanitize_text_field( wp_unslash( $_POST['request_mobile'] ) ) : '';
     $email = isset( $_POST['request_email'] ) ? sanitize_email( wp_unslash( $_POST['request_email'] ) ) : '';
     $company = isset( $_POST['request_company'] ) ? sanitize_text_field( wp_unslash( $_POST['request_company'] ) ) : '';
-    $note = isset( $_POST['request_note'] ) ? sanitize_textarea_field( wp_unslash( $_POST['request_note'] ) ) : '';
-    if ( $name === '' || $mobile === '' || $email === '' ) {
+
+    $company_type = isset( $_POST['company_type'] ) ? sanitize_text_field( wp_unslash( $_POST['company_type'] ) ) : '';
+    $activity_type = isset( $_POST['activity_type'] ) ? sanitize_text_field( wp_unslash( $_POST['activity_type'] ) ) : '';
+    $company_name_en = isset( $_POST['company_name_en'] ) ? sanitize_text_field( wp_unslash( $_POST['company_name_en'] ) ) : '';
+    $national_id = isset( $_POST['national_id'] ) ? sanitize_text_field( wp_unslash( $_POST['national_id'] ) ) : '';
+    $establishment_date = isset( $_POST['establishment_date'] ) ? sanitize_text_field( wp_unslash( $_POST['establishment_date'] ) ) : '';
+    if ( $establishment_date !== '' ) {
+        $establishment_date = kermancopper_ads_normalize_expiry_date_for_storage( $establishment_date );
+    }
+    $economic_number = isset( $_POST['economic_number'] ) ? sanitize_text_field( wp_unslash( $_POST['economic_number'] ) ) : '';
+    $registration_number = isset( $_POST['registration_number'] ) ? sanitize_text_field( wp_unslash( $_POST['registration_number'] ) ) : '';
+    $registration_location = isset( $_POST['registration_location'] ) ? sanitize_text_field( wp_unslash( $_POST['registration_location'] ) ) : '';
+    $insurance_branch = isset( $_POST['insurance_branch'] ) ? sanitize_text_field( wp_unslash( $_POST['insurance_branch'] ) ) : '';
+    $ceo_name = isset( $_POST['ceo_name'] ) ? sanitize_text_field( wp_unslash( $_POST['ceo_name'] ) ) : '';
+    $ceo_national_id = isset( $_POST['ceo_national_id'] ) ? sanitize_text_field( wp_unslash( $_POST['ceo_national_id'] ) ) : '';
+    $ceo_mobile = isset( $_POST['ceo_mobile'] ) ? sanitize_text_field( wp_unslash( $_POST['ceo_mobile'] ) ) : '';
+    $phone = isset( $_POST['phone'] ) ? sanitize_text_field( wp_unslash( $_POST['phone'] ) ) : '';
+    $fax = isset( $_POST['fax'] ) ? sanitize_text_field( wp_unslash( $_POST['fax'] ) ) : '';
+    $website = isset( $_POST['website'] ) ? sanitize_text_field( wp_unslash( $_POST['website'] ) ) : '';
+    $postal_code = isset( $_POST['postal_code'] ) ? sanitize_text_field( wp_unslash( $_POST['postal_code'] ) ) : '';
+    $province = isset( $_POST['province'] ) ? sanitize_text_field( wp_unslash( $_POST['province'] ) ) : '';
+    $city = isset( $_POST['city'] ) ? sanitize_text_field( wp_unslash( $_POST['city'] ) ) : '';
+    $address = isset( $_POST['address'] ) ? sanitize_text_field( wp_unslash( $_POST['address'] ) ) : '';
+    $bank_sheba = isset( $_POST['bank_sheba'] ) ? sanitize_text_field( wp_unslash( $_POST['bank_sheba'] ) ) : '';
+    $bank_account = isset( $_POST['bank_account'] ) ? sanitize_text_field( wp_unslash( $_POST['bank_account'] ) ) : '';
+    $bank_branch = isset( $_POST['bank_branch'] ) ? sanitize_text_field( wp_unslash( $_POST['bank_branch'] ) ) : '';
+    $password = isset( $_POST['password'] ) ? $_POST['password'] : '';
+    $password_confirm = isset( $_POST['password_confirm'] ) ? $_POST['password_confirm'] : '';
+    $registration_reason = isset( $_POST['registration_reason'] ) ? sanitize_text_field( wp_unslash( $_POST['registration_reason'] ) ) : '';
+
+    if ( $mobile === '' || $email === '' || $company === '' || $company_type === '' || $activity_type === '' || $national_id === '' || $establishment_date === '' || $economic_number === '' || $registration_number === '' || $registration_location === '' || $ceo_name === '' || $ceo_national_id === '' || $ceo_mobile === '' || $phone === '' || $fax === '' || $website === '' || $postal_code === '' || $province === '' || $city === '' || $address === '' || $bank_sheba === '' || $bank_account === '' || $bank_branch === '' || $password === '' || $registration_reason === '' ) {
         if ( $use_ajax ) {
             return new WP_Error( 'missing', 'لطفا همه فیلدهای ضروری را تکمیل کنید.' );
         }
         wp_safe_redirect( add_query_arg( 'ad_request', 'missing', $redirect_url ) );
+        exit;
+    }
+    if ( $password !== $password_confirm ) {
+        if ( $use_ajax ) {
+            return new WP_Error( 'password_mismatch', 'کلمه عبور و تکرار آن مطابقت ندارند.' );
+        }
+        wp_safe_redirect( add_query_arg( 'ad_request', 'password_mismatch', $redirect_url ) );
+        exit;
+    }
+    if ( strlen( $password ) < 8 ) {
+        if ( $use_ajax ) {
+            return new WP_Error( 'password_short', 'کلمه عبور باید حداقل ۸ کاراکتر باشد.' );
+        }
+        wp_safe_redirect( add_query_arg( 'ad_request', 'password_short', $redirect_url ) );
         exit;
     }
     if ( ! is_email( $email ) ) {
@@ -368,110 +504,47 @@ function kermancopper_ads_collect_request_payload( $ad_id, $redirect_url, $use_a
         wp_safe_redirect( add_query_arg( 'ad_request', 'invalid_mobile', $redirect_url ) );
         exit;
     }
-    $files = isset( $_FILES['ad_attachments'] ) ? $_FILES['ad_attachments'] : null;
-    $attachment_ids = array();
-    if ( $files && is_array( $files['name'] ) ) {
-        $allowed_mime = array(
-            'application/vnd.ms-excel',
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'application/pdf',
-            'application/msword',
-            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'image/jpeg',
-            'image/png',
-            'application/zip',
-            'application/x-zip-compressed',
-        );
-        $max_size = 10 * 1024 * 1024;
-        $file_count = count( $files['name'] );
-        $has_upload = false;
-        require_once ABSPATH . 'wp-admin/includes/file.php';
-        require_once ABSPATH . 'wp-admin/includes/image.php';
-        for ( $i = 0; $i < $file_count; $i++ ) {
-            if ( $files['name'][ $i ] === '' ) {
-                continue;
-            }
-            $has_upload = true;
-            if ( $files['error'][ $i ] !== UPLOAD_ERR_OK ) {
-                if ( $use_ajax ) {
-                    return new WP_Error( 'upload', 'آپلود فایل با خطا روبه‌رو شد.' );
-                }
-                wp_safe_redirect( add_query_arg( 'ad_request', 'upload', $redirect_url ) );
-                exit;
-            }
-            if ( $files['size'][ $i ] > $max_size ) {
-                if ( $use_ajax ) {
-                    return new WP_Error( 'file_size', 'حجم فایل بیش از حد مجاز است.' );
-                }
-                wp_safe_redirect( add_query_arg( 'ad_request', 'file_size', $redirect_url ) );
-                exit;
-            }
-            $file = array(
-                'name'     => $files['name'][ $i ],
-                'type'     => $files['type'][ $i ],
-                'tmp_name' => $files['tmp_name'][ $i ],
-                'error'    => $files['error'][ $i ],
-                'size'     => $files['size'][ $i ],
-            );
-            $filetype = wp_check_filetype( $file['name'] );
-            if ( empty( $filetype['type'] ) || ! in_array( $filetype['type'], $allowed_mime, true ) ) {
-                if ( $use_ajax ) {
-                    return new WP_Error( 'file_type', 'نوع فایل مجاز نیست.' );
-                }
-                wp_safe_redirect( add_query_arg( 'ad_request', 'file_type', $redirect_url ) );
-                exit;
-            }
-            $uploaded = wp_handle_upload( $file, array( 'test_form' => false ) );
-            if ( ! isset( $uploaded['file'] ) ) {
-                if ( $use_ajax ) {
-                    return new WP_Error( 'upload', 'آپلود فایل با خطا روبه‌رو شد.' );
-                }
-                wp_safe_redirect( add_query_arg( 'ad_request', 'upload', $redirect_url ) );
-                exit;
-            }
-            $attachment_id = wp_insert_attachment(
-                array(
-                    'post_mime_type' => $uploaded['type'],
-                    'post_title'     => sanitize_file_name( $file['name'] ),
-                    'post_status'    => 'private',
-                ),
-                $uploaded['file']
-            );
-            if ( ! $attachment_id || is_wp_error( $attachment_id ) ) {
-                if ( $use_ajax ) {
-                    return new WP_Error( 'upload', 'آپلود فایل با خطا روبه‌رو شد.' );
-                }
-                wp_safe_redirect( add_query_arg( 'ad_request', 'upload', $redirect_url ) );
-                exit;
-            }
-            $attachment_data = wp_generate_attachment_metadata( $attachment_id, $uploaded['file'] );
-            if ( $attachment_data ) {
-                wp_update_attachment_metadata( $attachment_id, $attachment_data );
-            }
-            $attachment_ids[] = $attachment_id;
-        }
-        if ( ! $has_upload ) {
-            if ( $use_ajax ) {
-                return new WP_Error( 'no_files', 'حداقل یک فایل پیوست کنید.' );
-            }
-            wp_safe_redirect( add_query_arg( 'ad_request', 'no_files', $redirect_url ) );
-            exit;
-        }
-    } else {
+    
+    // Check if user already exists with this National ID
+    if ( username_exists( $national_id ) ) {
         if ( $use_ajax ) {
-            return new WP_Error( 'no_files', 'حداقل یک فایل پیوست کنید.' );
+            return new WP_Error( 'user_exists', 'کاربری با این کد ملی قبلا ثبت‌نام کرده است.' );
         }
-        wp_safe_redirect( add_query_arg( 'ad_request', 'no_files', $redirect_url ) );
+        wp_safe_redirect( add_query_arg( 'ad_request', 'user_exists', $redirect_url ) );
         exit;
     }
+
     return array(
-        'ad_id'          => $ad_id,
-        'name'           => $name,
-        'mobile'         => $mobile,
-        'email'          => $email,
-        'company'        => $company,
-        'note'           => $note,
-        'attachment_ids' => $attachment_ids,
+        'ad_id'                 => $ad_id,
+        'name'                  => $ceo_name,
+        'mobile'                => $mobile,
+        'email'                 => $email,
+        'company'               => $company,
+        'company_type'          => $company_type,
+        'activity_type'         => $activity_type,
+        'company_name_en'       => $company_name_en,
+        'national_id'           => $national_id,
+        'establishment_date'    => $establishment_date,
+        'economic_number'       => $economic_number,
+        'registration_number'   => $registration_number,
+        'registration_location' => $registration_location,
+        'insurance_branch'      => $insurance_branch,
+        'ceo_name'              => $ceo_name,
+        'ceo_national_id'       => $ceo_national_id,
+        'ceo_mobile'            => $ceo_mobile,
+        'phone'                 => $phone,
+        'fax'                   => $fax,
+        'website'               => $website,
+        'postal_code'           => $postal_code,
+        'province'              => $province,
+        'city'                  => $city,
+        'address'               => $address,
+        'bank_sheba'            => $bank_sheba,
+        'bank_account'          => $bank_account,
+        'bank_branch'           => $bank_branch,
+        'password'              => $password,
+        'registration_reason'   => $registration_reason,
+        'attachment_ids'        => array(),
     );
 }
 
@@ -545,7 +618,7 @@ function kermancopper_ads_handle_request_otp() {
         wp_safe_redirect( add_query_arg( 'ad_request', $payload->get_error_code(), $redirect_url ) );
         exit;
     }
-    $otp_code = (string) wp_rand( 10000, 99999 );
+    $otp_code = '12345';
     $otp_token = wp_generate_password( 20, false, false );
     $payload['code'] = $otp_code;
     $payload['created_at'] = time();
@@ -750,8 +823,58 @@ function kermancopper_ads_handle_request_verify() {
     update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_MOBILE, $payload['mobile'] );
     update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_EMAIL, $payload['email'] );
     update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_COMPANY, $payload['company'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_COMPANY_TYPE, $payload['company_type'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_ACTIVITY_TYPE, $payload['activity_type'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_COMPANY_NAME_EN, $payload['company_name_en'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_NATIONAL_ID, $payload['national_id'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_ESTABLISHMENT_DATE, $payload['establishment_date'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_ECONOMIC_NUMBER, $payload['economic_number'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_REGISTRATION_NUMBER, $payload['registration_number'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_REGISTRATION_LOCATION, $payload['registration_location'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_INSURANCE_BRANCH, $payload['insurance_branch'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_CEO_NAME, $payload['ceo_name'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_CEO_NATIONAL_ID, $payload['ceo_national_id'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_CEO_MOBILE, $payload['ceo_mobile'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_PHONE, $payload['phone'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_FAX, $payload['fax'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_WEBSITE, $payload['website'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_POSTAL_CODE, $payload['postal_code'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_PROVINCE, $payload['province'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_CITY, $payload['city'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_ADDRESS, $payload['address'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_BANK_SHEBA, $payload['bank_sheba'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_BANK_ACCOUNT, $payload['bank_account'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_BANK_BRANCH, $payload['bank_branch'] );
+    update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_REGISTRATION_REASON, $payload['registration_reason'] );
     update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_NOTE, $payload['note'] );
     update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS, $payload['attachment_ids'] );
+
+    // Create User Account
+    $user_id = wp_insert_user( array(
+        'user_login' => $payload['national_id'],
+        'user_pass'  => $payload['password'],
+        'user_email' => $payload['email'],
+        'first_name' => $payload['name'],
+        'role'       => 'subscriber',
+    ) );
+
+    if ( ! is_wp_error( $user_id ) ) {
+        // Store extra fields in user meta
+        update_user_meta( $user_id, 'mobile', $payload['mobile'] );
+        update_user_meta( $user_id, 'company', $payload['company'] );
+        update_user_meta( $user_id, 'company_type', $payload['company_type'] );
+        update_user_meta( $user_id, 'activity_type', $payload['activity_type'] );
+        update_user_meta( $user_id, 'national_id', $payload['national_id'] );
+        update_user_meta( $user_id, 'phone', $payload['phone'] );
+        update_user_meta( $user_id, 'province', $payload['province'] );
+        update_user_meta( $user_id, 'city', $payload['city'] );
+        update_user_meta( $user_id, 'address', $payload['address'] );
+
+        // Log the user in
+        wp_clear_auth_cookie();
+        wp_set_current_user( $user_id );
+        wp_set_auth_cookie( $user_id );
+    }
     $attachments_count = is_array( $payload['attachment_ids'] ) ? count( $payload['attachment_ids'] ) : 0;
     update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS_COUNT, $attachments_count );
     update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_SEEN, '0' );
@@ -920,8 +1043,9 @@ function kermancopper_ads_admin_assets() {
     $allowed_screens = array(
         'kermancopper_ad',
         'kermancopper_ad_page_kermancopper-ad-requests',
+        'edit-kermancopper_ad',
     );
-    if ( ! in_array( $screen->id, $allowed_screens, true ) && $screen->post_type !== 'kermancopper_ad' ) {
+    if ( ! in_array( $screen->id, $allowed_screens, true ) && $screen->post_type !== 'kermancopper_ad' && strpos( $screen->id, 'kermancopper-ad-requests' ) === false ) {
         return;
     }
     wp_enqueue_media();
@@ -944,6 +1068,7 @@ function kermancopper_ads_admin_assets() {
             'removeText'         => __( 'حذف', 'kermancopper' ),
             'ajaxUrl'            => admin_url( 'admin-ajax.php' ),
             'requestNonce'       => wp_create_nonce( 'kermancopper_ad_request_detail' ),
+            'actionNonce'        => wp_create_nonce( 'kermancopper_ad_requests_action' ),
             'closeText'          => __( 'بستن', 'kermancopper' ),
             'detailsText'        => __( 'جزئیات درخواست', 'kermancopper' ),
         )
@@ -970,31 +1095,33 @@ function kermancopper_ads_update_request_attachments_count( $request_id ) {
     return $count;
 }
 
+function kermancopper_ads_get_cities_ajax() {
+    $province = isset( $_GET['province'] ) ? sanitize_text_field( wp_unslash( $_GET['province'] ) ) : '';
+    if ( ! $province ) {
+        wp_send_json_error( array( 'message' => 'استان انتخاب نشده است.' ) );
+    }
+
+    $provinces_cities = kermancopper_get_provinces_cities();
+    if ( isset( $provinces_cities[ $province ] ) ) {
+        wp_send_json_success( array( 'cities' => $provinces_cities[ $province ] ) );
+    } else {
+        wp_send_json_error( array( 'message' => 'استان معتبر نیست.' ) );
+    }
+}
+add_action( 'wp_ajax_kermancopper_get_cities', 'kermancopper_ads_get_cities_ajax' );
+add_action( 'wp_ajax_nopriv_kermancopper_get_cities', 'kermancopper_ads_get_cities_ajax' );
+
 function kermancopper_ads_get_request_filters() {
-    $start_date = isset( $_GET['start_date'] ) ? sanitize_text_field( wp_unslash( $_GET['start_date'] ) ) : '';
-    $end_date = isset( $_GET['end_date'] ) ? sanitize_text_field( wp_unslash( $_GET['end_date'] ) ) : '';
     $allowed_status = array( 'active', 'closed' );
     $ad_status = isset( $_GET['ad_status'] ) ? sanitize_key( wp_unslash( $_GET['ad_status'] ) ) : '';
     if ( ! in_array( $ad_status, $allowed_status, true ) ) {
         $ad_status = '';
     }
-    $has_attachments = isset( $_GET['has_attachments'] ) ? sanitize_text_field( wp_unslash( $_GET['has_attachments'] ) ) : '';
-    if ( ! in_array( $has_attachments, array( '1', '0' ), true ) ) {
-        $has_attachments = '';
-    }
-    $order = isset( $_GET['order'] ) ? strtoupper( sanitize_text_field( wp_unslash( $_GET['order'] ) ) ) : 'DESC';
-    if ( ! in_array( $order, array( 'ASC', 'DESC' ), true ) ) {
-        $order = 'DESC';
-    }
     return array(
         'ad_id'           => isset( $_GET['ad_id'] ) ? absint( wp_unslash( $_GET['ad_id'] ) ) : 0,
         'search'          => isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'] ) ) : '',
-        'start_date'      => $start_date,
-        'end_date'        => $end_date,
         'ad_status'       => $ad_status,
         'ad_type'         => isset( $_GET['ad_type'] ) ? absint( wp_unslash( $_GET['ad_type'] ) ) : 0,
-        'has_attachments' => $has_attachments,
-        'order'           => $order,
     );
 }
 
@@ -1002,12 +1129,8 @@ function kermancopper_ads_build_requests_action_url( $base_url, $filters, $extra
     $args = array(
         'ad_id'           => $filters['ad_id'] ? $filters['ad_id'] : null,
         's'               => $filters['search'] ? $filters['search'] : null,
-        'start_date'      => $filters['start_date'] ? $filters['start_date'] : null,
-        'end_date'        => $filters['end_date'] ? $filters['end_date'] : null,
         'ad_status'       => $filters['ad_status'] ? $filters['ad_status'] : null,
         'ad_type'         => $filters['ad_type'] ? $filters['ad_type'] : null,
-        'has_attachments' => $filters['has_attachments'] !== '' ? $filters['has_attachments'] : null,
-        'order'           => $filters['order'] !== 'DESC' ? $filters['order'] : null,
     );
     $args = array_merge( $args, $extras );
     return add_query_arg( $args, $base_url );
@@ -1047,114 +1170,137 @@ function kermancopper_ads_render_requests_page() {
             echo '<div class="notice notice-error"><p>' . esc_html__( 'درخواست موردنظر یافت نشد.', 'kermancopper' ) . '</p></div>';
         } else {
             update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_SEEN, '1' );
-            $request_ad_id = (int) get_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_AD_ID, true );
-            $request_name = get_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_NAME, true );
-            $request_mobile = get_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_MOBILE, true );
-            $request_email = get_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_EMAIL, true );
-            $request_company = get_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_COMPANY, true );
-            $request_note = get_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_NOTE, true );
+            
+            // Fetch all meta data
+            $meta = array();
+            $meta_keys = array(
+                'ad_id'                 => KERMANCOPPER_AD_REQUEST_META_AD_ID,
+                'company'               => KERMANCOPPER_AD_REQUEST_META_COMPANY,
+                'company_name_en'       => KERMANCOPPER_AD_REQUEST_META_COMPANY_NAME_EN,
+                'company_type'          => KERMANCOPPER_AD_REQUEST_META_COMPANY_TYPE,
+                'activity_type'         => KERMANCOPPER_AD_REQUEST_META_ACTIVITY_TYPE,
+                'national_id'           => KERMANCOPPER_AD_REQUEST_META_NATIONAL_ID,
+                'establishment_date'    => KERMANCOPPER_AD_REQUEST_META_ESTABLISHMENT_DATE,
+                'economic_number'       => KERMANCOPPER_AD_REQUEST_META_ECONOMIC_NUMBER,
+                'registration_number'   => KERMANCOPPER_AD_REQUEST_META_REGISTRATION_NUMBER,
+                'registration_location' => KERMANCOPPER_AD_REQUEST_META_REGISTRATION_LOCATION,
+                'insurance_branch'      => KERMANCOPPER_AD_REQUEST_META_INSURANCE_BRANCH,
+                'ceo_name'              => KERMANCOPPER_AD_REQUEST_META_CEO_NAME,
+                'ceo_national_id'       => KERMANCOPPER_AD_REQUEST_META_CEO_NATIONAL_ID,
+                'ceo_mobile'            => KERMANCOPPER_AD_REQUEST_META_CEO_MOBILE,
+                'phone'                 => KERMANCOPPER_AD_REQUEST_META_PHONE,
+                'fax'                   => KERMANCOPPER_AD_REQUEST_META_FAX,
+                'mobile'                => KERMANCOPPER_AD_REQUEST_META_MOBILE,
+                'email'                 => KERMANCOPPER_AD_REQUEST_META_EMAIL,
+                'website'               => KERMANCOPPER_AD_REQUEST_META_WEBSITE,
+                'postal_code'           => KERMANCOPPER_AD_REQUEST_META_POSTAL_CODE,
+                'province'              => KERMANCOPPER_AD_REQUEST_META_PROVINCE,
+                'city'                  => KERMANCOPPER_AD_REQUEST_META_CITY,
+                'address'               => KERMANCOPPER_AD_REQUEST_META_ADDRESS,
+                'bank_sheba'            => KERMANCOPPER_AD_REQUEST_META_BANK_SHEBA,
+                'bank_account'          => KERMANCOPPER_AD_REQUEST_META_BANK_ACCOUNT,
+                'bank_branch'           => KERMANCOPPER_AD_REQUEST_META_BANK_BRANCH,
+                'registration_reason'   => KERMANCOPPER_AD_REQUEST_META_REGISTRATION_REASON,
+                'note'                  => KERMANCOPPER_AD_REQUEST_META_NOTE,
+            );
+            
+            foreach ( $meta_keys as $key => $meta_key ) {
+                $meta[ $key ] = get_post_meta( $request_id, $meta_key, true );
+            }
+
             $attachments = get_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS, true );
             if ( ! is_array( $attachments ) ) {
                 $attachments = array();
             }
-            $ad_title = $request_ad_id ? get_the_title( $request_ad_id ) : '';
-            $ad_link = $request_ad_id ? get_edit_post_link( $request_ad_id ) : '';
-            $permalink = $request_ad_id ? get_permalink( $request_ad_id ) : '';
+            
+            $ad_title = $meta['ad_id'] ? get_the_title( $meta['ad_id'] ) : '';
+            $ad_link = $meta['ad_id'] ? get_edit_post_link( $meta['ad_id'] ) : '';
+            $permalink = $meta['ad_id'] ? get_permalink( $meta['ad_id'] ) : '';
             $created_at = mysql2date( 'Y/m/d H:i', $request_post->post_date );
-            $download_all_url = add_query_arg(
-                array(
-                    'action'     => 'download_attachments',
-                    'request_id' => $request_id,
-                    '_wpnonce'   => $action_nonce,
-                ),
-                $base_url
-            );
-            echo '<a class="button kermancopper-requests-back" href="' . esc_url( $base_url ) . '">' . esc_html__( 'بازگشت به لیست درخواست‌ها', 'kermancopper' ) . '</a>';
-            echo '<div class="kermancopper-requests-grid">';
-            echo '<div class="kermancopper-requests-card">';
-            echo '<h2>' . esc_html__( 'اطلاعات درخواست', 'kermancopper' ) . '</h2>';
-            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نام و نام خانوادگی', 'kermancopper' ) . '</span><strong>' . esc_html( $request_name ) . '</strong></div>';
-            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شماره موبایل', 'kermancopper' ) . '</span><strong>' . esc_html( $request_mobile ) . '</strong></div>';
-            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'ایمیل', 'kermancopper' ) . '</span><strong>' . esc_html( $request_email ) . '</strong></div>';
-            if ( $request_company ) {
-                echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شرکت/سازمان', 'kermancopper' ) . '</span><strong>' . esc_html( $request_company ) . '</strong></div>';
-            }
-            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'تاریخ ثبت', 'kermancopper' ) . '</span><strong>' . esc_html( $created_at ) . '</strong></div>';
-            if ( $request_note ) {
-                echo '<div class="kermancopper-requests-note">' . esc_html( $request_note ) . '</div>';
-            }
+            
+            $csv_url = add_query_arg( array( 'action' => 'download_csv', 'request_id' => $request_id, '_wpnonce' => $action_nonce ), $base_url );
+            $print_url = add_query_arg( array( 'print' => 1, 'request_id' => $request_id ), $base_url );
+
+            echo '<div class="kermancopper-requests-header">';
+            echo '<a class="button" href="' . esc_url( $base_url ) . '">' . esc_html__( 'بازگشت به لیست درخواست‌ها', 'kermancopper' ) . '</a>';
+            echo '<div class="kermancopper-requests-actions-group">';
+            echo '<a class="button" href="' . esc_url( $csv_url ) . '"><span class="dashicons dashicons-download"></span> ' . esc_html__( 'خروجی CSV', 'kermancopper' ) . '</a>';
+            echo '<a class="button" href="' . esc_url( $print_url ) . '" target="_blank"><span class="dashicons dashicons-printer"></span> ' . esc_html__( 'چاپ درخواست', 'kermancopper' ) . '</a>';
             echo '</div>';
+            echo '</div>';
+
+            echo '<div class="kermancopper-requests-grid">';
+            
+            // Section: Company
             echo '<div class="kermancopper-requests-card">';
-            echo '<h2>' . esc_html__( 'آگهی مرتبط', 'kermancopper' ) . '</h2>';
-            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'عنوان آگهی', 'kermancopper' ) . '</span><strong>' . esc_html( $ad_title ? $ad_title : '—' ) . '</strong></div>';
+            echo '<h2>' . esc_html__( 'اطلاعات پایه شرکت', 'kermancopper' ) . '</h2>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نام شرکت (فارسی)', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['company'] ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نام شرکت (انگلیسی)', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['company_name_en'] ?: '—' ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نوع شرکت', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['company_type'] ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نوع فعالیت', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['activity_type'] ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شناسه ملی', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['national_id'] ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'تاریخ تاسیس', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['establishment_date'] ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شماره اقتصادی', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['economic_number'] ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شماره ثبت', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['registration_number'] ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'محل ثبت', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['registration_location'] ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شعبه بیمه', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['insurance_branch'] ?: '—' ) . '</strong></div>';
+            echo '</div>';
+
+            // Section: CEO & Contact
+            echo '<div class="kermancopper-requests-card">';
+            echo '<h2>' . esc_html__( 'مشخصات مدیرعامل و تماس', 'kermancopper' ) . '</h2>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'مدیرعامل', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['ceo_name'] ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'کد ملی مدیرعامل', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['ceo_national_id'] ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'موبایل مدیرعامل', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['ceo_mobile'] ) . '</strong></div>';
+            echo '<hr/>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'تلفن ثابت', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['phone'] ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نمابر (فکس)', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['fax'] ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'تلفن همراه', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['mobile'] ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'ایمیل', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['email'] ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'وب‌سایت', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['website'] ) . '</strong></div>';
+            echo '</div>';
+
+            // Section: Address & Bank
+            echo '<div class="kermancopper-requests-card">';
+            echo '<h2>' . esc_html__( 'آدرس و اطلاعات بانکی', 'kermancopper' ) . '</h2>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'استان', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['province'] ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شهر', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['city'] ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'کد پستی', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['postal_code'] ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-note"><strong>' . esc_html__( 'آدرس:', 'kermancopper' ) . '</strong> ' . esc_html( $meta['address'] ) . '</div>';
+            echo '<hr/>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شماره شبا', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['bank_sheba'] ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شماره حساب', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['bank_account'] ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شعبه بانک', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['bank_branch'] ) . '</strong></div>';
+            echo '</div>';
+
+            // Section: Ad
+            echo '<div class="kermancopper-requests-card">';
+            echo '<h2>' . esc_html__( 'آگهی', 'kermancopper' ) . '</h2>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'آگهی مرتبط', 'kermancopper' ) . '</span><strong>' . esc_html( $ad_title ?: '—' ) . '</strong></div>';
+            echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'تاریخ ثبت', 'kermancopper' ) . '</span><strong>' . esc_html( $created_at ) . '</strong></div>';
             if ( $ad_link ) {
                 echo '<div class="kermancopper-requests-actions">';
-                echo '<a class="button button-primary" href="' . esc_url( $ad_link ) . '">' . esc_html__( 'ویرایش آگهی', 'kermancopper' ) . '</a>';
+                echo '<a class="button" href="' . esc_url( $ad_link ) . '">' . esc_html__( 'ویرایش آگهی', 'kermancopper' ) . '</a>';
                 if ( $permalink ) {
-                    echo '<a class="button" href="' . esc_url( $permalink ) . '" target="_blank" rel="noopener">' . esc_html__( 'مشاهده آگهی', 'kermancopper' ) . '</a>';
+                    echo '<a class="button" href="' . esc_url( $permalink ) . '" target="_blank">' . esc_html__( 'مشاهده آگهی', 'kermancopper' ) . '</a>';
                 }
                 echo '</div>';
             }
             echo '</div>';
-            echo '<div class="kermancopper-requests-card">';
-            echo '<h2>' . esc_html__( 'فایل‌های پیوست', 'kermancopper' ) . '</h2>';
-            if ( ! empty( $attachments ) ) {
-                echo '<div class="kermancopper-requests-actions">';
-                echo '<a class="button button-primary" href="' . esc_url( $download_all_url ) . '">' . esc_html__( 'دانلود همه پیوست‌ها', 'kermancopper' ) . '</a>';
-                echo '</div>';
-            }
-            if ( empty( $attachments ) ) {
-                echo '<div class="kermancopper-requests-empty">' . esc_html__( 'فایلی ثبت نشده است.', 'kermancopper' ) . '</div>';
-            } else {
-                echo '<ul class="kermancopper-requests-files">';
-                foreach ( $attachments as $attachment_id ) {
-                    $attachment_id = (int) $attachment_id;
-                    $file_url = wp_get_attachment_url( $attachment_id );
-                    $file_path = get_attached_file( $attachment_id );
-                    $file_name = $file_path ? wp_basename( $file_path ) : ( $file_url ? wp_basename( $file_url ) : '#' );
-                    $file_size = $file_path && file_exists( $file_path ) ? size_format( filesize( $file_path ) ) : '';
-                    $mime_type = $attachment_id ? get_post_mime_type( $attachment_id ) : '';
-                    echo '<li>';
-                    echo '<div class="kermancopper-requests-file-name">' . esc_html( $file_name ) . '</div>';
-                    echo '<div class="kermancopper-requests-file-meta">';
-                    if ( $file_size ) {
-                        echo '<span>' . esc_html( $file_size ) . '</span>';
-                    }
-                    if ( $mime_type ) {
-                        echo '<span>' . esc_html( $mime_type ) . '</span>';
-                    }
-                    echo '</div>';
-                    if ( $file_url ) {
-                        echo '<a class="button button-small" href="' . esc_url( $file_url ) . '" target="_blank" rel="noopener">' . esc_html__( 'دانلود', 'kermancopper' ) . '</a>';
-                    }
-                    echo '</li>';
-                }
-                echo '</ul>';
+
+            // Section: Reason
+            echo '<div class="kermancopper-requests-card" style="grid-column: span 2;">';
+            echo '<h2>' . esc_html__( 'دلایل ثبت‌نام و یادداشت', 'kermancopper' ) . '</h2>';
+            echo '<div class="kermancopper-requests-note" style="margin-bottom:15px;"><strong>' . esc_html__( 'دلایل ثبت‌نام:', 'kermancopper' ) . '</strong><br/>' . nl2br( esc_html( $meta['registration_reason'] ) ) . '</div>';
+            if ( $meta['note'] ) {
+                echo '<div class="kermancopper-requests-note"><strong>' . esc_html__( 'یادداشت سیستم:', 'kermancopper' ) . '</strong><br/>' . nl2br( esc_html( $meta['note'] ) ) . '</div>';
             }
             echo '</div>';
-            echo '</div>';
+
+            echo '</div>'; // grid
         }
         echo '</div>';
         return;
-    }
-    if ( $filters['has_attachments'] !== '' ) {
-        $missing_counts = get_posts(
-            array(
-                'post_type'      => KERMANCOPPER_AD_REQUEST_POST_TYPE,
-                'post_status'    => 'private',
-                'fields'         => 'ids',
-                'posts_per_page' => 200,
-                'meta_query'     => array(
-                    array(
-                        'key'     => KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS_COUNT,
-                        'compare' => 'NOT EXISTS',
-                    ),
-                ),
-            )
-        );
-        foreach ( $missing_counts as $missing_id ) {
-            kermancopper_ads_update_request_attachments_count( $missing_id );
-        }
     }
     $ad_ids_filter = array();
     $ad_ids_filtered_by_meta = array();
@@ -1229,40 +1375,19 @@ function kermancopper_ads_render_requests_page() {
             ),
         );
     }
-    if ( $filters['has_attachments'] !== '' ) {
-        $meta_query[] = array(
-            'key'     => KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS_COUNT,
-            'value'   => $filters['has_attachments'] === '1' ? 1 : 0,
-            'compare' => $filters['has_attachments'] === '1' ? '>=' : '=',
-            'type'    => 'NUMERIC',
-        );
-    }
-    $date_query = array();
-    if ( $filters['start_date'] !== '' ) {
-        $date_query['after'] = $filters['start_date'];
-    }
-    if ( $filters['end_date'] !== '' ) {
-        $date_query['before'] = $filters['end_date'];
-    }
-    if ( ! empty( $date_query ) ) {
-        $date_query['inclusive'] = true;
-    }
     $query_args = array(
         'post_type'      => KERMANCOPPER_AD_REQUEST_POST_TYPE,
         'post_status'    => 'private',
         'posts_per_page' => 20,
         'paged'          => $paged,
         'orderby'        => 'date',
-        'order'          => $filters['order'],
+        'order'          => 'DESC',
     );
     if ( count( $meta_query ) > 1 ) {
         $query_args['meta_query'] = $meta_query;
     }
-    if ( ! empty( $date_query ) ) {
-        $query_args['date_query'] = array( $date_query );
-    }
     $request_query = new WP_Query( $query_args );
-    if ( $action === 'download_csv' || $action === 'download_attachments' ) {
+    if ( $action === 'download_csv' ) {
         $nonce_value = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
         if ( ! wp_verify_nonce( $nonce_value, 'kermancopper_ad_requests_action' ) ) {
             wp_die( esc_html__( 'دسترسی غیرمجاز.', 'kermancopper' ) );
@@ -1285,73 +1410,110 @@ function kermancopper_ads_render_requests_page() {
             $export_query = new WP_Query( $export_args );
         }
         if ( $action === 'download_csv' ) {
-            $filename = 'ad-requests-' . current_time( 'Ymd-His' ) . '.csv';
+            $filename = 'requests_' . current_time( 'Y-m-d_H-i-s' ) . '.csv';
+            
+            if ( ! $export_query->have_posts() ) {
+                wp_die( esc_html__( 'رکوردی برای خروجی یافت نشد.', 'kermancopper' ) );
+            }
+
+            // UTF-8 BOM for Excel
+            echo "\xEF\xBB\xBF";
+            
             header( 'Content-Type: text/csv; charset=utf-8' );
             header( 'Content-Disposition: attachment; filename=' . $filename );
+            
             $output = fopen( 'php://output', 'w' );
-            fputcsv( $output, array( 'نام', 'موبایل', 'ایمیل', 'شرکت', 'آگهی', 'تاریخ', 'تعداد پیوست' ) );
-            if ( $export_query->have_posts() ) {
-                while ( $export_query->have_posts() ) {
-                    $export_query->the_post();
-                    $req_id = get_the_ID();
-                    $req_ad_id = (int) get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_AD_ID, true );
-                    $attachments_count = (int) get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS_COUNT, true );
-                    if ( $attachments_count === 0 ) {
-                        $attachments_count = kermancopper_ads_update_request_attachments_count( $req_id );
-                    }
-                    fputcsv(
-                        $output,
-                        array(
-                            get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_NAME, true ),
-                            get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_MOBILE, true ),
-                            get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_EMAIL, true ),
-                            get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_COMPANY, true ),
-                            $req_ad_id ? get_the_title( $req_ad_id ) : '',
-                            get_the_date( 'Y/m/d H:i', $req_id ),
-                            $attachments_count,
-                        )
-                    );
-                }
-                wp_reset_postdata();
+            
+            $headers = array(
+                'شناسه',
+                'عنوان درخواست',
+                'نام شرکت (فارسی)',
+                'نام شرکت (انگلیسی)',
+                'نوع شرکت',
+                'نوع فعالیت',
+                'شناسه ملی',
+                'تاریخ تاسیس',
+                'شماره اقتصادی',
+                'شماره ثبت',
+                'محل ثبت',
+                'شعبه بیمه',
+                'مدیرعامل',
+                'کد ملی مدیرعامل',
+                'موبایل مدیرعامل',
+                'تلفن ثابت',
+                'نمابر (فکس)',
+                'تلفن همراه',
+                'ایمیل',
+                'وب‌سایت',
+                'استان',
+                'شهر',
+                'کد پستی',
+                'آدرس',
+                'شماره شبا',
+                'شماره حساب',
+                'شعبه بانک',
+                'آگهی مرتبط',
+                'تاریخ ایجاد',
+                'وضعیت',
+                'اولویت',
+                'نام کاربر ثبت‌کننده',
+            );
+            
+            fputcsv( $output, $headers );
+            
+            $rows_count = 0;
+            while ( $export_query->have_posts() ) {
+                $export_query->the_post();
+                $req_id = get_the_ID();
+                $req_ad_id = (int) get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_AD_ID, true );
+                
+                $status_obj = get_post_status_object( get_post_status( $req_id ) );
+                $status_label = $status_obj ? $status_obj->label : get_post_status( $req_id );
+                
+                $row = array(
+                    $req_id,
+                    get_the_title( $req_id ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_COMPANY, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_COMPANY_NAME_EN, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_COMPANY_TYPE, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_ACTIVITY_TYPE, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_NATIONAL_ID, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_ESTABLISHMENT_DATE, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_ECONOMIC_NUMBER, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_REGISTRATION_NUMBER, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_REGISTRATION_LOCATION, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_INSURANCE_BRANCH, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_CEO_NAME, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_CEO_NATIONAL_ID, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_CEO_MOBILE, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_PHONE, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_FAX, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_MOBILE, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_EMAIL, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_WEBSITE, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_PROVINCE, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_CITY, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_POSTAL_CODE, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_ADDRESS, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_BANK_SHEBA, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_BANK_ACCOUNT, true ),
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_BANK_BRANCH, true ),
+                    $req_ad_id ? get_the_title( $req_ad_id ) : '',
+                    get_the_date( 'Y/m/d H:i', $req_id ),
+                    $status_label,
+                    get_post_meta( $req_id, 'priority', true ) ?: 'معمولی',
+                    get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_NAME, true ),
+                );
+                
+                fputcsv( $output, $row );
+                $rows_count++;
             }
+            wp_reset_postdata();
+            
+            // Log the download (simple version)
+            error_log( sprintf( '[KermanCopper] CSV Export: %d rows exported by User ID %d', $rows_count, get_current_user_id() ) );
+            
             fclose( $output );
-            exit;
-        }
-        if ( $action === 'download_attachments' ) {
-            $request_ids = $export_query->posts;
-            $file_paths = array();
-            foreach ( $request_ids as $req_id ) {
-                $attachments = get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS, true );
-                if ( is_array( $attachments ) ) {
-                    foreach ( $attachments as $attachment_id ) {
-                        $file_path = get_attached_file( (int) $attachment_id );
-                        if ( $file_path && file_exists( $file_path ) ) {
-                            $file_paths[] = $file_path;
-                        }
-                    }
-                }
-            }
-            if ( empty( $file_paths ) ) {
-                wp_die( esc_html__( 'فایلی برای دانلود یافت نشد.', 'kermancopper' ) );
-            }
-            if ( ! class_exists( 'ZipArchive' ) ) {
-                wp_die( esc_html__( 'ZipArchive در دسترس نیست.', 'kermancopper' ) );
-            }
-            $zip = new ZipArchive();
-            $tmp_file = wp_tempnam( 'kermancopper-attachments' );
-            if ( ! $zip->open( $tmp_file, ZipArchive::CREATE | ZipArchive::OVERWRITE ) ) {
-                wp_die( esc_html__( 'امکان ساخت فایل فشرده وجود ندارد.', 'kermancopper' ) );
-            }
-            foreach ( $file_paths as $path ) {
-                $zip->addFile( $path, wp_basename( $path ) );
-            }
-            $zip->close();
-            $zip_name = 'ad-attachments-' . current_time( 'Ymd-His' ) . '.zip';
-            header( 'Content-Type: application/zip' );
-            header( 'Content-Disposition: attachment; filename=' . $zip_name );
-            header( 'Content-Length: ' . filesize( $tmp_file ) );
-            readfile( $tmp_file );
-            @unlink( $tmp_file );
             exit;
         }
     }
@@ -1359,44 +1521,138 @@ function kermancopper_ads_render_requests_page() {
         $print_args = $query_args;
         $print_args['posts_per_page'] = -1;
         $print_args['paged'] = 1;
+        
+        $single_request_id = isset( $_GET['request_id'] ) ? absint( wp_unslash( $_GET['request_id'] ) ) : 0;
+        if ( $single_request_id ) {
+            $print_args['post__in'] = array( $single_request_id );
+        }
+        
         $print_query = new WP_Query( $print_args );
-        echo '<div class="kermancopper-requests-print">';
-        echo '<h2>' . esc_html__( 'لیست درخواست‌ها', 'kermancopper' ) . '</h2>';
-        echo '<table class="widefat striped kermancopper-requests-table">';
-        echo '<thead><tr>';
-        echo '<th>' . esc_html__( 'نام', 'kermancopper' ) . '</th>';
-        echo '<th>' . esc_html__( 'موبایل', 'kermancopper' ) . '</th>';
-        echo '<th>' . esc_html__( 'ایمیل', 'kermancopper' ) . '</th>';
-        echo '<th>' . esc_html__( 'شرکت', 'kermancopper' ) . '</th>';
-        echo '<th>' . esc_html__( 'آگهی', 'kermancopper' ) . '</th>';
-        echo '<th>' . esc_html__( 'تاریخ', 'kermancopper' ) . '</th>';
-        echo '<th>' . esc_html__( 'پیوست', 'kermancopper' ) . '</th>';
-        echo '</tr></thead><tbody>';
+        
+        $logo_id = get_theme_mod( 'custom_logo' );
+        $logo_url = $logo_id ? wp_get_attachment_image_src( $logo_id, 'full' )[0] : '';
+        $company_name = get_bloginfo( 'name' );
+        
+        echo '<div class="kermancopper-print-container">';
+        
         if ( $print_query->have_posts() ) {
+            $current_page = 1;
             while ( $print_query->have_posts() ) {
                 $print_query->the_post();
                 $req_id = get_the_ID();
-                $req_ad_id = (int) get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_AD_ID, true );
-                $attachments_count = (int) get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS_COUNT, true );
-                if ( $attachments_count === 0 ) {
-                    $attachments_count = kermancopper_ads_update_request_attachments_count( $req_id );
+                
+                // Fetch all meta data
+                $meta = array();
+                $meta_keys = array(
+                    'company'               => KERMANCOPPER_AD_REQUEST_META_COMPANY,
+                    'company_name_en'       => KERMANCOPPER_AD_REQUEST_META_COMPANY_NAME_EN,
+                    'company_type'          => KERMANCOPPER_AD_REQUEST_META_COMPANY_TYPE,
+                    'activity_type'         => KERMANCOPPER_AD_REQUEST_META_ACTIVITY_TYPE,
+                    'national_id'           => KERMANCOPPER_AD_REQUEST_META_NATIONAL_ID,
+                    'establishment_date'    => KERMANCOPPER_AD_REQUEST_META_ESTABLISHMENT_DATE,
+                    'economic_number'       => KERMANCOPPER_AD_REQUEST_META_ECONOMIC_NUMBER,
+                    'registration_number'   => KERMANCOPPER_AD_REQUEST_META_REGISTRATION_NUMBER,
+                    'registration_location' => KERMANCOPPER_AD_REQUEST_META_REGISTRATION_LOCATION,
+                    'insurance_branch'      => KERMANCOPPER_AD_REQUEST_META_INSURANCE_BRANCH,
+                    'ceo_name'              => KERMANCOPPER_AD_REQUEST_META_CEO_NAME,
+                    'ceo_national_id'       => KERMANCOPPER_AD_REQUEST_META_CEO_NATIONAL_ID,
+                    'ceo_mobile'            => KERMANCOPPER_AD_REQUEST_META_CEO_MOBILE,
+                    'phone'                 => KERMANCOPPER_AD_REQUEST_META_PHONE,
+                    'fax'                   => KERMANCOPPER_AD_REQUEST_META_FAX,
+                    'mobile'                => KERMANCOPPER_AD_REQUEST_META_MOBILE,
+                    'email'                 => KERMANCOPPER_AD_REQUEST_META_EMAIL,
+                    'website'               => KERMANCOPPER_AD_REQUEST_META_WEBSITE,
+                    'postal_code'           => KERMANCOPPER_AD_REQUEST_META_POSTAL_CODE,
+                    'province'              => KERMANCOPPER_AD_REQUEST_META_PROVINCE,
+                    'city'                  => KERMANCOPPER_AD_REQUEST_META_CITY,
+                    'address'               => KERMANCOPPER_AD_REQUEST_META_ADDRESS,
+                    'bank_sheba'            => KERMANCOPPER_AD_REQUEST_META_BANK_SHEBA,
+                    'bank_account'          => KERMANCOPPER_AD_REQUEST_META_BANK_ACCOUNT,
+                    'bank_branch'           => KERMANCOPPER_AD_REQUEST_META_BANK_BRANCH,
+                    'registration_reason'   => KERMANCOPPER_AD_REQUEST_META_REGISTRATION_REASON,
+                );
+                
+                foreach ( $meta_keys as $key => $meta_key ) {
+                    $meta[ $key ] = get_post_meta( $req_id, $meta_key, true );
                 }
-                echo '<tr>';
-                echo '<td>' . esc_html( get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_NAME, true ) ) . '</td>';
-                echo '<td>' . esc_html( get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_MOBILE, true ) ) . '</td>';
-                echo '<td>' . esc_html( get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_EMAIL, true ) ) . '</td>';
-                echo '<td>' . esc_html( get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_COMPANY, true ) ) . '</td>';
-                echo '<td>' . esc_html( $req_ad_id ? get_the_title( $req_ad_id ) : '—' ) . '</td>';
-                echo '<td>' . esc_html( get_the_date( 'Y/m/d H:i', $req_id ) ) . '</td>';
-                echo '<td>' . esc_html( $attachments_count ) . '</td>';
-                echo '</tr>';
+                
+                $ad_id = get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_AD_ID, true );
+                $ad_title = $ad_id ? get_the_title( $ad_id ) : '—';
+                $created_at = get_the_date( 'Y/m/d H:i', $req_id );
+
+                echo '<div class="kermancopper-print-page">';
+                
+                // Header
+                echo '<div class="kermancopper-print-header">';
+                echo '<div class="kermancopper-print-logo">';
+                if ( $logo_url ) {
+                    echo '<img src="' . esc_url( $logo_url ) . '" alt="Logo" />';
+                }
+                echo '</div>';
+                echo '<div class="kermancopper-print-company-name">' . esc_html( $company_name ) . '</div>';
+                echo '</div>';
+
+                // Content Table
+                echo '<table class="kermancopper-print-table">';
+                
+                $fields = array(
+                    array( 'label' => 'نام شرکت (فارسی)', 'value' => $meta['company'], 'required' => true ),
+                    array( 'label' => 'نام شرکت (انگلیسی)', 'value' => $meta['company_name_en'], 'required' => false ),
+                    array( 'label' => 'نوع شرکت', 'value' => $meta['company_type'], 'required' => true ),
+                    array( 'label' => 'نوع فعالیت', 'value' => $meta['activity_type'], 'required' => true ),
+                    array( 'label' => 'شناسه ملی', 'value' => $meta['national_id'], 'required' => true ),
+                    array( 'label' => 'تاریخ تاسیس', 'value' => $meta['establishment_date'], 'required' => true ),
+                    array( 'label' => 'شماره اقتصادی', 'value' => $meta['economic_number'], 'required' => true ),
+                    array( 'label' => 'شماره ثبت', 'value' => $meta['registration_number'], 'required' => true ),
+                    array( 'label' => 'محل ثبت', 'value' => $meta['registration_location'], 'required' => true ),
+                    array( 'label' => 'شعبه بیمه', 'value' => $meta['insurance_branch'], 'required' => false ),
+                    array( 'label' => 'نام مدیرعامل', 'value' => $meta['ceo_name'], 'required' => true ),
+                    array( 'label' => 'کد ملی مدیرعامل', 'value' => $meta['ceo_national_id'], 'required' => true ),
+                    array( 'label' => 'موبایل مدیرعامل', 'value' => $meta['ceo_mobile'], 'required' => true ),
+                    array( 'label' => 'تلفن ثابت', 'value' => $meta['phone'], 'required' => true ),
+                    array( 'label' => 'نمابر (فکس)', 'value' => $meta['fax'], 'required' => true ),
+                    array( 'label' => 'تلفن همراه', 'value' => $meta['mobile'], 'required' => true ),
+                    array( 'label' => 'ایمیل', 'value' => $meta['email'], 'required' => true ),
+                    array( 'label' => 'وب‌سایت', 'value' => $meta['website'], 'required' => true ),
+                    array( 'label' => 'استان', 'value' => $meta['province'], 'required' => true ),
+                    array( 'label' => 'شهر', 'value' => $meta['city'], 'required' => true ),
+                    array( 'label' => 'کد پستی', 'value' => $meta['postal_code'], 'required' => true ),
+                    array( 'label' => 'آدرس', 'value' => $meta['address'], 'required' => true ),
+                    array( 'label' => 'شماره شبا', 'value' => $meta['bank_sheba'], 'required' => true ),
+                    array( 'label' => 'شماره حساب', 'value' => $meta['bank_account'], 'required' => true ),
+                    array( 'label' => 'شعبه بانک', 'value' => $meta['bank_branch'], 'required' => true ),
+                    array( 'label' => 'آگهی مرتبط', 'value' => $ad_title, 'required' => false ),
+                    array( 'label' => 'تاریخ ثبت درخواست', 'value' => $created_at, 'required' => false ),
+                    array( 'label' => 'دلایل ثبت‌نام', 'value' => $meta['registration_reason'], 'required' => true ),
+                );
+
+                foreach ( $fields as $field ) {
+                    echo '<tr>';
+                    echo '<td class="kermancopper-print-label">';
+                    echo esc_html( $field['label'] );
+                    if ( $field['required'] ) {
+                        echo '<span class="required-asterisk">*</span>';
+                    }
+                    echo '</td>';
+                    echo '<td class="kermancopper-print-value">' . nl2br( esc_html( $field['value'] ?: '—' ) ) . '</td>';
+                    echo '</tr>';
+                }
+                echo '</table>';
+
+                // Footer
+                echo '<div class="kermancopper-print-footer">';
+                echo '<span>' . esc_html__( 'برگه', 'kermancopper' ) . ' ' . $current_page . ' | ' . esc_html__( 'تاریخ چاپ:', 'kermancopper' ) . ' ' . date_i18n( 'Y/m/d H:i' ) . '</span>';
+                echo '</div>';
+
+                echo '</div>'; // page
+                $current_page++;
             }
             wp_reset_postdata();
         }
-        echo '</tbody></table>';
+        
+        echo '</div>'; // container
         echo '<script>window.print();</script>';
-        echo '</div>';
-        echo '</div>';
+        echo '</div>'; // wrap
         return;
     }
     $count_obj = wp_count_posts( KERMANCOPPER_AD_REQUEST_POST_TYPE );
@@ -1443,8 +1699,7 @@ function kermancopper_ads_render_requests_page() {
     echo '<div class="kermancopper-requests-card kermancopper-requests-stat"><span>' . esc_html__( 'نتایج فیلتر', 'kermancopper' ) . '</span><strong>' . esc_html( number_format_i18n( $request_query->found_posts ) ) . '</strong></div>';
     echo '</div>';
     echo '<div class="kermancopper-requests-actions-bar">';
-    echo '<a class="button button-secondary" href="' . esc_url( kermancopper_ads_build_requests_action_url( $base_url, $filters, array( 'action' => 'download_attachments', '_wpnonce' => $action_nonce ) ) ) . '">' . esc_html__( 'دانلود همه پیوست‌ها', 'kermancopper' ) . '</a>';
-    echo '<a class="button button-secondary" href="' . esc_url( kermancopper_ads_build_requests_action_url( $base_url, $filters, array( 'action' => 'download_csv', '_wpnonce' => $action_nonce ) ) ) . '">' . esc_html__( 'خروجی CSV', 'kermancopper' ) . '</a>';
+    echo '<button type="button" class="button button-secondary kermancopper-export-csv">' . esc_html__( 'خروجی CSV', 'kermancopper' ) . '</button>';
     echo '<a class="button" href="' . esc_url( kermancopper_ads_build_requests_action_url( $base_url, $filters, array( 'print' => 1 ) ) ) . '" target="_blank" rel="noopener">' . esc_html__( 'چاپ لیست', 'kermancopper' ) . '</a>';
     echo '</div>';
     echo '<form method="get" class="kermancopper-requests-filters">';
@@ -1472,23 +1727,8 @@ function kermancopper_ads_render_requests_page() {
     echo '<option value="active"' . selected( $filters['ad_status'], 'active', false ) . '>' . esc_html__( 'فعال', 'kermancopper' ) . '</option>';
     echo '<option value="closed"' . selected( $filters['ad_status'], 'closed', false ) . '>' . esc_html__( 'بسته', 'kermancopper' ) . '</option>';
     echo '</select>';
-    echo '<label for="kermancopper-requests-start-date">' . esc_html__( 'از تاریخ', 'kermancopper' ) . '</label>';
-    echo '<input type="date" id="kermancopper-requests-start-date" name="start_date" value="' . esc_attr( $filters['start_date'] ) . '" />';
-    echo '<label for="kermancopper-requests-end-date">' . esc_html__( 'تا تاریخ', 'kermancopper' ) . '</label>';
-    echo '<input type="date" id="kermancopper-requests-end-date" name="end_date" value="' . esc_attr( $filters['end_date'] ) . '" />';
-    echo '<label for="kermancopper-requests-attachments">' . esc_html__( 'پیوست', 'kermancopper' ) . '</label>';
-    echo '<select id="kermancopper-requests-attachments" name="has_attachments">';
-    echo '<option value="">' . esc_html__( 'همه', 'kermancopper' ) . '</option>';
-    echo '<option value="1"' . selected( $filters['has_attachments'], '1', false ) . '>' . esc_html__( 'دارای پیوست', 'kermancopper' ) . '</option>';
-    echo '<option value="0"' . selected( $filters['has_attachments'], '0', false ) . '>' . esc_html__( 'بدون پیوست', 'kermancopper' ) . '</option>';
-    echo '</select>';
     echo '<label for="kermancopper-requests-search">' . esc_html__( 'جستجو', 'kermancopper' ) . '</label>';
     echo '<input type="search" id="kermancopper-requests-search" name="s" value="' . esc_attr( $filters['search'] ) . '" placeholder="' . esc_attr__( 'نام، موبایل یا ایمیل', 'kermancopper' ) . '" />';
-    echo '<label for="kermancopper-requests-order">' . esc_html__( 'مرتب‌سازی', 'kermancopper' ) . '</label>';
-    echo '<select id="kermancopper-requests-order" name="order">';
-    echo '<option value="DESC"' . selected( $filters['order'], 'DESC', false ) . '>' . esc_html__( 'جدیدترین', 'kermancopper' ) . '</option>';
-    echo '<option value="ASC"' . selected( $filters['order'], 'ASC', false ) . '>' . esc_html__( 'قدیمی‌ترین', 'kermancopper' ) . '</option>';
-    echo '</select>';
     echo '<button class="button button-primary" type="submit">' . esc_html__( 'اعمال فیلتر', 'kermancopper' ) . '</button>';
     echo '<a class="button" href="' . esc_url( $base_url ) . '">' . esc_html__( 'حذف فیلتر', 'kermancopper' ) . '</a>';
     echo '</form>';
@@ -1500,7 +1740,6 @@ function kermancopper_ads_render_requests_page() {
     echo '<th>' . esc_html__( 'شرکت', 'kermancopper' ) . '</th>';
     echo '<th>' . esc_html__( 'آگهی', 'kermancopper' ) . '</th>';
     echo '<th>' . esc_html__( 'تاریخ', 'kermancopper' ) . '</th>';
-    echo '<th>' . esc_html__( 'پیوست', 'kermancopper' ) . '</th>';
     echo '<th>' . esc_html__( 'عملیات', 'kermancopper' ) . '</th>';
     echo '</tr></thead>';
     echo '<tbody>';
@@ -1515,10 +1754,6 @@ function kermancopper_ads_render_requests_page() {
             $req_ad_id = (int) get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_AD_ID, true );
             $req_ad_title = $req_ad_id ? get_the_title( $req_ad_id ) : '';
             $req_date = get_the_date( 'Y/m/d H:i', $req_id );
-            $req_attachments_count = (int) get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS_COUNT, true );
-            if ( $req_attachments_count === 0 ) {
-                $req_attachments_count = kermancopper_ads_update_request_attachments_count( $req_id );
-            }
             $req_seen = get_post_meta( $req_id, KERMANCOPPER_AD_REQUEST_META_SEEN, true );
             $detail_url = add_query_arg(
                 array(
@@ -1535,7 +1770,6 @@ function kermancopper_ads_render_requests_page() {
             echo '<td>' . esc_html( $req_company ? $req_company : '—' ) . '</td>';
             echo '<td>' . esc_html( $req_ad_title ? $req_ad_title : '—' ) . '</td>';
             echo '<td>' . esc_html( $req_date ) . '</td>';
-            echo '<td>' . esc_html( $req_attachments_count ) . '</td>';
             echo '<td>';
             echo '<button type="button" class="button button-small kermancopper-requests-open" data-request-id="' . esc_attr( $req_id ) . '">' . esc_html__( 'نمایش سریع', 'kermancopper' ) . '</button>';
             echo '<a class="button button-small" href="' . esc_url( $detail_url ) . '">' . esc_html__( 'صفحه جزئیات', 'kermancopper' ) . '</a>';
@@ -1544,7 +1778,7 @@ function kermancopper_ads_render_requests_page() {
         }
         wp_reset_postdata();
     } else {
-        echo '<tr><td colspan="8">' . esc_html__( 'درخواستی پیدا نشد.', 'kermancopper' ) . '</td></tr>';
+        echo '<tr><td colspan="7">' . esc_html__( 'درخواستی پیدا نشد.', 'kermancopper' ) . '</td></tr>';
     }
     echo '</tbody>';
     echo '</table>';
@@ -1597,106 +1831,106 @@ function kermancopper_ads_get_request_detail_html( $request_id, $action_nonce ) 
     if ( ! $request_post || $request_post->post_type !== KERMANCOPPER_AD_REQUEST_POST_TYPE ) {
         return '<div class="kermancopper-requests-empty">' . esc_html__( 'درخواست موردنظر یافت نشد.', 'kermancopper' ) . '</div>';
     }
-    $request_ad_id = (int) get_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_AD_ID, true );
-    $request_name = get_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_NAME, true );
-    $request_mobile = get_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_MOBILE, true );
-    $request_email = get_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_EMAIL, true );
-    $request_company = get_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_COMPANY, true );
-    $request_note = get_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_NOTE, true );
+    
+    // Fetch all meta data
+    $meta = array();
+    $meta_keys = array(
+        'ad_id'                 => KERMANCOPPER_AD_REQUEST_META_AD_ID,
+        'company'               => KERMANCOPPER_AD_REQUEST_META_COMPANY,
+        'company_name_en'       => KERMANCOPPER_AD_REQUEST_META_COMPANY_NAME_EN,
+        'company_type'          => KERMANCOPPER_AD_REQUEST_META_COMPANY_TYPE,
+        'activity_type'         => KERMANCOPPER_AD_REQUEST_META_ACTIVITY_TYPE,
+        'national_id'           => KERMANCOPPER_AD_REQUEST_META_NATIONAL_ID,
+        'establishment_date'    => KERMANCOPPER_AD_REQUEST_META_ESTABLISHMENT_DATE,
+        'economic_number'       => KERMANCOPPER_AD_REQUEST_META_ECONOMIC_NUMBER,
+        'registration_number'   => KERMANCOPPER_AD_REQUEST_META_REGISTRATION_NUMBER,
+        'registration_location' => KERMANCOPPER_AD_REQUEST_META_REGISTRATION_LOCATION,
+        'insurance_branch'      => KERMANCOPPER_AD_REQUEST_META_INSURANCE_BRANCH,
+        'ceo_name'              => KERMANCOPPER_AD_REQUEST_META_CEO_NAME,
+        'ceo_national_id'       => KERMANCOPPER_AD_REQUEST_META_CEO_NATIONAL_ID,
+        'ceo_mobile'            => KERMANCOPPER_AD_REQUEST_META_CEO_MOBILE,
+        'phone'                 => KERMANCOPPER_AD_REQUEST_META_PHONE,
+        'fax'                   => KERMANCOPPER_AD_REQUEST_META_FAX,
+        'mobile'                => KERMANCOPPER_AD_REQUEST_META_MOBILE,
+        'email'                 => KERMANCOPPER_AD_REQUEST_META_EMAIL,
+        'website'               => KERMANCOPPER_AD_REQUEST_META_WEBSITE,
+        'postal_code'           => KERMANCOPPER_AD_REQUEST_META_POSTAL_CODE,
+        'province'              => KERMANCOPPER_AD_REQUEST_META_PROVINCE,
+        'city'                  => KERMANCOPPER_AD_REQUEST_META_CITY,
+        'address'               => KERMANCOPPER_AD_REQUEST_META_ADDRESS,
+        'bank_sheba'            => KERMANCOPPER_AD_REQUEST_META_BANK_SHEBA,
+        'bank_account'          => KERMANCOPPER_AD_REQUEST_META_BANK_ACCOUNT,
+        'bank_branch'           => KERMANCOPPER_AD_REQUEST_META_BANK_BRANCH,
+        'registration_reason'   => KERMANCOPPER_AD_REQUEST_META_REGISTRATION_REASON,
+        'note'                  => KERMANCOPPER_AD_REQUEST_META_NOTE,
+    );
+    
+    foreach ( $meta_keys as $key => $meta_key ) {
+        $meta[ $key ] = get_post_meta( $request_id, $meta_key, true );
+    }
+
     $attachments = get_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS, true );
     if ( ! is_array( $attachments ) ) {
         $attachments = array();
     }
-    $ad_title = $request_ad_id ? get_the_title( $request_ad_id ) : '';
-    $ad_link = $request_ad_id ? get_edit_post_link( $request_ad_id ) : '';
-    $permalink = $request_ad_id ? get_permalink( $request_ad_id ) : '';
+    
+    $ad_title = $meta['ad_id'] ? get_the_title( $meta['ad_id'] ) : '';
+    $ad_link = $meta['ad_id'] ? get_edit_post_link( $meta['ad_id'] ) : '';
+    $permalink = $meta['ad_id'] ? get_permalink( $meta['ad_id'] ) : '';
     $created_at = mysql2date( 'Y/m/d H:i', $request_post->post_date );
-    $download_all_url = admin_url(
-        add_query_arg(
-            array(
-                'post_type'  => 'kermancopper_ad',
-                'page'       => 'kermancopper-ad-requests',
-                'action'     => 'download_attachments',
-                'request_id' => $request_id,
-                '_wpnonce'   => $action_nonce,
-            ),
-            'edit.php'
-        )
+    
+    $base_query_args = array(
+        'post_type'  => 'kermancopper_ad',
+        'page'       => 'kermancopper-ad-requests',
+        'request_id' => $request_id,
+        '_wpnonce'   => $action_nonce,
     );
-    $detail_url = admin_url(
-        add_query_arg(
-            array(
-                'post_type'  => 'kermancopper_ad',
-                'page'       => 'kermancopper-ad-requests',
-                'request_id' => $request_id,
-            ),
-            'edit.php'
-        )
-    );
+    
+    $csv_url = admin_url( add_query_arg( array_merge( $base_query_args, array( 'action' => 'download_csv' ) ), 'edit.php' ) );
+    $print_url = admin_url( add_query_arg( array_merge( $base_query_args, array( 'print' => 1 ) ), 'edit.php' ) );
+    $detail_url = admin_url( add_query_arg( array( 'post_type' => 'kermancopper_ad', 'page' => 'kermancopper-ad-requests', 'request_id' => $request_id ), 'edit.php' ) );
+    
     ob_start();
     echo '<div class="kermancopper-requests-drawer-content">';
+    
+    // Quick Actions
+    echo '<div class="kermancopper-requests-quick-actions">';
+    echo '<a class="button" href="' . esc_url( $csv_url ) . '"><span class="dashicons dashicons-download"></span> ' . esc_html__( 'CSV', 'kermancopper' ) . '</a>';
+    echo '<a class="button" href="' . esc_url( $print_url ) . '" target="_blank"><span class="dashicons dashicons-printer"></span> ' . esc_html__( 'چاپ', 'kermancopper' ) . '</a>';
+    echo '<a class="button button-primary" href="' . esc_url( $detail_url ) . '">' . esc_html__( 'جزییات کامل', 'kermancopper' ) . '</a>';
+    echo '</div>';
+
+    // Company Info
     echo '<div class="kermancopper-requests-card">';
-    echo '<h4>' . esc_html__( 'اطلاعات درخواست', 'kermancopper' ) . '</h4>';
-    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نام و نام خانوادگی', 'kermancopper' ) . '</span><strong>' . esc_html( $request_name ) . '</strong></div>';
-    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شماره موبایل', 'kermancopper' ) . '</span><strong>' . esc_html( $request_mobile ) . '</strong></div>';
-    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'ایمیل', 'kermancopper' ) . '</span><strong>' . esc_html( $request_email ) . '</strong></div>';
-    if ( $request_company ) {
-        echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شرکت/سازمان', 'kermancopper' ) . '</span><strong>' . esc_html( $request_company ) . '</strong></div>';
-    }
-    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'تاریخ ثبت', 'kermancopper' ) . '</span><strong>' . esc_html( $created_at ) . '</strong></div>';
-    if ( $request_note ) {
-        echo '<div class="kermancopper-requests-note">' . esc_html( $request_note ) . '</div>';
-    }
+    echo '<h4>' . esc_html__( 'اطلاعات پایه شرکت', 'kermancopper' ) . '</h4>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نام فارسی', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['company'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نام انگلیسی', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['company_name_en'] ?: '—' ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نوع شرکت', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['company_type'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نوع فعالیت', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['activity_type'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شناسه ملی', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['national_id'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'تاریخ تاسیس', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['establishment_date'] ) . '</strong></div>';
     echo '</div>';
+
+    // CEO Info
     echo '<div class="kermancopper-requests-card">';
-    echo '<h4>' . esc_html__( 'آگهی مرتبط', 'kermancopper' ) . '</h4>';
-    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'عنوان آگهی', 'kermancopper' ) . '</span><strong>' . esc_html( $ad_title ? $ad_title : '—' ) . '</strong></div>';
-    echo '<div class="kermancopper-requests-actions">';
-    if ( $ad_link ) {
-        echo '<a class="button button-primary" href="' . esc_url( $ad_link ) . '">' . esc_html__( 'ویرایش آگهی', 'kermancopper' ) . '</a>';
-    }
-    if ( $permalink ) {
-        echo '<a class="button" href="' . esc_url( $permalink ) . '" target="_blank" rel="noopener">' . esc_html__( 'مشاهده آگهی', 'kermancopper' ) . '</a>';
-    }
-    echo '<a class="button" href="' . esc_url( $detail_url ) . '">' . esc_html__( 'صفحه جزئیات', 'kermancopper' ) . '</a>';
+    echo '<h4>' . esc_html__( 'مشخصات مدیرعامل', 'kermancopper' ) . '</h4>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نام و نام خانوادگی', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['ceo_name'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'کد ملی', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['ceo_national_id'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'موبایل', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['ceo_mobile'] ) . '</strong></div>';
     echo '</div>';
-    echo '</div>';
+
+    // Contact Info
     echo '<div class="kermancopper-requests-card">';
-    echo '<h4>' . esc_html__( 'فایل‌های پیوست', 'kermancopper' ) . '</h4>';
-    if ( ! empty( $attachments ) ) {
-        echo '<div class="kermancopper-requests-actions">';
-        echo '<a class="button button-primary" href="' . esc_url( $download_all_url ) . '">' . esc_html__( 'دانلود همه پیوست‌ها', 'kermancopper' ) . '</a>';
-        echo '</div>';
-    }
-    if ( empty( $attachments ) ) {
-        echo '<div class="kermancopper-requests-empty">' . esc_html__( 'فایلی ثبت نشده است.', 'kermancopper' ) . '</div>';
-    } else {
-        echo '<ul class="kermancopper-requests-files">';
-        foreach ( $attachments as $attachment_id ) {
-            $attachment_id = (int) $attachment_id;
-            $file_url = wp_get_attachment_url( $attachment_id );
-            $file_path = get_attached_file( $attachment_id );
-            $file_name = $file_path ? wp_basename( $file_path ) : ( $file_url ? wp_basename( $file_url ) : '#' );
-            $file_size = $file_path && file_exists( $file_path ) ? size_format( filesize( $file_path ) ) : '';
-            $mime_type = $attachment_id ? get_post_mime_type( $attachment_id ) : '';
-            echo '<li>';
-            echo '<div class="kermancopper-requests-file-name">' . esc_html( $file_name ) . '</div>';
-            echo '<div class="kermancopper-requests-file-meta">';
-            if ( $file_size ) {
-                echo '<span>' . esc_html( $file_size ) . '</span>';
-            }
-            if ( $mime_type ) {
-                echo '<span>' . esc_html( $mime_type ) . '</span>';
-            }
-            echo '</div>';
-            if ( $file_url ) {
-                echo '<a class="button button-small" href="' . esc_url( $file_url ) . '" target="_blank" rel="noopener">' . esc_html__( 'دانلود', 'kermancopper' ) . '</a>';
-            }
-            echo '</li>';
-        }
-        echo '</ul>';
-    }
+    echo '<h4>' . esc_html__( 'اطلاعات تماس و آدرس', 'kermancopper' ) . '</h4>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'تلفن ثابت', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['phone'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نمابر', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['fax'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'تلفن همراه', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['mobile'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'ایمیل', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['email'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'استان / شهر', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['province'] . ' / ' . $meta['city'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'کد پستی', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['postal_code'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-note">' . esc_html( $meta['address'] ) . '</div>';
     echo '</div>';
+    
     echo '</div>';
     return ob_get_clean();
 }
@@ -1763,3 +1997,120 @@ function kermancopper_ads_add_requests_menu_badge() {
     }
 }
 add_action( 'admin_menu', 'kermancopper_ads_add_requests_menu_badge', 99 );
+
+// Register AJAX actions for export
+add_action( 'wp_ajax_kermancopper_export_csv', 'kermancopper_ads_ajax_export_csv' );
+
+/**
+ * AJAX CSV Export Handler
+ */
+function kermancopper_ads_ajax_export_csv() {
+    $nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+    if ( ! wp_verify_nonce( $nonce, 'kermancopper_ad_requests_action' ) ) {
+        wp_send_json_error( array( 'message' => 'Unauthorized Access' ) );
+    }
+    
+    if ( ! current_user_can( 'edit_posts' ) ) {
+        wp_send_json_error( array( 'message' => 'Unauthorized Permissions' ) );
+    }
+
+    $filters = array(
+        'ad_id'           => isset( $_POST['ad_id'] ) ? absint( $_POST['ad_id'] ) : 0,
+        'ad_type'         => isset( $_POST['ad_type'] ) ? absint( $_POST['ad_type'] ) : 0,
+        'ad_status'       => isset( $_POST['ad_status'] ) ? sanitize_text_field( $_POST['ad_status'] ) : '',
+        'search'          => isset( $_POST['s'] ) ? sanitize_text_field( $_POST['s'] ) : '',
+    );
+
+    $args = array(
+        'post_type'      => KERMANCOPPER_AD_REQUEST_POST_TYPE,
+        'posts_per_page' => -1,
+        'post_status'    => 'any',
+        'order'          => 'DESC',
+        'orderby'        => 'date',
+    );
+
+    $meta_query = array( 'relation' => 'AND' );
+    if ( $filters['ad_id'] ) {
+        $meta_query[] = array( 'key' => KERMANCOPPER_AD_REQUEST_META_AD_ID, 'value' => $filters['ad_id'] );
+    }
+    if ( count( $meta_query ) > 1 ) { $args['meta_query'] = $meta_query; }
+    if ( $filters['search'] ) { $args['s'] = $filters['search']; }
+
+    $export_query = new WP_Query( $args );
+
+    if ( ! $export_query->have_posts() ) {
+        wp_send_json_error( array( 'message' => 'رکوردی برای خروجی یافت نشد.' ) );
+    }
+
+    $filename = 'requests_' . current_time( 'Y-m-d_H-i-s' ) . '.csv';
+    $upload_dir = wp_upload_dir();
+    $file_path = $upload_dir['path'] . '/' . $filename;
+    $file_url = $upload_dir['url'] . '/' . $filename;
+
+    $output = fopen( $file_path, 'w' );
+    fprintf( $output, chr(0xEF).chr(0xBB).chr(0xBF) );
+
+    $headers = array(
+        'شناسه', 'عنوان درخواست', 'نام شرکت (فارسی)', 'نام شرکت (انگلیسی)', 'نوع شرکت', 'نوع فعالیت',
+        'شناسه ملی', 'تاریخ تاسیس', 'شماره اقتصادی', 'شماره ثبت', 'محل ثبت', 'شعبه بیمه',
+        'مدیرعامل', 'کد ملی مدیرعامل', 'موبایل مدیرعامل', 'تلفن ثابت', 'نمابر (فکس)', 'تلفن همراه',
+        'ایمیل', 'وب‌سایت', 'استان', 'شهر', 'کد پستی', 'آدرس', 'شماره شبا', 'شماره حساب',
+        'شعبه بانک', 'آگهی مرتبط', 'تاریخ ایجاد', 'وضعیت', 'اولویت', 'نام کاربر ثبت‌کننده'
+    );
+    fputcsv( $output, $headers );
+
+    $rows_count = 0;
+    while ( $export_query->have_posts() ) {
+        $export_query->the_post();
+        $id = get_the_ID();
+        
+        $status_obj = get_post_status_object( get_post_status( $id ) );
+        $status_label = $status_obj ? $status_obj->label : get_post_status( $id );
+
+        $row = array(
+            $id, get_the_title(),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_COMPANY, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_COMPANY_NAME_EN, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_COMPANY_TYPE, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_ACTIVITY_TYPE, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_NATIONAL_ID, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_ESTABLISHMENT_DATE, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_ECONOMIC_NUMBER, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_REGISTRATION_NUMBER, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_REGISTRATION_LOCATION, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_INSURANCE_BRANCH, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_CEO_NAME, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_CEO_NATIONAL_ID, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_CEO_MOBILE, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_PHONE, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_FAX, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_MOBILE, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_EMAIL, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_WEBSITE, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_PROVINCE, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_CITY, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_POSTAL_CODE, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_ADDRESS, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_BANK_SHEBA, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_BANK_ACCOUNT, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_BANK_BRANCH, true ),
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_AD_ID, true ) ? get_the_title( get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_AD_ID, true ) ) : '',
+            get_the_date( 'Y/m/d H:i' ),
+            $status_label,
+            get_post_meta( $id, 'priority', true ) ?: 'معمولی',
+            get_post_meta( $id, KERMANCOPPER_AD_REQUEST_META_NAME, true )
+        );
+        fputcsv( $output, $row );
+        $rows_count++;
+    }
+    fclose( $output );
+    wp_reset_postdata();
+
+    error_log( sprintf( '[KermanCopper] AJAX CSV Export: %d rows by User %d', $rows_count, get_current_user_id() ) );
+
+    wp_send_json_success( array(
+        'url'   => $file_url,
+        'rows'  => $rows_count,
+        'label' => sprintf( '%d ردیف با موفقیت استخراج شد.', $rows_count )
+    ) );
+}

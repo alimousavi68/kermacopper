@@ -51,25 +51,7 @@ function kermancopper_widgets_init() {
         'after_title'   => '</h4>',
     ) );
 
-    register_sidebar( array(
-        'name'          => __( 'Footer 3', 'kermancopper' ),
-        'id'            => 'footer-3',
-        'description'   => __( 'Add widgets here to appear in your footer column 3.', 'kermancopper' ),
-        'before_widget' => '<div id="%1$s" class="widget %2$s mb-8">',
-        'after_widget'  => '</div>',
-        'before_title'  => '<h4 class="font-bold text-slate-900 mb-6 text-sm border-r-2 border-copper pr-2">',
-        'after_title'   => '</h4>',
-    ) );
-
-    register_sidebar( array(
-        'name'          => __( 'Footer 4', 'kermancopper' ),
-        'id'            => 'footer-4',
-        'description'   => __( 'Add widgets here to appear in your footer column 4.', 'kermancopper' ),
-        'before_widget' => '<div id="%1$s" class="widget %2$s mb-8">',
-        'after_widget'  => '</div>',
-        'before_title'  => '<h4 class="font-bold text-slate-900 mb-6 text-sm border-r-2 border-copper pr-2">',
-        'after_title'   => '</h4>',
-    ) );
+ 
 
     register_sidebar( array(
         'name'          => __( 'Homepage News Below', 'kermancopper' ),
@@ -78,6 +60,16 @@ function kermancopper_widgets_init() {
         'before_widget' => '<div id="%1$s" class="widget %2$s w-full mb-10">',
         'after_widget'  => '</div>',
         'before_title'  => '<h4 class="font-bold text-slate-900 mb-6 text-sm border-r-2 border-copper pr-2">',
+        'after_title'   => '</h4>',
+    ) );
+
+    register_sidebar( array(
+        'name'          => __( 'Homepage Contact Box', 'kermancopper' ),
+        'id'            => 'home-contact-box',
+        'description'   => __( 'Widgets inside the contact section box on the homepage.', 'kermancopper' ),
+        'before_widget' => '<div id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h4 class="font-bold text-slate-900 mb-4 text-sm border-r-2 border-copper pr-2">',
         'after_title'   => '</h4>',
     ) );
 }
@@ -128,6 +120,12 @@ function kermancopper_scripts() {
     
     // Main Script
     wp_enqueue_script( 'kermancopper-main', get_template_directory_uri() . '/assets/js/main.js', array('lucide'), '1.0.0', true );
+
+    // Jalali Datepicker for Frontend
+    if ( is_singular( 'kermancopper_ad' ) ) {
+        wp_enqueue_style( 'kermancopper-jalalidatepicker', get_template_directory_uri() . '/assets/vendor/jalalidatepicker/jalalidatepicker.min.css', array(), '1.3.0' );
+        wp_enqueue_script( 'kermancopper-jalalidatepicker', get_template_directory_uri() . '/assets/vendor/jalalidatepicker/jalalidatepicker.min.js', array(), '1.3.0', true );
+    }
 }
 add_action( 'wp_enqueue_scripts', 'kermancopper_scripts' );
 

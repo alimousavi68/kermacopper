@@ -16,44 +16,27 @@
       
       /* Hide last separator in menu */
       .menu-item:last-child .menu-separator { display: none; }
+     
+      @font-face {
+            font-family: 'PeydaFa';
+            src: url('<?php echo get_template_directory_uri(); ?>/fonts/peyda/PeydaWebVF.woff2') format('woff2-variations'),
+                 url('<?php echo get_template_directory_uri(); ?>/fonts/peyda/PeydaWebVF.woff') format('woff-variations');
+            font-weight: 100 950;
+            font-style: normal;
+            font-display: swap;
+        }
 
-      @font-face {
-        font-family: 'IRANYekanX';
-        src: url('<?php echo get_template_directory_uri(); ?>/fonts/IRANYekanX/woff2/IRANYekanX-Regular.woff2') format('woff2');
-        font-weight: 400;
-        font-style: normal;
-      }
-      @font-face {
-        font-family: 'IRANYekanX';
-        src: url('<?php echo get_template_directory_uri(); ?>/fonts/IRANYekanX/woff2/IRANYekanX-Bold.woff2') format('woff2');
-        font-weight: 700;
-        font-style: normal;
-      }
-      @font-face {
-        font-family: 'IRANYekanX';
-        src: url('<?php echo get_template_directory_uri(); ?>/fonts/IRANYekanX/woff2/IRANYekanX-Light.woff2') format('woff2');
-        font-weight: 300;
-        font-style: normal;
-      }
-      @font-face {
-        font-family: 'IRANYekanX';
-        src: url('<?php echo get_template_directory_uri(); ?>/fonts/IRANYekanX/woff2/IRANYekanX-Medium.woff2') format('woff2');
-        font-weight: 500;
-        font-style: normal;
-      }
-      @font-face {
-        font-family: 'IRANYekanX';
-        src: url('<?php echo get_template_directory_uri(); ?>/fonts/IRANYekanX/woff2/IRANYekanX-Black.woff2') format('woff2');
-        font-weight: 900;
-        font-style: normal;
-      }
+       
 
       html {
         scroll-behavior: smooth;
       }
 
       body {
-        font-family: 'IRANYekanX', sans-serif;
+        font-family: 'PeydaFa', sans-serif;
+        -moz-font-feature-settings: "ss02";
+        -webkit-font-feature-settings: "ss02";
+        font-feature-settings: "ss02";
         background-color: var(--color-bg-body);
         color: var(--color-text-main);
         overflow-x: hidden;
@@ -135,19 +118,19 @@
 $is_home = is_front_page();
 $header_position_class = $is_home ? 'absolute' : 'relative';
 $top_bar_classes = $is_home ? 'bg-transparent border-white/10 text-white/80' : 'bg-white border-slate-100 text-slate-500';
-$nav_bg_classes = $is_home ? 'bg-transparent' : 'bg-white';
-$nav_text_classes = $is_home ? 'text-white/90' : 'text-slate-600';
-$icon_button_classes = $is_home ? 'text-white hover:bg-white/10' : 'text-slate-900 hover:bg-slate-50';
-$mobile_button_classes = $is_home ? 'text-white hover:bg-white/10' : 'text-slate-900 hover:bg-slate-50';
-$separator_classes = $is_home ? 'text-white/30' : 'text-slate-200';
-$social_icon_classes = $is_home ? 'text-white/70 hover:text-white' : 'text-slate-400/80 hover:text-copper';
-$lang_active_classes = $is_home ? 'text-white' : 'text-copper';
-$lang_hover_classes = $is_home ? 'hover:text-white' : 'hover:text-copper';
+$nav_bg_classes = $is_home ? 'bg-transparent' : 'bg-[#0F1724]';
+$nav_text_classes = $is_home ? 'text-white/90' : 'text-white';
+$icon_button_classes = $is_home ? 'text-white hover:bg-white/10' : 'text-white hover:bg-white/10';
+$mobile_button_classes = $is_home ? 'text-white hover:bg-white/10' : 'text-white hover:bg-white/10';
+$separator_classes = $is_home ? 'text-white/30' : 'text-white/30';
+$social_icon_classes = $is_home ? 'text-white/70 hover:text-white' : 'text-white/70 hover:text-white';
+$lang_active_classes = $is_home ? 'text-white' : 'text-white';
+$lang_hover_classes = $is_home ? 'hover:text-white' : 'hover:text-white';
 $icon_color_classes = $is_home ? 'text-white' : 'text-copper';
-$border_social_classes = $is_home ? 'sm:border-white/15' : 'sm:border-slate-200';
-$border_lang_classes = $is_home ? 'sm:border-white/15' : 'sm:border-slate-200';
+$border_social_classes = $is_home ? 'sm:border-white/15' : 'sm:border-white/15';
+$border_lang_classes = $is_home ? 'sm:border-white/15' : 'sm:border-white/15';
 $underline_classes = $is_home ? 'bg-white/70' : 'bg-copper';
-$topbar_link_hover = $is_home ? 'hover:text-white' : 'hover:text-copper';
+$topbar_link_hover = $is_home ? 'hover:text-white' : 'hover:text-white';
 $topbar_address = trim( (string) get_theme_mod( 'kermancopper_address', '' ) );
 $topbar_email = trim( (string) get_theme_mod( 'kermancopper_email', '' ) );
 $topbar_phone = trim( (string) get_theme_mod( 'kermancopper_phone', '' ) );

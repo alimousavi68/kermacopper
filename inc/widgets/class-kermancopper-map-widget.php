@@ -30,7 +30,7 @@ class KermanCopper_Map_Widget extends WP_Widget {
         echo $args['before_widget'];
         
         if ( ! empty( $instance['title'] ) ) {
-            echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
+            echo  apply_filters( 'widget_title', $instance['title'] ) ;
         }
 
         $image_url = ! empty( $instance['image_url'] ) ? $instance['image_url'] : '';

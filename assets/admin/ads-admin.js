@@ -92,6 +92,41 @@ jQuery(function($){
                 drawerBody.html('<div class="kermancopper-requests-empty">جزئیات در دسترس نیست.</div>');
             });
         }
+        // CSV Export
+        $(document).on('click', '.kermancopper-export-csv', function(e) {
+            e.preventDefault();
+            var $btn = $(this);
+            var $form = $('.kermancopper-requests-filters');
+            
+            if ($btn.hasClass('updating-message')) return;
+            
+            var originalText = $btn.text();
+            $btn.addClass('updating-message').text('در حال استخراج...');
+            
+            var data = {
+                 action: 'kermancopper_export_csv',
+                 nonce: strings.actionNonce,
+                 ad_id: $form.find('[name="ad_id"]').val(),
+                ad_type: $form.find('[name="ad_type"]').val(),
+                ad_status: $form.find('[name="ad_status"]').val(),
+                start_date: $form.find('[name="start_date"]').val(),
+                end_date: $form.find('[name="end_date"]').val(),
+                has_attachments: $form.find('[name="has_attachments"]').val(),
+                s: $form.find('[name="s"]').val(),
+                order: $form.find('[name="order"]').val()
+            };
+            
+            $.post(strings.ajaxUrl, data, function(response) {
+                $btn.removeClass('updating-message').text(originalText);
+                if (response.success) {
+                    alert(response.data.label);
+                    window.location.href = response.data.url;
+                } else {
+                    alert(response.data.message || 'خطایی رخ داد.');
+                }
+            });
+        });
+
         $(document).on('click', '.kermancopper-requests-open', function(){
             var requestId = $(this).data('request-id');
             var row = $(this).closest('tr');

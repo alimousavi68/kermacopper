@@ -1,64 +1,305 @@
-.kermancopper-ad-fields-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 12px; }
-.kermancopper-ad-field label { display: block; font-weight: 600; margin-bottom: 4px; }
-@media (max-width: 782px) { .kermancopper-ad-fields-row { grid-template-columns: 1fr; } }
-#kermancopper-ad-excel-forms { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
-.kermancopper-ad-excel-title { font-weight: 600; margin-bottom: 6px; }
-.kermancopper-ad-excel-separator { border-top: 1px solid #e2e8f0; margin: 14px 0 10px; }
-.kermancopper-ad-excel-row { border: 1px solid #e2e8f0; background: #fff; padding: 12px; border-radius: 6px; display: flex; flex-direction: column; gap: 10px; }
-.kermancopper-ad-excel-label { display: block; font-weight: 600; margin-bottom: 4px; }
-.kermancopper-ad-excel-row-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.kermancopper-ad-excel-url { min-width: 240px; }
-.kermancopper-ad-excel-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
-#kermancopper_ad_excel_add { width: 100%; }
-.jdp-container { z-index: 999999; }
-.kermancopper-requests { max-width: none; }
-.kermancopper-requests-cards { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin: 12px 0 16px; }
-.kermancopper-requests-stat { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
-.kermancopper-requests-stat span { font-size: 11px; color: #64748b; }
-.kermancopper-requests-stat strong { font-size: 18px; color: #0f172a; }
-.kermancopper-requests-actions-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
-.kermancopper-requests-filters { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; background: #fff; padding: 12px; border: 1px solid #e5e7eb; border-radius: 10px; margin-bottom: 16px; }
-.kermancopper-requests-filters label { font-weight: 600; color: #334155; }
+/* Common Styles */
+.kermancopper-requests { max-width: none; margin-right: 20px; }
+.kermancopper-requests h1 { margin-bottom: 20px; }
+
+/* Stats Cards */
+.kermancopper-requests-cards { 
+    display: grid; 
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 15px; 
+    margin: 20px 0; 
+}
+.kermancopper-requests-card { 
+    background: #fff; 
+    border: 1px solid #ccd0d4; 
+    box-shadow: 0 1px 1px rgba(0,0,0,.04); 
+    padding: 20px; 
+    border-radius: 4px;
+}
+.kermancopper-requests-stat span { 
+    display: block; 
+    font-size: 12px; 
+    color: #646970; 
+    margin-bottom: 8px; 
+}
+.kermancopper-requests-stat strong { 
+    font-size: 24px; 
+    color: #1d2327; 
+}
+
+/* Actions & Filters */
+.kermancopper-requests-actions-bar { 
+    display: flex; 
+    gap: 10px; 
+    margin-bottom: 20px; 
+}
+.kermancopper-requests-filters { 
+    background: #fff; 
+    padding: 15px; 
+    border: 1px solid #ccd0d4; 
+    border-radius: 4px; 
+    margin-bottom: 20px; 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 15px; 
+    align-items: center; 
+}
+.kermancopper-requests-filters label { font-weight: 600; }
 .kermancopper-requests-filters select,
-.kermancopper-requests-filters input[type="search"],
-.kermancopper-requests-filters input[type="date"] { min-width: 220px; }
-.kermancopper-requests-table { width: 100%; }
-.kermancopper-requests-table td { vertical-align: middle; }
-.kermancopper-requests-back { margin: 12px 0 16px; }
-.kermancopper-requests-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
-.kermancopper-requests-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06); }
-.kermancopper-requests-card h2 { margin: 0 0 12px; font-size: 15px; }
-.kermancopper-requests-card h4 { margin: 0 0 12px; font-size: 14px; }
-.kermancopper-requests-field { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
-.kermancopper-requests-field span { font-size: 11px; color: #64748b; }
-.kermancopper-requests-field strong { font-size: 13px; color: #0f172a; }
-.kermancopper-requests-note { background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px; border-radius: 10px; font-size: 12px; line-height: 1.8; color: #334155; margin-top: 12px; }
-.kermancopper-requests-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-.kermancopper-requests-files { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
-.kermancopper-requests-files li { display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px; background: #f9fafb; }
-.kermancopper-requests-file-name { font-weight: 600; font-size: 13px; color: #0f172a; }
-.kermancopper-requests-file-meta { display: flex; gap: 10px; font-size: 11px; color: #64748b; }
-.kermancopper-requests-empty { color: #64748b; font-size: 13px; }
-.kermancopper-requests-new td { background: #fef9c3; }
-.kermancopper-requests-drawer { position: fixed; inset: 0; z-index: 99999; display: none; }
-.kermancopper-requests-drawer.is-open { display: block; }
-.kermancopper-requests-drawer-backdrop { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.45); }
-.kermancopper-requests-drawer-panel { position: absolute; top: 0; right: 0; height: 100%; width: 420px; max-width: 100%; background: #f8fafc; border-left: 1px solid #e2e8f0; display: flex; flex-direction: column; }
-.kermancopper-requests-drawer-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid #e2e8f0; background: #fff; }
-.kermancopper-requests-drawer-body { padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-.kermancopper-requests-drawer-content { display: flex; flex-direction: column; gap: 12px; }
-.kermancopper-requests-loading { padding: 12px; font-size: 13px; color: #64748b; }
-.kermancopper-requests-print { background: #fff; padding: 16px; }
+.kermancopper-requests-filters input { min-width: 150px; }
+
+/* Table */
+.kermancopper-requests-table { margin-top: 20px; }
+.kermancopper-requests-new td { background-color: #f0f6fb !important; border-right: 4px solid #2271b1; }
+
+/* Drawer (Quick View) */
+.kermancopper-requests-drawer {
+    position: fixed;
+    top: 32px;
+    right: -450px;
+    width: 450px;
+    height: calc(100% - 32px);
+    background: #f0f0f1;
+    border-left: 1px solid #ccd0d4;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+    z-index: 99999;
+    transition: right 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+.kermancopper-requests-drawer.is-open {
+    right: 0;
+}
+.kermancopper-requests-drawer-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    z-index: 99998;
+    display: none;
+}
+.kermancopper-requests-drawer.is-open + .kermancopper-requests-drawer-backdrop,
+.kermancopper-requests-drawer.is-open .kermancopper-requests-drawer-backdrop {
+    display: block;
+}
+/* Adjusting backdrop since it's inside the drawer in HTML sometimes, but better if it's sibling. 
+   In our HTML it is inside: 
+   <div class="kermancopper-requests-drawer">
+     <div class="kermancopper-requests-drawer-backdrop"></div>
+     ...
+   </div>
+*/
+.kermancopper-requests-drawer .kermancopper-requests-drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+}
+
+.kermancopper-requests-drawer-panel {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #f0f0f1;
+    position: relative;
+    z-index: 1;
+}
+.kermancopper-requests-drawer-header {
+    padding: 15px 20px;
+    background: #fff;
+    border-bottom: 1px solid #ccd0d4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.kermancopper-requests-drawer-header h3 { margin: 0; }
+.kermancopper-requests-drawer-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* Detail Page & Drawer Content */
+.kermancopper-requests-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 15px 20px;
+    border: 1px solid #ccd0d4;
+    border-radius: 4px;
+}
+.kermancopper-requests-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+.kermancopper-requests-card h2, 
+.kermancopper-requests-card h4 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+.kermancopper-requests-field {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+.kermancopper-requests-field span { color: #646970; }
+.kermancopper-requests-field strong { color: #1d2327; text-align: left; }
+.kermancopper-requests-field hr {
+    grid-column: span 2;
+    margin: 15px 0;
+    border: 0;
+    border-top: 1px solid #eee;
+    width: 100%;
+}
+.kermancopper-requests-note {
+    background: #f6f7f7;
+    padding: 15px;
+    border-right: 4px solid #dcdcde;
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+.kermancopper-requests-quick-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.kermancopper-requests-files {
+    list-style: none;
+    margin: 15px 0 0 0;
+    padding: 0;
+}
+.kermancopper-requests-files li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #f6f7f7;
+    margin-bottom: 5px;
+    border-radius: 3px;
+}
+.kermancopper-requests-file-name { font-weight: 600; font-size: 12px; }
+.kermancopper-requests-loading { padding: 20px; text-align: center; color: #646970; }
+
+/* Excel Forms Admin */
+.kermancopper-ad-excel-row {
+    border: 1px solid #ccd0d4;
+    background: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+.kermancopper-ad-excel-label { display: block; font-weight: 600; margin-bottom: 5px; }
+.kermancopper-ad-excel-row-actions { display: flex; gap: 10px; align-items: center; }
+
+/* Responsive */
 @media (max-width: 1200px) {
-  .kermancopper-requests-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .kermancopper-requests-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .kermancopper-requests-cards { grid-template-columns: repeat(3, 1fr); }
 }
 @media (max-width: 782px) {
-  .kermancopper-requests-grid { grid-template-columns: 1fr; }
-  .kermancopper-requests-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .kermancopper-requests-drawer-panel { width: 100%; }
-  .kermancopper-requests-filters { flex-direction: column; align-items: stretch; }
-  .kermancopper-requests-filters select,
-  .kermancopper-requests-filters input[type="search"],
-  .kermancopper-requests-filters input[type="date"] { min-width: 100%; width: 100%; }
+    .kermancopper-requests-grid { grid-template-columns: 1fr; }
+    .kermancopper-requests-cards { grid-template-columns: repeat(2, 1fr); }
+    .kermancopper-requests-drawer { width: 100%; right: -100%; top: 46px; height: calc(100% - 46px); }
+    .kermancopper-requests-filters { flex-direction: column; align-items: stretch; }
+    .kermancopper-requests-filters select, 
+    .kermancopper-requests-filters input { width: 100%; }
+}
+
+/* Print Styles */
+@media print {
+    #adminmenumain, #wpadminbar, #wpfooter, .kermancopper-requests-header, .kermancopper-requests-actions-bar, .kermancopper-requests-filters, .tablenav, .notice, #screen-meta, #screen-meta-links, .wp-header-end {
+        display: none !important;
+    }
+    
+    #wpcontent, #wpbody-content {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+    }
+
+    .kermancopper-print-container {
+        width: 100%;
+        direction: rtl;
+    }
+
+    .kermancopper-print-page {
+        padding: 40px;
+        page-break-before: always;
+        position: relative;
+        min-height: 297mm; /* A4 height */
+    }
+
+    .kermancopper-print-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #0c7bce;
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+    }
+
+    .kermancopper-print-logo img {
+        max-height: 60px;
+    }
+
+    .kermancopper-print-company-name {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .kermancopper-print-section {
+        margin-bottom: 30px;
+    }
+
+    .kermancopper-print-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .kermancopper-print-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .kermancopper-print-table td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        vertical-align: top;
+        font-size: 13px;
+    }
+
+    .kermancopper-print-label {
+        width: 30%;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .kermancopper-print-value {
+        width: 70%;
+        color: #000;
+    }
+
+    .required-asterisk {
+        color: #d63638;
+        font-size: 14px;
+        margin-right: 3px;
+    }
+
+    .kermancopper-print-footer {
+        position: fixed;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 11px;
+        color: #666;
+    }
 }

@@ -49,7 +49,7 @@
             <div class="container mx-auto px-4 z-10 text-white">
                 <div class="max-w-3xl fade-in-section">
                     <?php if ( $hero_title || $hero_subtitle ) : ?>
-                    <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
                         <?php if ( $hero_title ) : ?>
                             <?php echo esc_html( $hero_title ); ?>
                         <?php endif; ?>
@@ -199,8 +199,8 @@
                     <!-- Image Content -->
                     <?php if ( $about_main_image_src ) : ?>
                     <div class="w-full md:w-1/2 fade-in-section relative">
-                         <div class="relative rounded-lg overflow-hidden shadow-2xl group">
-                           <img src="<?php echo esc_url( $about_main_image_src ); ?>" class="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-105" alt="<?php echo esc_attr( $about_title_highlight ? $about_title_highlight : $about_title_rest ); ?>" />
+                         <div class="relative rounded-xl overflow-hidden shadow-2xl group">
+                           <img src="<?php echo esc_url( $about_main_image_src ); ?>" class="w-full h-[480px] object-cover transition-transform duration-700 group-hover:scale-105" alt="<?php echo esc_attr( $about_title_highlight ? $about_title_highlight : $about_title_rest ); ?>" />
                            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
 
                            <?php if ( $about_experience_count || $about_experience_label ) : ?>
@@ -214,7 +214,7 @@
                            <?php endif; ?>
                          </div>
                          <!-- Decorative Element -->
-                         <div class="absolute -bottom-6 -left-6 w-full h-full border-2 border-slate-100 rounded-full -z-10 hidden md:block"></div>
+                         <div class="absolute -bottom-6 -left-6 w-full h-full border-2 border-slate-100 rounded-xl -z-10 hidden md:block"></div>
                     </div>
                     <?php endif; ?>
                 </div>
@@ -496,13 +496,7 @@
         </section>
         <?php endif; ?>
 
-        <section class="py-16 bg-white">
-            <div class="w-full max-w-[1400px] mx-auto px-4">
-                <?php if ( is_active_sidebar( 'home-news-below' ) ) : ?>
-                    <?php dynamic_sidebar( 'home-news-below' ); ?>
-                <?php endif; ?>
-            </div>
-        </section>
+        
 
     
         <?php
@@ -623,8 +617,10 @@
                                 </form>
                             </div>
                             <div class="w-full md:w-1/3 flex justify-center">
-                                <div class="bg-white rounded-[22px] p-2 shadow-[0_18px_36px_rgba(15,23,42,0.2)]">
-                                    <img src="<?php echo get_template_directory_uri(); ?>/images/pano sarcheshmeh.jpg" alt="Company" class="w-[220px] h-[220px] md:w-[240px] md:h-[240px] object-cover rounded-[18px]" />
+                                <div class="bg-white w-full p-4 rounded-[22px] shadow-[0_18px_36px_rgba(15,23,42,0.2)]">
+                                    <?php if ( is_active_sidebar( 'home-contact-box' ) ) : ?>
+                                              <?php dynamic_sidebar( 'home-contact-box' ); ?>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
