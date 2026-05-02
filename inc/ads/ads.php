@@ -1233,7 +1233,7 @@ function kermancopper_ads_render_requests_page() {
             
             // Section: Company
             echo '<div class="kermancopper-requests-card">';
-            echo '<h2>' . esc_html__( 'اطلاعات پایه شرکت', 'kermancopper' ) . '</h2>';
+            echo '<h2><span class="dashicons dashicons-id"></span> ' . esc_html__( 'اطلاعات پایه شرکت', 'kermancopper' ) . '</h2>';
             echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نام شرکت (فارسی)', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['company'] ) . '</strong></div>';
             echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نام شرکت (انگلیسی)', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['company_name_en'] ?: '—' ) . '</strong></div>';
             echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نوع شرکت', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['company_type'] ) . '</strong></div>';
@@ -1248,11 +1248,11 @@ function kermancopper_ads_render_requests_page() {
 
             // Section: CEO & Contact
             echo '<div class="kermancopper-requests-card">';
-            echo '<h2>' . esc_html__( 'مشخصات مدیرعامل و تماس', 'kermancopper' ) . '</h2>';
+            echo '<h2><span class="dashicons dashicons-businessman"></span> ' . esc_html__( 'مشخصات مدیرعامل و تماس', 'kermancopper' ) . '</h2>';
             echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'مدیرعامل', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['ceo_name'] ) . '</strong></div>';
             echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'کد ملی مدیرعامل', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['ceo_national_id'] ) . '</strong></div>';
             echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'موبایل مدیرعامل', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['ceo_mobile'] ) . '</strong></div>';
-            echo '<hr/>';
+            echo '<div class="kermancopper-requests-field"><hr/></div>';
             echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'تلفن ثابت', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['phone'] ) . '</strong></div>';
             echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نمابر (فکس)', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['fax'] ) . '</strong></div>';
             echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'تلفن همراه', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['mobile'] ) . '</strong></div>';
@@ -1262,12 +1262,12 @@ function kermancopper_ads_render_requests_page() {
 
             // Section: Address & Bank
             echo '<div class="kermancopper-requests-card">';
-            echo '<h2>' . esc_html__( 'آدرس و اطلاعات بانکی', 'kermancopper' ) . '</h2>';
+            echo '<h2><span class="dashicons dashicons-location-alt"></span> ' . esc_html__( 'آدرس و اطلاعات بانکی', 'kermancopper' ) . '</h2>';
             echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'استان', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['province'] ) . '</strong></div>';
             echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شهر', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['city'] ) . '</strong></div>';
             echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'کد پستی', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['postal_code'] ) . '</strong></div>';
             echo '<div class="kermancopper-requests-note"><strong>' . esc_html__( 'آدرس:', 'kermancopper' ) . '</strong> ' . esc_html( $meta['address'] ) . '</div>';
-            echo '<hr/>';
+            echo '<div class="kermancopper-requests-field"><hr/></div>';
             echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شماره شبا', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['bank_sheba'] ) . '</strong></div>';
             echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شماره حساب', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['bank_account'] ) . '</strong></div>';
             echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شعبه بانک', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['bank_branch'] ) . '</strong></div>';
@@ -1275,7 +1275,7 @@ function kermancopper_ads_render_requests_page() {
 
             // Section: Ad
             echo '<div class="kermancopper-requests-card">';
-            echo '<h2>' . esc_html__( 'آگهی', 'kermancopper' ) . '</h2>';
+            echo '<h2><span class="dashicons dashicons-megaphone"></span> ' . esc_html__( 'آگهی مرتبط', 'kermancopper' ) . '</h2>';
             echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'آگهی مرتبط', 'kermancopper' ) . '</span><strong>' . esc_html( $ad_title ?: '—' ) . '</strong></div>';
             echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'تاریخ ثبت', 'kermancopper' ) . '</span><strong>' . esc_html( $created_at ) . '</strong></div>';
             if ( $ad_link ) {
@@ -1287,6 +1287,50 @@ function kermancopper_ads_render_requests_page() {
                 echo '</div>';
             }
             echo '</div>';
+
+            // Section: Attachments Modern Gallery
+            $attachments = get_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS, true );
+            if ( ! empty( $attachments ) && is_array( $attachments ) ) {
+                echo '<div class="kermancopper-requests-card kermancopper-attachments-section">';
+                echo '<h2><span class="dashicons dashicons-media-archive"></span> ' . esc_html__( 'مستندات و فایل‌های ارسالی', 'kermancopper' ) . '</h2>';
+                echo '<div class="kermancopper-attachments-grid">';
+                foreach ( $attachments as $attachment_id ) {
+                    $attachment_id = (int) $attachment_id;
+                    $url = wp_get_attachment_url( $attachment_id );
+                    $thumb = wp_get_attachment_image_src( $attachment_id, 'medium' );
+                    $mime = get_post_mime_type( $attachment_id );
+                    $title = get_the_title( $attachment_id );
+                    $file_path = get_attached_file( $attachment_id );
+                    $file_size = $file_path && file_exists( $file_path ) ? size_format( filesize( $file_path ) ) : '';
+                    
+                    $is_image = strpos( $mime, 'image/' ) !== false;
+                    
+                    echo '<div class="kermancopper-attachment-item">';
+                    echo '<div class="kermancopper-attachment-preview">';
+                    if ( $is_image && $thumb ) {
+                        echo '<img src="' . esc_url( $thumb[0] ) . '" alt="' . esc_attr( $title ) . '" loading="lazy" />';
+                    } else {
+                        $icon = 'dashicons-media-default';
+                        if ( strpos( $mime, 'pdf' ) !== false ) $icon = 'dashicons-pdf';
+                        elseif ( strpos( $mime, 'word' ) !== false || strpos( $mime, 'officedocument' ) !== false ) $icon = 'dashicons-media-document';
+                        echo '<span class="dashicons ' . $icon . ' kermancopper-attachment-icon"></span>';
+                    }
+                    echo '<div class="kermancopper-attachment-actions">';
+                    echo '<a href="' . esc_url( $url ) . '" class="kermancopper-attachment-btn" target="_blank" title="' . esc_attr__( 'مشاهده/دانلود', 'kermancopper' ) . '"><span class="dashicons dashicons-external"></span></a>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '<div class="kermancopper-attachment-info">';
+                    echo '<span class="kermancopper-attachment-name" title="' . esc_attr( $title ) . '">' . esc_html( $title ) . '</span>';
+                    echo '<div class="kermancopper-attachment-meta">';
+                    echo '<span>' . esc_html( strtoupper( str_replace( 'application/', '', $mime ) ) ) . '</span>';
+                    if ( $file_size ) echo '<span>' . esc_html( $file_size ) . '</span>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
+                }
+                echo '</div>';
+                echo '</div>';
+            }
 
             // Section: Reason
             echo '<div class="kermancopper-requests-card" style="grid-column: span 2;">';
@@ -1890,48 +1934,170 @@ function kermancopper_ads_get_request_detail_html( $request_id, $action_nonce ) 
     $print_url = admin_url( add_query_arg( array_merge( $base_query_args, array( 'print' => 1 ) ), 'edit.php' ) );
     $detail_url = admin_url( add_query_arg( array( 'post_type' => 'kermancopper_ad', 'page' => 'kermancopper-ad-requests', 'request_id' => $request_id ), 'edit.php' ) );
     
-    ob_start();
-    echo '<div class="kermancopper-requests-drawer-content">';
+    $requests_list_url = admin_url( 'edit.php?post_type=kermancopper_ad&page=kermancopper-ad-requests' );
     
-    // Quick Actions
-    echo '<div class="kermancopper-requests-quick-actions">';
-    echo '<a class="button" href="' . esc_url( $csv_url ) . '"><span class="dashicons dashicons-download"></span> ' . esc_html__( 'CSV', 'kermancopper' ) . '</a>';
-    echo '<a class="button" href="' . esc_url( $print_url ) . '" target="_blank"><span class="dashicons dashicons-printer"></span> ' . esc_html__( 'چاپ', 'kermancopper' ) . '</a>';
-    echo '<a class="button button-primary" href="' . esc_url( $detail_url ) . '">' . esc_html__( 'جزییات کامل', 'kermancopper' ) . '</a>';
+    ob_start();
+    echo '<div class="kermancopper-requests-detail-container">';
+    
+    // Modern Header
+    echo '<div class="kermancopper-requests-detail-header">';
+    echo '<div class="kermancopper-header-main">';
+    echo '<h1>' . esc_html__( 'درخواست‌های آگهی', 'kermancopper' ) . '</h1>';
+    echo '<div class="kermancopper-header-meta">';
+    echo '<span><span class="dashicons dashicons-calendar-alt"></span> ' . esc_html( $created_at ) . '</span>';
+    echo '<span><span class="dashicons dashicons-tag"></span> ID: ' . esc_html( $request_id ) . '</span>';
+    echo '</div>';
+    echo '</div>';
+    echo '<div class="kermancopper-header-actions" style="display:flex; flex-direction:column; gap:8px; align-items:flex-end;">';
+    echo '<a class="button" href="' . esc_url( $requests_list_url ) . '" style="background:#f0f0f1; color:#2271b1; border:none; margin-bottom:5px;">' . esc_html__( 'بازگشت به لیست درخواست‌ها', 'kermancopper' ) . '</a>';
+    echo '<div style="display:flex; gap:5px;">';
+    echo '<a class="button" href="' . esc_url( $csv_url ) . '"><span class="dashicons dashicons-download"></span> ' . esc_html__( 'خروجی CSV', 'kermancopper' ) . '</a>';
+    echo '<a class="button" href="' . esc_url( $print_url ) . '" target="_blank"><span class="dashicons dashicons-printer"></span> ' . esc_html__( 'چاپ درخواست', 'kermancopper' ) . '</a>';
+    echo '</div>';
+    echo '</div>';
     echo '</div>';
 
-    // Company Info
+    echo '<div class="kermancopper-requests-grid">';
+
+    // Card 1: Base Company Info (Right Top)
     echo '<div class="kermancopper-requests-card">';
-    echo '<h4>' . esc_html__( 'اطلاعات پایه شرکت', 'kermancopper' ) . '</h4>';
-    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نام فارسی', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['company'] ) . '</strong></div>';
-    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نام انگلیسی', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['company_name_en'] ?: '—' ) . '</strong></div>';
+    echo '<div class="kermancopper-card-header">';
+    echo '<div class="kermancopper-card-icon"><span class="dashicons dashicons-id"></span></div>';
+    echo '<h3>' . esc_html__( 'اطلاعات پایه شرکت', 'kermancopper' ) . '</h3>';
+    echo '</div>';
+    echo '<div class="kermancopper-card-body">';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نام شرکت (فارسی)', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['company'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نام شرکت (انگلیسی)', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['company_name_en'] ?: '—' ) . '</strong></div>';
     echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نوع شرکت', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['company_type'] ) . '</strong></div>';
     echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نوع فعالیت', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['activity_type'] ) . '</strong></div>';
     echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شناسه ملی', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['national_id'] ) . '</strong></div>';
     echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'تاریخ تاسیس', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['establishment_date'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شماره اقتصادی', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['economic_number'] ?: '—' ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شماره ثبت', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['registration_number'] ?: '—' ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'محل ثبت', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['registration_location'] ?: '—' ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شعبه بیمه', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['insurance_branch'] ?: '—' ) . '</strong></div>';
+    echo '</div>';
     echo '</div>';
 
-    // CEO Info
+    // Card 2: CEO & Contact Info (Left Top)
     echo '<div class="kermancopper-requests-card">';
-    echo '<h4>' . esc_html__( 'مشخصات مدیرعامل', 'kermancopper' ) . '</h4>';
-    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نام و نام خانوادگی', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['ceo_name'] ) . '</strong></div>';
-    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'کد ملی', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['ceo_national_id'] ) . '</strong></div>';
-    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'موبایل', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['ceo_mobile'] ) . '</strong></div>';
+    echo '<div class="kermancopper-card-header">';
+    echo '<div class="kermancopper-card-icon"><span class="dashicons dashicons-businessman"></span></div>';
+    echo '<h3>' . esc_html__( 'مشخصات مدیرعامل و تماس', 'kermancopper' ) . '</h3>';
     echo '</div>';
-
-    // Contact Info
-    echo '<div class="kermancopper-requests-card">';
-    echo '<h4>' . esc_html__( 'اطلاعات تماس و آدرس', 'kermancopper' ) . '</h4>';
-    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'تلفن ثابت', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['phone'] ) . '</strong></div>';
-    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نمابر', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['fax'] ) . '</strong></div>';
+    echo '<div class="kermancopper-card-body">';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'مدیرعامل', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['ceo_name'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'کد ملی مدیرعامل', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['ceo_national_id'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'موبایل مدیرعامل', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['ceo_mobile'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field" style="margin-top:20px; border-top: 1px dashed #eee; padding-top:20px;"><span>' . esc_html__( 'تلفن ثابت', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['phone'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'نمابر (فکس)', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['fax'] ?: '—' ) . '</strong></div>';
     echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'تلفن همراه', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['mobile'] ) . '</strong></div>';
     echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'ایمیل', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['email'] ) . '</strong></div>';
-    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'استان / شهر', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['province'] . ' / ' . $meta['city'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'وب‌سایت', 'kermancopper' ) . '</span><strong>' . ( $meta['website'] ? '<a href="' . esc_url( $meta['website'] ) . '" target="_blank">' . esc_html( $meta['website'] ) . '</a>' : '—' ) . '</strong></div>';
+    echo '</div>';
+    echo '</div>';
+
+    // Card 3: Address & Bank Info (Right Middle)
+    echo '<div class="kermancopper-requests-card">';
+    echo '<div class="kermancopper-card-header">';
+    echo '<div class="kermancopper-card-icon"><span class="dashicons dashicons-location"></span></div>';
+    echo '<h3>' . esc_html__( 'آدرس و اطلاعات بانکی', 'kermancopper' ) . '</h3>';
+    echo '</div>';
+    echo '<div class="kermancopper-card-body">';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'استان', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['province'] ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شهر', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['city'] ) . '</strong></div>';
     echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'کد پستی', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['postal_code'] ) . '</strong></div>';
-    echo '<div class="kermancopper-requests-note">' . esc_html( $meta['address'] ) . '</div>';
+    echo '<div class="kermancopper-requests-note"><strong>' . esc_html__( 'آدرس:', 'kermancopper' ) . '</strong> ' . esc_html( $meta['address'] ) . '</div>';
+    echo '<div class="kermancopper-requests-field" style="margin-top:20px; border-top: 1px dashed #eee; padding-top:20px;"><span>' . esc_html__( 'شماره شبا', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['bank_sheba'] ?: '—' ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شماره حساب', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['bank_account'] ?: '—' ) . '</strong></div>';
+    echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'شعبه بانک', 'kermancopper' ) . '</span><strong>' . esc_html( $meta['bank_branch'] ?: '—' ) . '</strong></div>';
     echo '</div>';
+    echo '</div>';
+
+    // Card 4: Related Ad (Left Middle)
+    echo '<div class="kermancopper-requests-card">';
+    echo '<div class="kermancopper-card-header">';
+    echo '<div class="kermancopper-card-icon"><span class="dashicons dashicons-admin-links"></span></div>';
+    echo '<h3>' . esc_html__( 'آگهی مرتبط', 'kermancopper' ) . '</h3>';
+    echo '</div>';
+    echo '<div class="kermancopper-card-body">';
+    if ( $meta['ad_id'] ) {
+        echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'آگهی مرتبط', 'kermancopper' ) . '</span><strong>' . esc_html( $ad_title ) . '</strong></div>';
+        echo '<div class="kermancopper-requests-field"><span>' . esc_html__( 'تاریخ ثبت', 'kermancopper' ) . '</span><strong>' . esc_html( $created_at ) . '</strong></div>';
+        echo '<div class="kermancopper-requests-actions" style="margin-top:20px; justify-content: flex-end;">';
+        echo '<a href="' . esc_url( $ad_link ) . '" class="button button-small">' . esc_html__( 'ویرایش آگهی', 'kermancopper' ) . '</a>';
+        echo '<a href="' . esc_url( $permalink ) . '" class="button button-primary button-small" target="_blank">' . esc_html__( 'مشاهده آگهی', 'kermancopper' ) . '</a>';
+        echo '</div>';
+    } else {
+        echo '<div class="kermancopper-requests-empty">' . esc_html__( 'آگهی یافت نشد.', 'kermancopper' ) . '</div>';
+    }
+    echo '</div>';
+    echo '</div>';
+
+    // Card 5: Registration Reason & Note (Bottom Full Width)
+    echo '<div class="kermancopper-requests-card" style="grid-column: span 2;">';
+    echo '<div class="kermancopper-card-header">';
+    echo '<div class="kermancopper-card-icon"><span class="dashicons dashicons-welcome-write-blog"></span></div>';
+    echo '<h3>' . esc_html__( 'دلایل ثبت‌نام و یادداشت', 'kermancopper' ) . '</h3>';
+    echo '</div>';
+    echo '<div class="kermancopper-card-body">';
+    echo '<div class="kermancopper-requests-note"><strong>' . esc_html__( 'دلایل ثبت‌نام:', 'kermancopper' ) . '</strong><br>' . nl2br( esc_html( $meta['registration_reason'] ?: '—' ) ) . '</div>';
+    if ( $meta['note'] ) {
+        echo '<div class="kermancopper-requests-note" style="margin-top:15px; background: #fffbeb; border-color: #f59e0b;"><strong>' . esc_html__( 'یادداشت:', 'kermancopper' ) . '</strong><br>' . nl2br( esc_html( $meta['note'] ) ) . '</div>';
+    }
+    echo '</div>';
+    echo '</div>';
+
+    // Card 6: Attachments (Bottom Full Width)
+    if ( ! empty( $attachments ) ) {
+        echo '<div class="kermancopper-requests-card">';
+        echo '<div class="kermancopper-card-header">';
+        echo '<div class="kermancopper-card-icon"><span class="dashicons dashicons-media-archive"></span></div>';
+        echo '<h3>' . esc_html__( 'مستندات و پیوست‌ها', 'kermancopper' ) . '</h3>';
+        echo '</div>';
+        echo '<div class="kermancopper-card-body">';
+        echo '<div class="kermancopper-attachments-grid">';
+        foreach ( $attachments as $index => $attachment_id ) {
+            $attachment_id = (int) $attachment_id;
+            $url = wp_get_attachment_url( $attachment_id );
+            $thumb = wp_get_attachment_image_src( $attachment_id, 'medium' );
+            $mime = get_post_mime_type( $attachment_id );
+            $title = get_the_title( $attachment_id );
+            $is_image = strpos( $mime, 'image/' ) !== false;
+            $file_path = get_attached_file( $attachment_id );
+            $file_size = ( $file_path && file_exists( $file_path ) ) ? size_format( filesize( $file_path ) ) : '—';
+            
+            echo '<div class="kermancopper-attachment-item" style="--i: ' . ( $index + 1 ) . ';">';
+            echo '<div class="kermancopper-attachment-preview">';
+            if ( $is_image && $thumb ) {
+                echo '<img src="' . esc_url( $thumb[0] ) . '" alt="' . esc_attr( $title ) . '" loading="lazy" />';
+            } else {
+                $icon = 'dashicons-media-default';
+                if ( strpos( $mime, 'pdf' ) !== false ) $icon = 'dashicons-pdf';
+                elseif ( strpos( $mime, 'word' ) !== false || strpos( $mime, 'officedocument' ) !== false ) $icon = 'dashicons-media-document';
+                echo '<span class="dashicons ' . $icon . ' kermancopper-attachment-icon"></span>';
+            }
+            echo '<div class="kermancopper-attachment-actions">';
+            echo '<a href="' . esc_url( $url ) . '" class="kermancopper-attachment-btn" target="_blank" title="' . esc_attr__( 'مشاهده فایل', 'kermancopper' ) . '"><span class="dashicons dashicons-external"></span></a>';
+            echo '<a href="' . esc_url( $url ) . '" class="kermancopper-attachment-btn" download title="' . esc_attr__( 'دانلود مستقیم', 'kermancopper' ) . '"><span class="dashicons dashicons-download"></span></a>';
+            echo '</div>';
+            echo '</div>';
+            echo '<div class="kermancopper-attachment-info">';
+            echo '<span class="kermancopper-attachment-name">' . esc_html( $title ) . '</span>';
+            echo '<div class="kermancopper-attachment-meta">';
+            echo '<span>' . esc_html( strtoupper( substr( strrchr( $mime, '/' ), 1 ) ) ) . '</span>';
+            echo '<span>' . esc_html( $file_size ) . '</span>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
+        }
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
+    }
     
-    echo '</div>';
+    echo '</div>'; // grid
+    echo '</div>'; // detail-container
     return ob_get_clean();
 }
 

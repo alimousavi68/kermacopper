@@ -118,7 +118,7 @@
 $is_home = is_front_page();
 $header_position_class = $is_home ? 'absolute' : 'relative';
 $top_bar_classes = $is_home ? 'bg-transparent border-white/10 text-white/80' : 'bg-white border-slate-100 text-slate-500';
-$nav_bg_classes = $is_home ? 'bg-transparent' : 'bg-[#0F1724]';
+$nav_bg_classes = $is_home ? 'bg-transparent' : 'bg-[#c86429]';
 $nav_text_classes = $is_home ? 'text-white/90' : 'text-white';
 $icon_button_classes = $is_home ? 'text-white hover:bg-white/10' : 'text-white hover:bg-white/10';
 $mobile_button_classes = $is_home ? 'text-white hover:bg-white/10' : 'text-white hover:bg-white/10';

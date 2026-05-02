@@ -1,7 +1,7 @@
 <?php
 get_header(); ?>
 
-<main class="container mx-auto px-4 py-16 mt-[100px] sm:mt-[125px]">
+<main class="container mx-auto px-4  mt-[100px]">
     <?php while ( have_posts() ) : ?>
         <?php
         the_post();
@@ -91,57 +91,44 @@ get_header(); ?>
 
         <div class="max-w-6xl mx-auto">
             <div class="mb-10 text-center">
-                <div class="flex flex-wrap items-center justify-center gap-3 text-sm text-slate-500 mb-4">
-                    <?php if ( $ad_type_link && ! is_wp_error( $ad_type_link ) ) : ?>
-                        <a href="<?php echo esc_url( $ad_type_link ); ?>" class="inline-flex items-center gap-1 px-3 py-1 rounded-sm bg-white border border-slate-300 text-slate-900 hover:border-copper hover:text-copper transition-all">
-                            <i data-lucide="<?php echo esc_attr( $ad_type_icon ); ?>" class="w-3 h-3 text-copper"></i>
-                            <?php echo esc_html( $ad_type_label ); ?>
-                        </a>
-                    <?php else : ?>
-                        <span class="inline-flex items-center gap-1 px-3 py-1 rounded-sm bg-white border border-slate-300 text-slate-900">
-                            <i data-lucide="<?php echo esc_attr( $ad_type_icon ); ?>" class="w-3 h-3 text-copper"></i>
-                            <?php echo esc_html( $ad_type_label ); ?>
-                        </span>
-                    <?php endif; ?>
-                    <span class="flex items-center gap-1 text-xs text-slate-700"><i data-lucide="calendar" class="w-3 h-3 text-slate-500"></i> <?php echo esc_html( get_the_date() ); ?></span>
-                </div>
-                <h1 class="text-3xl md:text-5xl font-black text-slate-900 leading-tight"><?php echo esc_html( get_the_title() ); ?></h1>
+                
+                <h1 class="text-3xl md:text-5xl font-medium text-slate-800 leading-tight"><?php echo esc_html( get_the_title() ); ?></h1>
             </div>
 
             <div class="relative mb-10">
-                <div class="w-full rounded-sm overflow-hidden shadow-2xl">
-                    <img src="<?php echo esc_url( $thumbnail ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="w-full h-[420px] md:h-[520px] object-cover" />
+                <div class="w-full rounded-2xl overflow-hidden">
+                    <img src="<?php echo esc_url( $thumbnail ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="w-full h-[420px] md:h-[520px] object-cover rounded-2xl" />
                 </div>
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent"></div>
+                <div class="absolute inset-0 w-full rounded-2xl bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent"></div>
                 <div class="absolute bottom-6 left-6 right-6 flex flex-wrap items-center justify-between gap-4">
                     <div class="flex items-center gap-4">
-                        <span class="px-3 py-1 rounded-sm font-semibold text-sm <?php echo esc_attr( $status_class ); ?>"><?php echo esc_html( $status_label ); ?></span>
-                        <div class="flex items-center gap-2 px-4 py-2 rounded-sm bg-white/95 backdrop-blur-sm text-slate-900 border border-slate-200">
+                        <span class="px-4 py-2 rounded-lg font-semibold text-sm <?php echo esc_attr( $status_class ); ?>"><?php echo esc_html( $status_label ); ?></span>
+                        <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/95 backdrop-blur-sm text-slate-900 border border-slate-200">
                             <i data-lucide="clock" class="w-4 h-4 text-copper"></i>
-                            <span class="font-bold">مهلت ثبت درخواست: <?php echo esc_html( $expiry_display ); ?></span>
+                            <span class="font-medium">مهلت ثبت درخواست: <?php echo esc_html( $expiry_display ); ?></span>
                         </div>
                     </div>
-                    <div class="flex items-center gap-2 px-4 py-2 rounded-sm bg-white/95 backdrop-blur-sm text-slate-900 border border-slate-200">
+                    <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/95 backdrop-blur-sm text-slate-900 border border-slate-200">
                         <i data-lucide="<?php echo esc_attr( $ad_type_icon ); ?>" class="w-4 h-4 text-copper"></i>
-                        <span class="font-bold"><?php echo esc_html( $ad_type_label ); ?></span>
+                        <span class="font-medium"><?php echo esc_html( $ad_type_label ); ?></span>
                     </div>
                 </div>
             </div>
 
             <?php if ( has_excerpt() ) : ?>
-                <div class="mb-8 text-lg text-slate-700 leading-relaxed bg-white border border-slate-200 rounded-sm shadow-sm p-8">
+                <div class="mb-8 text-lg text-slate-700 leading-relaxed bg-white border border-slate-200 rounded-xl shadow-sm p-8">
                     <?php echo esc_html( get_the_excerpt() ); ?>
                 </div>
             <?php endif; ?>
 
-            <div class="prose prose-lg max-w-none text-slate-700 leading-loose bg-white border border-slate-200 rounded-sm shadow-sm p-8 mb-12">
+            <div class="prose prose-lg max-w-none text-slate-700 leading-loose bg-white border border-slate-200 rounded-xl shadow-sm p-8 mb-12">
                 <?php the_content(); ?>
             </div>
 
             <?php if ( $can_submit ) : ?>
-                <div class="mt-12 rounded-sm border border-slate-200 bg-white p-8 shadow-sm space-y-6">
-                    <h2 class="text-2xl font-black text-slate-900 mb-8 text-center border-b-4 border-copper pb-4 inline-block mx-auto">ثبت نام</h2>
-                    <div id="ad-request-message" class="mb-4 text-sm px-4 py-3 rounded-sm <?php echo esc_attr( $request_message_class ); ?><?php echo $request_message !== '' ? '' : ' hidden'; ?>"><?php echo esc_html( $request_message ); ?></div>
+                <div class="mt-12 rounded-2xl border border-slate-200 bg-white p-8 shadow-sm space-y-6">
+                    <h2 class="text-2xl font-medium w-100 text-copper  text-center  mx-auto">فرم ثبت نام</h2>
+                    <div id="ad-request-message" class="mb-4 text-sm px-4 py-3 rounded-lg <?php echo esc_attr( $request_message_class ); ?><?php echo $request_message !== '' ? '' : ' hidden'; ?>"><?php echo esc_html( $request_message ); ?></div>
                     <?php
                     $info_disabled = $otp_step ? 'disabled' : '';
                     $info_required = $otp_step ? '' : 'required';
@@ -156,17 +143,17 @@ get_header(); ?>
                         <input type="hidden" name="ad_id" value="<?php echo esc_attr( $ad_id ); ?>" />
                         
                         <div data-step-section="otp" class="<?php echo $otp_step ? '' : 'hidden'; ?>">
-                            <div class="bg-slate-50 p-6 rounded-sm border border-slate-200 mb-4">
+                            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-4">
                                 <p class="text-base text-slate-700 mb-4 font-medium">اطلاعات شما ثبت شد. لطفا کد تایید پیامک شده را وارد کنید.</p>
                                 <div class="grid grid-cols-2 gap-4 text-sm text-slate-700">
-                                    <div>نام شرکت: <span data-summary="company" class="font-bold"><?php echo esc_html( $otp_payload['company'] ?? '' ); ?></span></div>
-                                    <div>موبایل: <span data-summary="mobile" class="font-bold"><?php echo esc_html( $otp_payload['mobile'] ?? '' ); ?></span></div>
+                                    <div>نام شرکت: <span data-summary="company" class="font-medium"><?php echo esc_html( $otp_payload['company'] ?? '' ); ?></span></div>
+                                    <div>موبایل: <span data-summary="mobile" class="font-medium"><?php echo esc_html( $otp_payload['mobile'] ?? '' ); ?></span></div>
                                 </div>
                             </div>
                             <div>
-                                <label class="block text-base font-bold text-slate-700 mb-3" for="otp_code">کد تایید *</label>
-                                <input type="text" id="otp_code" name="otp_code" class="w-full rounded-sm border-2 border-slate-300 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" required <?php echo esc_attr( $otp_disabled ); ?> value="12345" />
-                                <p class="mt-3 text-sm text-amber-700 bg-amber-50 px-4 py-2 rounded-sm border border-amber-200">کد تایید صوری (تست): 12345</p>
+                                <label class="block text-base font-medium text-slate-700 mb-3" for="otp_code">کد تایید *</label>
+                                <input type="text" id="otp_code" name="otp_code" class="w-full rounded-lg border border-slate-300 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" required <?php echo esc_attr( $otp_disabled ); ?> value="12345" />
+                                <p class="mt-3 text-sm text-amber-700 bg-amber-50 px-4 py-2 rounded-lg border border-amber-200">کد تایید صوری (تست): 12345</p>
                             </div>
                         </div>
 
@@ -176,8 +163,8 @@ get_header(); ?>
                                 <h3 class="text-base font-bold text-copper mb-6 border-r-4 border-copper pr-3">اطلاعات پایه</h3>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="company_type">نوع شرکت *</label>
-                                        <select id="company_type" name="company_type" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?>>
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="company_type">نوع شرکت *</label>
+                                        <select id="company_type" name="company_type" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?>>
                                             <option value="">انتخاب کنید</option>
                                             <option>شرکت سهامی خاص</option>
                                             <option>شرکت سهامی عام</option>
@@ -191,8 +178,8 @@ get_header(); ?>
                                         </select>
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="activity_type">نوع فعالیت *</label>
-                                        <select id="activity_type" name="activity_type" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?>>
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="activity_type">نوع فعالیت *</label>
+                                        <select id="activity_type" name="activity_type" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?>>
                                             <option value="">انتخاب کنید</option>
                                             <option>پیمانکار</option>
                                             <option>مشاوره</option>
@@ -208,36 +195,36 @@ get_header(); ?>
                                         </select>
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="request_company">نام شرکت (فارسی) *</label>
-                                        <input type="text" id="request_company" name="request_company" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="request_company">نام شرکت (فارسی) *</label>
+                                        <input type="text" id="request_company" name="request_company" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="company_name_en">نام شرکت (انگلیسی)</label>
-                                        <input type="text" id="company_name_en" name="company_name_en" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="company_name_en">نام شرکت (انگلیسی)</label>
+                                        <input type="text" id="company_name_en" name="company_name_en" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" />
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="national_id">شناسه ملی / کد ملی *</label>
-                                        <input type="text" id="national_id" name="national_id" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="national_id">شناسه ملی / کد ملی *</label>
+                                        <input type="text" id="national_id" name="national_id" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="establishment_date">تاریخ تاسیس *</label>
-                                        <input type="text" id="establishment_date" name="establishment_date" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper kermancopper-ad-datepicker" data-jdp <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="establishment_date">تاریخ تاسیس *</label>
+                                        <input type="text" id="establishment_date" name="establishment_date" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper kermancopper-ad-datepicker" data-jdp <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="economic_number">شماره اقتصادی یا جواز *</label>
-                                        <input type="text" id="economic_number" name="economic_number" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="economic_number">شماره اقتصادی یا جواز *</label>
+                                        <input type="text" id="economic_number" name="economic_number" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="registration_number">شماره ثبت *</label>
-                                        <input type="text" id="registration_number" name="registration_number" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="registration_number">شماره ثبت *</label>
+                                        <input type="text" id="registration_number" name="registration_number" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="registration_location">محل ثبت *</label>
-                                        <input type="text" id="registration_location" name="registration_location" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="registration_location">محل ثبت *</label>
+                                        <input type="text" id="registration_location" name="registration_location" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="insurance_branch">شعبه بیمه</label>
-                                        <input type="text" id="insurance_branch" name="insurance_branch" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="insurance_branch">شعبه بیمه</label>
+                                        <input type="text" id="insurance_branch" name="insurance_branch" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" />
                                     </div>
                                 </div>
                             </div>
@@ -247,16 +234,16 @@ get_header(); ?>
                                 <h3 class="text-base font-bold text-copper mb-6 border-r-4 border-copper pr-3">مشخصات مدیرعامل</h3>
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="ceo_name">نام و نام خانوادگی مدیرعامل *</label>
-                                        <input type="text" id="ceo_name" name="ceo_name" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="ceo_name">نام و نام خانوادگی مدیرعامل *</label>
+                                        <input type="text" id="ceo_name" name="ceo_name" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="ceo_national_id">کد ملی مدیر عامل *</label>
-                                        <input type="text" id="ceo_national_id" name="ceo_national_id" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="ceo_national_id">کد ملی مدیر عامل *</label>
+                                        <input type="text" id="ceo_national_id" name="ceo_national_id" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="ceo_mobile">موبایل مدیرعامل *</label>
-                                        <input type="text" id="ceo_mobile" name="ceo_mobile" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="ceo_mobile">موبایل مدیرعامل *</label>
+                                        <input type="text" id="ceo_mobile" name="ceo_mobile" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                 </div>
                             </div>
@@ -266,36 +253,36 @@ get_header(); ?>
                                 <h3 class="text-base font-bold text-copper mb-6 border-r-4 border-copper pr-3">اطلاعات تماس</h3>
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="fax">نمابر (فکس) *</label>
-                                        <input type="text" id="fax" name="fax" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="fax">نمابر (فکس) *</label>
+                                        <input type="text" id="fax" name="fax" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="phone">تلفن ثابت *</label>
-                                        <input type="text" id="phone" name="phone" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="phone">تلفن ثابت *</label>
+                                        <input type="text" id="phone" name="phone" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="request_mobile">تلفن همراه (موبایل) *</label>
-                                        <input type="text" id="request_mobile" name="request_mobile" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="request_mobile">تلفن همراه (موبایل) *</label>
+                                        <input type="text" id="request_mobile" name="request_mobile" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="website">آدرس وب سایت *</label>
-                                        <input type="text" id="website" name="website" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="website">آدرس وب سایت *</label>
+                                        <input type="text" id="website" name="website" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="request_email">پست الکترونیک (ایمیل) *</label>
-                                        <input type="email" id="request_email" name="request_email" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="request_email">پست الکترونیک (ایمیل) *</label>
+                                        <input type="email" id="request_email" name="request_email" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="postal_code">کد پستی *</label>
-                                        <input type="text" id="postal_code" name="postal_code" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="postal_code">کد پستی *</label>
+                                        <input type="text" id="postal_code" name="postal_code" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="province">استان *</label>
-                                        <select id="province" name="province" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?>>
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="province">استان *</label>
+                                        <select id="province" name="province" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?>>
                                             <option value="">انتخاب کنید</option>
                                             <?php foreach ( array_keys( $provinces_cities ) as $p ) : ?>
                                                 <option value="<?php echo esc_attr( $p ); ?>"><?php echo esc_html( $p ); ?></option>
@@ -303,14 +290,14 @@ get_header(); ?>
                                         </select>
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="city">شهر *</label>
-                                        <select id="city" name="city" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?>>
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="city">شهر *</label>
+                                        <select id="city" name="city" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?>>
                                             <option value="">ابتدا استان را انتخاب کنید</option>
                                         </select>
                                     </div>
                                     <div class="md:col-span-3">
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="address">آدرس *</label>
-                                        <textarea id="address" name="address" rows="3" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?>></textarea>
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="address">آدرس *</label>
+                                        <textarea id="address" name="address" rows="3" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?>></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -320,16 +307,16 @@ get_header(); ?>
                                 <h3 class="text-base font-bold text-copper mb-6 border-r-4 border-copper pr-3">اطلاعات حساب بانکی</h3>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div class="md:col-span-2">
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="bank_sheba">شماره شبا *</label>
-                                        <input type="text" id="bank_sheba" name="bank_sheba" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" placeholder="IR000000000000000000000000" <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="bank_sheba">شماره شبا *</label>
+                                        <input type="text" id="bank_sheba" name="bank_sheba" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" placeholder="IR000000000000000000000000" <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="bank_account">شماره حساب بانکی *</label>
-                                        <input type="text" id="bank_account" name="bank_account" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" placeholder="1234567890" <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="bank_account">شماره حساب بانکی *</label>
+                                        <input type="text" id="bank_account" name="bank_account" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" placeholder="1234567890" <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="bank_branch">شعبه *</label>
-                                        <input type="text" id="bank_branch" name="bank_branch" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="bank_branch">شعبه *</label>
+                                        <input type="text" id="bank_branch" name="bank_branch" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                 </div>
                             </div>
@@ -339,27 +326,27 @@ get_header(); ?>
                                 <h3 class="text-base font-bold text-copper mb-6 border-r-4 border-copper pr-3">تنظیمات حساب کاربری</h3>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="password">کلمه عبور *</label>
-                                        <input type="password" id="password" name="password" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="password">کلمه عبور *</label>
+                                        <input type="password" id="password" name="password" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="password_confirm">تکرار کلمه عبور *</label>
-                                        <input type="password" id="password_confirm" name="password_confirm" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="password_confirm">تکرار کلمه عبور *</label>
+                                        <input type="password" id="password_confirm" name="password_confirm" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?> />
                                     </div>
                                     <div class="md:col-span-2">
-                                        <label class="block text-sm font-bold text-slate-800 mb-2" for="registration_reason">دلایل ثبت نام *</label>
-                                        <textarea id="registration_reason" name="registration_reason" rows="3" class="w-full rounded-sm border-2 border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?>></textarea>
+                                        <label class="block text-sm font-medium text-slate-800 mb-2" for="registration_reason">دلایل ثبت نام *</label>
+                                        <textarea id="registration_reason" name="registration_reason" rows="3" class="w-full rounded-lg border border-slate-400 px-4 py-3 text-base text-slate-900 focus:border-copper focus:ring-copper" <?php echo esc_attr( $info_required ); ?>></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <button type="submit" class="w-full bg-copper text-white py-4 rounded-sm font-bold text-lg hover:opacity-90 hover:shadow-xl hover:-translate-y-1 transition-all" id="ad-request-submit"><?php echo $otp_step ? 'تایید نهایی و ثبت‌نام' : 'ثبت نام'; ?></button>
+                        <button type="submit" class="w-full bg-copper text-white py-4 rounded-xl font-medium text-lg hover:opacity-90 hover:shadow-xl hover:-translate-y-1 transition-all" id="ad-request-submit"><?php echo $otp_step ? 'تایید نهایی و ثبت‌نام' : 'ثبت نام'; ?></button>
                     </form>
                 </div>
             <?php else : ?>
-                <div class="mt-12 rounded-sm border border-slate-200 bg-white p-8 shadow-sm">
-                    <div class="text-base px-4 py-4 rounded-sm bg-slate-50 text-slate-700 border border-slate-200 font-medium">مهلت ثبت درخواست به پایان رسیده است.</div>
+                <div class="mt-12 rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+                    <div class="text-base px-4 py-4 rounded-lg bg-slate-50 text-slate-700 border border-slate-200 font-medium">مهلت ثبت درخواست به پایان رسیده است.</div>
                 </div>
             <?php endif; ?>
         </div>
@@ -370,8 +357,8 @@ get_header(); ?>
 .form-section {
     background: #ffffff;
     padding: 32px;
-    border: 2px solid #cbd5e1;
-    border-radius: 4px;
+    border: 1px solid #b45309;
+    border-radius: 12px;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 .form-section h3 {
@@ -440,7 +427,7 @@ input:focus, select:focus, textarea:focus {
             return;
         }
         messageBox.textContent = text;
-        messageBox.className = 'mb-4 text-sm px-4 py-3 rounded-sm ' + (isSuccess ? 'bg-green-50 text-green-900 border border-green-300' : 'bg-red-50 text-red-900 border border-red-300');
+        messageBox.className = 'mb-4 text-sm px-4 py-3 rounded-lg ' + (isSuccess ? 'bg-green-50 text-green-900 border border-green-300' : 'bg-red-50 text-red-900 border border-red-300');
         messageBox.classList.remove('hidden');
         messageBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
     };

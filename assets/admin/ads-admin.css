@@ -11,10 +11,11 @@
 }
 .kermancopper-requests-card { 
     background: #fff; 
-    border: 1px solid #ccd0d4; 
-    box-shadow: 0 1px 1px rgba(0,0,0,.04); 
-    padding: 20px; 
-    border-radius: 4px;
+    border: 1px solid #dcdcde; 
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+    padding: 24px; 
+    border-radius: 8px;
+    margin-bottom: 24px;
 }
 .kermancopper-requests-stat span { 
     display: block; 
@@ -115,80 +116,289 @@
 }
 .kermancopper-requests-drawer-header h3 { margin: 0; }
 .kermancopper-requests-drawer-body {
-    padding: 20px;
+    padding: 0;
     overflow-y: auto;
     flex: 1;
 }
 
-/* Detail Page & Drawer Content */
-.kermancopper-requests-header {
+/* Custom Scrollbar */
+.kermancopper-requests-drawer-body::-webkit-scrollbar {
+    width: 6px;
+}
+.kermancopper-requests-drawer-body::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+.kermancopper-requests-drawer-body::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+.kermancopper-requests-drawer-body::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+.kermancopper-requests-loading {
+    padding: 50px;
+    text-align: center;
+    color: #64748b;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.kermancopper-requests-loading::after {
+    content: '';
+    width: 30px;
+    height: 30px;
+    border: 3px solid #e2e8f0;
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Detail Page & Drawer Content Modern Redesign 2025 */
+.kermancopper-requests-detail-container {
+    max-width: 1300px;
+    margin: 20px auto;
+    padding: 20px;
+    direction: rtl;
+    text-align: right;
+    background: #f0f0f1;
+    border-radius: 12px;
+}
+
+.kermancopper-requests-detail-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     background: #fff;
-    padding: 15px 20px;
-    border: 1px solid #ccd0d4;
-    border-radius: 4px;
+    padding: 20px 30px;
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
+
+.kermancopper-header-main h1 {
+    margin: 0 0 5px 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1d2327;
+}
+
+.kermancopper-header-meta {
+    display: flex;
+    gap: 20px;
+    color: #646970;
+    font-size: 13px;
+}
+
+.kermancopper-header-actions .button {
+    height: 36px;
+    line-height: 34px;
+    padding: 0 15px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 8px;
+}
+
 .kermancopper-requests-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
 }
-.kermancopper-requests-card h2, 
-.kermancopper-requests-card h4 {
-    margin-top: 0;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
-    font-size: 16px;
-    margin-bottom: 15px;
+
+.kermancopper-requests-card { 
+    background: #fff; 
+    border-radius: 12px;
+    border: 1px solid #dcdcde;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
+
+.kermancopper-card-header {
+    padding: 18px 25px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #f0f0f1;
+    background: #fafafa;
+}
+
+.kermancopper-card-icon {
+    width: 36px;
+    height: 36px;
+    background: #e7f3ff;
+    color: #2271b1;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.kermancopper-card-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1d2327;
+}
+
+.kermancopper-card-body {
+    padding: 20px 25px;
+    flex: 1;
+}
+
 .kermancopper-requests-field {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
-    font-size: 13px;
-    line-height: 1.5;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #f6f7f7;
 }
-.kermancopper-requests-field span { color: #646970; }
-.kermancopper-requests-field strong { color: #1d2327; text-align: left; }
-.kermancopper-requests-field hr {
-    grid-column: span 2;
-    margin: 15px 0;
-    border: 0;
-    border-top: 1px solid #eee;
-    width: 100%;
+
+.kermancopper-requests-field:last-child {
+    border-bottom: none;
 }
+
+.kermancopper-requests-field span { 
+    color: #646970; 
+    font-weight: 500;
+    font-size: 12px;
+    flex: 1;
+}
+
+.kermancopper-requests-field strong { 
+    color: #1d2327; 
+    font-weight: 700;
+    font-size: 14px;
+    text-align: left;
+    flex: 1;
+}
+
 .kermancopper-requests-note {
-    background: #f6f7f7;
-    padding: 15px;
-    border-right: 4px solid #dcdcde;
-    margin-top: 10px;
+    background: #f0f6fb;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-top: 15px;
     font-size: 13px;
     line-height: 1.6;
+    color: #2c3338;
+    border-right: 4px solid #2271b1;
 }
-.kermancopper-requests-quick-actions {
+
+.kermancopper-requests-note strong {
+    color: #1d2327;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.kermancopper-requests-actions {
     display: flex;
     gap: 10px;
-    margin-bottom: 20px;
 }
-.kermancopper-requests-files {
-    list-style: none;
-    margin: 15px 0 0 0;
-    padding: 0;
+
+/* Attachments */
+.kermancopper-attachments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
 }
-.kermancopper-requests-files li {
+
+.kermancopper-attachment-item {
+    background: #fff;
+    border: 1px solid #dcdcde;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.kermancopper-attachment-item:hover {
+    border-color: #2271b1;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.kermancopper-attachment-preview {
+    aspect-ratio: 1;
+    background: #f0f0f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.kermancopper-attachment-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.kermancopper-attachment-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    color: #a7aaad;
+}
+
+.kermancopper-attachment-info {
+    padding: 10px;
+}
+
+.kermancopper-attachment-name {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #1d2327;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    direction: ltr;
+    text-align: right;
+}
+
+.kermancopper-attachment-meta {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    background: #f6f7f7;
-    margin-bottom: 5px;
-    border-radius: 3px;
+    font-size: 9px;
+    color: #646970;
+    margin-top: 4px;
 }
-.kermancopper-requests-file-name { font-weight: 600; font-size: 12px; }
-.kermancopper-requests-loading { padding: 20px; text-align: center; color: #646970; }
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .kermancopper-requests-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+    .kermancopper-requests-detail-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+    .kermancopper-header-actions {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    .kermancopper-header-actions .button {
+        flex: 1;
+        justify-content: center;
+    }
+}
 
 /* Excel Forms Admin */
 .kermancopper-ad-excel-row {
@@ -216,7 +426,7 @@
 
 /* Print Styles */
 @media print {
-    #adminmenumain, #wpadminbar, #wpfooter, .kermancopper-requests-header, .kermancopper-requests-actions-bar, .kermancopper-requests-filters, .tablenav, .notice, #screen-meta, #screen-meta-links, .wp-header-end {
+    #adminmenumain, #wpadminbar, #wpfooter, .kermancopper-requests-header, .kermancopper-requests-detail-header, .kermancopper-requests-actions-bar, .kermancopper-requests-filters, .tablenav, .notice, #screen-meta, #screen-meta-links, .wp-header-end {
         display: none !important;
     }
     
