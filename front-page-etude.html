@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مس سرچشمه - اتود جدید</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Local IRANYekanX Font -->
+    <link rel="stylesheet" href="fonts/fontiran.css">
+    <!-- Local Peyda Font -->
+    <link rel="stylesheet" href="fonts/peyda/fontiran.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['IRANYekanX', 'sans-serif'],
+                        peyda: ['PeydaWebVF', 'sans-serif'],
+                    },
+                    colors: {
+                        copper: {
+                            DEFAULT: '#C8682F', // V2 Copper
+                            light: '#E28652',
+                            dark: '#A65120',
+                        },
+                        navy: '#1A2235',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'IRANYekanX', sans-serif;
+            background-color: #FAFAFA;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-panel-dark {
+            background: rgba(26, 34, 53, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #FFFFFF 0%, #E28652 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hover-lift {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -15px rgba(200, 104, 47, 0.2);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background-color: #C8682F;
+            /* copper */
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #E28652 !important;
+            text-shadow: 0 0 10px rgba(226, 134, 82, 0.6);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Active navigation link styling */
+        .nav-link.active {
+            color: #C8682F !important;
+            font-weight: 800;
+            text-shadow: 0 0 8px rgba(200, 104, 47, 0.3);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+            background-color: #C8682F;
+        }
+
+        .hero-curve {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .hero-curve-image {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .hero-curve-arrow {
+            position: absolute;
+            left: 50%;
+            top: 10%;
+            transform: translate(-50%, -35%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            pointer-events: auto;
+            animation: hero-bounce 1.6s ease-in-out infinite;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .hero-curve-arrow:hover {
+            animation-play-state: paused;
+        }
+
+        .hero-curve-arrow:hover .hero-curve-arrow-icon {
+            color: #0B132B; /* Navy */
+            transform: scale(1.15);
+            filter: drop-shadow(0 0 10px rgba(11, 19, 43, 0.4));
+        }
+
+        .hero-curve-arrow-icon {
+            width: 44px;
+            height: 44px;
+            color: #C8682F;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes hero-bounce {
+
+            0%,
+            100% {
+                transform: translate(-50%, 0);
+            }
+
+            50% {
+                transform: translate(-50%, 5px);
+            }
+        }
+
+        @keyframes glow-long-bright {
+
+            0%,
+            40%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            55% {
+                opacity: 0.3;
+                transform: scale(0.95);
+            }
+
+            70%,
+            90% {
+                opacity: 1;
+                transform: scale(1.02);
+            }
+        }
+
+        .animate-glow-custom {
+            animation: glow-long-bright 10s ease-in-out infinite;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            opacity: 0;
+            animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .animate-fade-in-down {
+            opacity: 0;
+            animation: fadeInDown 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .delay-100 {
+            animation-delay: 100ms;
+        }
+
+        .delay-200 {
+            animation-delay: 200ms;
+        }
+
+        .delay-300 {
+            animation-delay: 300ms;
+        }
+
+        .delay-400 {
+            animation-delay: 400ms;
+        }
+
+        .delay-500 {
+            animation-delay: 500ms;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-curve-arrow {
+                width: 44px;
+                height: 44px;
+            }
+
+            .hero-curve-arrow-icon {
+                width: 36px;
+                height: 36px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-curve-arrow {
+                width: 36px;
+                height: 36px;
+            }
+
+            .hero-curve-arrow-icon {
+                width: 28px;
+                height: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body class="text-slate-800 antialiased overflow-x-hidden">
+
+    <!-- Top Bar -->
+    <div
+        class="absolute top-0 w-full z-50 border-b border-white/5 bg-transparent py-2.5 text-xs text-white hidden lg:block">
+        <div class="container mx-auto px-6 lg:px-12 flex justify-between items-center">
+            <!-- Left Side: Lang and Socials -->
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2 border-l border-white/10 pl-6">
+                    <span class="hover:text-copper cursor-pointer font-bold">En</span>
+                    <span class="text-white/20">|</span>
+                    <span class="text-copper font-bold">Fa</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="#" class="hover:text-copper transition-colors"><i data-lucide="instagram"
+                            class="w-4 h-4"></i></a>
+                    <a href="#" class="hover:text-copper transition-colors"><i data-lucide="linkedin"
+                            class="w-4 h-4"></i></a>
+                </div>
+            </div>
+            <!-- Right Side: Contact info -->
+            <div class="flex items-center gap-6" dir="ltr">
+                <a href="tel:02188715002" class="flex items-center gap-2 hover:text-copper transition-colors">
+                    <span>۰۲۱ - ۸۸۷۱ ۵۰۰۲ - ۳</span>
+                    <i data-lucide="phone" class="w-4 h-4 text-copper"></i>
+                </a>
+                <span class="text-white/20">|</span>
+                <a href="mailto:info@kermancopper.com"
+                    class="flex items-center gap-2 hover:text-copper transition-colors">
+                    <span>info@kermancopper.com</span>
+                    <i data-lucide="mail" class="w-4 h-4 text-copper"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar (Transparent) -->
+    <nav class="absolute top-0 lg:top-10 w-full z-50 py-6 animate-fade-in-down">
+        <div class="container mx-auto px-6 lg:px-12 flex justify-between items-center">
+            <!-- Right: Logo (Responsive size and flex-shrink-0 to prevent overlapping) -->
+            <div class="flex-shrink-0">
+                <a href="#" class="block transition-transform hover:scale-105">
+                    <img src="http://localhost:8888/kermancopper/wp-content/uploads/2026/02/sbsm-logo-3-mw.webp"
+                        alt="صنایع و معادن مس کرمان زمین" class="h-12 md:h-14 lg:h-16 xl:h-20 w-auto object-contain">
+                </a>
+            </div>
+
+            <!-- Center: Menu links with separators (Responsive gap and padding, and margins to prevent touching) -->
+            <div
+                class="hidden lg:flex items-center gap-4 xl:gap-8 text-white/90 text-xs lg:text-sm font-medium bg-white/5 backdrop-blur-md px-6 xl:px-12 py-3 rounded-full border border-white/10 shadow-sm mx-4">
+                <a href="#" class="nav-link active hover:text-copper">خانه</a>
+                <span class="h-4 w-px bg-white/15"></span>
+                <a href="#" class="nav-link hover:text-copper">اخبار و رویدادها</a>
+                <span class="h-4 w-px bg-white/15"></span>
+                <a href="#" class="nav-link hover:text-copper">درباره ما</a>
+                <span class="h-4 w-px bg-white/15"></span>
+                <a href="#" class="nav-link hover:text-copper">تماس با ما</a>
+                <span class="h-4 w-px bg-white/15"></span>
+                <a href="#" class="nav-link hover:text-copper">مزایده</a>
+            </div>
+
+            <!-- Left: Search/Menu icons -->
+            <div class="flex-shrink-0">
+                <div class="flex items-center gap-4 text-white/80">
+                    <button class="hover:text-copper transition-colors focus:outline-none"><i data-lucide="search"
+                            class="w-5 h-5"></i></button>
+                    <button class="hover:text-copper transition-colors focus:outline-none"><i data-lucide="menu"
+                            class="w-5 h-5"></i></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header
+        class="relative h-screen min-h-[550px] lg:min-h-[650px] flex items-center justify-start overflow-hidden bg-navy">
+        <!-- Background Image -->
+        <div class="absolute inset-0 w-full h-full">
+            <img src="images/pano sarcheshmeh.jpg"
+                class="hero-bg-image w-full h-full object-cover opacity-65 mix-blend-overlay"
+                alt="صنایع و معادن مس کرمان زمین">
+            <!-- Vibrant Overlay: Dark on the right for readability of right-aligned text -->
+            <div class="absolute inset-0 bg-gradient-to-l from-navy/80 via-navy/35 to-transparent z-10"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent z-10"></div>
+
+            <!-- Left Side Pattern Graphic (Stretches to cover and scale with screen size) -->
+            <div class="hero-pattern-left absolute left-0 top-0 bottom-0 w-1/3 xl:w-[35%] opacity-[0.55] pointer-events-none z-10"
+                style="background-image: url('images/patt-right.webp'); background-repeat: no-repeat; background-position: left center; background-size: cover; transform: scaleX(-1);">
+            </div>
+
+            <!-- Accent glow: Positioned above background gradients but below text container -->
+            <div
+                class="hero-glow-accent absolute -top-[20%] -right-[10%] w-[55%] h-[55%] bg-copper/35 rounded-full blur-[120px] animate-pulse-slow z-15">
+            </div>
+        </div>
+
+        <div
+            class="hero-text-container container mx-auto px-6 lg:px-12 relative z-20 flex flex-col items-start text-right mt-8 lg:mt-10 xl:mt-12 font-peyda">
+            <div
+                class="inline-flex items-center gap-3 px-4 py-2 rounded-full glass-panel mb-6 border border-white/20 animate-fade-in-up delay-100">
+                <span class="relative flex h-3 w-3">
+                    <span
+                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-copper opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-copper"></span>
+                </span>
+                <span class="text-copper-light text-xs font-bold tracking-widest">صنایع و معادن مس کرمان زمین</span>
+            </div>
+
+            <h1
+                class="text-3xl md:text-5xl lg:text-6xl xl:text-7xl xl:leading-[1.1] font-black text-white leading-[1.2] mb-3 max-w-4xl text-right animate-fade-in-up delay-200">
+                نوآوری در قلب <span class="text-transparent bg-clip-text bg-gradient-to-l from-copper-dark via-copper to-copper-light">صنعت مس</span>
+            </h1>
+            <div class="text-sm md:text-base lg:text-lg xl:text-xl text-slate-400 font-semibold tracking-wider mb-6 uppercase text-right animate-fade-in-up delay-300"
+                dir="ltr">
+                Innovation at the Heart of Industry
+            </div>
+
+            <p
+                class="text-base md:text-lg xl:text-xl xl:leading-relaxed text-slate-300 max-w-2xl leading-relaxed mb-8 font-light text-right animate-fade-in-up delay-400">
+                ما با تکیه بر دانش بومی و تکنولوژی‌های روز، استانداردهای جدیدی در بهره‌وری و حفظ محیط زیست خلق می‌کنیم.
+                به ما بپیوندید تا آینده‌ای پایدار بسازیم.
+            </p>
+
+            <div class="flex justify-start flex-wrap gap-4 mb-4 animate-fade-in-up delay-500">
+                <a href="#"
+                    class="bg-copper hover:bg-copper-light text-white px-6 py-3 rounded-full text-sm font-bold transition-all hover:shadow-[0_10px_30px_rgba(200,104,47,0.4)] flex items-center gap-2 hover:-translate-y-1">
+                    مزایده و مناقصه
+                </a>
+                <a href="#"
+                    class="border border-white hover:bg-white hover:text-navy text-white px-6 py-3 rounded-full text-sm font-bold transition-all flex items-center gap-2 hover:-translate-y-1">
+                    درباره ما
+                </a>
+            </div>
+        </div>
+
+        <!-- Bottom Curve (Union image) -->
+        <div class="hero-curve">
+            <img src="images/Union.png"
+                srcset="images/Union.png 1440w, images/Union-300x37.png 300w, images/Union-1024x127.png 1024w, images/Union-768x95.png 768w"
+                sizes="(max-width: 1440px) 100vw, 1440px" class="hero-curve-image" alt="" />
+            <a href="#about" class="hero-curve-arrow" aria-label="بخش بعدی">
+                <i data-lucide="chevrons-down" class="hero-curve-arrow-icon"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- ABOUT SECTION (Bento Box Concept) -->
+    <section id="about" class="py-32 bg-gradient-to-b from-[#FAF8F5] via-white to-[#FAF8F5] relative overflow-hidden">
+        <!-- Dot Pattern Background -->
+        <div class="absolute inset-0 bg-[radial-gradient(#c8c8c8_1px,transparent_1px)] bg-[size:24px_24px] opacity-40">
+        </div>
+
+        <!-- Ambient Glow Elements -->
+        <div
+            class="absolute top-[20%] right-[-10%] w-[45%] h-[45%] bg-copper/10 blur-[140px] rounded-full pointer-events-none">
+        </div>
+        <div
+            class="absolute bottom-[10%] left-[-10%] w-[40%] h-[40%] bg-navy/5 blur-[140px] rounded-full pointer-events-none">
+        </div>
+
+        <div class="container mx-auto px-6 lg:px-12">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Content -->
+                <div
+                    class="lg:col-span-5 flex flex-col justify-center about-fade-up opacity-0 translate-y-10 transition-all duration-[1200ms] ease-out">
+                    <!-- Kicker Badge -->
+                    <div
+                        class="inline-flex items-center gap-2 bg-copper/5 border border-copper/15 text-copper px-4 py-1.5 rounded-full text-xs font-bold font-peyda w-max mb-6">
+                        <span
+                            class="w-2.5 h-2.5 rounded-full bg-copper shadow-[0_0_8px_rgba(200,104,47,0.8)] animate-pulse"></span>
+                        <span class="tracking-wider uppercase">مس کرمان زمین</span>
+                    </div>
+
+                    <!-- Title -->
+                    <h2 class="text-5xl lg:text-6xl font-black text-navy mb-8 leading-loose font-peyda">
+                        پیشگام در توسعه <br>
+                        <span
+                            class="text-transparent bg-clip-text bg-gradient-to-l from-copper-dark via-copper to-copper-light">صنعت
+                            استخراج مس</span>
+                    </h2>
+
+                    <!-- Description -->
+                    <p class="text-slate-700 text-lg leading-relaxed mb-12 text-right font-medium max-w-xl">
+                        مجتمع مس سرچشمه با تکیه بر دانش بومی و استفاده از تکنولوژی‌های روز دنیا، توانسته است ضمن حفظ
+                        محیط زیست، به یکی از بزرگترین قطب‌های تولیدی کشور تبدیل شود. تعهد ما به کیفیت و پایداری، مسیر
+                        آینده را روشن می‌سازد.
+                    </p>
+
+                    <!-- Cards Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-10 border-t border-slate-200/80">
+                        <!-- Card 1: Mission -->
+                        <div
+                            class="bg-white rounded-3xl p-7 border border-slate-200 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_25px_50px_-12px_rgba(200,104,47,0.15)] hover:-translate-y-1 hover:border-copper/40 transition-all duration-500 group/card flex flex-col relative overflow-hidden z-10">
+                            <!-- Watermark background number -->
+                            <div class="absolute -left-2 -bottom-2 text-7xl font-black text-slate-100/80 select-none group-hover/card:text-copper/10 transition-colors duration-500 font-peyda"
+                                dir="ltr">01</div>
+
+                            <!-- Icon Container -->
+                            <div
+                                class="w-12 h-12 rounded-2xl bg-gradient-to-br from-copper/10 to-copper/5 border border-copper/10 flex items-center justify-center text-copper mb-5 group-hover/card:scale-110 transition-all duration-500 relative">
+                                <i data-lucide="target"
+                                    class="w-6 h-6 relative z-10 transition-transform duration-700 group-hover/card:rotate-[360deg]"></i>
+                            </div>
+
+                            <h4
+                                class="font-extrabold text-navy text-lg mb-2.5 font-peyda group-hover/card:text-copper transition-colors duration-300 relative z-10">
+                                مأموریت ما</h4>
+                            <p class="text-sm text-slate-600 leading-relaxed font-semibold relative z-10">تولید مس با
+                                بالاترین استانداردهای جهانی و توسعه پایدار اقتصادی.</p>
+                        </div>
+
+                        <!-- Card 2: Vision -->
+                        <div
+                            class="bg-white rounded-3xl p-7 border border-slate-200 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_25px_50px_-12px_rgba(200,104,47,0.15)] hover:-translate-y-1 hover:border-copper/40 transition-all duration-500 group/card flex flex-col relative overflow-hidden z-10">
+                            <!-- Watermark background number -->
+                            <div class="absolute -left-2 -bottom-2 text-7xl font-black text-slate-100/80 select-none group-hover/card:text-copper/10 transition-colors duration-500 font-peyda"
+                                dir="ltr">02</div>
+
+                            <!-- Icon Container -->
+                            <div
+                                class="w-12 h-12 rounded-2xl bg-gradient-to-br from-copper/10 to-copper/5 border border-copper/10 flex items-center justify-center text-copper mb-5 group-hover/card:scale-110 transition-all duration-500 relative">
+                                <i data-lucide="eye"
+                                    class="w-6 h-6 relative z-10 transition-transform duration-700 group-hover/card:rotate-[360deg]"></i>
+                            </div>
+
+                            <h4
+                                class="font-extrabold text-navy text-lg mb-2.5 font-peyda group-hover/card:text-copper transition-colors duration-300 relative z-10">
+                                چشم‌انداز</h4>
+                            <p class="text-sm text-slate-600 leading-relaxed font-semibold relative z-10">قرارگیری در
+                                بین ۵ شرکت برتر تولیدکننده مس در سطح بین‌الملل.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Composition (Editorial Staggered Layout) -->
+                <div
+                    class="lg:col-span-6 lg:col-start-7 relative h-[450px] lg:h-[600px] flex items-stretch gap-4 sm:gap-6 group z-10 px-2 sm:px-0">
+
+                    <!-- Decorative Background Elements -->
+                    <div
+                        class="absolute -top-8 -right-8 w-40 h-40 rounded-full border border-copper/30 border-dashed animate-[spin_10s_linear_infinite] z-0 opacity-60 pointer-events-none">
+                    </div>
+                    <div
+                        class="absolute bottom-20 -left-12 w-48 h-48 bg-copper/10 blur-[60px] rounded-full z-0 pointer-events-none">
+                    </div>
+
+                    <!-- Right Column (First flex child, Mine) -->
+                    <div
+                        class="w-1/2 h-[75%] lg:h-[80%] mt-0 relative z-10 transition-all duration-1000 ease-out group-hover:-translate-y-4 group-hover:rotate-1 about-fade-up opacity-0 translate-y-10 delay-[200ms]">
+                        <div
+                            class="about-parallax-item w-full h-full rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] border-4 sm:border-8 border-white/80 bg-white relative">
+                            <img src="images/about/mes-premium.png"
+                                class="w-full h-full object-cover transition-transform duration-1000 ease-out hover:scale-110"
+                                alt="Mine">
+                            <div class="absolute inset-0 bg-navy/10 mix-blend-multiply pointer-events-none"></div>
+                        </div>
+                    </div>
+
+                    <!-- Left Column (Second flex child, offset, Foundry) -->
+                    <div
+                        class="w-1/2 h-[85%] lg:h-[90%] mt-12 sm:mt-20 relative z-20 transition-all duration-1000 ease-out group-hover:-translate-y-6 group-hover:-rotate-1 about-fade-up opacity-0 translate-y-10 delay-[400ms]">
+                        <div
+                            class="about-parallax-item w-full h-full rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-[0_30px_60px_-15px_rgba(200,104,47,0.15)] border-4 sm:border-8 border-white bg-white relative">
+                            <img src="images/about/mess-1-premium.png"
+                                class="w-full h-full object-cover transition-transform duration-1000 ease-out hover:scale-110"
+                                alt="Foundry">
+                            <div class="absolute inset-0 bg-navy/10 mix-blend-multiply pointer-events-none"></div>
+                        </div>
+                    </div>
+
+                    <!-- Overlapping Horizontal Glass Badge -->
+                    <div
+                        class="absolute -bottom-6 sm:bottom-4 left-1/2 -translate-x-1/2 w-[90%] sm:w-max min-w-[320px] glass-panel-dark p-4 sm:p-5 lg:px-8 lg:py-6 rounded-[2rem] shadow-[0_25px_50px_-12px_rgba(26,34,53,0.5)] border border-white/10 z-30 flex items-center justify-between gap-6 sm:gap-10 transition-all duration-1000 hover:scale-105 hover:border-copper/40 hover:shadow-[0_30px_60px_-15px_rgba(200,104,47,0.3)] about-fade-up opacity-0 translate-y-10 delay-[600ms]">
+                        <div class="flex items-center gap-3 sm:gap-4">
+                            <div
+                                class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-copper/20 to-copper/5 flex items-center justify-center border border-copper/20 shadow-inner flex-shrink-0">
+                                <i data-lucide="gem" class="w-5 h-5 sm:w-6 sm:h-6 text-copper-light"></i>
+                            </div>
+                            <div class="text-xs sm:text-sm font-bold text-slate-200 leading-relaxed">
+                                سه دهه تجربه‌ درخشان <br>
+                                <span class="text-slate-400 font-medium text-[10px] sm:text-xs">در صنعت استخراج
+                                    مس</span>
+                            </div>
+                        </div>
+                        <div class="text-3xl sm:text-4xl lg:text-5xl font-black bg-gradient-to-l from-copper-light via-copper to-copper-dark bg-clip-text text-transparent font-peyda ml-2"
+                            dir="ltr">+<span class="counter-up" data-target="32">۰</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ADS / TENDERS SECTION -->
+    <section id="ads" class="py-32 bg-gradient-to-b from-[#FAF8F5] to-white relative overflow-hidden border-t border-slate-200/50">
+        <!-- Dot Pattern Background -->
+        <div class="absolute inset-0 bg-[radial-gradient(#c8c8c8_1px,transparent_1px)] bg-[size:24px_24px] opacity-30 pointer-events-none z-0"></div>
+        
+        <!-- Premium Ambient Background -->
+        <div
+            class="absolute top-0 right-0 w-[800px] h-[800px] bg-copper/5 rounded-full blur-[120px] -z-10 translate-x-1/2 -translate-y-1/2 pointer-events-none">
+        </div>
+        <div
+            class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-navy/5 rounded-full blur-[100px] -z-10 -translate-x-1/3 translate-y-1/3 pointer-events-none">
+        </div>
+
+        <div class="container mx-auto px-6 lg:px-12 relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+                <div class="ads-fade-up opacity-0 translate-y-10 transition-all duration-[1000ms] ease-out">
+                    <h4 class="text-copper font-bold tracking-widest mb-4 flex items-center gap-4 font-peyda">
+                        <span class="w-12 h-0.5 bg-copper"></span> فرصت‌های همکاری
+                    </h4>
+                    <h2 class="text-4xl lg:text-5xl font-black text-navy tracking-tight font-peyda">آگهی‌های مزایده و
+                        مناقصه</h2>
+                </div>
+                <!-- Premium Filters -->
+                <div
+                    class="flex bg-white p-1.5 rounded-2xl shadow-sm border border-slate-200 ads-fade-up opacity-0 translate-y-10 transition-all duration-[1000ms] delay-[200ms] ease-out">
+                    <button
+                        class="relative px-6 md:px-8 py-2.5 rounded-xl font-bold text-sm bg-copper text-white shadow-[0_4px_15px_rgba(200,104,47,0.3)] transition-all duration-300 z-10 transform scale-100">همه
+                        موارد</button>
+                    <button
+                        class="relative px-6 md:px-8 py-2.5 rounded-xl font-bold text-sm text-slate-500 hover:text-copper hover:bg-copper/5 hover:shadow-sm transition-all duration-300 z-10">مزایده</button>
+                    <button
+                        class="relative px-6 md:px-8 py-2.5 rounded-xl font-bold text-sm text-slate-500 hover:text-copper hover:bg-copper/5 hover:shadow-sm transition-all duration-300 z-10">مناقصه</button>
+                    <button
+                        class="relative px-6 md:px-8 py-2.5 rounded-xl font-bold text-sm text-slate-500 hover:text-copper hover:bg-copper/5 hover:shadow-sm transition-all duration-300 z-10">سایر</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+                <!-- Ad Card 1 -->
+                <div
+                    class="ads-fade-up opacity-0 translate-y-10 transition-all duration-[1000ms] delay-[300ms] ease-out h-full">
+                    <div
+                        class="ads-parallax-item bg-white rounded-[2rem] p-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200/60 hover:shadow-[0_20px_40px_-15px_rgba(200,104,47,0.15)] hover:border-copper/40 transition-all duration-500 group cursor-pointer flex flex-col h-full relative overflow-hidden">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-copper/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                        </div>
+                        <div class="h-52 rounded-3xl overflow-hidden mb-6 relative shadow-inner">
+                            <img src="images/copper-sheet-bahonar.webp"
+                                class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                                alt="Tender">
+                            <div
+                                class="absolute inset-0 bg-navy/0 group-hover:bg-navy/10 transition-colors duration-500 pointer-events-none">
+                            </div>
+                            <div
+                                class="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl text-xs font-bold text-navy flex items-center gap-2 shadow-[0_4px_12px_rgba(0,0,0,0.08)] border border-white/20">
+                                <i data-lucide="file-text" class="w-4 h-4 text-copper"></i> مناقصه
+                            </div>
+                        </div>
+                        <div class="px-2 flex-1 flex flex-col relative z-10">
+                            <h3
+                                class="font-extrabold text-lg text-navy mb-4 leading-relaxed line-clamp-2 group-hover:text-copper transition-colors duration-300 font-peyda">
+                                خرید قطعات یدکی پمپ‌های اسلاری مجتمع سرچشمه</h3>
+                            <div class="mt-auto pt-4 border-t border-slate-100/80 flex items-center justify-between">
+                                <div class="flex items-center gap-1.5 text-slate-500 text-sm font-medium">
+                                    <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
+                                    <span class="text-[10px] text-slate-400">مهلت:</span> ۱۲ اسفند ۱۴۰۴
+                                </div>
+                                <span
+                                    class="bg-emerald-50 text-emerald-600 border border-emerald-100/50 px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">فعال</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ad Card 2 -->
+                <div
+                    class="ads-fade-up opacity-0 translate-y-10 transition-all duration-[1000ms] delay-[400ms] ease-out h-full">
+                    <div
+                        class="ads-parallax-item bg-white rounded-[2rem] p-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200/60 hover:shadow-[0_20px_40px_-15px_rgba(200,104,47,0.15)] hover:border-copper/40 transition-all duration-500 group cursor-pointer flex flex-col h-full relative overflow-hidden">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-copper/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                        </div>
+                        <div class="h-52 rounded-3xl overflow-hidden mb-6 relative shadow-inner">
+                            <img src="images/ورق مس.jpg"
+                                class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                                alt="Auction">
+                            <div
+                                class="absolute inset-0 bg-navy/0 group-hover:bg-navy/10 transition-colors duration-500 pointer-events-none">
+                            </div>
+                            <div
+                                class="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl text-xs font-bold text-navy flex items-center gap-2 shadow-[0_4px_12px_rgba(0,0,0,0.08)] border border-white/20">
+                                <i data-lucide="gavel" class="w-4 h-4 text-copper"></i> مزایده
+                            </div>
+                        </div>
+                        <div class="px-2 flex-1 flex flex-col relative z-10">
+                            <h3
+                                class="font-extrabold text-lg text-navy mb-4 leading-relaxed line-clamp-2 group-hover:text-copper transition-colors duration-300 font-peyda">
+                                فروش ۳۰ تن ضایعات مس و آهن آلات اسقاطی</h3>
+                            <div class="mt-auto pt-4 border-t border-slate-100/80 flex items-center justify-between">
+                                <div class="flex items-center gap-1.5 text-slate-500 text-sm font-medium">
+                                    <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
+                                    <span class="text-[10px] text-slate-400">مهلت:</span> ۰۵ اسفند ۱۴۰۴
+                                </div>
+                                <span
+                                    class="bg-emerald-50 text-emerald-600 border border-emerald-100/50 px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">فعال</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ad Card 3 -->
+                <div
+                    class="ads-fade-up opacity-0 translate-y-10 transition-all duration-[1000ms] delay-[500ms] ease-out h-full">
+                    <div
+                        class="ads-parallax-item bg-white rounded-[2rem] p-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200/60 hover:shadow-[0_20px_40px_-15px_rgba(200,104,47,0.15)] hover:border-copper/40 transition-all duration-500 group cursor-pointer flex flex-col h-full relative overflow-hidden">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-copper/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                        </div>
+                        <div class="h-52 rounded-3xl overflow-hidden mb-6 relative shadow-inner">
+                            <img src="images/image2.jpg"
+                                class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                                alt="Tender">
+                            <div
+                                class="absolute inset-0 bg-navy/0 group-hover:bg-navy/10 transition-colors duration-500 pointer-events-none">
+                            </div>
+                            <div
+                                class="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl text-xs font-bold text-navy flex items-center gap-2 shadow-[0_4px_12px_rgba(0,0,0,0.08)] border border-white/20">
+                                <i data-lucide="file-text" class="w-4 h-4 text-copper"></i> مناقصه
+                            </div>
+                        </div>
+                        <div class="px-2 flex-1 flex flex-col relative z-10">
+                            <h3
+                                class="font-extrabold text-lg text-navy mb-4 leading-relaxed line-clamp-2 group-hover:text-copper transition-colors duration-300 font-peyda">
+                                تامین ماشین‌آلات سنگین معدنی برای فاز دو</h3>
+                            <div class="mt-auto pt-4 border-t border-slate-100/80 flex items-center justify-between">
+                                <div class="flex items-center gap-1.5 text-slate-500 text-sm font-medium">
+                                    <i data-lucide="calendar" class="w-4 h-4 text-slate-400"></i>
+                                    <span class="text-[10px] text-slate-400">مهلت:</span> ۲۸ بهمن ۱۴۰۴
+                                </div>
+                                <span
+                                    class="bg-rose-50 text-rose-600 border border-rose-100/50 px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm">منقضی</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ad Card 4 -->
+                <div
+                    class="ads-fade-up opacity-0 translate-y-10 transition-all duration-[1000ms] delay-[600ms] ease-out h-full">
+                    <div
+                        class="ads-parallax-item bg-gradient-to-br from-white to-slate-50/50 rounded-[2rem] p-6 shadow-[0_8px_30px_rgb(0,0,0,0.02)] border border-slate-200/80 hover:border-copper/40 hover:shadow-[0_20px_50px_-15px_rgba(200,104,47,0.2)] transition-all duration-500 group cursor-pointer flex flex-col h-full items-center justify-center relative overflow-hidden">
+                        <div
+                            class="absolute -right-12 -bottom-12 w-40 h-40 bg-copper/10 rounded-full blur-3xl group-hover:bg-copper/20 transition-colors duration-700 pointer-events-none">
+                        </div>
+                        <div
+                            class="absolute -left-8 -top-8 w-32 h-32 bg-navy/5 rounded-full blur-2xl group-hover:bg-navy/10 transition-colors duration-700 pointer-events-none">
+                        </div>
+
+                        <div
+                            class="w-20 h-20 rounded-full bg-white shadow-[0_10px_25px_rgba(0,0,0,0.05)] flex items-center justify-center text-copper mb-6 group-hover:-translate-x-2 group-hover:scale-110 group-hover:shadow-[0_15px_30px_rgba(200,104,47,0.15)] transition-all duration-500 relative z-10 border border-slate-100">
+                            <i data-lucide="arrow-left"
+                                class="w-8 h-8 transition-transform duration-500 group-hover:-translate-x-1"></i>
+                        </div>
+                        <h3
+                            class="font-black text-xl text-navy group-hover:text-copper transition-colors duration-300 relative z-10 font-peyda">
+                            مشاهده تمام آگهی‌ها</h3>
+                        <p
+                            class="text-slate-500 text-sm mt-3 relative z-10 font-semibold bg-slate-100/50 px-4 py-1.5 rounded-full">
+                            بیش از ۴۵ فرصت فعال</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWS & ANNOUNCEMENTS SECTION -->
+    <section id="news" class="py-32 bg-navy relative overflow-hidden">
+        <!-- Ambient Background Glows -->
+        <div
+            class="absolute top-0 right-0 w-[600px] h-[600px] bg-copper/5 rounded-full blur-[120px] pointer-events-none">
+        </div>
+        <div
+            class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-sky-500/5 rounded-full blur-[100px] pointer-events-none">
+        </div>
+
+        <div class="container mx-auto px-6 lg:px-12 relative z-10">
+            <div
+                class="text-center mb-16 fade-up-element opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+                <h4
+                    class="text-copper font-bold tracking-widest mb-4 flex items-center justify-center gap-4 font-peyda">
+                    <span class="w-12 h-0.5 bg-copper"></span> پایگاه خبری و اطلاع‌رسانی <span
+                        class="w-12 h-0.5 bg-copper"></span>
+                </h4>
+                <h2 class="text-4xl lg:text-5xl font-black text-white tracking-tight font-peyda">تازه‌ترین اخبار و
+                    اطلاعیه‌ها</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+                <!-- Latest News (Now on the right visually/first in DOM) -->
+                <div
+                    class="lg:col-span-8 flex flex-col fade-up-element opacity-0 translate-y-10 transition-all duration-1000 delay-[200ms] ease-out h-full">
+                    <div class="flex items-center justify-between mb-8">
+                        <h3 class="text-2xl font-black text-white font-peyda flex items-center gap-3">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-copper shadow-inner">
+                                <i data-lucide="newspaper" class="w-5 h-5"></i>
+                            </div>
+                            اخبار و رویدادها
+                        </h3>
+                        <a href="#"
+                            class="text-slate-400 hover:text-copper transition-colors text-sm font-bold flex items-center gap-1 group/link">آرشیو
+                            اخبار <i data-lucide="arrow-left"
+                                class="w-4 h-4 transition-transform group-hover/link:-translate-x-1"></i></a>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1">
+                        <!-- Featured News (Left/Top) -->
+                        <a href="#"
+                            class="news-parallax-item relative rounded-[2rem] overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-white/10 hover:border-copper/40 transition-colors duration-500 flex flex-col min-h-[400px] h-full">
+                            <img src="images/ofogh-co-cover.jpg"
+                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                                alt="News">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-navy via-navy/60 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500">
+                            </div>
+
+                            <div class="absolute top-6 left-6">
+                                <div
+                                    class="w-10 h-10 rounded-full bg-navy/50 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/50 group-hover:bg-copper group-hover:text-white group-hover:border-copper transition-all duration-300">
+                                    <i data-lucide="arrow-up-left" class="w-5 h-5"></i>
+                                </div>
+                            </div>
+
+                            <div class="absolute bottom-0 left-0 right-0 p-8">
+                                <span
+                                    class="inline-block bg-white/10 backdrop-blur-md text-white border border-white/20 px-4 py-1.5 rounded-xl text-xs font-bold mb-4">گزارش
+                                    ویژه</span>
+                                <h3
+                                    class="text-xl md:text-2xl font-black text-white leading-tight mb-4 group-hover:text-copper transition-colors font-peyda">
+                                    راه‌اندازی سامانه پایش آنلاین مصرف انرژی در مجتمع مس
+                                </h3>
+                                <p class="text-slate-300 text-sm line-clamp-2 leading-relaxed">
+                                    این سامانه با هدف بهینه‌سازی مصرف و کاهش آلاینده‌های زیست محیطی به صورت کاملا بومی
+                                    طراحی و پیاده‌سازی شده است.
+                                </p>
+                            </div>
+                        </a>
+
+                        <div class="flex flex-col gap-6">
+                            <!-- Small News 1 -->
+                            <a href="#"
+                                class="news-parallax-item relative rounded-[2rem] overflow-hidden group shadow-lg border border-white/10 flex-1 flex flex-col sm:flex-row bg-white/5 backdrop-blur-sm hover:bg-white/10 hover:border-copper/30 transition-all duration-300 h-full">
+                                <div class="w-full sm:w-2/5 h-48 sm:h-full relative overflow-hidden">
+                                    <img src="images/about/Nuclear-contamination-in-Iran.jpg"
+                                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        alt="News">
+                                </div>
+                                <div class="w-full sm:w-3/5 p-6 flex flex-col justify-center relative z-10">
+                                    <div class="text-copper text-xs font-bold mb-3 flex items-center gap-1.5"><i
+                                            data-lucide="clock" class="w-3.5 h-3.5"></i> ۲۴ بهمن ۱۴۰۴</div>
+                                    <h4
+                                        class="text-base font-bold text-white leading-snug group-hover:text-copper transition-colors font-peyda mb-4 line-clamp-2">
+                                        بازدید مدیرعامل از طرح توسعه فاز ۳ استخراج
+                                    </h4>
+                                    <div
+                                        class="mt-auto flex items-center text-slate-400 text-xs font-semibold group-hover:text-white transition-colors">
+                                        بیشتر بخوانید <i data-lucide="chevron-left" class="w-4 h-4 mr-1"></i>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <!-- Small News 2 -->
+                            <a href="#"
+                                class="news-parallax-item relative rounded-[2rem] overflow-hidden group shadow-lg border border-white/10 flex-1 flex flex-col sm:flex-row bg-white/5 backdrop-blur-sm hover:bg-white/10 hover:border-copper/30 transition-all duration-300 h-full">
+                                <div class="w-full sm:w-2/5 h-48 sm:h-full relative overflow-hidden">
+                                    <img src="images/14164.jpg"
+                                        class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        alt="News">
+                                </div>
+                                <div class="w-full sm:w-3/5 p-6 flex flex-col justify-center relative z-10">
+                                    <div class="text-copper text-xs font-bold mb-3 flex items-center gap-1.5"><i
+                                            data-lucide="clock" class="w-3.5 h-3.5"></i> ۲۰ بهمن ۱۴۰۴</div>
+                                    <h4
+                                        class="text-base font-bold text-white leading-snug group-hover:text-copper transition-colors font-peyda mb-4 line-clamp-2">
+                                        افتخارآفرینی مهندسان در مسابقات ملی رباتیک صنعتی
+                                    </h4>
+                                    <div
+                                        class="mt-auto flex items-center text-slate-400 text-xs font-semibold group-hover:text-white transition-colors">
+                                        بیشتر بخوانید <i data-lucide="chevron-left" class="w-4 h-4 mr-1"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Announcements (Vertical Banners - Now on the left visually/second in DOM) -->
+                <div
+                    class="lg:col-span-4 flex flex-col fade-up-element opacity-0 translate-y-10 transition-all duration-1000 delay-[400ms] ease-out h-full min-h-0">
+                    <div class="flex items-center justify-between mb-8 shrink-0">
+                        <h3 class="text-2xl font-black text-white font-peyda flex items-center gap-3">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-copper shadow-inner">
+                                <i data-lucide="bell" class="w-5 h-5"></i>
+                            </div>
+                            اطلاعیه‌ها
+                        </h3>
+                        <a href="#"
+                            class="text-slate-400 hover:text-copper transition-colors text-sm font-bold flex items-center gap-1 group/link">همه
+                            <i data-lucide="arrow-left"
+                                class="w-4 h-4 transition-transform group-hover/link:-translate-x-1"></i></a>
+                    </div>
+
+                    <!-- Vertical Banner Carousel -->
+                    <div
+                        class="news-parallax-item relative flex-1 min-h-0 h-full rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-white/10 hover:border-copper/40 transition-colors duration-500">
+                        <div id="announcements-carousel"
+                            class="flex h-full w-full overflow-x-auto overflow-y-hidden snap-x snap-mandatory scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] cursor-grab active:cursor-grabbing">
+
+                            <!-- Slide 1 -->
+                            <a href="#" class="relative w-full h-full flex-shrink-0 snap-center group block">
+                                <img src="images/ورق مس.jpg"
+                                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                                    alt="Announcement">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-navy via-navy/60 to-navy/10 group-hover:via-navy/50 transition-all duration-500">
+                                </div>
+
+                                <div class="absolute top-6 right-6">
+                                    <span
+                                        class="bg-copper/90 backdrop-blur-md text-white px-3.5 py-2 rounded-xl text-xs font-bold shadow-[0_4px_15px_rgba(200,104,47,0.4)] border border-white/20 flex items-center gap-2">
+                                        <span class="w-2 h-2 rounded-full bg-white animate-ping"></span> فوری
+                                    </span>
+                                </div>
+
+                                <div class="absolute bottom-12 left-0 right-0 p-8">
+                                    <div class="text-copper-light text-sm font-bold mb-3 flex items-center gap-2">
+                                        <i data-lucide="calendar" class="w-4 h-4"></i> ۲۵ بهمن ۱۴۰۴
+                                    </div>
+                                    <h4
+                                        class="text-2xl font-black text-white leading-tight group-hover:text-copper-light transition-colors font-peyda mb-6">
+                                        فراخوان جذب نیروی متخصص و مهندس معدن در مجتمع مس سرچشمه
+                                    </h4>
+                                    <div
+                                        class="inline-flex items-center gap-3 text-white/80 hover:text-white group/btn">
+                                        <span class="text-sm font-bold">مشاهده کامل اطلاعیه</span>
+                                        <span
+                                            class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center group-hover/btn:bg-copper group-hover/btn:border-copper group-hover/btn:shadow-[0_0_20px_rgba(200,104,47,0.4)] transition-all duration-300">
+                                            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <!-- Slide 2 -->
+                            <a href="#" class="relative w-full h-full flex-shrink-0 snap-center group block">
+                                <img src="images/copper-sheet-bahonar.webp"
+                                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                                    alt="Announcement">
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-navy via-navy/60 to-navy/10 group-hover:via-navy/50 transition-all duration-500">
+                                </div>
+
+                                <div class="absolute top-6 right-6">
+                                    <span
+                                        class="bg-emerald-600/90 backdrop-blur-md text-white px-3.5 py-2 rounded-xl text-xs font-bold shadow-[0_4px_15px_rgba(16,185,129,0.4)] border border-white/20 flex items-center gap-2">
+                                        اطلاعیه جدید
+                                    </span>
+                                </div>
+
+                                <div class="absolute bottom-12 left-0 right-0 p-8">
+                                    <div class="text-copper-light text-sm font-bold mb-3 flex items-center gap-2">
+                                        <i data-lucide="calendar" class="w-4 h-4"></i> ۲۰ بهمن ۱۴۰۴
+                                    </div>
+                                    <h4
+                                        class="text-2xl font-black text-white leading-tight group-hover:text-copper-light transition-colors font-peyda mb-6">
+                                        برگزاری دوره آموزشی ایمنی کار در معادن برای پرسنل جدید
+                                    </h4>
+                                    <div
+                                        class="inline-flex items-center gap-3 text-white/80 hover:text-white group/btn">
+                                        <span class="text-sm font-bold">مشاهده کامل اطلاعیه</span>
+                                        <span
+                                            class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center group-hover/btn:bg-copper group-hover/btn:border-copper group-hover/btn:shadow-[0_0_20px_rgba(200,104,47,0.4)] transition-all duration-300">
+                                            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </a>
+
+                        </div>
+
+                        <!-- Carousel Navigation -->
+                        <div class="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-2 sm:px-4 pointer-events-none z-20">
+                            <!-- Next (Right side visually because of absolute, but left arrow in RTL) -->
+                            <button id="ann-next-btn" type="button" class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-copper hover:text-white hover:border-copper hover:scale-110 hover:shadow-[0_0_15px_rgba(200,104,47,0.6)] transition-all duration-300 pointer-events-auto">
+                                <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                            </button>
+                            <!-- Prev (Left side visually, right arrow in RTL) -->
+                            <button id="ann-prev-btn" type="button" class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-copper hover:text-white hover:border-copper hover:scale-110 hover:shadow-[0_0_15px_rgba(200,104,47,0.6)] transition-all duration-300 pointer-events-auto">
+                                <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+
+                        <!-- Carousel Indicators -->
+                        <div
+                            class="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
+                            <button type="button" class="w-6 h-1.5 rounded-full bg-white transition-all duration-300"></button>
+                            <button type="button" class="w-1.5 h-1.5 rounded-full bg-white/40 hover:bg-white/80 transition-all duration-300"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section id="faq" class="pt-32 pb-40 bg-gradient-to-b from-slate-50 to-white relative z-10 overflow-hidden">
+        <!-- Decorative Pattern -->
+        <div class="absolute inset-0 opacity-30 pointer-events-none z-0" style="background-image: url('images/bpattern2.svg'); background-repeat: repeat; background-size: 300px;"></div>
+        
+        <!-- Ambient Glows -->
+        <div class="absolute top-[10%] left-[-10%] w-[50%] h-[50%] bg-copper/5 blur-[120px] rounded-full pointer-events-none"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-navy/5 blur-[100px] rounded-full pointer-events-none"></div>
+        
+        <div class="container mx-auto px-6 lg:px-12 relative z-10">
+            <div class="max-w-4xl mx-auto text-center mb-24 fade-up-element opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+                <h4 class="text-copper font-bold tracking-widest mb-4 flex items-center justify-center gap-4 font-peyda">
+                    <span class="w-12 h-0.5 bg-copper/30"></span> پشتیبانی و راهنمایی <span class="w-12 h-0.5 bg-copper/30"></span>
+                </h4>
+                <h2 class="text-4xl lg:text-5xl font-black text-navy mb-6 font-peyda">سوالات متداول</h2>
+                <p class="text-slate-500 text-lg max-w-2xl mx-auto">پاسخ به پرتکرارترین پرسش‌های شما در زمینه ثبت‌نام در مناقصات، نحوه همکاری و استخدام در مجتمع مس سرچشمه.</p>
+            </div>
+
+            <div class="max-w-4xl mx-auto space-y-6 relative">
+                <!-- Decorative Elements -->
+                <div class="absolute -left-12 top-20 w-24 h-24 border border-copper/20 rounded-full border-dashed animate-[spin_15s_linear_infinite] z-0 pointer-events-none hidden lg:block"></div>
+                
+                <!-- FAQ Item 1 -->
+                <div class="faq-item faq-fade-up opacity-0 translate-y-10 transition-all duration-[1000ms] delay-[100ms] ease-out bg-white rounded-3xl border border-slate-100/80 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_50px_-15px_rgba(200,104,47,0.15)] hover:border-copper/30 relative z-10 group"
+                    data-active="true">
+                    <button class="w-full text-right p-8 flex justify-between items-center focus:outline-none"
+                        onclick="toggleFaq(this)">
+                        <span class="font-bold text-lg md:text-xl text-copper transition-colors font-peyda pr-2 border-r-4 border-copper">چگونه می‌توانم در مناقصات شرکت کنم؟</span>
+                        <div class="faq-icon w-12 h-12 rounded-2xl bg-copper/10 text-copper flex items-center justify-center shrink-0 transition-transform duration-500 rotate-180">
+                            <i data-lucide="chevron-down" class="w-6 h-6"></i>
+                        </div>
+                    </button>
+                    <div class="faq-content px-8 overflow-hidden transition-all duration-500 pb-8 pt-2"
+                        style="max-height: 500px; opacity: 1;">
+                        <p class="text-slate-600 leading-relaxed text-justify md:pl-16">
+                            برای شرکت در مناقصات ابتدا باید در سامانه تامین‌کنندگان ثبت‌نام کنید. پس از تایید مدارک شرکتی، شما می‌توانید با مراجعه به پورتال مزایده و مناقصه اسناد مربوطه را دریافت کرده و پیشنهاد خود را ثبت نمایید.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="faq-item faq-fade-up opacity-0 translate-y-10 transition-all duration-[1000ms] delay-[200ms] ease-out bg-white rounded-3xl border border-slate-100/80 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_50px_-15px_rgba(200,104,47,0.15)] hover:border-copper/30 relative z-10 group"
+                    data-active="false">
+                    <button class="w-full text-right p-8 flex justify-between items-center focus:outline-none"
+                        onclick="toggleFaq(this)">
+                        <span class="font-bold text-lg md:text-xl text-navy group-hover:text-copper transition-colors font-peyda pr-2 border-r-4 border-transparent group-hover:border-copper/50">مدارک لازم برای ثبت شرکت پیمانکاری چیست؟</span>
+                        <div class="faq-icon w-12 h-12 rounded-2xl bg-slate-50 text-slate-400 group-hover:bg-copper/10 group-hover:text-copper flex items-center justify-center shrink-0 transition-transform duration-500">
+                            <i data-lucide="chevron-down" class="w-6 h-6"></i>
+                        </div>
+                    </button>
+                    <div class="faq-content px-8 overflow-hidden transition-all duration-500 max-h-0 opacity-0 pb-0 pt-0">
+                        <p class="text-slate-600 leading-relaxed text-justify md:pl-16">
+                            مدارک لازم شامل اساسنامه شرکت، آگهی تاسیس و آخرین تغییرات روزنامه رسمی، گواهی صلاحیت پیمانکاری (رتبه‌بندی)، مفاصاحساب مالیاتی و بیمه، و رزومه کاری به همراه مدارک تحصیلی و سوابق اعضای هیئت مدیره و مهندسان کلیدی می‌باشد.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="faq-item faq-fade-up opacity-0 translate-y-10 transition-all duration-[1000ms] delay-[300ms] ease-out bg-white rounded-3xl border border-slate-100/80 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_50px_-15px_rgba(200,104,47,0.15)] hover:border-copper/30 relative z-10 group"
+                    data-active="false">
+                    <button class="w-full text-right p-8 flex justify-between items-center focus:outline-none"
+                        onclick="toggleFaq(this)">
+                        <span class="font-bold text-lg md:text-xl text-navy group-hover:text-copper transition-colors font-peyda pr-2 border-r-4 border-transparent group-hover:border-copper/50">فرایند پرداخت صورت‌وضعیت‌ها چگونه است؟</span>
+                        <div class="faq-icon w-12 h-12 rounded-2xl bg-slate-50 text-slate-400 group-hover:bg-copper/10 group-hover:text-copper flex items-center justify-center shrink-0 transition-transform duration-500">
+                            <i data-lucide="chevron-down" class="w-6 h-6"></i>
+                        </div>
+                    </button>
+                    <div class="faq-content px-8 overflow-hidden transition-all duration-500 max-h-0 opacity-0 pb-0 pt-0">
+                        <p class="text-slate-600 leading-relaxed text-justify md:pl-16">
+                            پس از تایید کارکرد توسط ناظر پروژه، صورت‌وضعیت توسط پیمانکار ارسال شده و پس از بررسی و تایید در امور مالی و کسر کسورات قانونی (بیمه، مالیات و حسن انجام کار)، بر اساس شرایط خصوصی پیمان پرداخت خواهد شد.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section class="py-32 bg-navy relative overflow-hidden border-t border-white/5">
+        <!-- Glowing Orbs -->
+        <div class="absolute top-[20%] right-[10%] w-[400px] h-[400px] bg-copper/10 rounded-full blur-[140px] pointer-events-none"></div>
+        <div class="absolute bottom-[10%] left-[5%] w-[500px] h-[500px] bg-sky-500/10 rounded-full blur-[140px] pointer-events-none"></div>
+        
+        <div class="container mx-auto px-6 lg:px-12 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 items-center">
+                <!-- Form Area -->
+                <div class="lg:col-span-5 contact-fade-up opacity-0 translate-y-10 transition-all duration-1000 delay-[200ms] ease-out">
+                    <div class="mb-12">
+                        <h4 class="text-copper font-bold tracking-widest mb-4 flex items-center gap-3 font-peyda">
+                            <span class="w-8 h-0.5 bg-copper"></span> صدای شما
+                        </h4>
+                        <h2 class="text-4xl lg:text-5xl font-black text-white mb-6 font-peyda">در ارتباط باشیم</h2>
+                        <p class="text-slate-300 leading-relaxed font-light text-lg">
+                            نظرات، پیشنهادات و درخواست‌های خود را با ما در میان بگذارید. تیم پشتیبانی مجتمع مس سرچشمه در اسرع وقت پاسخگوی شما خواهد بود.
+                        </p>
+                    </div>
+
+                    <form class="space-y-5" onsubmit="event.preventDefault(); alert('پیام شما با موفقیت ثبت شد.');">
+                        <div class="relative group">
+                            <input type="text" id="name" class="peer w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white placeholder-transparent focus:outline-none focus:border-copper focus:bg-white/10 transition-all" placeholder="نام و نام خانوادگی">
+                            <label for="name" class="absolute right-6 -top-2.5 bg-navy px-2 text-sm text-copper transition-all peer-placeholder-shown:text-slate-400 peer-placeholder-shown:top-5 peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-copper peer-focus:bg-navy font-medium cursor-text">نام و نام خانوادگی</label>
+                        </div>
+                        <div class="relative group">
+                            <input type="email" id="email" class="peer w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white placeholder-transparent focus:outline-none focus:border-copper focus:bg-white/10 transition-all" placeholder="ایمیل یا شماره تماس" dir="ltr">
+                            <label for="email" class="absolute right-6 -top-2.5 bg-navy px-2 text-sm text-copper transition-all peer-placeholder-shown:text-slate-400 peer-placeholder-shown:top-5 peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-copper peer-focus:bg-navy font-medium cursor-text">ایمیل یا موبایل</label>
+                        </div>
+                        <div class="relative group">
+                            <textarea id="message" rows="4" class="peer w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white placeholder-transparent focus:outline-none focus:border-copper focus:bg-white/10 transition-all resize-none" placeholder="پیام شما..."></textarea>
+                            <label for="message" class="absolute right-6 -top-2.5 bg-navy px-2 text-sm text-copper transition-all peer-placeholder-shown:text-slate-400 peer-placeholder-shown:top-5 peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-copper peer-focus:bg-navy font-medium cursor-text">پیام شما</label>
+                        </div>
+                        <button class="w-full bg-gradient-to-r from-copper-dark via-copper to-copper-light text-white font-black text-lg py-5 rounded-2xl transition-all shadow-[0_10px_30px_rgba(200,104,47,0.3)] hover:shadow-[0_15px_40px_rgba(200,104,47,0.5)] hover:-translate-y-1 mt-4 group relative overflow-hidden">
+                            <span class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></span>
+                            <span class="relative flex items-center justify-center gap-2">
+                                ارسال پیام <i data-lucide="send" class="w-5 h-5 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1"></i>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Info & Map Area -->
+                <div class="lg:col-span-7 contact-fade-up opacity-0 translate-y-10 transition-all duration-1000 delay-[400ms] ease-out h-full flex flex-col gap-6 mt-12 lg:mt-0">
+                    
+                    <!-- Premium Map Card -->
+                    <div class="w-full h-64 sm:h-80 rounded-[2rem] overflow-hidden relative group border border-white/10 shadow-2xl z-10 bg-navy-light flex items-center justify-center">
+                        <img src="images/map-dark.jpg" alt="Map Location Placeholder" class="absolute inset-0 w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-[50%] group-hover:opacity-80 transition-all duration-1000 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80'; this.classList.add('opacity-30')">
+                        <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent pointer-events-none"></div>
+                        
+                        <!-- Map Pin -->
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+                            <div class="w-16 h-16 rounded-full bg-copper/20 flex items-center justify-center animate-pulse">
+                                <div class="w-10 h-10 rounded-full bg-copper flex items-center justify-center shadow-[0_0_20px_rgba(200,104,47,0.8)]">
+                                    <i data-lucide="map-pin" class="w-5 h-5 text-white"></i>
+                                </div>
+                            </div>
+                            <div class="mt-4 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 text-white font-bold text-sm shadow-lg pointer-events-none">
+                                مجتمع مس سرچشمه
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Details Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 flex-1">
+                        <!-- Address -->
+                        <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-[2rem] p-6 sm:p-8 hover:bg-white/10 hover:border-copper/40 transition-all duration-500 group flex flex-col items-center justify-center text-center shadow-lg h-full">
+                            <div class="w-14 h-14 rounded-2xl bg-copper/10 text-copper flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-copper group-hover:text-white transition-all duration-500 flex-shrink-0">
+                                <i data-lucide="map" class="w-6 h-6"></i>
+                            </div>
+                            <h5 class="text-white font-bold text-base mb-2 font-peyda">دفتر مرکزی</h5>
+                            <p class="text-sm text-slate-400 leading-relaxed font-medium">کرمان، رفسنجان<br>مجتمع مس سرچشمه</p>
+                        </div>
+                        <!-- Phone -->
+                        <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-[2rem] p-6 sm:p-8 hover:bg-white/10 hover:border-copper/40 transition-all duration-500 group flex flex-col items-center justify-center text-center shadow-lg h-full">
+                            <div class="w-14 h-14 rounded-2xl bg-copper/10 text-copper flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-copper group-hover:text-white transition-all duration-500 flex-shrink-0">
+                                <i data-lucide="phone-call" class="w-6 h-6"></i>
+                            </div>
+                            <h5 class="text-white font-bold text-base mb-2 font-peyda">شماره تماس</h5>
+                            <p class="text-sm text-slate-400 leading-relaxed font-medium" dir="ltr">۰۳۴ - ۳۴۳۰ ۰۰۰۰<br>۰۳۴ - ۳۴۳۰ ۰۰۰۱</p>
+                        </div>
+                        <!-- Email -->
+                        <div class="bg-white/5 backdrop-blur-sm border border-white/10 rounded-[2rem] p-6 sm:p-8 hover:bg-white/10 hover:border-copper/40 transition-all duration-500 group flex flex-col items-center justify-center text-center shadow-lg h-full">
+                            <div class="w-14 h-14 rounded-2xl bg-copper/10 text-copper flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-copper group-hover:text-white transition-all duration-500 flex-shrink-0">
+                                <i data-lucide="mail" class="w-6 h-6"></i>
+                            </div>
+                            <h5 class="text-white font-bold text-base mb-2 font-peyda">پست الکترونیک</h5>
+                            <p class="text-sm text-slate-400 leading-relaxed font-medium" dir="ltr">info@kermancopper.ir<br>pr@kermancopper.ir</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MINIMAL FOOTER -->
+    <footer class="bg-[#070b1a] relative pt-12 pb-12 overflow-hidden z-20 border-t border-white/5">
+        <div class="container mx-auto px-6 lg:px-12 relative z-10">
+            <div class="flex flex-col lg:flex-row justify-between items-center gap-8">
+                <!-- Logo & Copyright -->
+                <div class="flex flex-col sm:flex-row items-center gap-6">
+                    <a href="#" class="inline-block group">
+                        <img src="http://localhost:8888/kermancopper/wp-content/uploads/2026/02/sbsm-logo-3-mw.webp" alt="مجتمع مس سرچشمه" class="h-14 w-auto object-contain transition-transform duration-500 group-hover:scale-105 filter brightness-110">
+                    </a>
+                    <div class="hidden sm:block w-px h-8 bg-white/10"></div>
+                    <p class="text-sm text-slate-500 font-medium text-center sm:text-right">
+                        تمامی حقوق مادی و معنوی برای <span class="text-slate-300">مجتمع مس سرچشمه</span> محفوظ است © ۱۴۰۴
+                    </p>
+                </div>
+
+                <!-- Socials & Links -->
+                <div class="flex flex-col sm:flex-row items-center gap-6 md:gap-8">
+                    <!-- Designer Signature -->
+                    <div class="flex items-center text-sm text-slate-500 font-medium font-peyda">
+                        طراحی و توسعه: <a href="https://ihasht.ir" target="_blank" class="text-slate-300 hover:text-copper transition-colors font-bold mr-1 pr-1 border-r border-slate-600/50">گروه هشت بهشت</a>
+                    </div>
+                    
+                    <div class="hidden sm:block w-px h-6 bg-white/10"></div>
+
+                    <!-- Socials -->
+                    <div class="flex items-center gap-3">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-copper hover:text-white hover:border-copper hover:shadow-[0_0_15px_rgba(200,104,47,0.5)] transition-all duration-300">
+                            <i data-lucide="instagram" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-copper hover:text-white hover:border-copper hover:shadow-[0_0_15px_rgba(200,104,47,0.5)] transition-all duration-300">
+                            <i data-lucide="linkedin" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-copper hover:text-white hover:border-copper hover:shadow-[0_0_15px_rgba(200,104,47,0.5)] transition-all duration-300">
+                            <i data-lucide="twitter" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 left-8 sm:bottom-10 sm:left-10 z-[100] w-12 h-12 rounded-2xl bg-navy/80 backdrop-blur-md border border-white/10 text-copper flex items-center justify-center opacity-0 translate-y-10 pointer-events-none transition-all duration-500 hover:bg-copper hover:text-white hover:border-copper hover:shadow-[0_10px_25px_rgba(200,104,47,0.5)] hover:-translate-y-2 group">
+        <i data-lucide="arrow-up" class="w-5 h-5 transition-transform duration-300 group-hover:-translate-y-1"></i>
+    </button>
+
+    <script>
+        lucide.createIcons();
+
+        function toggleFaq(button) {
+            const item = button.closest('.faq-item');
+            const isActive = item.getAttribute('data-active') === 'true';
+
+            // Close all items
+            document.querySelectorAll('.faq-item').forEach(el => {
+                el.setAttribute('data-active', 'false');
+                el.classList.remove('border-copper/30', 'shadow-[0_20px_50px_-15px_rgba(200,104,47,0.15)]');
+                
+                const title = el.querySelector('button span');
+                title.classList.remove('text-copper', 'border-copper');
+                title.classList.add('text-navy', 'border-transparent');
+
+                const icon = el.querySelector('.faq-icon');
+                icon.classList.remove('bg-copper/10', 'text-copper', 'rotate-180');
+                icon.classList.add('bg-slate-50', 'text-slate-400');
+
+                const content = el.querySelector('.faq-content');
+                content.style.maxHeight = '0';
+                content.style.opacity = '0';
+                content.classList.remove('pb-8', 'pt-2');
+                content.classList.add('pb-0', 'pt-0');
+            });
+
+            // If the clicked item was not active, open it
+            if (!isActive) {
+                item.setAttribute('data-active', 'true');
+                item.classList.add('border-copper/30', 'shadow-[0_20px_50px_-15px_rgba(200,104,47,0.15)]');
+                
+                const title = item.querySelector('button span');
+                title.classList.remove('text-navy', 'border-transparent');
+                title.classList.add('text-copper', 'border-copper');
+
+                const icon = item.querySelector('.faq-icon');
+                icon.classList.remove('bg-slate-50', 'text-slate-400');
+                icon.classList.add('bg-copper/10', 'text-copper', 'rotate-180');
+
+                const content = item.querySelector('.faq-content');
+                content.classList.remove('pb-0', 'pt-0');
+                content.classList.add('pb-8', 'pt-2');
+                content.style.maxHeight = content.scrollHeight + 50 + 'px'; // +50 for padding
+                content.style.opacity = '1';
+            }
+        }
+
+        // Parallax Scroll Effect for Hero Elements
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const heroHeader = document.querySelector('header');
+            if (!heroHeader) return;
+
+            const heroHeight = heroHeader.offsetHeight;
+            if (scrollY > heroHeight) return;
+
+            const ratio = scrollY / heroHeight;
+
+            // 1. Background image parallax scroll and slight zoom
+            const bgImg = heroHeader.querySelector('.hero-bg-image');
+            if (bgImg) {
+                bgImg.style.transform = `translateY(${scrollY * 0.3}px) scale(${1 + ratio * 0.05})`;
+            }
+
+            // 2. Text container parallax scroll and fade out
+            const textContainer = heroHeader.querySelector('.hero-text-container');
+            if (textContainer) {
+                textContainer.style.transform = `translateY(${scrollY * 0.38}px)`;
+                textContainer.style.opacity = `${1 - ratio * 1.5}`;
+            }
+
+            // 3. Left side pattern parallax scroll and fade out
+            const pattern = heroHeader.querySelector('.hero-pattern-left');
+            if (pattern) {
+                pattern.style.transform = `scaleX(-1) translateY(${scrollY * 0.22}px)`;
+                pattern.style.opacity = `${0.55 - ratio * 0.8}`;
+            }
+
+            // 4. Accent glow parallax scroll and fade out
+            const glow = heroHeader.querySelector('.hero-glow-accent');
+            if (glow) {
+                glow.style.transform = `translateY(${scrollY * 0.45}px)`;
+                glow.style.opacity = `${0.35 - ratio * 0.9}`;
+            }
+
+            // Parallax and Fade for About Section
+            const aboutSection = document.getElementById('about');
+            if (aboutSection) {
+                const rect = aboutSection.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                if (rect.top <= windowHeight && rect.bottom >= 0) {
+                    const scrollProgress = 1 - (rect.bottom / (windowHeight + rect.height));
+
+                    // Subtle background parallax
+                    const glowElements = aboutSection.querySelectorAll('.bg-copper\\/10, .bg-navy\\/5');
+                    glowElements.forEach((el, index) => {
+                        const direction = index === 0 ? 1 : -1;
+                        el.style.transform = `translateY(${scrollProgress * 200 * direction}px)`;
+                    });
+
+                    // Image Parallax
+                    const parallaxItems = aboutSection.querySelectorAll('.about-parallax-item');
+                    if (parallaxItems.length >= 2) {
+                        parallaxItems[0].style.transform = `translateY(${(scrollProgress - 0.5) * -120}px)`;
+                        parallaxItems[1].style.transform = `translateY(${(scrollProgress - 0.5) * -60}px)`;
+                    }
+                }
+            }
+
+            // Parallax for Ads Section
+            const adsSection = document.getElementById('ads');
+            if (adsSection) {
+                const rect = adsSection.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                if (rect.top <= windowHeight && rect.bottom >= 0) {
+                    const scrollProgress = 1 - (rect.bottom / (windowHeight + rect.height));
+
+                    const adsItems = adsSection.querySelectorAll('.ads-parallax-item');
+                    adsItems.forEach((el, index) => {
+                        const parallaxAmount = -60 + (index * 15);
+                        el.style.transform = `translateY(${(scrollProgress - 0.5) * parallaxAmount}px)`;
+                    });
+                }
+            }
+
+            // Parallax for News Section
+            const newsSection = document.getElementById('news');
+            if (newsSection) {
+                const rect = newsSection.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                if (rect.top <= windowHeight && rect.bottom >= 0) {
+                    const scrollProgress = 1 - (rect.bottom / (windowHeight + rect.height));
+
+                    const newsItems = newsSection.querySelectorAll('.news-parallax-item');
+                    newsItems.forEach((el, index) => {
+                        const parallaxAmount = -40 + (index * 20);
+                        el.style.transform = `translateY(${(scrollProgress - 0.5) * parallaxAmount}px)`;
+                    });
+                }
+            }
+        });
+
+        // Counter Up Animation
+        const counters = document.querySelectorAll('.counter-up');
+        const counterObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = entry.target;
+                    const finalValue = parseInt(target.getAttribute('data-target'));
+                    const duration = 2000; // ms
+                    const stepTime = 20; // ms
+                    const steps = duration / stepTime;
+                    const increment = finalValue / steps;
+                    let current = 0;
+
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= finalValue) {
+                            target.innerText = new Intl.NumberFormat('fa-IR').format(finalValue);
+                            clearInterval(timer);
+                        } else {
+                            target.innerText = new Intl.NumberFormat('fa-IR').format(Math.floor(current));
+                        }
+                    }, stepTime);
+                    observer.unobserve(target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        counters.forEach(counter => {
+            counterObserver.observe(counter);
+        });
+
+        // Entrance Animations (Fade Up)
+        const fadeUpElements = document.querySelectorAll('.about-fade-up, .ads-fade-up, .fade-up-element, .faq-fade-up, .contact-fade-up');
+        const fadeUpObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+        fadeUpElements.forEach(el => fadeUpObserver.observe(el));
+
+        // --- Announcements Carousel Drag & Autoplay ---
+        const carousel = document.getElementById('announcements-carousel');
+        if (carousel) {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+            let autoplayInterval;
+
+            // Buttons
+            const nextBtn = document.getElementById('ann-next-btn');
+            const prevBtn = document.getElementById('ann-prev-btn');
+
+            const slideNext = () => {
+                const slideWidth = carousel.clientWidth;
+                if (carousel.scrollLeft <= -(carousel.scrollWidth - slideWidth - 10)) {
+                    carousel.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    carousel.scrollBy({ left: -slideWidth, behavior: 'smooth' });
+                }
+            };
+
+            const slidePrev = () => {
+                const slideWidth = carousel.clientWidth;
+                if (carousel.scrollLeft >= -10) {
+                    carousel.scrollTo({ left: -(carousel.scrollWidth - slideWidth), behavior: 'smooth' });
+                } else {
+                    carousel.scrollBy({ left: slideWidth, behavior: 'smooth' });
+                }
+            };
+
+            if(nextBtn) {
+                nextBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    stopAutoplay();
+                    slideNext();
+                    startAutoplay();
+                });
+            }
+
+            if(prevBtn) {
+                prevBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    stopAutoplay();
+                    slidePrev();
+                    startAutoplay();
+                });
+            }
+
+            const startAutoplay = () => {
+                autoplayInterval = setInterval(slideNext, 4000);
+            };
+
+            const stopAutoplay = () => clearInterval(autoplayInterval);
+
+            carousel.addEventListener('mousedown', (e) => {
+                isDown = true;
+                carousel.classList.add('active');
+                startX = e.pageX - carousel.offsetLeft;
+                scrollLeft = carousel.scrollLeft;
+                stopAutoplay();
+            });
+            
+            carousel.addEventListener('mouseleave', () => {
+                isDown = false;
+                carousel.classList.remove('active');
+                startAutoplay(); // resume on leave
+            });
+            
+            carousel.addEventListener('mouseup', () => {
+                isDown = false;
+                carousel.classList.remove('active');
+                startAutoplay(); // resume on release
+            });
+            
+            carousel.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - carousel.offsetLeft;
+                const walk = (x - startX) * 2; // scroll-fast
+                carousel.scrollLeft = scrollLeft - walk;
+            });
+            
+            // Touch events for drag compatibility
+            carousel.addEventListener('touchstart', (e) => {
+                stopAutoplay();
+            }, {passive: true});
+            carousel.addEventListener('touchend', () => {
+                startAutoplay();
+            });
+
+            // Start autoplay initially
+            startAutoplay();
+        }
+
+        // Back to Top Button
+        const backToTopBtn = document.getElementById('back-to-top');
+        if (backToTopBtn) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 600) {
+                    backToTopBtn.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+                    backToTopBtn.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                } else {
+                    backToTopBtn.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+                    backToTopBtn.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+                }
+            });
+
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>

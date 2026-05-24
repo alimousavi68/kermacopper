@@ -44,42 +44,42 @@ class KermanCopper_Contact_Info_Widget extends WP_Widget {
         <ul class="space-y-4 text-slate-500 text-xs">
             <?php if ( ! empty( $phone ) ) : ?>
             <li class="flex items-center gap-2 font-medium justify-start">
-                <i data-lucide="phone" class="w-[14px] h-[14px] text-copper shrink-0"></i> 
+                <?php echo kermancopper_icon('phone', 'w-[14px] h-[14px] text-copper shrink-0'); ?> 
                 <span dir="ltr"><?php echo esc_html( $phone ); ?></span>
             </li>
             <?php endif; ?>
 
             <?php if ( ! empty( $phone2 ) ) : ?>
             <li class="flex items-center gap-2 font-medium justify-start">
-                <i data-lucide="phone" class="w-[14px] h-[14px] text-copper shrink-0"></i> 
+                <?php echo kermancopper_icon('phone', 'w-[14px] h-[14px] text-copper shrink-0'); ?> 
                 <span dir="ltr"><?php echo esc_html( $phone2 ); ?></span>
             </li>
             <?php endif; ?>
 
             <?php if ( ! empty( $phone3 ) ) : ?>
             <li class="flex items-center gap-2 font-medium justify-start">
-                <i data-lucide="phone" class="w-[14px] h-[14px] text-copper shrink-0"></i> 
+                <?php echo kermancopper_icon('phone', 'w-[14px] h-[14px] text-copper shrink-0'); ?> 
                 <span dir="ltr"><?php echo esc_html( $phone3 ); ?></span>
             </li>
             <?php endif; ?>
 
             <?php if ( ! empty( $fax ) ) : ?>
             <li class="flex items-center gap-2 font-medium justify-start">
-                <i data-lucide="printer" class="w-[14px] h-[14px] text-copper shrink-0"></i> 
+                <?php echo kermancopper_icon('printer', 'w-[14px] h-[14px] text-copper shrink-0'); ?> 
                 <span dir="ltr"><?php echo esc_html( $fax ); ?></span>
             </li>
             <?php endif; ?>
 
             <?php if ( ! empty( $email ) ) : ?>
             <li class="flex items-center gap-2">
-                <i data-lucide="mail" class="w-[14px] h-[14px] text-copper shrink-0"></i> 
+                <?php echo kermancopper_icon('mail', 'w-[14px] h-[14px] text-copper shrink-0'); ?> 
                 <?php echo esc_html( $email ); ?>
             </li>
             <?php endif; ?>
 
             <?php if ( ! empty( $address ) ) : ?>
             <li class="flex items-start gap-2 leading-relaxed">
-                <i data-lucide="map-pin" class="w-[14px] h-[14px] text-copper mt-0.5 flex-shrink-0"></i> 
+                <?php echo kermancopper_icon('map-pin', 'w-[14px] h-[14px] text-copper mt-0.5 flex-shrink-0'); ?> 
                 <?php echo esc_html( $address ); ?>
             </li>
             <?php endif; ?>

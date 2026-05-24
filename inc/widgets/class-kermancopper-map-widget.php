@@ -46,14 +46,14 @@ class KermanCopper_Map_Widget extends WP_Widget {
                     <img src="<?php echo esc_url( $image_url ); ?>" alt="Map Location" class="w-full h-40 object-cover transform group-hover:scale-105 transition-transform duration-500">
                 <?php else : ?>
                     <div class="w-full h-40 bg-slate-100 flex items-center justify-center text-slate-400">
-                        <i data-lucide="map" class="w-8 h-8 opacity-50"></i>
+                        <?php echo kermancopper_icon('map', 'w-8 h-8 opacity-50'); ?>
                     </div>
                 <?php endif; ?>
                 
                 <!-- Overlay Button -->
                 <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <span class="bg-white text-copper px-4 py-2 rounded-lg text-xs font-bold shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 flex items-center gap-2">
-                        <i data-lucide="navigation" class="w-3 h-3"></i>
+                        <?php echo kermancopper_icon('navigation', 'w-3 h-3'); ?>
                         مسیریابی
                     </span>
                 </div>
@@ -63,14 +63,14 @@ class KermanCopper_Map_Widget extends WP_Widget {
             <div class="space-y-3">
                 <?php if ( $address ) : ?>
                 <div class="flex items-start gap-2 text-xs text-slate-500 leading-relaxed">
-                    <i data-lucide="map-pin" class="w-4 h-4 text-copper shrink-0 mt-0.5"></i>
+                    <?php echo kermancopper_icon('map-pin', 'w-4 h-4 text-copper shrink-0 mt-0.5'); ?>
                     <span><?php echo esc_html( $address ); ?></span>
                 </div>
                 <?php endif; ?>
 
                 <?php if ( $phone ) : ?>
                 <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">
-                    <i data-lucide="phone" class="w-4 h-4 text-copper shrink-0"></i>
+                    <?php echo kermancopper_icon('phone', 'w-4 h-4 text-copper shrink-0'); ?>
                     <a href="tel:<?php echo esc_attr( $phone ); ?>" class="hover:text-copper transition-colors" dir="ltr"><?php echo esc_html( $phone ); ?></a>
                 </div>
                 <?php endif; ?>

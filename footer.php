@@ -34,7 +34,7 @@
     
     <!-- Back to Top Button -->
     <button id="back-to-top" class="fixed bottom-8 left-8 bg-copper text-white p-3 rounded-full shadow-lg opacity-0 translate-y-10 transition-all duration-300 z-50 hover:bg-slate-800">
-        <i data-lucide="arrow-up" class="w-5 h-5"></i>
+        <?php echo kermancopper_icon('arrow-up', 'w-5 h-5'); ?>
     </button>
 
     <?php wp_footer(); ?>

@@ -87,17 +87,9 @@
                     class="hero-curve-image"
                     alt="" />
                 <a href="#about" class="hero-curve-arrow" aria-label="بخش بعدی">
-                    <i data-lucide="chevrons-down" class="hero-curve-arrow-icon"></i>
+                    <?php echo kermancopper_icon('chevrons-down', 'hero-curve-arrow-icon'); ?>
                 </a>
             </div>
-
-            <?php if ( count( $hero_slides ) > 1 ) : ?>
-            <div class="absolute bottom-16 sm:bottom-20 left-1/2 -translate-x-1/2 flex gap-3 z-10">
-                <?php foreach ( $hero_slides as $index => $slide ) : ?>
-                    <button class="hero-dot <?php echo $index === 0 ? 'w-6 h-2.5 bg-copper' : 'w-2.5 h-2.5 bg-white/40'; ?> rounded-full transition-all duration-300" data-index="<?php echo esc_attr( $index ); ?>"></button>
-                <?php endforeach; ?>
-            </div>
-            <?php endif; ?>
         </div>
 
         <?php
@@ -182,13 +174,13 @@
                             <div class="flex flex-wrap gap-4">
                                 <?php if ( $about_button_primary_text && $about_button_primary_url ) : ?>
                                 <a href="<?php echo esc_url( $about_button_primary_url ); ?>" class="group bg-white text-copper border border-copper px-8 py-3 rounded-full font-bold flex items-center gap-2 hover:bg-[var(--color-copper)] hover:text-white transition-all shadow-lg hover:shadow-xl">
-                                    <i data-lucide="file-text" class="w-4 h-4"></i>
+                                    <?php echo kermancopper_icon('file-text', 'w-4 h-4'); ?>
                                     <?php echo esc_html( $about_button_primary_text ); ?>
                                 </a>
                                 <?php endif; ?>
                                 <?php if ( $about_button_secondary_text && $about_button_secondary_url ) : ?>
                                 <a href="<?php echo esc_url( $about_button_secondary_url ); ?>" class="group flex items-center gap-2 text-sm font-bold text-slate-900 transition-all hover:text-copper border border-slate-200 px-6 py-3 rounded-full hover:border-copper">
-                                    <?php echo esc_html( $about_button_secondary_text ); ?> <i data-lucide="arrow-left" class="w-4 h-4 transition-transform group-hover:-translate-x-1"></i>
+                                    <?php echo esc_html( $about_button_secondary_text ); ?> <?php echo kermancopper_icon('arrow-left', 'w-4 h-4 transition-transform group-hover:-translate-x-1'); ?>
                                 </a>
                                 <?php endif; ?>
                             </div>
@@ -275,7 +267,7 @@
                                     $ad_type_icon = 'file-text';
                                 }
                             }
-                            $thumbnail = get_the_post_thumbnail_url( $ad_id, 'large' );
+                            $thumbnail = get_the_post_thumbnail_url( $ad_id, 'kermancopper-ad-thumbnail' );
                             if ( ! $thumbnail ) {
                                 $thumbnail = get_template_directory_uri() . '/images/image2.jpg';
                             }
@@ -302,13 +294,13 @@
                                 <div class="h-48 relative overflow-hidden group">
                                     <img src="<?php echo esc_url( $thumbnail ); ?>" alt="<?php echo esc_attr( get_the_title() ); ?>" class="w-full h-full object-cover object-cover transition-transform duration-500 group-hover:scale-105 rounded-lg" />
                                     <div class="absolute top-4 right-4 bg-white/95 backdrop-blur px-2.5 py-1 rounded-lg text-[10px] font-normal shadow-sm text-slate-700 uppercase tracking-tight flex items-center gap-1">
-                                        <i data-lucide="<?php echo esc_attr( $ad_type_icon ); ?>" class="w-2.5 h-2.5 text-copper stroke-[1.5]"></i> <?php echo esc_html( $ad_type_label ); ?>
+                                        <?php echo kermancopper_icon($ad_type_icon, 'w-2.5 h-2.5 text-copper stroke-[1.5]'); ?> <?php echo esc_html( $ad_type_label ); ?>
                                     </div>
                                 </div>
                                 <div class="p-6">
                                     <h3 class="font-bold text-base mb-4 h-12 line-clamp-2 text-slate-800 leading-relaxed"><?php echo esc_html( get_the_title() ); ?></h3>
                                     <div class="flex justify-between items-center text-[12px] text-slate-500 mb-6 border-t border-slate-50 pt-4">
-                                        <div class="flex items-center gap-1 font-medium"><i data-lucide="calendar" class="w-2.5 h-2.5 text-slate-400 stroke-[1.5]"></i> مهلت : <?php echo esc_html( $expiry_display ); ?></div>
+                                        <div class="flex items-center gap-1 font-medium"><?php echo kermancopper_icon('calendar', 'w-2.5 h-2.5 text-slate-400 stroke-[1.5]'); ?> مهلت : <?php echo esc_html( $expiry_display ); ?></div>
                                         <div class="px-2 py-0.5 rounded-lg font-medium text-[11px] <?php echo esc_attr( $status_class ); ?>"><?php echo esc_html( $status_label ); ?></div>
                                     </div>
                                     <div class="flex gap-2">
@@ -347,7 +339,7 @@
             if ( $news_query->have_posts() ) {
                 while ( $news_query->have_posts() ) {
                     $news_query->the_post();
-                    $image = get_the_post_thumbnail_url( get_the_ID(), 'full' );
+                    $image = get_the_post_thumbnail_url( get_the_ID(), 'kermancopper-news-thumbnail' );
                     if ( ! $image ) {
                         continue;
                     }
@@ -379,7 +371,7 @@
             if ( $notices_query->have_posts() ) {
                 while ( $notices_query->have_posts() ) {
                     $notices_query->the_post();
-                    $image = get_the_post_thumbnail_url( get_the_ID(), 'large' );
+                    $image = get_the_post_thumbnail_url( get_the_ID(), 'kermancopper-notice-thumbnail' );
                     if ( ! $image ) {
                         continue;
                     }
@@ -410,7 +402,7 @@
                             </div>
                             <?php if ( ! empty( $news_archive_text ) && ! empty( $news_archive_url ) ) : ?>
                                 <a href="<?php echo esc_url( $news_archive_url ); ?>" class="group flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-copper transition-colors border-b border-transparent hover:border-copper pb-1">
-                                    <?php echo esc_html( $news_archive_text ); ?> <i data-lucide="arrow-left" class="w-4 h-4 transition-transform group-hover:-translate-x-1"></i>
+                                    <?php echo esc_html( $news_archive_text ); ?> <?php echo kermancopper_icon('arrow-left', 'w-4 h-4 transition-transform group-hover:-translate-x-1'); ?>
                                 </a>
                             <?php endif; ?>
                         </div>
@@ -432,7 +424,7 @@
                                                 <p class="text-slate-200 text-sm md:text-base leading-relaxed line-clamp-2 mb-6 max-w-2xl opacity-90"><?php echo esc_html( $slide['excerpt'] ); ?></p>
                                             <?php endif; ?>
                                             <span class="inline-flex items-center gap-2 text-white font-bold border-b border-white/30 pb-1 hover:border-copper hover:text-copper transition-all">
-                                                مطالعه کامل خبر <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                                                مطالعه کامل خبر <?php echo kermancopper_icon('arrow-left', 'w-4 h-4'); ?>
                                             </span>
                                         </div>
                                     </a>
@@ -442,10 +434,10 @@
                             <?php if ( count( $news_slides ) > 1 ) : ?>
                                 <div class="absolute bottom-6 left-6 flex items-center gap-3">
                                     <button id="news-prev" class="group w-11 h-11 border border-copper text-copper hover:text-white hover:bg-copper hover:border-copper transition-all flex items-center justify-center leading-none p-0">
-                                        <i data-lucide="chevron-right" class="w-7 h-7 block stroke-[2]"></i>
+                                        <?php echo kermancopper_icon('chevron-right', 'w-7 h-7 block stroke-[2]'); ?>
                                     </button>
                                     <button id="news-next" class="group w-11 h-11 border border-copper text-copper hover:text-white hover:bg-copper hover:border-copper transition-all flex items-center justify-center leading-none p-0">
-                                        <i data-lucide="chevron-left" class="w-7 h-7 block stroke-[2]"></i>
+                                        <?php echo kermancopper_icon('chevron-left', 'w-7 h-7 block stroke-[2]'); ?>
                                     </button>
                                 </div>
 
@@ -470,7 +462,7 @@
                             </div>
                             <?php if ( ! empty( $notices_archive_text ) && ! empty( $notices_archive_url ) ) : ?>
                                 <a href="<?php echo esc_url( $notices_archive_url ); ?>" class="group flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-copper transition-colors border-b border-transparent hover:border-copper pb-1">
-                                    <?php echo esc_html( $notices_archive_text ); ?> <i data-lucide="arrow-left" class="w-4 h-4 transition-transform group-hover:-translate-x-1"></i>
+                                    <?php echo esc_html( $notices_archive_text ); ?> <?php echo kermancopper_icon('arrow-left', 'w-4 h-4 transition-transform group-hover:-translate-x-1'); ?>
                                 </a>
                             <?php endif; ?>
                         </div>
@@ -536,7 +528,7 @@
                         <?php endif; ?>
                         <?php if ( ! empty( $faq_link_text ) && ! empty( $faq_link_url ) ) : ?>
                             <a href="<?php echo esc_url( $faq_link_url ); ?>" class="inline-flex items-center gap-2 font-bold text-copper border-b-2 border-copper/20 pb-1 hover:border-copper transition-all">
-                                <?php echo esc_html( $faq_link_text ); ?> <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                                <?php echo esc_html( $faq_link_text ); ?> <?php echo kermancopper_icon('arrow-left', 'w-4 h-4'); ?>
                             </a>
                         <?php endif; ?>
                     </div>
@@ -547,7 +539,7 @@
                                 <button class="w-full flex items-center justify-between p-6 text-right transition-colors">
                                     <span class="font-bold text-slate-800 text-lg"><?php echo esc_html( $faq_item['question'] ); ?></span>
                                     <div class="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-[.active]:bg-copper group-[.active]:text-white group-[.active]:border-copper transition-all">
-                                        <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300 group-[.active]:rotate-180"></i>
+                                        <?php echo kermancopper_icon('chevron-down', 'w-5 h-5 transition-transform duration-300 group-[.active]:rotate-180'); ?>
                                     </div>
                                 </button>
                                 <div class="accordion-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out text-slate-600 leading-loose px-6">

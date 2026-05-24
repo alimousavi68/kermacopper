@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize Lucide Icons
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
+    // lucide icons removed
 
     // Back to Top Logic
     const backToTopBtn = document.getElementById('back-to-top');
@@ -111,9 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
      });
 
      // Initialize Icons
-     if (typeof lucide !== 'undefined') {
-         lucide.createIcons();
-     }
+     // lucide icons removed
 
     // Mobile Menu Logic
     const mobileBtn = document.getElementById('mobile-menu-btn');
@@ -134,9 +130,8 @@ document.addEventListener('DOMContentLoaded', () => {
             sidebar.classList.remove('translate-x-full', 'opacity-0');
             
             // Change menu icon to X (Optional)
-            if (mobileBtn && typeof lucide !== 'undefined') {
-                mobileBtn.innerHTML = '<i data-lucide="x" class="w-[26px] h-[26px]"></i>';
-                lucide.createIcons();
+            if (mobileBtn) {
+                mobileBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-[26px] h-[26px]"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
             }
         } else {
             // Close
@@ -147,9 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 300);
             
             // Change X icon to menu
-            if (mobileBtn && typeof lucide !== 'undefined') {
-                mobileBtn.innerHTML = '<i data-lucide="menu" class="w-[26px] h-[26px]"></i>';
-                lucide.createIcons();
+            if (mobileBtn) {
+                mobileBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-[26px] h-[26px]"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>';
             }
         }
     }
@@ -157,6 +151,55 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mobileBtn) mobileBtn.addEventListener('click', toggleMobileMenu);
     if (closeMobileBtn) closeMobileBtn.addEventListener('click', toggleMobileMenu);
     if (overlay) overlay.addEventListener('click', toggleMobileMenu);
+
+    // Search Spotlight Logic
+    const searchSpotlight = document.getElementById('search-spotlight');
+    const searchOpenBtn = document.getElementById('search-open-btn');
+    const searchCloseBtn = document.getElementById('search-close-btn');
+    const searchOverlay = document.getElementById('search-overlay');
+    const searchModalContent = document.getElementById('search-modal-content');
+    const searchInputField = document.getElementById('search-input-field');
+
+    function openSearch() {
+        if (!searchSpotlight) return;
+        searchSpotlight.classList.remove('hidden');
+        setTimeout(() => {
+            searchOverlay.classList.remove('opacity-0');
+            searchModalContent.classList.remove('opacity-0', '-translate-y-10');
+            searchInputField.focus();
+        }, 10);
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeSearch() {
+        if (!searchSpotlight) return;
+        searchOverlay.classList.add('opacity-0');
+        searchModalContent.classList.add('opacity-0', '-translate-y-10');
+        setTimeout(() => {
+            searchSpotlight.classList.add('hidden');
+            document.body.style.overflow = '';
+        }, 300);
+    }
+
+    if (searchOpenBtn) {
+        searchOpenBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openSearch();
+        });
+    }
+
+    if (searchCloseBtn) searchCloseBtn.addEventListener('click', closeSearch);
+    if (searchOverlay) searchOverlay.addEventListener('click', closeSearch);
+
+    // ESC key to close search or mobile menu
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeSearch();
+            if (overlay && !overlay.classList.contains('hidden')) {
+                toggleMobileMenu();
+            }
+        }
+    });
 
     const mobileSubmenuToggles = document.querySelectorAll('.mobile-submenu-toggle');
     mobileSubmenuToggles.forEach(toggle => {
@@ -372,8 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.disabled = true;
             
             setTimeout(() => {
-                btn.innerHTML = 'پیام ارسال شد <i data-lucide="check" class="w-[18px] h-[18px]"></i>';
-                if (typeof lucide !== 'undefined') lucide.createIcons();
+                btn.innerHTML = 'پیام ارسال شد <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-[18px] h-[18px]"><path d="M20 6 9 17l-5-5"/></svg>';
                 btn.classList.remove('bg-copper');
                 btn.classList.add('bg-green-600');
                 contactForm.reset();

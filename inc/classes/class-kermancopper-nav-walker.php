@@ -68,12 +68,9 @@ class KermanCopper_Nav_Walker extends Walker_Nav_Menu {
             $atts['href']   = ! empty( $item->url )        ? $item->url        : '';
             
             // Link Classes
-            // Added relative and py-4 here
             $base_link_class = 'nav-link flex items-center gap-1 transition-colors duration-200 relative py-4';
             if ( in_array( 'current-menu-item', $classes ) || in_array( 'current-menu-parent', $classes ) ) {
-                $base_link_class .= ' text-copper';
-            } else {
-                $base_link_class .= ' hover:text-copper';
+                $base_link_class .= ' active';
             }
             $atts['class'] = $base_link_class;
 
@@ -95,7 +92,7 @@ class KermanCopper_Nav_Walker extends Walker_Nav_Menu {
             
             // Add Chevron if has children
             if ( $has_children ) {
-                $item_output .= '<i data-lucide="chevron-down" class="w-2.5 h-2.5 opacity-50"></i>';
+                $item_output .= kermancopper_icon('chevron-down', 'w-2.5 h-2.5 opacity-50');
             }
             
             // Underline (Moved inside a tag)
@@ -214,7 +211,7 @@ class KermanCopper_Mobile_Nav_Walker extends Walker_Nav_Menu {
 
         if ( $depth === 0 && $has_children ) {
             $output .= '<button type="button" class="mobile-submenu-toggle w-9 h-9 flex items-center justify-center rounded-sm border border-slate-100 text-slate-500 hover:text-copper hover:border-copper transition-colors" aria-expanded="false">';
-            $output .= '<i data-lucide="chevron-down" class="w-4 h-4 transition-transform"></i>';
+            $output .= kermancopper_icon('chevron-down', 'w-4 h-4 transition-transform');
             $output .= '</button>';
         }
 

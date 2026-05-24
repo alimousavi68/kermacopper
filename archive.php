@@ -46,7 +46,7 @@ get_header(); ?>
                             <?php the_excerpt(); ?>
                         </div>
                         <a href="<?php the_permalink(); ?>" class="inline-flex items-center gap-1 text-sm font-bold text-slate-900 hover:text-copper transition-colors">
-                            ادامه مطلب <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                            ادامه مطلب <?php echo kermancopper_icon('arrow-left', 'w-4 h-4'); ?>
                         </a>
                     </div>
                 </article>
@@ -58,8 +58,8 @@ get_header(); ?>
         <div class="mt-12 flex justify-center">
             <?php
             the_posts_pagination( array(
-                'prev_text' => '<i data-lucide="chevron-right" class="w-5 h-5"></i>',
-                'next_text' => '<i data-lucide="chevron-left" class="w-5 h-5"></i>',
+                'prev_text' => kermancopper_icon('chevron-right', 'w-5 h-5'),
+                'next_text' => kermancopper_icon('chevron-left', 'w-5 h-5'),
                 'class'     => 'flex items-center gap-2',
             ) );
             ?>

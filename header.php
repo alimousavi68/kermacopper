@@ -41,6 +41,23 @@
         color: var(--color-text-main);
         overflow-x: hidden;
       }
+
+      /* Nav Link Styles */
+      .nav-link {
+        color: rgba(255, 255, 255, 0.8) !important;
+      }
+      .nav-link:hover, .nav-link.active {
+        color: #ffffff !important;
+      }
+      .nav-underline {
+        background-color: #ffffff !important;
+      }
+      
+      /* Home Specific if needed */
+      .home .nav-link {
+        color: rgba(255, 255, 255, 0.9) !important;
+      }
+
       .bg-copper { background-color: var(--color-copper); }
       .text-copper { color: var(--color-copper); }
       .border-copper { border-color: var(--color-copper); }
@@ -130,7 +147,7 @@ $icon_color_classes = $is_home ? 'text-white' : 'text-copper';
 $border_social_classes = $is_home ? 'sm:border-white/15' : 'sm:border-white/15';
 $border_lang_classes = $is_home ? 'sm:border-white/15' : 'sm:border-white/15';
 $underline_classes = $is_home ? 'bg-white/70' : 'bg-copper';
-$topbar_link_hover = $is_home ? 'hover:text-white' : 'hover:text-white';
+$topbar_link_hover = $is_home ? 'hover:text-white' : 'hover:text-copper';
 $topbar_address = trim( (string) get_theme_mod( 'kermancopper_address', '' ) );
 $topbar_email = trim( (string) get_theme_mod( 'kermancopper_email', '' ) );
 $topbar_phone = trim( (string) get_theme_mod( 'kermancopper_phone', '' ) );
@@ -145,19 +162,19 @@ $topbar_phone = trim( (string) get_theme_mod( 'kermancopper_phone', '' ) );
                 <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
                     <?php if ( $topbar_address ) : ?>
                         <div class="flex items-center gap-2">
-                            <i data-lucide="map-pin" class="w-[10px] h-[10px] <?php echo esc_attr( $icon_color_classes ); ?>"></i>
+                            <?php echo kermancopper_icon('map-pin', 'w-[10px] h-[10px] ' . esc_attr( $icon_color_classes )); ?>
                             <span><?php echo esc_html( $topbar_address ); ?></span>
                         </div>
                     <?php endif; ?>
                     <?php if ( $topbar_email ) : ?>
                         <div class="flex items-center gap-2 sm:border-r <?php echo esc_attr( $border_social_classes ); ?> sm:pr-6 sm:mr-6">
-                            <i data-lucide="mail" class="w-[10px] h-[10px] <?php echo esc_attr( $icon_color_classes ); ?>"></i>
+                            <?php echo kermancopper_icon('mail', 'w-[10px] h-[10px] ' . esc_attr( $icon_color_classes )); ?>
                             <a href="mailto:<?php echo esc_attr( $topbar_email ); ?>" class="transition-colors <?php echo esc_attr( $topbar_link_hover ); ?>"><?php echo esc_html( $topbar_email ); ?></a>
                         </div>
                     <?php endif; ?>
                     <?php if ( $topbar_phone ) : ?>
                         <div class="flex items-center gap-2 sm:border-r <?php echo esc_attr( $border_social_classes ); ?> sm:pr-6 sm:mr-6">
-                            <i data-lucide="phone" class="w-[10px] h-[10px] <?php echo esc_attr( $icon_color_classes ); ?>"></i>
+                            <?php echo kermancopper_icon('phone', 'w-[10px] h-[10px] ' . esc_attr( $icon_color_classes )); ?>
                             <a href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', $topbar_phone ) ); ?>" class="transition-colors <?php echo esc_attr( $topbar_link_hover ); ?>"><?php echo esc_html( $topbar_phone ); ?></a>
                         </div>
                     <?php endif; ?>
@@ -166,16 +183,16 @@ $topbar_phone = trim( (string) get_theme_mod( 'kermancopper_phone', '' ) );
                 <div class="flex items-center justify-between gap-4">
                     <div class="flex items-center gap-3 sm:border-l <?php echo esc_attr( $border_lang_classes ); ?> sm:pl-4 sm:ml-2">
                         <?php if ( $instagram = get_theme_mod( 'kermancopper_social_instagram' ) ) : ?>
-                            <a href="<?php echo esc_url( $instagram ); ?>" target="_blank"><i data-lucide="instagram" class="w-[14px] h-[14px] cursor-pointer <?php echo esc_attr( $social_icon_classes ); ?> transition-colors"></i></a>
+                            <a href="<?php echo esc_url( $instagram ); ?>" target="_blank"><?php echo kermancopper_icon('instagram', 'w-[14px] h-[14px] cursor-pointer ' . esc_attr( $social_icon_classes ) . ' transition-colors'); ?></a>
                         <?php endif; ?>
                         <?php if ( $linkedin = get_theme_mod( 'kermancopper_social_linkedin' ) ) : ?>
-                            <a href="<?php echo esc_url( $linkedin ); ?>" target="_blank"><i data-lucide="linkedin" class="w-[14px] h-[14px] cursor-pointer <?php echo esc_attr( $social_icon_classes ); ?> transition-colors"></i></a>
+                            <a href="<?php echo esc_url( $linkedin ); ?>" target="_blank"><?php echo kermancopper_icon('linkedin', 'w-[14px] h-[14px] cursor-pointer ' . esc_attr( $social_icon_classes ) . ' transition-colors'); ?></a>
                         <?php endif; ?>
                         <?php if ( $twitter = get_theme_mod( 'kermancopper_social_twitter' ) ) : ?>
-                            <a href="<?php echo esc_url( $twitter ); ?>" target="_blank"><i data-lucide="twitter" class="w-[14px] h-[14px] cursor-pointer <?php echo esc_attr( $social_icon_classes ); ?> transition-colors"></i></a>
+                            <a href="<?php echo esc_url( $twitter ); ?>" target="_blank"><?php echo kermancopper_icon('twitter', 'w-[14px] h-[14px] cursor-pointer ' . esc_attr( $social_icon_classes ) . ' transition-colors'); ?></a>
                         <?php endif; ?>
                         <?php if ( $facebook = get_theme_mod( 'kermancopper_social_facebook' ) ) : ?>
-                            <a href="<?php echo esc_url( $facebook ); ?>" target="_blank"><i data-lucide="facebook" class="w-[14px] h-[14px] cursor-pointer <?php echo esc_attr( $social_icon_classes ); ?> transition-colors"></i></a>
+                            <a href="<?php echo esc_url( $facebook ); ?>" target="_blank"><?php echo kermancopper_icon('facebook', 'w-[14px] h-[14px] cursor-pointer ' . esc_attr( $social_icon_classes ) . ' transition-colors'); ?></a>
                         <?php endif; ?>
                     </div>
                     <div class="flex items-center gap-3">
@@ -230,7 +247,7 @@ $topbar_phone = trim( (string) get_theme_mod( 'kermancopper_phone', '' ) );
                             <div class="relative group py-4">
                                 <a href="#ads" class="nav-link flex items-center gap-1 transition-colors duration-200 <?php echo esc_attr( $is_home ? 'hover:text-white' : 'hover:text-copper' ); ?>" data-target="ads">
                                     آگهی ها
-                                    <i data-lucide="chevron-down" class="w-2.5 h-2.5 opacity-50"></i>
+                                    <?php echo kermancopper_icon('chevron-down', 'w-2.5 h-2.5 opacity-50'); ?>
                                 </a>
                                 <div class="nav-underline absolute bottom-1 left-1/2 -translate-x-1/2 h-[2.5px] <?php echo esc_attr( $underline_classes ); ?> w-1/2 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
                                 <!-- Dropdown -->
@@ -269,11 +286,11 @@ $topbar_phone = trim( (string) get_theme_mod( 'kermancopper_phone', '' ) );
 
                     <!-- Utility Icons & Menu Trigger -->
                     <div class="flex items-center gap-2">
-                        <div class="w-10 h-10 flex items-center justify-center rounded-sm cursor-pointer <?php echo esc_attr( $icon_button_classes ); ?> transition-all">
-                            <i data-lucide="search" class="w-[20px] h-[20px]"></i>
-                        </div>
+                        <button id="search-open-btn" class="w-10 h-10 flex items-center justify-center rounded-sm cursor-pointer <?php echo esc_attr( $icon_button_classes ); ?> transition-all" aria-label="Search">
+                            <?php echo kermancopper_icon('search', 'w-[20px] h-[20px]'); ?>
+                        </button>
                         <button id="mobile-menu-btn" class="w-10 h-10 flex items-center justify-center rounded-sm <?php echo esc_attr( $mobile_button_classes ); ?> transition-colors" aria-label="Menu">
-                            <i data-lucide="menu" class="w-[26px] h-[26px]"></i>
+                            <?php echo kermancopper_icon('menu', 'w-[26px] h-[26px]'); ?>
                         </button>
                     </div>
                 </div>
@@ -295,7 +312,7 @@ $topbar_phone = trim( (string) get_theme_mod( 'kermancopper_phone', '' ) );
                         <img src="<?php echo get_template_directory_uri(); ?>/images/sbsm-logo-3.png" alt="Logo" class="h-10 w-auto object-contain">
                     <?php endif; ?>
                     <button id="close-mobile-menu" class="p-2 hover:bg-slate-50 rounded-sm">
-                        <i data-lucide="x" class="w-[24px] h-[24px]"></i>
+                        <?php echo kermancopper_icon('x', 'w-[24px] h-[24px]'); ?>
                     </button>
                 </div>
                 
@@ -324,12 +341,37 @@ $topbar_phone = trim( (string) get_theme_mod( 'kermancopper_phone', '' ) );
 
                 <div class="mt-auto pt-10">
                     <div class="flex justify-center gap-6 text-slate-400">
-                        <i data-lucide="instagram" class="w-[22px] h-[22px] hover:text-copper cursor-pointer"></i>
-                        <i data-lucide="linkedin" class="w-[22px] h-[22px] hover:text-copper cursor-pointer"></i>
-                        <i data-lucide="twitter" class="w-[22px] h-[22px] hover:text-copper cursor-pointer"></i>
-                        <i data-lucide="facebook" class="w-[22px] h-[22px] hover:text-copper cursor-pointer"></i>
+                        <?php echo kermancopper_icon('instagram', 'w-[22px] h-[22px] hover:text-copper cursor-pointer'); ?>
+                        <?php echo kermancopper_icon('linkedin', 'w-[22px] h-[22px] hover:text-copper cursor-pointer'); ?>
+                        <?php echo kermancopper_icon('twitter', 'w-[22px] h-[22px] hover:text-copper cursor-pointer'); ?>
+                        <?php echo kermancopper_icon('facebook', 'w-[22px] h-[22px] hover:text-copper cursor-pointer'); ?>
                     </div>
                 </div>
             </div>
         </nav>
+
+        <!-- Search Spotlight -->
+        <div id="search-spotlight" class="fixed inset-0 z-[100] hidden">
+            <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300 opacity-0" id="search-overlay"></div>
+            <div class="absolute inset-x-0 top-0 pt-20 px-4 transition-all duration-300 transform -translate-y-10 opacity-0" id="search-modal-content">
+                <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
+                    <form action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get" class="relative">
+                        <div class="p-6 flex items-center gap-4 border-b border-slate-100">
+                            <?php echo kermancopper_icon('search', 'w-6 h-6 text-slate-400'); ?>
+                            <input type="text" name="s" id="search-input-field" placeholder="جستجو در کل سایت..." class="flex-1 bg-transparent border-none text-xl text-slate-800 placeholder:text-slate-400 focus:ring-0 outline-none" autocomplete="off">
+                            <button type="button" id="search-close-btn" class="p-2 hover:bg-slate-50 rounded-lg transition-colors">
+                                <?php echo kermancopper_icon('x', 'w-6 h-6 text-slate-500'); ?>
+                            </button>
+                        </div>
+                        <div class="p-4 bg-slate-50 flex items-center justify-between text-[11px] text-slate-400">
+                            <div class="flex items-center gap-4">
+                                <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded border border-slate-200 bg-white">Enter</kbd> برای جستجو</span>
+                                <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded border border-slate-200 bg-white">Esc</kbd> برای بستن</span>
+                            </div>
+                            <span>شرکت صنایع مس کرمان</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </header>

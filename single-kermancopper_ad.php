@@ -25,19 +25,10 @@ get_header(); ?>
         if ( $expiry_display === '' ) {
             $expiry_display = '—';
         }
-        $status = get_post_meta( $ad_id, KERMANCOPPER_AD_META_STATUS, true );
-        if ( $status === '' ) {
-            $today = current_time( 'Y-m-d' );
-            if ( $expiry_date && $expiry_date < $today ) {
-                $status = 'closed';
-            } else {
-                $status = 'active';
-            }
-        }
         $today = current_time( 'Y-m-d' );
         $is_expired = $expiry_date && $expiry_date < $today;
-        $is_closed = $status === 'closed';
-        $can_submit = ! $is_closed && ! $is_expired;
+        $status = $is_expired ? 'closed' : 'active';
+        $can_submit = ! $is_expired;
         $status_label = $status === 'closed' ? __( 'بسته', 'kermancopper' ) : __( 'فعال', 'kermancopper' );
         $status_class = $status === 'closed'
             ? 'bg-slate-100 text-slate-800 border border-slate-300'
@@ -104,12 +95,12 @@ get_header(); ?>
                     <div class="flex items-center gap-4">
                         <span class="px-4 py-2 rounded-lg font-semibold text-sm <?php echo esc_attr( $status_class ); ?>"><?php echo esc_html( $status_label ); ?></span>
                         <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/95 backdrop-blur-sm text-slate-900 border border-slate-200">
-                            <i data-lucide="clock" class="w-4 h-4 text-copper"></i>
+                            <?php echo kermancopper_icon('clock', 'w-4 h-4 text-copper'); ?>
                             <span class="font-medium">مهلت ثبت درخواست: <?php echo esc_html( $expiry_display ); ?></span>
                         </div>
                     </div>
                     <div class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/95 backdrop-blur-sm text-slate-900 border border-slate-200">
-                        <i data-lucide="<?php echo esc_attr( $ad_type_icon ); ?>" class="w-4 h-4 text-copper"></i>
+                        <?php echo kermancopper_icon($ad_type_icon, 'w-4 h-4 text-copper'); ?>
                         <span class="font-medium"><?php echo esc_html( $ad_type_label ); ?></span>
                     </div>
                 </div>

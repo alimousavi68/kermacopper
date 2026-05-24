@@ -249,6 +249,32 @@ function kermancopper_ads_sanitize_status( $value ) {
     return in_array( $value, $allowed, true ) ? $value : '';
 }
 
+function kermancopper_ads_register_taxonomy() {
+    $labels = array(
+        'name'          => __( 'نوع آگهی', 'kermancopper' ),
+        'singular_name' => __( 'نوع آگهی', 'kermancopper' ),
+        'search_items'  => __( 'جستجوی نوع آگهی', 'kermancopper' ),
+        'all_items'     => __( 'همه نوع‌ها', 'kermancopper' ),
+        'edit_item'     => __( 'ویرایش نوع آگهی', 'kermancopper' ),
+        'add_new_item'  => __( 'افزودن نوع جدید', 'kermancopper' ),
+        'menu_name'     => __( 'نوع آگهی', 'kermancopper' ),
+    );
+    $args = array(
+        'labels'       => $labels,
+        'public'       => true,
+        'hierarchical' => true,
+        'query_var'    => 'kermancopper_ad_type',
+        'show_in_rest' => true,
+        'rewrite'      => array(
+            'slug'         => 'ads',
+            'with_front'   => false,
+            'hierarchical' => true,
+        ),
+    );
+    register_taxonomy( 'kermancopper_ad_type', array( 'kermancopper_ad' ), $args );
+}
+add_action( 'init', 'kermancopper_ads_register_taxonomy', 5 );
+
 function kermancopper_ads_register_post_type() {
     $labels = array(
         'name'               => __( 'آگهی‌ها', 'kermancopper' ),
@@ -266,8 +292,12 @@ function kermancopper_ads_register_post_type() {
     $args = array(
         'labels'        => $labels,
         'public'        => true,
-        'has_archive'   => true,
-        'rewrite'       => array( 'slug' => 'ads' ),
+        'has_archive'   => 'ads',
+        'query_var'     => 'kermancopper_ad',
+        'rewrite'       => array(
+            'slug'       => 'ad',
+            'with_front' => false,
+        ),
         'supports'      => array( 'title', 'editor', 'excerpt', 'thumbnail' ),
         'show_in_rest'  => true,
         'menu_position' => 20,
@@ -276,27 +306,7 @@ function kermancopper_ads_register_post_type() {
     );
     register_post_type( 'kermancopper_ad', $args );
 }
-add_action( 'init', 'kermancopper_ads_register_post_type' );
-
-function kermancopper_ads_register_taxonomy() {
-    $labels = array(
-        'name'          => __( 'نوع آگهی', 'kermancopper' ),
-        'singular_name' => __( 'نوع آگهی', 'kermancopper' ),
-        'search_items'  => __( 'جستجوی نوع آگهی', 'kermancopper' ),
-        'all_items'     => __( 'همه نوع‌ها', 'kermancopper' ),
-        'edit_item'     => __( 'ویرایش نوع آگهی', 'kermancopper' ),
-        'add_new_item'  => __( 'افزودن نوع جدید', 'kermancopper' ),
-        'menu_name'     => __( 'نوع آگهی', 'kermancopper' ),
-    );
-    $args = array(
-        'labels'       => $labels,
-        'public'       => true,
-        'hierarchical' => true,
-        'show_in_rest' => true,
-    );
-    register_taxonomy( 'kermancopper_ad_type', array( 'kermancopper_ad' ), $args );
-}
-add_action( 'init', 'kermancopper_ads_register_taxonomy' );
+add_action( 'init', 'kermancopper_ads_register_post_type', 10 );
 
 function kermancopper_ads_register_meta() {
     register_post_meta(
@@ -918,79 +928,15 @@ add_action( 'add_meta_boxes', 'kermancopper_ads_add_meta_boxes' );
 
 function kermancopper_ads_render_meta_box( $post ) {
     wp_nonce_field( 'kermancopper_ad_details_save', 'kermancopper_ad_details_nonce' );
-    $excel_forms = get_post_meta( $post->ID, KERMANCOPPER_AD_META_EXCEL_FORMS, true );
-    if ( ! is_array( $excel_forms ) ) {
-        $excel_forms = array();
-    }
-    if ( empty( $excel_forms ) ) {
-        $legacy_excel_url = get_post_meta( $post->ID, KERMANCOPPER_AD_META_EXCEL_URL, true );
-        if ( $legacy_excel_url ) {
-            $excel_forms[] = array(
-                'name' => __( 'فرم اکسل', 'kermancopper' ),
-                'url'  => $legacy_excel_url,
-            );
-        }
-    }
-    if ( empty( $excel_forms ) ) {
-        $excel_forms[] = array(
-            'name' => '',
-            'url'  => '',
-        );
-    }
     $expiry_date = get_post_meta( $post->ID, KERMANCOPPER_AD_META_EXPIRY_DATE, true );
-    $status = get_post_meta( $post->ID, KERMANCOPPER_AD_META_STATUS, true );
     $display_expiry_date = kermancopper_ads_format_expiry_date_for_display( $expiry_date );
-    $status_options = array(
-        'active' => __( 'فعال', 'kermancopper' ),
-        'closed' => __( 'بسته', 'kermancopper' ),
-    );
     ?>
     <div class="kermancopper-ad-fields-row">
         <div class="kermancopper-ad-field">
             <label for="kermancopper_ad_expiry_date"><?php echo esc_html__( 'تاریخ انقضای ثبت درخواست', 'kermancopper' ); ?></label>
             <input type="text" id="kermancopper_ad_expiry_date" name="kermancopper_ad_expiry_date" class="widefat kermancopper-ad-datepicker" data-jdp value="<?php echo esc_attr( $display_expiry_date ); ?>" />
         </div>
-        <div class="kermancopper-ad-field">
-            <label for="kermancopper_ad_status"><?php echo esc_html__( 'وضعیت آگهی', 'kermancopper' ); ?></label>
-            <select id="kermancopper_ad_status" name="kermancopper_ad_status" class="widefat">
-                <option value=""><?php echo esc_html__( 'انتخاب وضعیت', 'kermancopper' ); ?></option>
-                <?php foreach ( $status_options as $value => $label ) : ?>
-                    <option value="<?php echo esc_attr( $value ); ?>" <?php selected( $status, $value ); ?>>
-                        <?php echo esc_html( $label ); ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-        </div>
     </div>
-    <div class="kermancopper-ad-excel-separator"></div>
-    <p class="kermancopper-ad-excel-title"><?php echo esc_html__( 'فرم‌های اکسل', 'kermancopper' ); ?></p>
-    <div id="kermancopper-ad-excel-forms" data-index="<?php echo esc_attr( count( $excel_forms ) ); ?>">
-        <?php foreach ( $excel_forms as $index => $form ) : ?>
-            <?php
-            $form_name = isset( $form['name'] ) ? $form['name'] : '';
-            $form_url = isset( $form['url'] ) ? $form['url'] : '';
-            ?>
-            <div class="kermancopper-ad-excel-row">
-                <div>
-                    <label class="kermancopper-ad-excel-label"><?php echo esc_html__( 'نام فرم', 'kermancopper' ); ?></label>
-                    <input type="text" name="kermancopper_ad_excel_forms[<?php echo esc_attr( $index ); ?>][name]" class="widefat kermancopper-ad-excel-name" placeholder="<?php echo esc_attr__( 'نام فرم', 'kermancopper' ); ?>" value="<?php echo esc_attr( $form_name ); ?>" />
-                </div>
-                <div>
-                    <label class="kermancopper-ad-excel-label"><?php echo esc_html__( 'فایل فرم', 'kermancopper' ); ?></label>
-                    <div class="kermancopper-ad-excel-row-actions">
-                        <input type="text" name="kermancopper_ad_excel_forms[<?php echo esc_attr( $index ); ?>][url]" class="widefat kermancopper-ad-excel-url" readonly value="<?php echo esc_attr( $form_url ); ?>" />
-                        <div class="kermancopper-ad-excel-buttons">
-                            <button type="button" class="button kermancopper-ad-excel-select"><?php echo esc_html__( 'انتخاب فایل', 'kermancopper' ); ?></button>
-                            <button type="button" class="button kermancopper-ad-excel-remove"><?php echo esc_html__( 'حذف', 'kermancopper' ); ?></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-    <p>
-        <button type="button" class="button button-primary" id="kermancopper_ad_excel_add"><?php echo esc_html__( 'افزودن فرم', 'kermancopper' ); ?></button>
-    </p>
     <?php
 }
 
@@ -1010,27 +956,12 @@ function kermancopper_ads_save_meta( $post_id ) {
     if ( get_post_type( $post_id ) !== 'kermancopper_ad' ) {
         return;
     }
-    $forms_raw = isset( $_POST['kermancopper_ad_excel_forms'] ) && is_array( $_POST['kermancopper_ad_excel_forms'] ) ? wp_unslash( $_POST['kermancopper_ad_excel_forms'] ) : array();
-    $forms = kermancopper_ads_sanitize_excel_forms( $forms_raw );
-    if ( ! empty( $forms ) ) {
-        update_post_meta( $post_id, KERMANCOPPER_AD_META_EXCEL_FORMS, $forms );
-    } else {
-        delete_post_meta( $post_id, KERMANCOPPER_AD_META_EXCEL_FORMS );
-    }
-    delete_post_meta( $post_id, KERMANCOPPER_AD_META_EXCEL_URL );
     $expiry_date = isset( $_POST['kermancopper_ad_expiry_date'] ) ? sanitize_text_field( wp_unslash( $_POST['kermancopper_ad_expiry_date'] ) ) : '';
     $expiry_value = kermancopper_ads_sanitize_expiry_date( $expiry_date );
     if ( $expiry_value !== '' ) {
         update_post_meta( $post_id, KERMANCOPPER_AD_META_EXPIRY_DATE, $expiry_value );
     } else {
         delete_post_meta( $post_id, KERMANCOPPER_AD_META_EXPIRY_DATE );
-    }
-    $status = isset( $_POST['kermancopper_ad_status'] ) ? sanitize_text_field( wp_unslash( $_POST['kermancopper_ad_status'] ) ) : '';
-    $status_value = kermancopper_ads_sanitize_status( $status );
-    if ( $status_value !== '' ) {
-        update_post_meta( $post_id, KERMANCOPPER_AD_META_STATUS, $status_value );
-    } else {
-        delete_post_meta( $post_id, KERMANCOPPER_AD_META_STATUS );
     }
 }
 add_action( 'save_post', 'kermancopper_ads_save_meta' );

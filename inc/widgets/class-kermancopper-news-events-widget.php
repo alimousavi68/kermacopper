@@ -160,7 +160,7 @@ class KermanCopper_News_Events_Widget extends WP_Widget {
                     echo '<img src="' . esc_url( $featured_thumb ) . '" alt="' . esc_attr( get_the_title( $featured_id ) ) . '" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">';
                 } else {
                     echo '<div class="w-full h-full bg-slate-100 flex items-center justify-center text-slate-400">';
-                    echo '<i data-lucide="image" class="w-10 h-10 opacity-60"></i>';
+                    echo kermancopper_icon('image', 'w-10 h-10 opacity-60');
                     echo '</div>';
                 }
                 echo '<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>';
@@ -173,7 +173,7 @@ class KermanCopper_News_Events_Widget extends WP_Widget {
                 echo '</div>';
                 echo '<h3 class="font-black text-white text-2xl md:text-4xl leading-tight mb-4 group-hover:text-copper transition-colors">' . esc_html( get_the_title( $featured_id ) ) . '</h3>';
                 echo '<p class="text-slate-200 text-sm md:text-base leading-relaxed line-clamp-2 mb-6 max-w-2xl opacity-90">' . esc_html( $featured_excerpt ) . '</p>';
-                echo '<span class="inline-flex items-center gap-2 text-white font-bold border-b border-white/30 pb-1 group-hover:border-copper group-hover:text-copper transition-all">مطالعه کامل خبر <i data-lucide="arrow-left" class="w-4 h-4"></i></span>';
+                echo '<span class="inline-flex items-center gap-2 text-white font-bold border-b border-white/30 pb-1 group-hover:border-copper group-hover:text-copper transition-all">مطالعه کامل خبر ' . kermancopper_icon('arrow-left', 'w-4 h-4') . '</span>';
                 echo '</div>';
                 echo '</a>';
                 echo '</article>';
@@ -194,7 +194,7 @@ class KermanCopper_News_Events_Widget extends WP_Widget {
                     echo '<img src="' . esc_url( $side_thumb ) . '" alt="' . esc_attr( get_the_title( $side_id ) ) . '" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy">';
                 } else {
                     echo '<div class="w-full h-full bg-white flex items-center justify-center text-slate-300">';
-                    echo '<i data-lucide="image" class="w-6 h-6"></i>2222';
+                    echo kermancopper_icon('image', 'w-6 h-6') . '2222';
                     echo '</div>';
                 }
                 echo '</div>';
@@ -203,7 +203,7 @@ class KermanCopper_News_Events_Widget extends WP_Widget {
                     echo '<div class="text-[10px] font-bold text-copper mb-2">' . esc_html( $side_date ) . '</div>';
                 }
                 echo '<h4 class="font-bold text-slate-800 text-sm sm:text-base leading-snug mb-2 group-hover:text-copper transition-colors line-clamp-2">' . esc_html( get_the_title( $side_id ) ) . '</h4>';
-                echo '<span class="text-xs text-slate-400 mt-auto flex items-center gap-1 group-hover:text-copper transition-colors">بیشتر بخوانید <i data-lucide="chevron-left" class="w-3 h-3"></i></span>';
+                echo '<span class="text-xs text-slate-400 mt-auto flex items-center gap-1 group-hover:text-copper transition-colors">بیشتر بخوانید ' . kermancopper_icon('chevron-left', 'w-3 h-3') . '</span>';
                 echo '</div>';
                 echo '</a>';
                 echo '</article>';
@@ -228,7 +228,7 @@ class KermanCopper_News_Events_Widget extends WP_Widget {
                     echo '<img src="' . esc_url( $thumb ) . '" alt="' . esc_attr( get_the_title( $post_id ) ) . '" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">';
                 } else {
                     echo '<div class="w-full h-full flex items-center justify-center text-slate-400">';
-                    echo '<i data-lucide="image" class="w-6 h-6 opacity-60"></i>';
+                    echo kermancopper_icon('image', 'w-6 h-6 opacity-60');
                     echo '</div>';
                 }
                 echo '<div class="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent opacity-70"></div>';
@@ -239,7 +239,7 @@ class KermanCopper_News_Events_Widget extends WP_Widget {
                 echo '<div class="p-5 flex flex-col gap-3">';
                 echo '<h3 class="font-bold text-slate-800 text-sm sm:text-base leading-snug line-clamp-2 group-hover:text-copper transition-colors">' . esc_html( get_the_title( $post_id ) ) . '</h3>';
                 echo '<p class="text-xs sm:text-sm text-slate-500 leading-relaxed line-clamp-2">' . esc_html( $excerpt ) . '</p>';
-                echo '<span class="text-xs text-slate-400 flex items-center gap-1 group-hover:text-copper transition-colors">مشاهده خبر <i data-lucide="chevron-left" class="w-3 h-3"></i></span>';
+                echo '<span class="text-xs text-slate-400 flex items-center gap-1 group-hover:text-copper transition-colors">مشاهده خبر ' . kermancopper_icon('chevron-left', 'w-3 h-3') . '</span>';
                 echo '</div>';
                 echo '</a>';
                 echo '</article>';
@@ -263,20 +263,20 @@ class KermanCopper_News_Events_Widget extends WP_Widget {
                     echo '<img src="' . esc_url( $thumb ) . '" alt="' . esc_attr( get_the_title( $post_id ) ) . '" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">';
                 } else {
                     echo '<div class="w-full h-full flex items-center justify-center text-slate-400">';
-                    echo '<i data-lucide="image" class="w-6 h-6 opacity-60"></i>';
+                    echo kermancopper_icon('image', 'w-6 h-6 opacity-60');
                     echo '</div>';
                 }
                 echo '</a>';
                 echo '<div class="flex-1 flex flex-col">';
                 if ( $show_date ) {
                     echo '<div class="text-[11px] font-bold text-copper flex items-center gap-1 mb-2">';
-                    echo '<i data-lucide="calendar" class="w-3 h-3"></i>';
+                    echo kermancopper_icon('calendar', 'w-3 h-3');
                     echo '<span>' . esc_html( $date_label ) . '</span>';
                     echo '</div>';
                 }
                 echo '<h3 class="font-bold text-slate-900 text-base sm:text-lg leading-snug line-clamp-2 group-hover:text-copper transition-colors mb-2">' . esc_html( get_the_title( $post_id ) ) . '</h3>';
                 echo '<p class="text-xs sm:text-sm text-slate-500 leading-relaxed line-clamp-2">' . esc_html( $excerpt ) . '</p>';
-                echo '<span class="mt-auto inline-flex items-center gap-2 text-xs font-bold text-slate-400 group-hover:text-copper transition-colors">مشاهده خبر <i data-lucide="arrow-left" class="w-3 h-3"></i></span>';
+                echo '<span class="mt-auto inline-flex items-center gap-2 text-xs font-bold text-slate-400 group-hover:text-copper transition-colors">مشاهده خبر ' . kermancopper_icon('arrow-left', 'w-3 h-3') . '</span>';
                 echo '</div>';
                 echo '<div class="md:w-12 text-3xl font-black text-copper/20 flex justify-end">' . esc_html( $number ) . '</div>';
                 echo '</article>';
@@ -313,7 +313,7 @@ class KermanCopper_News_Events_Widget extends WP_Widget {
                     echo '<img src="' . esc_url( $thumb ) . '" alt="' . esc_attr( get_the_title( $post_id ) ) . '" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">';
                 } else {
                     echo '<div class="w-full h-full flex items-center justify-center text-slate-400">';
-                    echo '<i data-lucide="image" class="w-6 h-6 opacity-60"></i>';
+                    echo kermancopper_icon('image', 'w-6 h-6 opacity-60');
                     echo '</div>';
                 }
                 if ( $style === 'glass' ) {
@@ -323,13 +323,13 @@ class KermanCopper_News_Events_Widget extends WP_Widget {
                 echo '<div class="p-5 flex flex-col gap-3">';
                 if ( $show_date ) {
                     echo '<div class="text-[11px] font-bold text-copper flex items-center gap-1">';
-                    echo '<i data-lucide="calendar" class="w-3 h-3"></i>';
+                    echo kermancopper_icon('calendar', 'w-3 h-3');
                     echo '<span>' . esc_html( $date_label ) . '</span>';
                     echo '</div>';
                 }
                 echo '<h3 class="font-bold text-slate-800 text-sm sm:text-base leading-snug line-clamp-2 group-hover:text-copper transition-colors">' . esc_html( get_the_title( $post_id ) ) . '</h3>';
                 echo '<p class="text-xs sm:text-sm text-slate-500 leading-relaxed line-clamp-2">' . esc_html( $excerpt ) . '</p>';
-                echo '<span class="text-xs text-slate-400 flex items-center gap-1 group-hover:text-copper transition-colors">بیشتر بخوانید <i data-lucide="chevron-left" class="w-3 h-3"></i></span>';
+                echo '<span class="text-xs text-slate-400 flex items-center gap-1 group-hover:text-copper transition-colors">بیشتر بخوانید ' . kermancopper_icon('chevron-left', 'w-3 h-3') . '</span>';
                 echo '</div>';
                 echo '</a>';
                 echo '</article>';
