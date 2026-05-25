@@ -1,68 +1,130 @@
 <?php
+/**
+ * The template for displaying the custom post type ads archive page
+ *
+ * @package KermanCopper
+ */
+
 get_header();
 ?>
 
-<main class="container mx-auto px-4 mt-[120px] pb-16">
-    <div class="max-w-7xl mx-auto">
-        <div class="mb-12 text-center">
-            <h1 class="text-3xl md:text-5xl font-medium text-slate-800 leading-tight mb-4"><?php post_type_archive_title(); ?></h1>
-            <p class="text-slate-600 text-lg">بررسی و جستجوی تمامی آگهی‌های ثبت شده</p>
+    <!-- ARCHIVE HERO SECTION -->
+    <header class="relative min-h-[450px] lg:min-h-[500px] flex items-center justify-center overflow-hidden bg-navy-dark pt-32 lg:pt-40 pb-16">
+        <!-- Background Image -->
+        <div class="absolute inset-0 w-full h-full">
+            <img src="<?php echo get_template_directory_uri(); ?>/images/pano sarcheshmeh.jpg" class="hero-bg-image w-full h-full object-cover opacity-35 mix-blend-overlay will-change-transform" alt="<?php echo esc_attr( post_type_archive_title('', false) ); ?>">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy-dark/70 to-transparent z-10"></div>
+            <div class="absolute inset-0 bg-gradient-to-l from-navy-dark/50 via-transparent to-navy-dark/50 z-10"></div>
+
+            <!-- Glow Accent -->
+            <div class="absolute -top-[20%] left-1/2 -translate-x-1/2 w-[70%] h-[70%] bg-copper/20 rounded-full blur-[140px] z-15">
+            </div>
         </div>
 
-        <div class="flex flex-col lg:flex-row gap-8">
-            <aside id="filter-sidebar" class="lg:w-80 lg:sticky lg:top-[130px] lg:self-start bg-white rounded-2xl border border-slate-200 shadow-sm p-6 lg:block hidden">
-                <?php get_template_part('template-parts/ads/filter-form'); ?>
-            </aside>
+        <!-- Pattern Background -->
+        <div class="absolute inset-0 bg-[radial-gradient(rgba(200,104,47,0.15)_1px,transparent_1px)] bg-[size:32px_32px] opacity-60 z-10">
+        </div>
 
-            <div class="flex-1">
-                <div class="flex flex-wrap items-center justify-between gap-4 mb-8 p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-                    <div class="flex items-center gap-4">
-                        <button id="mobile-filter-toggle" class="lg:hidden flex items-center gap-2 px-4 py-2 rounded-lg bg-copper text-white font-medium">
-                            <?php echo kermancopper_icon('filter', 'w-5 h-5'); ?>
-                            فیلترها
+        <div class="container mx-auto px-6 lg:px-12 relative z-20 text-center font-peyda">
+            <div class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass-panel mb-6 border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.2)] animate-fade-in-up delay-100 mx-auto">
+                <?php echo kermancopper_icon('tag', 'w-4 h-4 text-copper-light'); ?>
+                <span class="text-copper-light text-xs font-extrabold tracking-widest">آگهی‌ها، مناقصات و مزایدات</span>
+            </div>
+
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-4 animate-fade-in-up delay-200">
+                <?php post_type_archive_title(); ?>
+            </h1>
+
+            <p class="text-base text-slate-400 mx-auto font-light leading-relaxed animate-fade-in-up delay-300 mb-10 max-w-3xl">
+                بررسی و جستجوی تمامی آگهی‌های ثبت شده
+            </p>
+        </div>
+
+        <!-- Bottom Curve -->
+        <div class="hero-curve">
+            <img src="<?php echo get_template_directory_uri(); ?>/images/Union.png" srcset="<?php echo get_template_directory_uri(); ?>/images/Union.png 1440w, <?php echo get_template_directory_uri(); ?>/images/Union-300x37.png 300w, <?php echo get_template_directory_uri(); ?>/images/Union-1024x127.png 1024w, <?php echo get_template_directory_uri(); ?>/images/Union-768x95.png 768w" sizes="(max-width: 1440px) 100vw, 1440px" class="hero-curve-image" alt="" />
+            <a href="#content-section" class="hero-curve-arrow" aria-label="بخش بعدی">
+                <?php echo kermancopper_icon('chevrons-down', 'hero-curve-arrow-icon'); ?>
+            </a>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT SECTION -->
+    <main id="content-section" class="relative z-20 pb-32 bg-gradient-to-b from-[#FAF8F5] via-white to-[#FAF8F5] pt-12 lg:pt-16">
+        <!-- Dot Pattern Background -->
+        <div class="absolute inset-0 bg-[radial-gradient(#c8c8c8_1px,transparent_1px)] bg-[size:24px_24px] opacity-30 pointer-events-none z-0">
+        </div>
+
+        <div class="container mx-auto px-6 lg:px-12 relative z-10 max-w-7xl">
+            <?php
+            $archive_url = get_post_type_archive_link('kermancopper_ad');
+            ?>
+
+            <!-- Breadcrumbs -->
+            <nav class="flex items-center gap-2 text-sm text-slate-500 mb-8 scroll-reveal" aria-label="breadcrumb">
+                <span class="text-navy font-black"><?php post_type_archive_title(); ?></span>
+            </nav>
+
+            <div class="flex flex-col lg:flex-row gap-10 items-stretch">
+                <!-- Sidebar (Desktop Filters) -->
+                <aside id="filter-sidebar" class="lg:w-80 lg:sticky lg:top-[120px] lg:self-start bg-white rounded-[2rem] border border-slate-200/80 shadow-[0_15px_50px_rgba(0,0,0,0.03)] p-8 lg:block hidden scroll-reveal">
+                    <?php get_template_part('template-parts/ads/filter-form'); ?>
+                </aside>
+
+                <!-- Grid & Loop Area -->
+                <div class="flex-1 flex flex-col justify-between">
+                    <!-- Filters Action Bar -->
+                    <div class="flex flex-wrap items-center justify-between gap-4 mb-8 p-4 bg-white rounded-2xl border border-slate-200/80 shadow-[0_15px_50px_rgba(0,0,0,0.03)] scroll-reveal">
+                        <div class="flex items-center gap-4">
+                            <button id="mobile-filter-toggle" class="lg:hidden flex items-center gap-2 px-5 py-3 rounded-xl bg-copper text-white font-bold hover:opacity-95 shadow-[0_10px_25px_rgba(200,104,47,0.2)] transition-all">
+                                <?php echo kermancopper_icon('filter', 'w-5 h-5'); ?>
+                                فیلترها
+                            </button>
+                            <span id="results-count" class="text-navy font-black">درحال دریافت آگهی‌ها...</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-slate-500 text-sm font-semibold">مرتب‌سازی:</span>
+                            <select id="sort-select" class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-semibold text-navy focus:outline-none focus:border-copper cursor-pointer transition-all">
+                                <option value="date_desc">جدیدترین</option>
+                                <option value="date_asc">قدیمی‌ترین</option>
+                                <option value="title_asc">نام (الفبا)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Ajax Grid -->
+                    <div id="ads-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                        <?php get_template_part('template-parts/ads/skeleton-loaders'); ?>
+                    </div>
+
+                    <!-- Load More Pagination -->
+                    <div id="load-more-container" class="mt-12 text-center hidden">
+                        <button id="load-more-btn" class="px-8 py-4 rounded-2xl bg-white border border-slate-200 text-slate-700 font-bold hover:border-copper hover:text-copper transition-all shadow-sm hover:shadow-md btn-ripple">
+                            بارگذاری بیشتر
                         </button>
-                        <span id="results-count" class="text-slate-700 font-medium"></span>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-slate-600 text-sm">مرتب‌سازی:</span>
-                        <select id="sort-select" class="rounded-lg border border-slate-300 px-4 py-2 text-sm">
-                            <option value="date_desc">جدیدترین</option>
-                            <option value="date_asc">قدیمی‌ترین</option>
-                            <option value="title_asc">نام (الفبا)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div id="ads-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    <?php get_template_part('template-parts/ads/skeleton-loaders'); ?>
-                </div>
-
-                <div id="load-more-container" class="mt-10 text-center hidden">
-                    <button id="load-more-btn" class="px-8 py-3 rounded-xl bg-white border border-slate-300 text-slate-700 font-medium hover:border-copper hover:text-copper transition-all">
-                        بارگذاری بیشتر
-                    </button>
                 </div>
             </div>
         </div>
-    </div>
-</main>
+    </main>
 
-<div id="mobile-filter-modal" class="fixed inset-0 z-50 hidden">
-    <div class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm" id="mobile-filter-overlay"></div>
-    <div id="mobile-filter-content" class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl max-h-[85vh] overflow-y-auto p-6 transform translate-y-full transition-transform duration-300">
-        <div class="flex items-center justify-between mb-6">
-            <h3 class="text-xl font-bold text-slate-800">فیلترها</h3>
-            <button id="mobile-filter-close" class="p-2 rounded-lg hover:bg-slate-100">
-                <?php echo kermancopper_icon('x', 'w-6 h-6 text-slate-600'); ?>
-            </button>
+    <!-- Mobile Filters Overlay / Modal -->
+    <div id="mobile-filter-modal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-navy/55 backdrop-blur-sm" id="mobile-filter-overlay"></div>
+        <div id="mobile-filter-content" class="absolute bottom-0 left-0 right-0 bg-white rounded-t-[2.5rem] max-h-[85vh] overflow-y-auto p-8 transform translate-y-full transition-transform duration-300">
+            <div class="flex items-center justify-between mb-8 pb-3 border-b border-slate-100">
+                <h3 class="text-xl font-black text-navy font-peyda">فیلترهای جستجو</h3>
+                <button id="mobile-filter-close" class="p-2.5 rounded-2xl hover:bg-slate-100/80 transition-colors">
+                    <?php echo kermancopper_icon('x', 'w-6 h-6 text-slate-600'); ?>
+                </button>
+            </div>
+            <?php get_template_part('template-parts/ads/filter-form'); ?>
         </div>
-        <?php get_template_part('template-parts/ads/filter-form'); ?>
     </div>
-</div>
 
 <style>
 .filter-section {
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid rgba(241, 245, 249, 0.8);
     padding-bottom: 1.5rem;
     margin-bottom: 1.5rem;
 }
@@ -77,30 +139,35 @@ get_header();
     justify-content: space-between;
     width: 100%;
     text-align: right;
-    font-weight: 600;
-    color: #1e293b;
+    font-weight: 800;
+    color: #0f172a;
     cursor: pointer;
     background: none;
     border: none;
     padding: 0;
+    font-family: 'peyda', sans-serif;
 }
-.filter-toggle i {
-    transition: transform 0.2s ease;
+.filter-toggle svg {
+    transition: transform 0.25s ease;
 }
 .filter-content {
     margin-top: 1rem;
 }
 .ad-card {
     background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 1rem;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    border-radius: 2rem;
     overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.02);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 .ad-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+    border-color: rgba(200, 104, 47, 0.25);
 }
 .ad-card-image {
     height: 200px;
@@ -110,20 +177,58 @@ get_header();
 .status-badge {
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem;
-    padding: 0.25rem 0.75rem;
+    gap: 0.35rem;
+    padding: 0.35rem 0.85rem;
     border-radius: 9999px;
     font-size: 0.75rem;
-    font-weight: 600;
+    font-weight: 700;
 }
 .status-badge.active {
-    background: #dcfce7;
+    background: rgba(22, 101, 52, 0.1);
     color: #166534;
 }
 .status-badge.closed {
-    background: #fee2e2;
+    background: rgba(153, 27, 27, 0.1);
     color: #991b1b;
 }
+
+/* Styling Inputs Inside Filters */
+#filter-sidebar input, #filter-sidebar select,
+#mobile-filter-modal input, #mobile-filter-modal select {
+    border-radius: 1rem !important;
+    border-color: #e2e8f0 !important;
+    background-color: #f8fafc !important;
+    padding-top: 0.875rem !important;
+    padding-bottom: 0.875rem !important;
+    font-weight: 600 !important;
+    color: #0f172a !important;
+    transition: all 0.3s ease !important;
+}
+#filter-sidebar input:focus, #filter-sidebar select:focus,
+#mobile-filter-modal input:focus, #mobile-filter-modal select:focus {
+    border-color: #c8682f !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 0 0 3px rgba(200, 104, 47, 0.15) !important;
+}
+#filter-sidebar button[type="submit"],
+#mobile-filter-modal button[type="submit"] {
+    border-radius: 1rem !important;
+    background: linear-gradient(to left, #c8682f, #e28652) !important;
+    font-weight: 800 !important;
+    font-family: 'peyda', sans-serif !important;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    box-shadow: 0 10px 25px rgba(200,104,47,0.2) !important;
+}
+#filter-sidebar a#reset-filters,
+#mobile-filter-modal a#reset-filters {
+    border-radius: 1rem !important;
+    border-color: #e2e8f0 !important;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    font-weight: 800 !important;
+}
+
 .btn-ripple {
     position: relative;
     overflow: hidden;
@@ -142,7 +247,7 @@ get_header();
     }
 }
 .skeleton {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
     background-size: 200% 100%;
     animation: skeleton-loading 1.5s infinite;
 }
@@ -151,7 +256,7 @@ get_header();
     100% { background-position: -200% 0; }
 }
 .accordion-chevron {
-    transition: transform 0.2s ease;
+    transition: transform 0.25s ease;
 }
 </style>
 
@@ -194,6 +299,8 @@ get_header();
         initFilterAccordions();
         initMobileFilter();
         initRippleEffect();
+        
+        setFilterValue('ad-type-filter', '0');
         loadAds(true);
         
         document.getElementById('sort-select').addEventListener('change', function() {
@@ -249,12 +356,12 @@ get_header();
             toggle.addEventListener('click', function(e) {
                 e.preventDefault();
                 const content = this.nextElementSibling;
-                const icon = this.querySelector('i');
+                const icon = this.querySelector('svg');
                 
                 document.querySelectorAll('.filter-content').forEach(c => {
                     if (c !== content) {
                         c.style.display = 'none';
-                        const otherIcon = c.previousElementSibling.querySelector('i');
+                        const otherIcon = c.previousElementSibling.querySelector('svg');
                         if (otherIcon) otherIcon.style.transform = 'rotate(0deg)';
                     }
                 });
@@ -378,7 +485,6 @@ get_header();
                     document.getElementById('load-more-container').classList.add('hidden');
                 }
 
-                // Icons are handled by PHP inline SVGs
                 currentPage++;
             }
         } catch (error) {
@@ -400,7 +506,7 @@ get_header();
     function getSkeletonHTML() {
         let html = '';
         for (let i = 0; i < 6; i++) {
-            html += '<div class="ad-card skeleton-container"><div class="skeleton h-48 w-full"></div><div class="p-5 space-y-3"><div class="skeleton h-6 w-3/4 rounded"></div><div class="skeleton h-4 w-full rounded"></div><div class="skeleton h-4 w-5/6 rounded"></div><div class="flex gap-2 pt-2"><div class="skeleton h-8 w-20 rounded-full"></div><div class="skeleton h-8 w-24 rounded-full"></div></div></div></div>';
+            html += '<div class="ad-card skeleton-container"><div class="skeleton h-48 w-full"></div><div class="p-6 space-y-3"><div class="skeleton h-6 w-3/4 rounded"></div><div class="skeleton h-4 w-full rounded"></div><div class="skeleton h-4 w-5/6 rounded"></div><div class="flex gap-2 pt-2"><div class="skeleton h-8 w-20 rounded-full"></div><div class="skeleton h-8 w-24 rounded-full"></div></div></div></div>';
         }
         return html;
     }

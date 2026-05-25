@@ -7,7 +7,7 @@
     <title><?php echo isset($page_title) ? $page_title : 'صنایع و معادن مس کرمان زمین'; ?></title>
     
     <!-- Localized Tailwind CSS -->
-    <script src="assets/js/tailwind.min.js"></script>
+    <script src="assets/js/tailwind.min.js?v=3.4.1"></script>
     
     <!-- Local IRANYekanX Font -->
     <link rel="stylesheet" href="../fonts/fontiran.css">
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="../fonts/peyda/fontiran.css">
     
     <!-- Localized Lucide Icons -->
-    <script src="assets/js/lucide.min.js"></script>
+    <script src="assets/js/lucide.min.js?v=0.3.0"></script>
     
     <script>
         tailwind.config = {
@@ -53,7 +53,7 @@
     </script>
     
     <!-- Main Extracted Stylesheet -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=<?php echo time(); ?>">
 </head>
 
 <body class="text-slate-800 antialiased overflow-x-hidden bg-[#FAFAFA]">

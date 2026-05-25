@@ -1,17 +1,31 @@
 <?php
 /**
- * The template for displaying archive pages
+ * The template for displaying the blog/posts index page
  *
  * @package KermanCopper
  */
 
-get_header(); ?>
+get_header(); 
 
-    <!-- ARCHIVE HERO SECTION -->
+$blog_page_id = get_option( 'page_for_posts' );
+$blog_title = $blog_page_id ? get_the_title( $blog_page_id ) : 'اخبار و رویدادها';
+$blog_desc = '';
+if ( $blog_page_id ) {
+    $blog_page = get_post( $blog_page_id );
+    if ( $blog_page && !empty( $blog_page->post_content ) ) {
+        $blog_desc = wp_strip_all_tags( $blog_page->post_content );
+    }
+}
+if ( empty( $blog_desc ) ) {
+    $blog_desc = 'تازه‌ترین دستاوردها، اطلاعیه‌ها، و گزارش‌های عملکرد صنایع و معادن مس کرمان زمین در سطح ملی و بین‌المللی';
+}
+?>
+
+    <!-- BLOG HERO SECTION -->
     <header class="relative min-h-[450px] lg:min-h-[500px] flex items-center justify-center overflow-hidden bg-navy-dark pt-32 lg:pt-40 pb-16">
         <!-- Background Image -->
         <div class="absolute inset-0 w-full h-full">
-            <img src="<?php echo get_template_directory_uri(); ?>/images/pano sarcheshmeh.jpg" class="hero-bg-image w-full h-full object-cover opacity-35 mix-blend-overlay will-change-transform" alt="<?php echo esc_attr( get_the_archive_title() ); ?>">
+            <img src="<?php echo get_template_directory_uri(); ?>/images/pano sarcheshmeh.jpg" class="hero-bg-image w-full h-full object-cover opacity-35 mix-blend-overlay will-change-transform" alt="<?php echo esc_attr( $blog_title ); ?>">
             <div class="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy-dark/70 to-transparent z-10"></div>
             <div class="absolute inset-0 bg-gradient-to-l from-navy-dark/50 via-transparent to-navy-dark/50 z-10"></div>
 
@@ -31,12 +45,12 @@ get_header(); ?>
             </div>
 
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-4 animate-fade-in-up delay-200">
-                <?php echo get_the_archive_title(); ?>
+                <?php echo esc_html( $blog_title ); ?>
             </h1>
 
-            <div class="text-base text-slate-400 mx-auto font-light leading-relaxed animate-fade-in-up delay-300 mb-10">
-                <?php echo get_the_archive_description(); ?>
-            </div>
+            <p class="text-base text-slate-400 mx-auto font-light leading-relaxed animate-fade-in-up delay-300 mb-10 max-w-3xl">
+                <?php echo esc_html( $blog_desc ); ?>
+            </p>
         </div>
 
         <!-- Bottom Curve -->
@@ -61,15 +75,13 @@ get_header(); ?>
                 <div class="lg:col-span-8">
                     <!-- Filters -->
                     <div class="flex flex-col sm:flex-row justify-between items-center mb-10 gap-6 scroll-reveal">
-                        <h3 class="text-2xl font-black text-navy font-peyda"><?php single_term_title('آخرین مطالب: '); ?></h3>
+                        <h3 class="text-2xl font-black text-navy font-peyda">آخرین اخبار و مطالب</h3>
                         <div class="flex flex-wrap justify-center bg-white p-1.5 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200">
-                            <a href="<?php echo esc_url( get_permalink( get_option( 'page_for_posts' ) ) ); ?>" class="px-5 py-2.5 rounded-xl font-bold text-sm <?php echo ! is_category() ? 'bg-copper text-white shadow-[0_4px_15px_rgba(200,104,47,0.3)]' : 'text-slate-500 hover:text-copper hover:bg-copper/5'; ?> transition-all">همه</a>
+                            <a href="<?php echo esc_url( get_permalink( get_option( 'page_for_posts' ) ) ); ?>" class="px-5 py-2.5 rounded-xl font-bold text-sm bg-copper text-white shadow-[0_4px_15px_rgba(200,104,47,0.3)] transition-all">همه</a>
                             <?php
                             $categories = get_categories( array( 'hide_empty' => true ) );
                             foreach ( $categories as $cat ) {
-                                $is_active = is_category( $cat->term_id );
-                                $active_class = $is_active ? 'bg-copper text-white shadow-[0_4px_15px_rgba(200,104,47,0.3)]' : 'text-slate-500 hover:text-copper hover:bg-copper/5';
-                                echo '<a href="' . esc_url( get_category_link( $cat->term_id ) ) . '" class="px-5 py-2.5 rounded-xl font-bold text-sm ' . $active_class . ' transition-all">' . esc_html( $cat->name ) . '</a>';
+                                echo '<a href="' . esc_url( get_category_link( $cat->term_id ) ) . '" class="px-5 py-2.5 rounded-xl font-bold text-sm text-slate-500 hover:text-copper hover:bg-copper/5 transition-all">' . esc_html( $cat->name ) . '</a>';
                             }
                             ?>
                         </div>
@@ -187,7 +199,7 @@ get_header(); ?>
                                     $link = str_replace( "current", "bg-copper text-white shadow-md", $link );
                                     $link = str_replace( "dots", "text-slate-400 px-2 border-none bg-transparent shadow-none hover:text-slate-400", $link );
                                     
-                                    if ( str_pos( $link, 'bg-copper' ) === false && str_pos( $link, 'text-slate-400' ) === false ) {
+                                    if ( strpos( $link, 'bg-copper' ) === false && strpos( $link, 'text-slate-400' ) === false ) {
                                         $link = str_replace( "w-10", "w-10 bg-white border border-slate-200 text-slate-600 hover:text-copper hover:border-copper shadow-sm", $link );
                                     }
                                     echo $link;

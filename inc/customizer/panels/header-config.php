@@ -613,9 +613,19 @@ function kermancopper_customize_homepage( $wp_customize ) {
         'sanitize_callback' => 'kermancopper_sanitize_text_100',
     ) );
     $wp_customize->add_control( 'kermancopper_home_hero_title', array(
-        'label'   => __( 'عنوان اصلی هدر', 'kermancopper' ),
+        'label'   => __( 'عنوان اصلی هدر (خط اول)', 'kermancopper' ),
         'section' => 'kermancopper_home_hero_section',
         'type'    => 'text',
+    ) );
+
+    $wp_customize->add_setting( 'kermancopper_home_hero_title_highlight', array(
+        'sanitize_callback' => 'kermancopper_sanitize_text_100',
+    ) );
+    $wp_customize->add_control( 'kermancopper_home_hero_title_highlight', array(
+        'label'       => __( 'بخش رنگی عنوان هدر (گرادیانت مسی)', 'kermancopper' ),
+        'description' => __( 'این متن پس از کلمه «قلب» با رنگ مسی گرادیانت نمایش داده می‌شود.', 'kermancopper' ),
+        'section'     => 'kermancopper_home_hero_section',
+        'type'        => 'text',
     ) );
 
     $wp_customize->add_setting( 'kermancopper_home_hero_subtitle', array(

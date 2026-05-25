@@ -148,6 +148,7 @@ $topbar_phone = trim( (string) get_theme_mod( 'kermancopper_phone', '' ) );
                     <span class="text-white/20">|</span>
                     <span class="text-copper font-bold transition-colors">Fa</span>
                 </div>
+                <?php if ( ! $is_home ) : ?>
                 <div class="flex items-center gap-4">
                     <?php if ( $instagram = get_theme_mod( 'kermancopper_social_instagram' ) ) : ?>
                         <a href="<?php echo esc_url( $instagram ); ?>" class="hover:text-copper transition-colors" target="_blank"><?php echo kermancopper_icon('instagram', 'w-4 h-4'); ?></a>
@@ -159,6 +160,7 @@ $topbar_phone = trim( (string) get_theme_mod( 'kermancopper_phone', '' ) );
                         <a href="<?php echo esc_url( $twitter ); ?>" class="hover:text-copper transition-colors" target="_blank"><?php echo kermancopper_icon('twitter', 'w-4 h-4'); ?></a>
                     <?php endif; ?>
                 </div>
+                <?php endif; ?>
             </div>
             <!-- Right Side: Contact info -->
             <div class="flex items-center gap-6" dir="ltr">
