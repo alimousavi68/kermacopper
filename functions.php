@@ -121,9 +121,10 @@ function kermancopper_scripts() {
     // Tailwind CSS (compiled)
     wp_enqueue_style( 'kermancopper-tailwind', get_template_directory_uri() . '/assets/css/tailwind.css', array(), '3.4.1' );
     
-    // Main Script
-    wp_enqueue_script( 'kermancopper-main', get_template_directory_uri() . '/assets/js/main.js', array(), '1.0.0', true );
 
+
+    // Main Script
+    wp_enqueue_script( 'kermancopper-main', get_template_directory_uri() . '/assets/js/main.js', array(), time(), true );
     // Jalali Datepicker for Frontend
     if ( is_singular( 'kermancopper_ad' ) || is_post_type_archive( 'kermancopper_ad' ) ) {
         wp_enqueue_style( 'kermancopper-jalalidatepicker', get_template_directory_uri() . '/assets/vendor/jalalidatepicker/jalalidatepicker.min.css', array(), '1.3.0' );

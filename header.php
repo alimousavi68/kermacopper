@@ -18,7 +18,7 @@
       .menu-item:last-child .menu-separator { display: none; }
      
       @font-face {
-            font-family: 'PeydaFa';
+            font-family: 'PeydaWebVF';
             src: url('<?php echo get_template_directory_uri(); ?>/fonts/peyda/PeydaWebVF.woff2') format('woff2-variations'),
                  url('<?php echo get_template_directory_uri(); ?>/fonts/peyda/PeydaWebVF.woff') format('woff-variations');
             font-weight: 100 950;
@@ -33,29 +33,13 @@
       }
 
       body {
-        font-family: 'PeydaFa', sans-serif;
+        font-family: 'PeydaWebVF', sans-serif;
         -moz-font-feature-settings: "ss02";
         -webkit-font-feature-settings: "ss02";
         font-feature-settings: "ss02";
         background-color: var(--color-bg-body);
         color: var(--color-text-main);
         overflow-x: hidden;
-      }
-
-      /* Nav Link Styles */
-      .nav-link {
-        color: rgba(255, 255, 255, 0.8) !important;
-      }
-      .nav-link:hover, .nav-link.active {
-        color: #ffffff !important;
-      }
-      .nav-underline {
-        background-color: #ffffff !important;
-      }
-      
-      /* Home Specific if needed */
-      .home .nav-link {
-        color: rgba(255, 255, 255, 0.9) !important;
       }
 
       .bg-copper { background-color: var(--color-copper); }
@@ -153,225 +137,178 @@ $topbar_email = trim( (string) get_theme_mod( 'kermancopper_email', '' ) );
 $topbar_phone = trim( (string) get_theme_mod( 'kermancopper_phone', '' ) );
 ?>
 
-    <!-- Header -->
-    <header id="main-header" class="<?php echo esc_attr( $header_position_class ); ?> top-0 left-0 right-0 z-50 transition-all duration-300">
-        <?php if ( get_theme_mod( 'kermancopper_show_topbar', true ) ) : ?>
-        <!-- Top Bar -->
-        <div id="top-bar" class="<?php echo esc_attr( $top_bar_classes ); ?> border-b transition-all duration-300 overflow-hidden hidden md:block">
-            <div class="container mx-auto  py-2 md:py-0 min-h-[40px] flex flex-col md:flex-row md:justify-between md:items-center gap-2 text-[11px] font-medium">
-                <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
-                    <?php if ( $topbar_address ) : ?>
-                        <div class="flex items-center gap-2">
-                            <?php echo kermancopper_icon('map-pin', 'w-[10px] h-[10px] ' . esc_attr( $icon_color_classes )); ?>
-                            <span><?php echo esc_html( $topbar_address ); ?></span>
-                        </div>
+    <!-- Top Bar -->
+    <?php if ( get_theme_mod( 'kermancopper_show_topbar', true ) ) : ?>
+    <div class="absolute top-0 w-full z-50 border-b border-white/5 bg-transparent py-2.5 text-xs text-white hidden lg:block">
+        <div class="container mx-auto px-6 lg:px-12 flex justify-between items-center">
+            <!-- Left Side: Lang and Socials -->
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2 border-l border-white/10 pl-6">
+                    <span class="hover:text-copper cursor-pointer font-bold transition-colors">En</span>
+                    <span class="text-white/20">|</span>
+                    <span class="text-copper font-bold transition-colors">Fa</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <?php if ( $instagram = get_theme_mod( 'kermancopper_social_instagram' ) ) : ?>
+                        <a href="<?php echo esc_url( $instagram ); ?>" class="hover:text-copper transition-colors" target="_blank"><?php echo kermancopper_icon('instagram', 'w-4 h-4'); ?></a>
                     <?php endif; ?>
-                    <?php if ( $topbar_email ) : ?>
-                        <div class="flex items-center gap-2 sm:border-r <?php echo esc_attr( $border_social_classes ); ?> sm:pr-6 sm:mr-6">
-                            <?php echo kermancopper_icon('mail', 'w-[10px] h-[10px] ' . esc_attr( $icon_color_classes )); ?>
-                            <a href="mailto:<?php echo esc_attr( $topbar_email ); ?>" class="transition-colors <?php echo esc_attr( $topbar_link_hover ); ?>"><?php echo esc_html( $topbar_email ); ?></a>
-                        </div>
+                    <?php if ( $linkedin = get_theme_mod( 'kermancopper_social_linkedin' ) ) : ?>
+                        <a href="<?php echo esc_url( $linkedin ); ?>" class="hover:text-copper transition-colors" target="_blank"><?php echo kermancopper_icon('linkedin', 'w-4 h-4'); ?></a>
                     <?php endif; ?>
-                    <?php if ( $topbar_phone ) : ?>
-                        <div class="flex items-center gap-2 sm:border-r <?php echo esc_attr( $border_social_classes ); ?> sm:pr-6 sm:mr-6">
-                            <?php echo kermancopper_icon('phone', 'w-[10px] h-[10px] ' . esc_attr( $icon_color_classes )); ?>
-                            <a href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', $topbar_phone ) ); ?>" class="transition-colors <?php echo esc_attr( $topbar_link_hover ); ?>"><?php echo esc_html( $topbar_phone ); ?></a>
-                        </div>
+                    <?php if ( $twitter = get_theme_mod( 'kermancopper_social_twitter' ) ) : ?>
+                        <a href="<?php echo esc_url( $twitter ); ?>" class="hover:text-copper transition-colors" target="_blank"><?php echo kermancopper_icon('twitter', 'w-4 h-4'); ?></a>
                     <?php endif; ?>
                 </div>
-                
-                <div class="flex items-center justify-between gap-4">
-                    <div class="flex items-center gap-3 sm:border-l <?php echo esc_attr( $border_lang_classes ); ?> sm:pl-4 sm:ml-2">
-                        <?php if ( $instagram = get_theme_mod( 'kermancopper_social_instagram' ) ) : ?>
-                            <a href="<?php echo esc_url( $instagram ); ?>" target="_blank"><?php echo kermancopper_icon('instagram', 'w-[14px] h-[14px] cursor-pointer ' . esc_attr( $social_icon_classes ) . ' transition-colors'); ?></a>
-                        <?php endif; ?>
-                        <?php if ( $linkedin = get_theme_mod( 'kermancopper_social_linkedin' ) ) : ?>
-                            <a href="<?php echo esc_url( $linkedin ); ?>" target="_blank"><?php echo kermancopper_icon('linkedin', 'w-[14px] h-[14px] cursor-pointer ' . esc_attr( $social_icon_classes ) . ' transition-colors'); ?></a>
-                        <?php endif; ?>
-                        <?php if ( $twitter = get_theme_mod( 'kermancopper_social_twitter' ) ) : ?>
-                            <a href="<?php echo esc_url( $twitter ); ?>" target="_blank"><?php echo kermancopper_icon('twitter', 'w-[14px] h-[14px] cursor-pointer ' . esc_attr( $social_icon_classes ) . ' transition-colors'); ?></a>
-                        <?php endif; ?>
-                        <?php if ( $facebook = get_theme_mod( 'kermancopper_social_facebook' ) ) : ?>
-                            <a href="<?php echo esc_url( $facebook ); ?>" target="_blank"><?php echo kermancopper_icon('facebook', 'w-[14px] h-[14px] cursor-pointer ' . esc_attr( $social_icon_classes ) . ' transition-colors'); ?></a>
-                        <?php endif; ?>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <span class="<?php echo esc_attr( $lang_active_classes ); ?> font-bold cursor-default">Fa</span>
-                        <span class="<?php echo esc_attr( $separator_classes ); ?>">|</span>
-                        <span class="cursor-pointer <?php echo esc_attr( $lang_hover_classes ); ?> transition-colors">En</span>
-                    </div>
-                </div>
+            </div>
+            <!-- Right Side: Contact info -->
+            <div class="flex items-center gap-6" dir="ltr">
+                <?php if ( $topbar_phone ) : ?>
+                <a href="tel:<?php echo esc_attr( preg_replace( '/\s+/', '', $topbar_phone ) ); ?>" class="flex items-center gap-2 hover:text-copper transition-colors">
+                    <span><?php echo esc_html( $topbar_phone ); ?></span>
+                    <?php echo kermancopper_icon('phone', 'w-4 h-4 text-copper'); ?>
+                </a>
+                <?php endif; ?>
+                <?php if ( $topbar_phone && $topbar_email ) : ?>
+                <span class="text-white/20">|</span>
+                <?php endif; ?>
+                <?php if ( $topbar_email ) : ?>
+                <a href="mailto:<?php echo esc_attr( $topbar_email ); ?>"
+                    class="flex items-center gap-2 hover:text-copper transition-colors">
+                    <span><?php echo esc_html( $topbar_email ); ?></span>
+                    <?php echo kermancopper_icon('mail', 'w-4 h-4 text-copper'); ?>
+                </a>
+                <?php endif; ?>
             </div>
         </div>
-        <?php endif; ?>
+    </div>
+    <?php endif; ?>
 
-        <!-- Main Navigation -->
-        <nav id="main-nav" class="w-full transition-all duration-300 <?php echo esc_attr( $nav_bg_classes ); ?> py-3">
-            <div class="container mx-auto ">
-                <div class="flex justify-between items-center h-16 sm:h-20">
-                    
-                    <!-- Logo Section -->
-                    <div class="flex-shrink-0 flex items-center gap-3">
-                        <?php if ( has_custom_logo() ) : ?>
-                            <?php
-                            $custom_logo_id = get_theme_mod( 'custom_logo' );
-                            $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );
-                            if ( has_custom_logo() ) {
-                                echo '<a href="' . esc_url( home_url( '/' ) ) . '"><img src="' . esc_url( $logo[0] ) . '" class="h-[80px] w-auto object-contain" alt="' . get_bloginfo( 'name' ) . '"></a>';
-                            }
-                            ?>
-                        <?php endif; ?>
-                    </div>
-
-                    <!-- Desktop Menu -->
-                    <div class="hidden lg:flex items-center gap-8 xl:gap-12 text-[14px] font-normal <?php echo esc_attr( $nav_text_classes ); ?>">
-                        <?php
-                        if ( has_nav_menu( 'primary' ) ) {
-                            wp_nav_menu( array(
-                                'theme_location' => 'primary',
-                                'container'      => false,
-                                'menu_class'     => 'flex items-center',
-                                'walker'         => new KermanCopper_Nav_Walker(),
-                                'fallback_cb'    => false,
-                            ) );
-                        } else {
-                            ?>
-                            <!-- Static Menu (Fallback) -->
-                            <div class="relative group py-4">
-                                <a href="#" class="nav-link flex items-center gap-1 transition-colors duration-200 <?php echo esc_attr( $is_home ? 'text-white' : 'text-copper' ); ?>" data-target="home">
-                                    صفحه اصلی
-                                </a>
-                                <div class="nav-underline absolute bottom-1 left-1/2 -translate-x-1/2 h-[2.5px] <?php echo esc_attr( $underline_classes ); ?> w-1/2 rounded-full transition-all duration-300 opacity-100"></div>
-                            </div>
-                            <span class="<?php echo esc_attr( $separator_classes ); ?>">|</span>
-                            <div class="relative group py-4">
-                                <a href="#ads" class="nav-link flex items-center gap-1 transition-colors duration-200 <?php echo esc_attr( $is_home ? 'hover:text-white' : 'hover:text-copper' ); ?>" data-target="ads">
-                                    آگهی ها
-                                    <?php echo kermancopper_icon('chevron-down', 'w-2.5 h-2.5 opacity-50'); ?>
-                                </a>
-                                <div class="nav-underline absolute bottom-1 left-1/2 -translate-x-1/2 h-[2.5px] <?php echo esc_attr( $underline_classes ); ?> w-1/2 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
-                                <!-- Dropdown -->
-                                <div id="ads-dropdown" class="absolute right-0 top-full mt-0 w-56 bg-[#c86429] text-white shadow-xl z-[100] rounded-sm">
-                                    <div class="py-1">
-                                        <a href="#" class="block px-6 py-3 hover:bg-black/10 transition-colors font-light text-[13px] border-b border-white/5 last:border-0">مناقصات عمومی</a>
-                                        <a href="#" class="block px-6 py-3 hover:bg-black/10 transition-colors font-light text-[13px] border-b border-white/5 last:border-0">مزایده ها</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="<?php echo esc_attr( $separator_classes ); ?>">|</span>
-                            <div class="relative group py-4">
-                                <a href="#news" class="nav-link flex items-center gap-1 transition-colors duration-200 <?php echo esc_attr( $is_home ? 'hover:text-white' : 'hover:text-copper' ); ?>" data-target="news">
-                                    اخبار و رویداد ها
-                                </a>
-                                <div class="nav-underline absolute bottom-1 left-1/2 -translate-x-1/2 h-[2.5px] <?php echo esc_attr( $underline_classes ); ?> w-1/2 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
-                            </div>
-                            <span class="<?php echo esc_attr( $separator_classes ); ?>">|</span>
-                            <div class="relative group py-4">
-                                <a href="#about" class="nav-link flex items-center gap-1 transition-colors duration-200 <?php echo esc_attr( $is_home ? 'hover:text-white' : 'hover:text-copper' ); ?>" data-target="about">
-                                    درباره ما
-                                </a>
-                                <div class="nav-underline absolute bottom-1 left-1/2 -translate-x-1/2 h-[2.5px] <?php echo esc_attr( $underline_classes ); ?> w-1/2 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
-                            </div>
-                            <span class="<?php echo esc_attr( $separator_classes ); ?>">|</span>
-                            <div class="relative group py-4">
-                                <a href="#contact" class="nav-link flex items-center gap-1 transition-colors duration-200 <?php echo esc_attr( $is_home ? 'hover:text-white' : 'hover:text-copper' ); ?>" data-target="contact">
-                                    تماس با ما
-                                </a>
-                                <div class="nav-underline absolute bottom-1 left-1/2 -translate-x-1/2 h-[2.5px] <?php echo esc_attr( $underline_classes ); ?> w-1/2 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
-                            </div>
-                            <?php
-                        }
-                        ?>
-                    </div>
-
-                    <!-- Utility Icons & Menu Trigger -->
-                    <div class="flex items-center gap-2">
-                        <button id="search-open-btn" class="w-10 h-10 flex items-center justify-center rounded-sm cursor-pointer <?php echo esc_attr( $icon_button_classes ); ?> transition-all" aria-label="Search">
-                            <?php echo kermancopper_icon('search', 'w-[20px] h-[20px]'); ?>
-                        </button>
-                        <button id="mobile-menu-btn" class="w-10 h-10 flex items-center justify-center rounded-sm <?php echo esc_attr( $mobile_button_classes ); ?> transition-colors" aria-label="Menu">
-                            <?php echo kermancopper_icon('menu', 'w-[26px] h-[26px]'); ?>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mobile Sidebar Overlay -->
-            <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] hidden opacity-0"></div>
-            <div id="mobile-menu-sidebar" class="fixed inset-y-0 right-0 w-full sm:w-80 bg-white shadow-2xl z-[70] flex flex-col p-8 rounded-sm translate-x-full opacity-0">
-                <div class="flex justify-between items-center mb-10">
-                     <?php if ( has_custom_logo() ) : ?>
-                        <?php
-                        $custom_logo_id = get_theme_mod( 'custom_logo' );
-                        $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );
-                        if ( has_custom_logo() ) {
-                            echo '<a href="' . esc_url( home_url( '/' ) ) . '"><img src="' . esc_url( $logo[0] ) . '" class="h-10 w-auto object-contain" alt="' . get_bloginfo( 'name' ) . '"></a>';
-                        }
-                        ?>
-                    <?php else : ?>
-                        <img src="<?php echo get_template_directory_uri(); ?>/images/sbsm-logo-3.png" alt="Logo" class="h-10 w-auto object-contain">
-                    <?php endif; ?>
-                    <button id="close-mobile-menu" class="p-2 hover:bg-slate-50 rounded-sm">
-                        <?php echo kermancopper_icon('x', 'w-[24px] h-[24px]'); ?>
-                    </button>
-                </div>
-                
-                <div class="space-y-2">
+    <!-- Navbar -->
+    <nav class="absolute top-0 lg:top-10 w-full z-50 py-6 animate-fade-in-down">
+        <div class="container mx-auto px-6 lg:px-12 flex justify-between items-center">
+            <div class="flex-shrink-0">
+                <?php if ( has_custom_logo() ) : ?>
                     <?php
-                    if ( has_nav_menu( 'primary' ) ) {
-                        wp_nav_menu( array(
-                            'theme_location' => 'primary',
-                            'container'      => false,
-                            'menu_class'     => 'space-y-2 list-none',
-                            'fallback_cb'    => false,
-                            'items_wrap'     => '<ul class="%2$s">%3$s</ul>',
-                            'walker'         => new KermanCopper_Mobile_Nav_Walker(),
-                        ) );
-                    } else {
-                        ?>
-                        <div class="mobile-menu-item border-b border-slate-100 pb-2"><a href="#" class="block py-3 text-base font-bold text-slate-800 hover:text-copper transition-colors">صفحه اصلی</a></div>
-                        <div class="mobile-menu-item border-b border-slate-100 pb-2"><a href="#ads" class="block py-3 text-base font-bold text-slate-800 hover:text-copper transition-colors">آگهی ها</a></div>
-                        <div class="mobile-menu-item border-b border-slate-100 pb-2"><a href="#news" class="block py-3 text-base font-bold text-slate-800 hover:text-copper transition-colors">اخبار و رویداد ها</a></div>
-                        <div class="mobile-menu-item border-b border-slate-100 pb-2"><a href="#about" class="block py-3 text-base font-bold text-slate-800 hover:text-copper transition-colors">درباره ما</a></div>
-                        <div class="mobile-menu-item border-b border-slate-100 pb-2"><a href="#contact" class="block py-3 text-base font-bold text-slate-800 hover:text-copper transition-colors">تماس با ما</a></div>
-                        <?php
+                    $custom_logo_id = get_theme_mod( 'custom_logo' );
+                    $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+                    if ( has_custom_logo() ) {
+                        echo '<a href="' . esc_url( home_url( '/' ) ) . '" class="block transition-transform hover:scale-105"><img src="' . esc_url( $logo[0] ) . '" class="h-12 md:h-14 lg:h-16 xl:h-20 w-auto object-contain" alt="' . get_bloginfo( 'name' ) . '"></a>';
                     }
                     ?>
-                </div>
-
-                <div class="mt-auto pt-10">
-                    <div class="flex justify-center gap-6 text-slate-400">
-                        <?php echo kermancopper_icon('instagram', 'w-[22px] h-[22px] hover:text-copper cursor-pointer'); ?>
-                        <?php echo kermancopper_icon('linkedin', 'w-[22px] h-[22px] hover:text-copper cursor-pointer'); ?>
-                        <?php echo kermancopper_icon('twitter', 'w-[22px] h-[22px] hover:text-copper cursor-pointer'); ?>
-                        <?php echo kermancopper_icon('facebook', 'w-[22px] h-[22px] hover:text-copper cursor-pointer'); ?>
-                    </div>
-                </div>
+                <?php endif; ?>
             </div>
-        </nav>
 
-        <!-- Search Spotlight -->
-        <div id="search-spotlight" class="fixed inset-0 z-[100] hidden">
-            <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300 opacity-0" id="search-overlay"></div>
-            <div class="absolute inset-x-0 top-0 pt-20 px-4 transition-all duration-300 transform -translate-y-10 opacity-0" id="search-modal-content">
-                <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
-                    <form action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get" class="relative">
-                        <div class="p-6 flex items-center gap-4 border-b border-slate-100">
-                            <?php echo kermancopper_icon('search', 'w-6 h-6 text-slate-400'); ?>
-                            <input type="text" name="s" id="search-input-field" placeholder="جستجو در کل سایت..." class="flex-1 bg-transparent border-none text-xl text-slate-800 placeholder:text-slate-400 focus:ring-0 outline-none" autocomplete="off">
-                            <button type="button" id="search-close-btn" class="p-2 hover:bg-slate-50 rounded-lg transition-colors">
-                                <?php echo kermancopper_icon('x', 'w-6 h-6 text-slate-500'); ?>
-                            </button>
-                        </div>
-                        <div class="p-4 bg-slate-50 flex items-center justify-between text-[11px] text-slate-400">
-                            <div class="flex items-center gap-4">
-                                <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded border border-slate-200 bg-white">Enter</kbd> برای جستجو</span>
-                                <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded border border-slate-200 bg-white">Esc</kbd> برای بستن</span>
-                            </div>
-                            <span>شرکت صنایع مس کرمان</span>
-                        </div>
-                    </form>
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex items-center gap-4 xl:gap-8 text-white/90 text-xs lg:text-sm font-medium bg-white/5 backdrop-blur-md px-6 xl:px-12 py-3 rounded-full border border-white/10 shadow-sm mx-4">
+                <?php
+                if ( has_nav_menu( 'primary' ) ) {
+                    wp_nav_menu( array(
+                        'theme_location' => 'primary',
+                        'container'      => false,
+                        'menu_class'     => 'flex items-center gap-4 xl:gap-8',
+                        'walker'         => new KermanCopper_Nav_Walker(),
+                        'fallback_cb'    => false,
+                    ) );
+                } else {
+                    ?>
+                    <!-- Static Menu (Fallback) -->
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="nav-link <?php echo is_front_page() ? 'active' : ''; ?> hover:text-copper">خانه</a>
+                    <span class="h-4 w-px bg-white/15"></span>
+                    <a href="<?php echo esc_url( home_url( '/news' ) ); ?>" class="nav-link <?php echo (is_home() || is_singular('post')) ? 'active' : ''; ?> hover:text-copper">اخبار و رویدادها</a>
+                    <span class="h-4 w-px bg-white/15"></span>
+                    <a href="<?php echo esc_url( home_url( '/about' ) ); ?>" class="nav-link <?php echo is_page('about') ? 'active' : ''; ?> hover:text-copper">درباره ما</a>
+                    <span class="h-4 w-px bg-white/15"></span>
+                    <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="nav-link <?php echo is_page('contact') ? 'active' : ''; ?> hover:text-copper">تماس با ما</a>
+                    <span class="h-4 w-px bg-white/15"></span>
+                    <a href="<?php echo esc_url( home_url( '/kermancopper_ad' ) ); ?>" class="nav-link <?php echo is_post_type_archive('kermancopper_ad') ? 'active' : ''; ?> hover:text-copper">آگهی‌ها</a>
+                    <?php
+                }
+                ?>
+            </div>
+
+            <!-- Utility Icons -->
+            <div class="flex-shrink-0">
+                <div class="flex items-center gap-4 text-white/80">
+                    <button id="search-open-btn" class="hover:text-copper transition-colors focus:outline-none"><?php echo kermancopper_icon('search', 'w-5 h-5'); ?></button>
+                    <button id="mobile-menu-btn" class="hover:text-copper transition-colors focus:outline-none lg:hidden"><?php echo kermancopper_icon('menu', 'w-5 h-5'); ?></button>
                 </div>
             </div>
         </div>
-    </header>
+
+        <!-- Mobile Sidebar Overlay -->
+        <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] hidden opacity-0 transition-opacity duration-300"></div>
+        <div id="mobile-menu-sidebar" class="fixed inset-y-0 right-0 w-full sm:w-80 bg-white shadow-2xl z-[70] flex flex-col p-8 rounded-l-2xl translate-x-full opacity-0 transition-all duration-300">
+            <div class="flex justify-between items-center mb-10 border-b border-slate-100 pb-4">
+                 <?php if ( has_custom_logo() ) : ?>
+                    <?php
+                    $custom_logo_id = get_theme_mod( 'custom_logo' );
+                    $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+                    if ( has_custom_logo() ) {
+                        echo '<a href="' . esc_url( home_url( '/' ) ) . '"><img src="' . esc_url( $logo[0] ) . '" class="h-10 w-auto object-contain" alt="' . get_bloginfo( 'name' ) . '"></a>';
+                    }
+                    ?>
+                <?php else : ?>
+                    <span class="font-bold text-copper text-lg">کرمان زمین</span>
+                <?php endif; ?>
+                <button id="close-mobile-menu" class="p-2 hover:bg-slate-50 rounded-lg text-slate-500 transition-colors">
+                    <?php echo kermancopper_icon('x', 'w-6 h-6'); ?>
+                </button>
+            </div>
+            
+            <div class="space-y-1 overflow-y-auto flex-1">
+                <?php
+                if ( has_nav_menu( 'primary' ) ) {
+                    wp_nav_menu( array(
+                        'theme_location' => 'primary',
+                        'container'      => false,
+                        'menu_class'     => 'space-y-1 list-none',
+                        'fallback_cb'    => false,
+                        'items_wrap'     => '<ul class="%2$s">%3$s</ul>',
+                        'walker'         => new KermanCopper_Mobile_Nav_Walker(),
+                    ) );
+                } else {
+                    ?>
+                    <div class="mobile-menu-item border-b border-slate-50 last:border-0"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="block py-3.5 px-2 text-base font-medium text-slate-700 hover:text-copper hover:bg-copper/5 rounded-lg transition-colors">صفحه اصلی</a></div>
+                    <div class="mobile-menu-item border-b border-slate-50 last:border-0"><a href="<?php echo esc_url( home_url( '/kermancopper_ad' ) ); ?>" class="block py-3.5 px-2 text-base font-medium text-slate-700 hover:text-copper hover:bg-copper/5 rounded-lg transition-colors">آگهی‌ها</a></div>
+                    <div class="mobile-menu-item border-b border-slate-50 last:border-0"><a href="<?php echo esc_url( home_url( '/news' ) ); ?>" class="block py-3.5 px-2 text-base font-medium text-slate-700 hover:text-copper hover:bg-copper/5 rounded-lg transition-colors">اخبار و رویدادها</a></div>
+                    <div class="mobile-menu-item border-b border-slate-50 last:border-0"><a href="<?php echo esc_url( home_url( '/about' ) ); ?>" class="block py-3.5 px-2 text-base font-medium text-slate-700 hover:text-copper hover:bg-copper/5 rounded-lg transition-colors">درباره ما</a></div>
+                    <div class="mobile-menu-item border-b border-slate-50 last:border-0"><a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="block py-3.5 px-2 text-base font-medium text-slate-700 hover:text-copper hover:bg-copper/5 rounded-lg transition-colors">تماس با ما</a></div>
+                    <?php
+                }
+                ?>
+            </div>
+
+            <div class="mt-auto pt-8 border-t border-slate-100">
+                <div class="flex justify-center gap-6 text-slate-400">
+                    <?php if ( $instagram = get_theme_mod( 'kermancopper_social_instagram' ) ) : ?><a href="<?php echo esc_url( $instagram ); ?>" class="hover:text-copper transition-colors" target="_blank"><?php echo kermancopper_icon('instagram', 'w-5 h-5'); ?></a><?php endif; ?>
+                    <?php if ( $linkedin = get_theme_mod( 'kermancopper_social_linkedin' ) ) : ?><a href="<?php echo esc_url( $linkedin ); ?>" class="hover:text-copper transition-colors" target="_blank"><?php echo kermancopper_icon('linkedin', 'w-5 h-5'); ?></a><?php endif; ?>
+                    <?php if ( $twitter = get_theme_mod( 'kermancopper_social_twitter' ) ) : ?><a href="<?php echo esc_url( $twitter ); ?>" class="hover:text-copper transition-colors" target="_blank"><?php echo kermancopper_icon('twitter', 'w-5 h-5'); ?></a><?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Search Spotlight -->
+    <div id="search-spotlight" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300 opacity-0" id="search-overlay"></div>
+        <div class="absolute inset-x-0 top-0 pt-24 px-4 transition-all duration-300 transform -translate-y-10 opacity-0" id="search-modal-content">
+            <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden border border-slate-100">
+                <form action="<?php echo esc_url( home_url( '/' ) ); ?>" method="get" class="relative">
+                    <div class="p-6 sm:p-8 flex items-center gap-4 border-b border-slate-100">
+                        <?php echo kermancopper_icon('search', 'w-7 h-7 text-copper'); ?>
+                        <input type="text" name="s" id="search-input-field" placeholder="جستجو در مقالات، آگهی‌ها..." class="flex-1 bg-transparent border-none text-xl sm:text-2xl font-peyda text-slate-800 placeholder:text-slate-300 focus:ring-0 outline-none" autocomplete="off">
+                        <button type="button" id="search-close-btn" class="p-3 hover:bg-slate-50 rounded-xl transition-colors text-slate-400 hover:text-slate-700 focus:outline-none bg-slate-50/50">
+                            <?php echo kermancopper_icon('x', 'w-6 h-6'); ?>
+                        </button>
+                    </div>
+                    <div class="p-4 sm:px-8 sm:py-5 bg-[#FAF8F5] flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 font-sans">
+                        <div class="flex items-center gap-6 mb-3 sm:mb-0">
+                            <span class="flex items-center gap-2"><kbd class="px-2 py-1 rounded-md border border-slate-200 bg-white font-mono shadow-sm">Enter</kbd> برای جستجو</span>
+                            <span class="flex items-center gap-2"><kbd class="px-2 py-1 rounded-md border border-slate-200 bg-white font-mono shadow-sm">Esc</kbd> برای بستن</span>
+                        </div>
+                        <span class="font-bold text-copper/80">صنایع و معادن مس کرمان زمین</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>    </header>

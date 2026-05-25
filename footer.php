@@ -1,40 +1,60 @@
-    <!-- Footer -->
-    <footer class="bg-white  border-t border-slate-100 relative overflow-hidden">
-
-        <div class="container mx-auto px-4 relative z-10">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- Footer 1 -->
-                <div class="col-span-1 md:col-span-1">
-                    <?php if ( is_active_sidebar( 'footer-1' ) ) : ?>
-                        <?php dynamic_sidebar( 'footer-1' ); ?>
-                    
-                    <?php endif; ?>
+    <!-- FOOTER -->
+    <footer class="bg-navy-dark text-slate-400 py-16 border-t border-white/5 relative z-10 font-sans">
+        <div class="container mx-auto px-6 lg:px-12">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8 pb-12 border-b border-white/5">
+                <div class="flex flex-col sm:flex-row items-center gap-6">
+                    <a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="inline-block group">
+                        <?php if ( has_custom_logo() ) : ?>
+                            <?php
+                            $custom_logo_id = get_theme_mod( 'custom_logo' );
+                            $logo = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+                            echo '<img src="' . esc_url( $logo[0] ) . '" alt="' . get_bloginfo( 'name' ) . '" class="h-14 w-auto object-contain transition-transform duration-500 group-hover:scale-105 filter brightness-110">';
+                            ?>
+                        <?php else : ?>
+                            <span class="font-bold text-copper text-lg">کرمان زمین</span>
+                        <?php endif; ?>
+                    </a>
+                    <div class="hidden sm:block w-px h-8 bg-white/10"></div>
+                    <p class="text-sm text-slate-500 font-medium text-center sm:text-right">
+                        تمامی حقوق مادی و معنوی برای <span class="text-slate-300">صنایع مس کرمان زمین</span> محفوظ است © ۱۴۰۴
+                    </p>
                 </div>
 
-                <!-- Footer 2 -->
-                <div class="col-span-1 md:col-span-2">
-                    <?php if ( is_active_sidebar( 'footer-2' ) ) : ?>
-                        <div class="footer-widget-area" style="display: flex;align-items:center;height: stretch;">
-                            <?php dynamic_sidebar( 'footer-2' ); ?>
-                        </div>
-                   
-                    <?php endif; ?>
-                </div>
-
-               
-            </div>
-            <div class="container border-t border-slate-100 py-2 flex flex-col md:flex-row justify-between items-center gap-4 text-[11px] text-slate-400 font-medium">
-                <p><?php echo wp_kses_post( get_theme_mod( 'kermancopper_copyright_text','' ) ); ?></p>
-                <div class="flex gap-6">
-                    <span class="text-slate-500">طراحی و توسعه : <a href="https://ihasht.ir/" target="_blank" class="hover:text-copper transition-colors">هشت بهشت</a></span>
+                <div class="flex flex-col sm:flex-row items-center gap-6 md:gap-8">
+                    <div class="flex items-center text-sm text-slate-500 font-medium font-peyda">
+                        طراحی و توسعه: <a href="https://ihasht.ir" target="_blank"
+                            class="text-slate-300 hover:text-copper transition-colors font-bold mr-1 pr-1 border-r border-slate-600/50">گروه هشت بهشت</a>
+                    </div>
+                    <div class="hidden sm:block w-px h-6 bg-white/10"></div>
+                    <div class="flex items-center gap-3">
+                        <?php if ( $instagram = get_theme_mod( 'kermancopper_social_instagram' ) ) : ?>
+                        <a href="<?php echo esc_url( $instagram ); ?>" target="_blank"
+                            class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-copper hover:text-white hover:border-copper hover:shadow-[0_0_15px_rgba(200,104,47,0.5)] transition-all duration-300">
+                            <?php echo kermancopper_icon('instagram', 'w-4 h-4'); ?>
+                        </a>
+                        <?php endif; ?>
+                        <?php if ( $linkedin = get_theme_mod( 'kermancopper_social_linkedin' ) ) : ?>
+                        <a href="<?php echo esc_url( $linkedin ); ?>" target="_blank"
+                            class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-copper hover:text-white hover:border-copper hover:shadow-[0_0_15px_rgba(200,104,47,0.5)] transition-all duration-300">
+                            <?php echo kermancopper_icon('linkedin', 'w-4 h-4'); ?>
+                        </a>
+                        <?php endif; ?>
+                        <?php if ( $twitter = get_theme_mod( 'kermancopper_social_twitter' ) ) : ?>
+                        <a href="<?php echo esc_url( $twitter ); ?>" target="_blank"
+                            class="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-copper hover:text-white hover:border-copper hover:shadow-[0_0_15px_rgba(200,104,47,0.5)] transition-all duration-300">
+                            <?php echo kermancopper_icon('twitter', 'w-4 h-4'); ?>
+                        </a>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </div>
     </footer>
-    
+
     <!-- Back to Top Button -->
-    <button id="back-to-top" class="fixed bottom-8 left-8 bg-copper text-white p-3 rounded-full shadow-lg opacity-0 translate-y-10 transition-all duration-300 z-50 hover:bg-slate-800">
-        <?php echo kermancopper_icon('arrow-up', 'w-5 h-5'); ?>
+    <button id="back-to-top"
+        class="fixed bottom-8 left-8 sm:bottom-10 sm:left-10 z-[100] w-12 h-12 rounded-2xl bg-navy/80 backdrop-blur-md border border-white/10 text-copper flex items-center justify-center opacity-0 translate-y-10 pointer-events-none transition-all duration-500 hover:bg-copper hover:text-white hover:border-copper hover:shadow-[0_10px_25px_rgba(200,104,47,0.5)] hover:-translate-y-2 group">
+        <?php echo kermancopper_icon('arrow-up', 'w-5 h-5 transition-transform duration-300 group-hover:-translate-y-1'); ?>
     </button>
 
     <?php wp_footer(); ?>
