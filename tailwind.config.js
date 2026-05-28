@@ -13,14 +13,14 @@ module.exports = {
       },
       colors: {
           copper: {
-              DEFAULT: '#C8682F',
-              light: '#E28652',
-              dark: '#A65120',
+              DEFAULT: 'var(--color-copper)',
+              light: 'var(--color-copper-light)',
+              dark: 'var(--color-copper-dark)',
           },
           navy: {
-              DEFAULT: '#1A2235',
-              light: '#242F48',
-              dark: '#0F1522',
+              DEFAULT: 'var(--color-navy)',
+              light: 'var(--color-navy-light)',
+              dark: 'var(--color-navy-dark)',
           }
       },
       animation: {

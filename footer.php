@@ -53,7 +53,7 @@
 
     <!-- Back to Top Button -->
     <button id="back-to-top"
-        class="fixed bottom-8 left-8 sm:bottom-10 sm:left-10 z-[100] w-12 h-12 rounded-2xl bg-navy/80 backdrop-blur-md border border-white/10 text-copper flex items-center justify-center opacity-0 translate-y-10 pointer-events-none transition-all duration-500 hover:bg-copper hover:text-white hover:border-copper hover:shadow-[0_10px_25px_rgba(200,104,47,0.5)] hover:-translate-y-2 group">
+        class="fixed bottom-8 right-12 sm:bottom-10 sm:right-16 z-[100] w-12 h-12 rounded-2xl bg-navy/80 backdrop-blur-md border border-white/10 text-copper flex items-center justify-center opacity-0 translate-y-10 pointer-events-none transition-all duration-500 hover:bg-copper hover:text-white hover:border-copper hover:shadow-[0_10px_25px_rgba(200,104,47,0.5)] hover:-translate-y-2 group">
         <?php echo kermancopper_icon('arrow-up', 'w-5 h-5 transition-transform duration-300 group-hover:-translate-y-1'); ?>
     </button>
 

@@ -23,46 +23,50 @@ function kermancopper_customize_colors( $wp_customize ) {
 
     // Copper Color
     $wp_customize->add_setting( 'kermancopper_color_copper', array(
-        'default'           => '#c86429',
+        'default'           => '#C8682F',
         'sanitize_callback' => 'sanitize_hex_color',
         'transport'         => 'refresh',
     ) );
     $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'kermancopper_color_copper', array(
-        'label'    => __( 'رنگ اصلی (مسی)', 'kermancopper' ),
-        'section'  => 'kermancopper_global_colors',
+        'label'       => __( 'رنگ اصلی (مسی)', 'kermancopper' ),
+        'description' => __( 'این رنگ در دکمه‌ها، آیکون‌ها، هاورها و بخش‌های اصلی استفاده می‌شود.', 'kermancopper' ),
+        'section'     => 'kermancopper_global_colors',
     ) ) );
 
-    // Industrial Green
-    $wp_customize->add_setting( 'kermancopper_color_industrial_green', array(
-        'default'           => '#0B6E60',
+    // Navy Color
+    $wp_customize->add_setting( 'kermancopper_color_navy', array(
+        'default'           => '#1A2235',
         'sanitize_callback' => 'sanitize_hex_color',
         'transport'         => 'refresh',
     ) );
-    $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'kermancopper_color_industrial_green', array(
-        'label'    => __( 'سبز صنعتی', 'kermancopper' ),
-        'section'  => 'kermancopper_global_colors',
+    $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'kermancopper_color_navy', array(
+        'label'       => __( 'رنگ سرمه‌ای (تیره)', 'kermancopper' ),
+        'description' => __( 'این رنگ در پس‌زمینه بخش قهرمان، فوتر و تیترهای اصلی استفاده می‌شود.', 'kermancopper' ),
+        'section'     => 'kermancopper_global_colors',
     ) ) );
 
-    // Soft Gold
-    $wp_customize->add_setting( 'kermancopper_color_soft_gold', array(
-        'default'           => '#c4a962',
+    // Copper Light
+    $wp_customize->add_setting( 'kermancopper_color_copper_light', array(
+        'default'           => '#E28652',
         'sanitize_callback' => 'sanitize_hex_color',
         'transport'         => 'refresh',
     ) );
-    $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'kermancopper_color_soft_gold', array(
-        'label'    => __( 'طلایی ملایم', 'kermancopper' ),
-        'section'  => 'kermancopper_global_colors',
+    $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'kermancopper_color_copper_light', array(
+        'label'       => __( 'مسی روشن', 'kermancopper' ),
+        'description' => __( 'رنگ روشن‌تر مسی برای ایجاد سایه‌ها، گرادیانت‌ها و حالت‌های ثانویه.', 'kermancopper' ),
+        'section'     => 'kermancopper_global_colors',
     ) ) );
 
     // Body Background
     $wp_customize->add_setting( 'kermancopper_color_bg_body', array(
-        'default'           => '#F5F7FA',
+        'default'           => '#FAF8F5',
         'sanitize_callback' => 'sanitize_hex_color',
         'transport'         => 'refresh',
     ) );
     $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'kermancopper_color_bg_body', array(
-        'label'    => __( 'رنگ پس‌زمینه بدنه', 'kermancopper' ),
-        'section'  => 'kermancopper_global_colors',
+        'label'       => __( 'رنگ پس‌زمینه بدنه', 'kermancopper' ),
+        'description' => __( 'رنگ پایه پس‌زمینه صفحات (پیش‌فرض: کرم بسیار روشن).', 'kermancopper' ),
+        'section'     => 'kermancopper_global_colors',
     ) ) );
 
     // Text Main

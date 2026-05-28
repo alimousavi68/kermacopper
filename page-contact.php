@@ -8,15 +8,15 @@ get_header();
 ?>
 
     <!-- CONTACT HERO SECTION -->
-    <header class="relative min-h-[520px] flex items-center justify-center overflow-hidden bg-navy-dark pt-32 lg:pt-40 pb-16">
+    <header class="relative min-h-[520px] flex items-center justify-center overflow-hidden bg-navy pt-32 lg:pt-40 pb-16">
         <!-- Background Image -->
         <div class="absolute inset-0 w-full h-full">
-            <img src="<?php echo get_template_directory_uri(); ?>/images/pano sarcheshmeh.jpg" class="hero-bg-image w-full h-full object-cover opacity-35 mix-blend-overlay will-change-transform" alt="تماس با ما">
-            <div class="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy-dark/70 to-transparent z-10"></div>
-            <div class="absolute inset-0 bg-gradient-to-l from-navy-dark/50 via-transparent to-navy-dark/50 z-10"></div>
+            <img src="<?php $hero_bg_image_id = get_theme_mod( 'kermancopper_home_hero_slide_1_image_id' ); $hero_bg_image_url = $hero_bg_image_id ? wp_get_attachment_image_url( $hero_bg_image_id, 'full' ) : ''; echo esc_url( $hero_bg_image_url ?: ( get_template_directory_uri() . '/images/pano sarcheshmeh.jpg' ) ); ?>" class="hero-bg-image w-full h-full object-cover opacity-35 mix-blend-overlay will-change-transform" alt="تماس با ما">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-transparent z-10"></div>
+            <div class="absolute inset-0 bg-gradient-to-l from-navy/50 via-transparent to-navy/50 z-10"></div>
 
             <!-- Glow Accent -->
-            <div class="absolute -top-[20%] left-1/2 -translate-x-1/2 w-[70%] h-[70%] bg-copper/20 rounded-full blur-[140px] z-15">
+            <div class="hero-glow-accent absolute -top-[20%] -right-[10%] w-[55%] h-[55%] bg-copper/35 rounded-full blur-[120px] animate-pulse-slow z-15">
             </div>
         </div>
 
@@ -24,18 +24,18 @@ get_header();
         <div class="absolute inset-0 bg-[radial-gradient(rgba(200,104,47,0.15)_1px,transparent_1px)] bg-[size:32px_32px] opacity-60 z-10">
         </div>
 
-        <div class="container mx-auto px-6 lg:px-12 relative z-20 text-center font-peyda">
+        <div class="hero-text-container container mx-auto px-6 lg:px-12 relative z-20 text-center font-peyda">
             <!-- Badge -->
-            <div class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass-panel mb-6 border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.2)] animate-fade-in-up delay-100 mx-auto">
+            <div class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass-panel mb-6 border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.2)] animate-fade-in-down delay-100 mx-auto">
                 <span class="text-copper-light text-xs font-extrabold tracking-widest">ارتباط مستقیم با صنایع و معادن مس کرمان زمین</span>
             </div>
 
             <!-- Title -->
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-4 animate-fade-in-up delay-200">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-4 animate-fade-in-down delay-200">
                 همواره پاسخگوی <span class="text-transparent bg-clip-text bg-gradient-to-l from-copper-dark via-copper to-copper-light">شما هستیم</span>
             </h1>
 
-            <p class="text-base text-slate-400 mx-auto font-light leading-relaxed animate-fade-in-up delay-300 mb-20">
+            <p class="text-base text-slate-400 mx-auto font-light leading-relaxed animate-fade-in-down delay-300 mb-20">
                 درگاه ارتباط مستقیم با واحد روابط عمومی، بخش فروش و مناقصات، دفتر مرکزی و کارخانجات مجتمع مس کرمان زمین
             </p>
         </div>
@@ -72,51 +72,88 @@ get_header();
             <!-- Row 1: Office Details & Department Direct Numbers -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
 
-                <!-- Tehran Central Office -->
-                <div class="bg-white border border-slate-200/80 rounded-[2rem] p-8 hover-lift flex flex-col justify-between shadow-[0_8px_30px_rgba(0,0,0,0.02)] scroll-reveal delay-75">
-                    <div>
-                        <div class="w-14 h-14 rounded-2xl bg-copper/10 text-copper flex items-center justify-center mb-6">
-                            <?php echo kermancopper_icon('building-2', 'w-6 h-6'); ?>
+                <?php
+                $contact_addresses_raw = get_theme_mod('kermancopper_contact_addresses');
+                $contact_addresses = json_decode( $contact_addresses_raw, true );
+                if ( ! is_array( $contact_addresses ) || empty( $contact_addresses ) ) {
+                    // Fallback to static boxes
+                    ?>
+                    <!-- Tehran Central Office -->
+                    <div class="bg-white border border-slate-200/80 rounded-[2rem] p-8 hover-lift flex flex-col justify-between shadow-[0_8px_30px_rgba(0,0,0,0.02)] scroll-reveal delay-75">
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-copper/10 text-copper flex items-center justify-center mb-6">
+                                <?php echo kermancopper_icon('building-2', 'w-6 h-6'); ?>
+                            </div>
+                            <h4 class="font-peyda text-xl font-black text-navy mb-3">دفتر مرکزی تهران</h4>
+                            <p class="text-sm text-slate-600 leading-relaxed font-semibold mb-6">
+                                خیابان ولیعصر، نرسیده به میدان ونک، خیابان عباسپور، پلاک ۲۴، ساختمان کرمان زمین
+                            </p>
                         </div>
-                        <h4 class="font-peyda text-xl font-black text-navy mb-3">دفتر مرکزی تهران</h4>
-                        <p class="text-sm text-slate-600 leading-relaxed font-semibold mb-6">
-                            خیابان ولیعصر، نرسیده به میدان ونک، خیابان عباسپور، پلاک ۲۴، ساختمان کرمان زمین
-                        </p>
+                        <div class="space-y-3 pt-6 border-t border-slate-100 text-sm font-bold text-slate-700" dir="ltr">
+                            <div class="flex items-center justify-between">
+                                <span>۰۲۱ - ۸۸۷۱ ۵۰۰۲</span>
+                                <span class="text-copper">تلفن:</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span>۰۲۱ - ۸۸۷۱ ۵۰۰۴</span>
+                                <span class="text-copper">فکس:</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="space-y-3 pt-6 border-t border-slate-100 text-sm font-bold text-slate-700" dir="ltr">
-                        <div class="flex items-center justify-between">
-                            <span>۰۲۱ - ۸۸۷۱ ۵۰۰۲</span>
-                            <span class="text-copper">تلفن:</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span>۰۲۱ - ۸۸۷۱ ۵۰۰۴</span>
-                            <span class="text-copper">فکس:</span>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Kerman / Sarcheshmeh Office -->
-                <div class="bg-white border border-slate-200/80 rounded-[2rem] p-8 hover-lift flex flex-col justify-between shadow-[0_8px_30px_rgba(0,0,0,0.02)] scroll-reveal delay-150">
-                    <div>
-                        <div class="w-14 h-14 rounded-2xl bg-copper/10 text-copper flex items-center justify-center mb-6">
-                            <?php echo kermancopper_icon('factory', 'w-6 h-6'); ?>
+                    <!-- Kerman / Sarcheshmeh Office -->
+                    <div class="bg-white border border-slate-200/80 rounded-[2rem] p-8 hover-lift flex flex-col justify-between shadow-[0_8px_30px_rgba(0,0,0,0.02)] scroll-reveal delay-150">
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-copper/10 text-copper flex items-center justify-center mb-6">
+                                <?php echo kermancopper_icon('factory', 'w-6 h-6'); ?>
+                            </div>
+                            <h4 class="font-peyda text-xl font-black text-navy mb-3">دفتر مجتمع صنایع و معادن مس کرمان زمین</h4>
+                            <p class="text-sm text-slate-600 leading-relaxed font-semibold mb-6">
+                                استان کرمان، کیلومتری شهرستان رفسنجان، مجتمع معدنی و صنعتی صنایع و معادن مس کرمان زمین
+                            </p>
                         </div>
-                        <h4 class="font-peyda text-xl font-black text-navy mb-3">دفتر مجتمع سرچشمه</h4>
-                        <p class="text-sm text-slate-600 leading-relaxed font-semibold mb-6">
-                            استان کرمان، ۵۰ کیلومتری شهرستان رفسنجان، مجتمع معدنی و صنعتی مس سرچشمه
-                        </p>
+                        <div class="space-y-3 pt-6 border-t border-slate-100 text-sm font-bold text-slate-700" dir="ltr">
+                            <div class="flex items-center justify-between">
+                                <span>۰۳۴ - ۳۴۳۰ ۰۰۰۰</span>
+                                <span class="text-copper">تلفنخانه:</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span>۰۳۴ - ۳۴۳۰ ۲۲۲۲</span>
+                                <span class="text-copper">روابط عمومی:</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="space-y-3 pt-6 border-t border-slate-100 text-sm font-bold text-slate-700" dir="ltr">
-                        <div class="flex items-center justify-between">
-                            <span>۰۳۴ - ۳۴۳۰ ۰۰۰۰</span>
-                            <span class="text-copper">تلفنخانه:</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span>۰۳۴ - ۳۴۳۰ ۲۲۲۲</span>
-                            <span class="text-copper">روابط عمومی:</span>
-                        </div>
-                    </div>
-                </div>
+                    <?php
+                } else {
+                    $delay = 75;
+                    foreach ( $contact_addresses as $addr_item ) :
+                        if ( ! empty( $addr_item['address'] ) ) :
+                            $parts = explode( ':', $addr_item['address'], 2 );
+                            if ( count( $parts ) === 2 ) {
+                                $addr_title = trim( $parts[0] );
+                                $addr_text = trim( $parts[1] );
+                            } else {
+                                $addr_title = 'آدرس';
+                                $addr_text = $addr_item['address'];
+                            }
+                            ?>
+                            <div class="bg-white border border-slate-200/80 rounded-[2rem] p-8 hover-lift flex flex-col justify-between shadow-[0_8px_30px_rgba(0,0,0,0.02)] scroll-reveal" style="animation-delay: <?php echo $delay; ?>ms;">
+                                <div>
+                                    <div class="w-14 h-14 rounded-2xl bg-copper/10 text-copper flex items-center justify-center mb-6">
+                                        <?php echo kermancopper_icon('building-2', 'w-6 h-6'); ?>
+                                    </div>
+                                    <h4 class="font-peyda text-xl font-black text-navy mb-3"><?php echo esc_html( $addr_title ); ?></h4>
+                                    <p class="text-sm text-slate-600 leading-relaxed font-semibold mb-6">
+                                        <?php echo nl2br( esc_html( $addr_text ) ); ?>
+                                    </p>
+                                </div>
+                            </div>
+                            <?php
+                            $delay += 75;
+                        endif;
+                    endforeach;
+                }
+                ?>
 
                 <!-- Direct Departments Phone Book -->
                 <div class="bg-white border border-slate-200/80 rounded-[2rem] p-8 shadow-[0_8px_30px_rgba(0,0,0,0.02)] relative overflow-hidden flex flex-col justify-between scroll-reveal delay-200">
@@ -166,7 +203,7 @@ get_header();
                     <form id="contactForm" class="space-y-6 relative z-10" onsubmit="handleFormSubmit(event)">
                         <!-- Name Input -->
                         <div class="relative group">
-                            <input type="text" id="name" required class="peer w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-6 py-4 text-navy placeholder-transparent focus:outline-none focus:border-copper focus:bg-white transition-all font-semibold" placeholder="نام و نام خانوادگی">
+                            <input type="text" id="name" name="name" required class="peer w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-6 py-4 text-navy placeholder-transparent focus:outline-none focus:border-copper focus:bg-white transition-all font-semibold" placeholder="نام و نام خانوادگی">
                             <label for="name" class="absolute right-6 top-4 text-slate-400 bg-transparent px-1 text-sm font-bold transition-all duration-300 pointer-events-none
                                 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-copper peer-focus:bg-white
                                 peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white">نام و نام خانوادگی *</label>
@@ -174,7 +211,7 @@ get_header();
 
                         <!-- Email/Phone Input -->
                         <div class="relative group">
-                            <input type="text" id="contact_info" required class="peer w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-6 py-4 text-navy placeholder-transparent focus:outline-none focus:border-copper focus:bg-white transition-all font-semibold" placeholder="شماره تماس یا ایمیل">
+                            <input type="text" id="contact_info" name="contact_info" required class="peer w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-6 py-4 text-navy placeholder-transparent focus:outline-none focus:border-copper focus:bg-white transition-all font-semibold" placeholder="شماره تماس یا ایمیل">
                             <label for="contact_info" class="absolute right-6 top-4 text-slate-400 bg-transparent px-1 text-sm font-bold transition-all duration-300 pointer-events-none
                                 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-copper peer-focus:bg-white
                                 peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white">شماره موبایل یا ایمیل *</label>
@@ -182,7 +219,7 @@ get_header();
 
                         <!-- Subject Dropdown -->
                         <div class="relative group">
-                            <select id="subject" required class="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-6 py-4 text-slate-700 focus:outline-none focus:border-copper focus:bg-white transition-all font-semibold appearance-none cursor-pointer">
+                            <select id="subject" name="subject" required class="w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-6 py-4 text-slate-700 focus:outline-none focus:border-copper focus:bg-white transition-all font-semibold appearance-none cursor-pointer">
                                 <option value="" disabled selected class="text-slate-400">موضوع پیام را انتخاب کنید</option>
                                 <option value="public_relations" class="text-navy">روابط عمومی و رسانه</option>
                                 <option value="tenders" class="text-navy">مناقصات و مزایدات</option>
@@ -191,14 +228,14 @@ get_header();
                                 <option value="other" class="text-navy">سایر موضوعات</option>
                             </select>
                             <label for="subject" class="absolute right-6 -top-2.5 bg-white px-2 text-xs text-slate-400 group-focus-within:text-copper font-bold transition-colors">بخش مربوطه *</label>
-                            <div class="absolute left-6 top-4 pointer-events-none text-slate-400 group-focus-within:text-copper transition-colors">
+                            <div class="absolute left-6 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 group-focus-within:text-copper transition-colors">
                                 <?php echo kermancopper_icon('chevron-down', 'w-5 h-5'); ?>
                             </div>
                         </div>
 
                         <!-- Message TextArea -->
                         <div class="relative group">
-                            <textarea id="message" rows="4" required class="peer w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-6 py-4 text-navy placeholder-transparent focus:outline-none focus:border-copper focus:bg-white transition-all resize-none font-semibold" placeholder="متن پیام"></textarea>
+                            <textarea id="message" name="message" rows="4" required class="peer w-full bg-slate-50/50 border border-slate-200 rounded-2xl px-6 py-4 text-navy placeholder-transparent focus:outline-none focus:border-copper focus:bg-white transition-all resize-none font-semibold" placeholder="متن پیام"></textarea>
                             <label for="message" class="absolute right-6 top-4 text-slate-400 bg-transparent px-1 text-sm font-bold transition-all duration-300 pointer-events-none
                                 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:text-copper peer-focus:bg-white
                                 peer-[:not(:placeholder-shown)]:-top-2.5 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:bg-white">متن پیام شما *</label>
@@ -208,23 +245,20 @@ get_header();
                         <button type="submit" class="w-full bg-gradient-to-r from-copper-dark via-copper to-copper-light text-white font-black text-lg py-5 rounded-2xl transition-all shadow-[0_10px_30px_rgba(200,104,47,0.3)] hover:shadow-[0_15px_40px_rgba(200,104,47,0.5)] hover:-translate-y-1 mt-4 group relative overflow-hidden">
                             <span class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></span>
                             <span class="relative flex items-center justify-center gap-2">
-                                ارسال نهایی پیام <?php echo kermancopper_icon('send', 'w-5 h-5 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1'); ?>
+                                ارسال پیام <?php echo kermancopper_icon('send', 'w-5 h-5 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1'); ?>
                             </span>
                         </button>
                     </form>
 
-                    <!-- Form Success Message -->
-                    <div id="formSuccess" class="hidden mt-6 p-5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 text-sm font-bold flex items-center gap-3">
-                        <?php echo kermancopper_icon('check-circle', 'w-5 h-5 flex-shrink-0'); ?>
-                        <span>پیام شما با موفقیت ثبت شد. به زودی با شما تماس می‌گیریم.</span>
-                    </div>
+                    <!-- Form Alert Message -->
+                    <div id="formSuccess" class="hidden mt-6 p-5 rounded-2xl text-sm font-bold flex items-center gap-3"></div>
                 </section>
 
                 <!-- Left Column: Styled Map (Matches Form Height on Row 1) -->
                 <section class="lg:col-span-7 flex flex-col justify-between scroll-reveal delay-150">
                     <!-- Light Styled Map Card -->
                     <div class="w-full h-full min-h-[450px] rounded-[2.5rem] overflow-hidden relative group border border-slate-200/80 shadow-[0_15px_50px_rgba(0,0,0,0.04)] z-10 bg-[#F5F2EB] flex items-center justify-center">
-                        <img src="<?php echo get_template_directory_uri(); ?>/images/map-kerman.png" alt="موقعیت مجتمع مس سرچشمه" class="absolute inset-0 w-full h-full object-cover group-hover:scale-102 transition-transform duration-1000">
+                        <img src="<?php echo get_template_directory_uri(); ?>/images/map-kerman.png" alt="موقعیت صنایع و معادن مس کرمان زمین" class="absolute inset-0 w-full h-full object-cover group-hover:scale-102 transition-transform duration-1000">
                         <div class="absolute inset-0 bg-gradient-to-t from-orange-950/10 via-transparent to-transparent pointer-events-none">
                         </div>
 
@@ -236,7 +270,7 @@ get_header();
                                 </div>
                             </div>
                             <div class="mt-4 bg-white/90 backdrop-blur-md border border-[#E28652]/30 px-4 py-2 rounded-xl text-navy font-black text-xs shadow-lg pointer-events-none font-peyda">
-                                مجتمع صنایع مس سرچشمه کرمان
+                                صنایع و معادن مس کرمان زمین
                             </div>
                         </div>
                     </div>
@@ -249,8 +283,9 @@ get_header();
 <script>
 function handleFormSubmit(event) {
     event.preventDefault();
-    const btn = event.target.querySelector('button[type="submit"]');
-    const successDiv = document.getElementById('formSuccess');
+    const form = event.target;
+    const btn = form.querySelector('button[type="submit"]');
+    const alertDiv = document.getElementById('formSuccess');
 
     if (!btn) return;
 
@@ -258,21 +293,38 @@ function handleFormSubmit(event) {
     const originalContent = btn.innerHTML;
     btn.innerHTML = '<span class="flex items-center justify-center gap-2"><svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> در حال ارسال...</span>';
 
-    setTimeout(() => {
-        if (successDiv) {
-            successDiv.classList.remove('hidden');
+    const formData = new FormData(form);
+    formData.append('action', 'kermancopper_submit_contact_form');
+
+    fetch('<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alertDiv.className = 'mt-6 p-5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 text-sm font-bold flex items-center gap-3';
+            alertDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg> <span>' + data.data.message + '</span>';
+            alertDiv.classList.remove('hidden');
+            form.reset();
+        } else {
+            alertDiv.className = 'mt-6 p-5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-600 text-sm font-bold flex items-center gap-3';
+            alertDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <span>' + (data.data ? data.data.message : 'خطایی رخ داد.') + '</span>';
+            alertDiv.classList.remove('hidden');
         }
-        btn.innerHTML = '<span class="relative flex items-center justify-center gap-2">پیام با موفقیت ارسال شد <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg></span>';
-        event.target.reset();
-        
+    })
+    .catch(err => {
+        alertDiv.className = 'mt-6 p-5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-600 text-sm font-bold flex items-center gap-3';
+        alertDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <span>اتصال برقرار نشد. لطفاً اینترنت خود را بررسی کنید.</span>';
+        alertDiv.classList.remove('hidden');
+    })
+    .finally(() => {
+        btn.innerHTML = originalContent;
+        btn.removeAttribute('disabled');
         setTimeout(() => {
-            if (successDiv) {
-                successDiv.classList.add('hidden');
-            }
-            btn.innerHTML = originalContent;
-            btn.removeAttribute('disabled');
-        }, 4000);
-    }, 1200);
+            alertDiv.classList.add('hidden');
+        }, 5000);
+    });
 }
 </script>
 

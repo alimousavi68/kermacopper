@@ -3,14 +3,29 @@
 <main>
     <?php
     // Hero Settings
-    $hero_title           = kermancopper_get_home_setting( 'kermancopper_home_hero_title' );
-    $hero_title_highlight = kermancopper_get_home_setting( 'kermancopper_home_hero_title_highlight' );
-    $hero_subtitle = kermancopper_get_home_setting( 'kermancopper_home_hero_subtitle' );
-    $hero_description = kermancopper_get_home_setting( 'kermancopper_home_hero_description' );
-    $hero_button_primary_text = kermancopper_get_home_setting( 'kermancopper_home_hero_button_primary_text' );
-    $hero_button_primary_url = kermancopper_get_home_setting( 'kermancopper_home_hero_button_primary_url' );
+    $hero_bg_image_id           = kermancopper_get_home_setting( 'kermancopper_home_hero_slide_1_image_id' );
+    $hero_bg_image_url          = $hero_bg_image_id ? wp_get_attachment_image_url( $hero_bg_image_id, 'full' ) : '';
+    if ( ! $hero_bg_image_url ) {
+        $hero_bg_image_url = get_template_directory_uri() . '/images/pano sarcheshmeh.jpg';
+    }
+    $hero_bg_image_alt          = kermancopper_get_home_setting( 'kermancopper_home_hero_slide_1_alt' ) ?: 'صنایع و معادن مس کرمان زمین';
+
+    $hero_pattern_image_id      = kermancopper_get_home_setting( 'kermancopper_home_hero_pattern_image_id' );
+    $hero_pattern_image_url     = $hero_pattern_image_id ? wp_get_attachment_image_url( $hero_pattern_image_id, 'full' ) : '';
+    if ( ! $hero_pattern_image_url ) {
+        $hero_pattern_image_url = get_template_directory_uri() . '/images/patt-right.svg';
+    }
+
+    $hero_badge_text            = kermancopper_get_home_setting( 'kermancopper_home_hero_badge_text' ) ?: 'صنایع و معادن مس کرمان زمین | مهد مس ایران';
+
+    $hero_title                 = kermancopper_get_home_setting( 'kermancopper_home_hero_title' );
+    $hero_title_highlight       = kermancopper_get_home_setting( 'kermancopper_home_hero_title_highlight' );
+    $hero_subtitle              = kermancopper_get_home_setting( 'kermancopper_home_hero_subtitle' );
+    $hero_description           = kermancopper_get_home_setting( 'kermancopper_home_hero_description' );
+    $hero_button_primary_text   = kermancopper_get_home_setting( 'kermancopper_home_hero_button_primary_text' );
+    $hero_button_primary_url    = kermancopper_get_home_setting( 'kermancopper_home_hero_button_primary_url' );
     $hero_button_secondary_text = kermancopper_get_home_setting( 'kermancopper_home_hero_button_secondary_text' );
-    $hero_button_secondary_url = kermancopper_get_home_setting( 'kermancopper_home_hero_button_secondary_url' );
+    $hero_button_secondary_url  = kermancopper_get_home_setting( 'kermancopper_home_hero_button_secondary_url' );
     // News & Notices Settings
     $news_category = (int) kermancopper_get_home_setting( 'kermancopper_home_news_category' );
     $notices_category = (int) kermancopper_get_home_setting( 'kermancopper_home_notices_category' );
@@ -34,13 +49,17 @@
             while ( $news_query->have_posts() ) {
                 $news_query->the_post();
                 $image = get_the_post_thumbnail_url( get_the_ID(), 'kermancopper-news-thumbnail' );
-                if ( ! $image ) continue;
+                if ( ! $image ) {
+                    $image = kermancopper_get_fallback_image();
+                }
+                $badge = get_post_meta( get_the_ID(), '_kermancopper_custom_badge', true );
                 $news_slides[] = array(
                     'title'   => get_the_title(),
                     'excerpt' => get_the_excerpt(),
                     'date'    => get_the_date(),
                     'url'     => get_permalink(),
                     'image'   => $image,
+                    'badge'   => $badge,
                 );
             }
         }
@@ -66,12 +85,16 @@
             while ( $notices_query->have_posts() ) {
                 $notices_query->the_post();
                 $image = get_the_post_thumbnail_url( get_the_ID(), 'kermancopper-notice-thumbnail' );
-                if ( ! $image ) continue;
+                if ( ! $image ) {
+                    $image = kermancopper_get_fallback_image();
+                }
+                $badge = get_post_meta( get_the_ID(), '_kermancopper_custom_badge', true );
                 $notices_items[] = array(
                     'title' => get_the_title(),
                     'date'  => get_the_date(),
                     'url'   => get_permalink(),
                     'image' => $image,
+                    'badge' => $badge,
                 );
             }
         }
@@ -97,19 +120,57 @@
     );
     $faq_has_items = ! empty( $faq_items );
     // Contact Information
-    $kermancopper_phone = kermancopper_get_home_setting('kermancopper_contact_phone');
-    $kermancopper_email = kermancopper_get_home_setting('kermancopper_contact_email');
-    $kermancopper_address = kermancopper_get_home_setting('kermancopper_contact_address');
+    $contact_map_image = kermancopper_get_home_setting('kermancopper_contact_map_image');
+    $contact_map_link = kermancopper_get_home_setting('kermancopper_contact_map_link');
+    $contact_phones_raw = kermancopper_get_home_setting('kermancopper_contact_phones');
+    $contact_emails_raw = kermancopper_get_home_setting('kermancopper_contact_emails');
+    
+    $contact_phones = json_decode( $contact_phones_raw, true );
+    if ( ! is_array( $contact_phones ) ) $contact_phones = array();
+    
+    $contact_emails = json_decode( $contact_emails_raw, true );
+    if ( ! is_array( $contact_emails ) ) $contact_emails = array();
+
+    $contact_addresses_raw = kermancopper_get_home_setting('kermancopper_contact_addresses');
+    $contact_addresses = json_decode( $contact_addresses_raw, true );
+    if ( ! is_array( $contact_addresses ) || empty( $contact_addresses ) ) {
+        $contact_address_single = kermancopper_get_home_setting('kermancopper_contact_address_text');
+        if ( ! empty( $contact_address_single ) ) {
+            $contact_addresses = array( array( 'address' => $contact_address_single ) );
+        } else {
+            $contact_addresses = array( array( 'address' => 'کرمان، رفسنجان' ) );
+        }
+    }
     // About Settings
     $about_kicker = kermancopper_get_home_setting( 'kermancopper_home_about_kicker' );
     $about_title_highlight = kermancopper_get_home_setting( 'kermancopper_home_about_title_highlight' );
     $about_title_rest = kermancopper_get_home_setting( 'kermancopper_home_about_title_rest' );
     $about_description = kermancopper_get_home_setting( 'kermancopper_home_about_description' );
     $about_mission_title = kermancopper_get_home_setting( 'kermancopper_home_about_mission_title' );
-    $about_mission_desc = kermancopper_get_home_setting( 'kermancopper_home_about_mission_desc' );
+    $about_mission_desc = kermancopper_get_home_setting( 'kermancopper_home_about_mission_text' );
     $about_vision_title = kermancopper_get_home_setting( 'kermancopper_home_about_vision_title' );
-    $about_vision_desc = kermancopper_get_home_setting( 'kermancopper_home_about_vision_desc' );
-    $about_years_exp = kermancopper_get_home_setting( 'kermancopper_home_about_years_exp' );
+    $about_vision_desc = kermancopper_get_home_setting( 'kermancopper_home_about_vision_text' );
+
+    // About Images
+    $about_image_1_id = kermancopper_get_home_setting( 'kermancopper_home_about_main_image_id' );
+    $about_image_1_url = $about_image_1_id ? wp_get_attachment_image_url( $about_image_1_id, 'full' ) : '';
+    if ( ! $about_image_1_url ) {
+        $about_image_1_url = get_template_directory_uri() . '/images/about/realistic_mine.png';
+    }
+
+    $about_image_2_id = kermancopper_get_home_setting( 'kermancopper_home_about_secondary_image_id' );
+    if ( ! $about_image_2_id ) {
+        $about_image_2_id = kermancopper_get_home_setting( 'kermancopper_home_about_pattern_image_id' );
+    }
+    $about_image_2_url = $about_image_2_id ? wp_get_attachment_image_url( $about_image_2_id, 'full' ) : '';
+    if ( ! $about_image_2_url ) {
+        $about_image_2_url = get_template_directory_uri() . '/images/about/realistic_foundry.png';
+    }
+
+    // Experience Stats
+    $about_years_exp = kermancopper_get_home_setting( 'kermancopper_home_about_experience_count' );
+    $about_experience_label = kermancopper_get_home_setting( 'kermancopper_home_about_experience_label' ) ?: 'سه دهه تجربه‌ درخشان';
+    $about_experience_sublabel = kermancopper_get_home_setting( 'kermancopper_home_about_experience_sublabel' ) ?: 'در صنعت استخراج مس';
     ?>
 
 
@@ -120,13 +181,22 @@
     <header class="relative h-screen min-h-[550px] lg:min-h-[650px] flex items-center justify-start overflow-hidden bg-navy">
         <!-- Background Image -->
         <div class="absolute inset-0 w-full h-full">
-            <img src="<?php echo get_template_directory_uri(); ?>/images/pano sarcheshmeh.jpg" class="hero-bg-image w-full h-full object-cover opacity-65 mix-blend-overlay will-change-transform" alt="صنایع و معادن مس کرمان زمین">
+            <img src="<?php echo esc_url( $hero_bg_image_url ); ?>" class="hero-bg-image w-full h-full object-cover opacity-65 mix-blend-overlay will-change-transform" alt="<?php echo esc_attr( $hero_bg_image_alt ); ?>">
             <!-- Vibrant Overlay: Dark on the right for readability of right-aligned text -->
             <div class="absolute inset-0 bg-gradient-to-l from-navy/80 via-navy/35 to-transparent z-10"></div>
             <div class="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent z-10"></div>
 
             <!-- Left Side Pattern Graphic (Stretches to cover and scale with screen size) -->
-            <div class="hero-pattern-left absolute left-0 top-0 bottom-0 w-1/3 xl:w-[35%] opacity-[0.55] pointer-events-none z-10" style="background-image: url('<?php echo get_template_directory_uri(); ?>/images/patt-right.webp'); background-repeat: no-repeat; background-position: left center; background-size: cover; transform: scaleX(-1);">
+            <div class="hero-pattern-left-wrapper absolute left-0 top-0 bottom-0 w-full sm:w-1/2 lg:w-1/3 xl:w-[35%] pointer-events-none z-10 overflow-hidden">
+                <div class="hero-pattern-left absolute inset-0 w-full h-full opacity-100" 
+                style="background-image: url('<?php echo esc_url( $hero_pattern_image_url ); ?>');
+                 background-repeat: no-repeat; background-position: left center; background-size: cover;
+                  transform: scaleX(-1); -webkit-mask-image: url('<?php echo esc_url( $hero_pattern_image_url ); ?>');
+                   -webkit-mask-size: cover; -webkit-mask-position: left center; -webkit-mask-repeat: no-repeat;
+                    mask-image: url('<?php echo esc_url( $hero_pattern_image_url ); ?>'); mask-size: cover; mask-position: left center; mask-repeat: no-repeat;
+                    filter: brightness(1.6) contrast(1.3) saturate(1.2);">
+                    <div class="hero-pattern-shimmer"></div>
+                </div>
             </div>
 
             <!-- Accent glow: Positioned above background gradients but below text container -->
@@ -134,23 +204,23 @@
             </div>
         </div>
 
-        <div class="hero-text-container container mx-auto px-6 lg:px-12 relative z-20 flex flex-col items-start text-right mt-8 lg:mt-10 xl:mt-12 font-peyda">
-            <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full glass-panel mb-6 border border-white/20 animate-fade-in-up delay-100">
+        <div class="hero-text-container container mx-auto px-6 lg:px-12 relative z-20 flex flex-col items-start text-right mt-6 lg:mt-8 xl:mt-10 2xl:mt-12 font-peyda">
+            <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full glass-panel mb-4 xl:mb-6 border border-white/20 animate-fade-in-up delay-100">
                 <span class="relative flex h-3 w-3">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-copper opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-3 w-3 bg-copper"></span>
                 </span>
-                <span class="text-copper-light text-xs font-extrabold tracking-widest">صنایع و معادن مس کرمان زمین | مهد مس ایران</span>
+                <span class="text-copper-light text-xs font-extrabold tracking-widest"><?php echo esc_html( $hero_badge_text ); ?></span>
             </div>
 
-            <h1 class="text-3xl md:text-5xl lg:text-6xl xl:text-7xl xl:leading-[1.1] font-black text-white leading-[1.2] mb-3 max-w-4xl text-right animate-fade-in-up delay-200">
-                <?php echo esc_html( $hero_title ?: 'افتخار ملی، نوآوری در' ); ?> <br class="hidden sm:inline">قلب <span class="text-transparent bg-clip-text bg-gradient-to-l from-copper-dark via-copper to-copper-light"><?php echo esc_html( $hero_title_highlight ?: 'صنعت مس ایران' ); ?></span>
+            <h1 class="text-xl sm:text-2xl md:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl xl:leading-[1.1] font-black text-white leading-[1.2] mb-3 max-w-4xl text-right animate-fade-in-up delay-200">
+                <?php echo esc_html( $hero_title ?: 'افتخار ملی، نوآوری در' ); ?> <span class="text-transparent bg-clip-text bg-gradient-to-l from-copper-dark via-copper to-copper-light"><?php echo esc_html( $hero_title_highlight ?: 'صنعت مس ایران' ); ?></span>
             </h1>
-            <div class="text-sm md:text-base lg:text-lg xl:text-xl text-slate-400 font-semibold tracking-wider mb-6 uppercase text-right animate-fade-in-up delay-300" dir="ltr">
+            <div class="text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl text-slate-400 font-semibold tracking-wider mb-4 xl:mb-6 uppercase text-right animate-fade-in-up delay-300" dir="ltr">
                 <?php echo esc_html( $hero_subtitle ?: "National Pride, Innovation in Iran's Copper Industry" ); ?>
             </div>
 
-            <p class="text-base md:text-lg xl:text-xl xl:leading-relaxed text-slate-300 max-w-2xl leading-relaxed mb-8 font-light text-right animate-fade-in-up delay-400">
+            <p class="text-sm md:text-base xl:text-lg 2xl:text-xl xl:leading-relaxed text-slate-300 max-w-2xl leading-relaxed mb-6 xl:mb-8 font-light text-right animate-fade-in-up delay-400">
                 <?php echo esc_html( $hero_description ?: 'تکیه بر تخصص بومی و پتانسیل‌های بی‌کران دشت‌های کرمان، صنایع و معادن مس کرمان زمین را به نماد پایداری، خودکفایی و حضور پرقدرت در بازارهای جهانی تبدیل کرده است.' ); ?>
             </p>
 
@@ -246,7 +316,7 @@
                     </div>
 
                     <!-- Title -->
-                    <h2 class="text-5xl lg:text-6xl font-black text-navy mb-8 leading-normal font-peyda ">
+                    <h2 class="text-4xl lg:text-5xl font-black text-navy mb-8 leading-relaxed font-peyda ">
                         <?php echo esc_html($about_title_rest ?: 'پیشگام در توسعه'); ?> <br>
                         <span
                             class="text-transparent bg-clip-text bg-gradient-to-l  from-copper-dark via-copper to-copper-light"><?php echo esc_html($about_title_highlight ?: 'صنعت استخراج مس'); ?></span>
@@ -254,7 +324,7 @@
 
                     <!-- Description -->
                     <p class="text-slate-700 text-lg leading-relaxed mb-12 text-right font-medium max-w-xl">
-                        <?php echo esc_html($about_description ?: 'مجتمع مس سرچشمه با تکیه بر دانش بومی و استفاده از تکنولوژی‌های روز دنیا، توانسته است ضمن حفظ محیط زیست، به یکی از بزرگترین قطب‌های تولیدی کشور تبدیل شود. تعهد ما به کیفیت و پایداری، مسیر آینده را روشن می‌سازد.'); ?>
+                        <?php echo esc_html($about_description ?: 'صنایع و معادن مس کرمان زمین با تکیه بر دانش بومی و استفاده از تکنولوژی‌های روز دنیا، توانسته است ضمن حفظ محیط زیست، به یکی از بزرگترین قطب‌های تولیدی کشور تبدیل شود. تعهد ما به کیفیت و پایداری، مسیر آینده را روشن می‌سازد.'); ?>
                     </p>
 
                     <!-- Cards Grid -->
@@ -316,7 +386,7 @@
                         class="w-1/2 h-[75%] lg:h-[80%] mt-0 relative z-10 transition-all duration-1000 ease-out group-hover:-translate-y-4 group-hover:rotate-1 about-fade-up opacity-0 translate-y-10 delay-[200ms]">
                         <div
                             class="about-parallax-item w-full h-full rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] border-4 sm:border-8 border-white/80 bg-white relative">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/about/realistic_mine.png"
+                            <img src="<?php echo esc_url($about_image_1_url); ?>"
                                 class="w-full h-full object-cover transition-transform duration-1000 ease-out hover:scale-110"
                                 alt="Mine">
                             <div class="absolute inset-0 bg-navy/10 mix-blend-multiply pointer-events-none"></div>
@@ -328,7 +398,7 @@
                         class="w-1/2 h-[85%] lg:h-[90%] mt-12 sm:mt-20 relative z-20 transition-all duration-1000 ease-out group-hover:-translate-y-6 group-hover:-rotate-1 about-fade-up opacity-0 translate-y-10 delay-[400ms]">
                         <div
                             class="about-parallax-item w-full h-full rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-[0_30px_60px_-15px_rgba(200,104,47,0.15)] border-4 sm:border-8 border-white bg-white relative">
-                            <img src="<?php echo get_template_directory_uri(); ?>/images/about/realistic_foundry.png"
+                            <img src="<?php echo esc_url($about_image_2_url); ?>"
                                 class="w-full h-full object-cover transition-transform duration-1000 ease-out hover:scale-110"
                                 alt="Foundry">
                             <div class="absolute inset-0 bg-navy/10 mix-blend-multiply pointer-events-none"></div>
@@ -344,9 +414,8 @@
                                 <?php echo kermancopper_icon('gem', 'w-5 h-5 sm:w-6 sm:h-6 text-copper-light'); ?>
                             </div>
                             <div class="text-xs sm:text-sm font-bold text-slate-200 leading-relaxed">
-                                سه دهه تجربه‌ درخشان <br>
-                                <span class="text-slate-400 font-medium text-[10px] sm:text-xs">در صنعت استخراج
-                                    مس</span>
+                                <?php echo esc_html($about_experience_label); ?> <br>
+                                <span class="text-slate-400 font-medium text-[10px] sm:text-xs"><?php echo esc_html($about_experience_sublabel); ?></span>
                             </div>
                         </div>
                         <div class="text-3xl sm:text-4xl lg:text-5xl font-black bg-gradient-to-l from-copper-light via-copper to-copper-dark bg-clip-text text-transparent font-peyda ml-2"
@@ -379,21 +448,20 @@
                     <h4 class="text-copper font-bold tracking-widest mb-4 flex items-center gap-4 font-peyda">
                         <span class="w-12 h-0.5 bg-copper"></span> فرصت‌های همکاری
                     </h4>
-                    <h2 class="text-4xl lg:text-5xl font-black text-navy tracking-tight font-peyda">آگهی‌های مزایده و
+                    <h2 class="text-4xl lg:text-5xl font-black text-navy tracking-tight font-peyda leading-relaxed">آگهی‌های مزایده و
                         مناقصه</h2>
                 </div>
                 <!-- Premium Filters -->
                 <div
-                    class="flex bg-white p-1.5 rounded-2xl shadow-sm border border-slate-200 ads-fade-up opacity-0 translate-y-10 transition-all duration-[1000ms] delay-[200ms] ease-out">
+                    class="flex bg-white p-1.5 rounded-2xl shadow-sm border border-slate-200 ads-fade-up opacity-0 translate-y-10 transition-all duration-[1000ms] delay-[200ms] ease-out overflow-x-auto hide-scrollbar max-w-full">
                     <button
-                        class="relative px-6 md:px-8 py-2.5 rounded-xl font-bold text-sm bg-copper text-white shadow-[0_4px_15px_rgba(200,104,47,0.3)] transition-all duration-300 z-10 transform scale-100">همه
-                        موارد</button>
+                        class="relative px-3 sm:px-6 md:px-8 py-2 sm:py-2.5 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm bg-copper text-white shadow-[0_4px_15px_rgba(200,104,47,0.3)] transition-all duration-300 z-10 transform scale-100 whitespace-nowrap flex-shrink-0">همه موارد</button>
                     <button
-                        class="relative px-6 md:px-8 py-2.5 rounded-xl font-bold text-sm text-slate-500 hover:text-copper hover:bg-copper/5 hover:shadow-sm transition-all duration-300 z-10">مزایده</button>
+                        class="relative px-3 sm:px-6 md:px-8 py-2 sm:py-2.5 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm text-slate-500 hover:text-copper hover:bg-copper/5 hover:shadow-sm transition-all duration-300 z-10 whitespace-nowrap flex-shrink-0">مزایده</button>
                     <button
-                        class="relative px-6 md:px-8 py-2.5 rounded-xl font-bold text-sm text-slate-500 hover:text-copper hover:bg-copper/5 hover:shadow-sm transition-all duration-300 z-10">مناقصه</button>
+                        class="relative px-3 sm:px-6 md:px-8 py-2 sm:py-2.5 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm text-slate-500 hover:text-copper hover:bg-copper/5 hover:shadow-sm transition-all duration-300 z-10 whitespace-nowrap flex-shrink-0">مناقصه</button>
                     <button
-                        class="relative px-6 md:px-8 py-2.5 rounded-xl font-bold text-sm text-slate-500 hover:text-copper hover:bg-copper/5 hover:shadow-sm transition-all duration-300 z-10">سایر</button>
+                        class="relative px-3 sm:px-6 md:px-8 py-2 sm:py-2.5 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm text-slate-500 hover:text-copper hover:bg-copper/5 hover:shadow-sm transition-all duration-300 z-10 whitespace-nowrap flex-shrink-0">سایر</button>
                 </div>
             </div>
 
@@ -426,7 +494,7 @@
                         }
                         $thumbnail = get_the_post_thumbnail_url( $ad_id, 'kermancopper-ad-thumbnail' );
                         if ( ! $thumbnail ) {
-                            $thumbnail = get_template_directory_uri() . '/images/image2.jpg';
+                            $thumbnail = kermancopper_get_fallback_image();
                         }
                         $expiry_date = get_post_meta( $ad_id, KERMANCOPPER_AD_META_EXPIRY_DATE, true );
                         $expiry_display = kermancopper_ads_format_expiry_date_for_display( $expiry_date );
@@ -499,7 +567,7 @@
                     <span class="w-12 h-0.5 bg-copper"></span> پایگاه خبری و اطلاع‌رسانی <span
                         class="w-12 h-0.5 bg-copper"></span>
                 </h4>
-                <h2 class="text-4xl lg:text-5xl font-black text-white tracking-tight font-peyda">تازه‌ترین اخبار و
+                <h2 class="text-4xl lg:text-5xl font-black text-white tracking-tight font-peyda leading-relaxed">تازه‌ترین اخبار و
                     اطلاعیه‌ها</h2>
             </div>
 
@@ -546,9 +614,11 @@
                             </div>
 
                             <div class="absolute bottom-0 left-0 right-0 p-8">
-                                <span
-                                    class="inline-block bg-white/10 backdrop-blur-md text-white border border-white/20 px-4 py-1.5 rounded-xl text-xs font-bold mb-4">گزارش
-                                    ویژه</span>
+                                <?php if ( ! empty( $featured_news['badge'] ) ) : ?>
+                                <span class="inline-block bg-white/10 backdrop-blur-md text-white border border-white/20 px-4 py-1.5 rounded-xl text-xs font-bold mb-4">
+                                    <?php echo esc_html( $featured_news['badge'] ); ?>
+                                </span>
+                                <?php endif; ?>
                                 <h3
                                     class="text-xl md:text-2xl font-black text-white leading-tight mb-4 group-hover:text-copper transition-colors font-peyda">
                                     <?php echo esc_html($featured_news['title']); ?>
@@ -596,7 +666,7 @@
                 <!-- Announcements (Vertical Banners - Now on the left visually/second in DOM) -->
                 <?php if ($notices_has_content): ?>
                 <div
-                    class="lg:col-span-4 flex flex-col fade-up-element opacity-0 translate-y-10 transition-all duration-1000 delay-[400ms] ease-out h-full min-h-0">
+                    class="lg:col-span-4 flex flex-col fade-up-element opacity-0 translate-y-10 transition-all duration-1000 delay-[400ms] ease-out h-[400px] sm:h-[500px] lg:h-full min-h-0">
                     <div class="flex items-center justify-between mb-8 shrink-0">
                         <h3 class="text-2xl font-black text-white font-peyda flex items-center gap-3">
                             <div
@@ -629,15 +699,9 @@
                                 </div>
 
                                 <div class="absolute top-6 right-6">
-                                    <?php if ($index === 0): ?>
-                                    <span
-                                        class="bg-copper/90 backdrop-blur-md text-white px-3.5 py-2 rounded-xl text-xs font-bold shadow-[0_4px_15px_rgba(200,104,47,0.4)] border border-white/20 flex items-center gap-2">
-                                        <span class="w-2 h-2 rounded-full bg-white animate-ping"></span> فوری
-                                    </span>
-                                    <?php else: ?>
-                                    <span
-                                        class="bg-emerald-600/90 backdrop-blur-md text-white px-3.5 py-2 rounded-xl text-xs font-bold shadow-[0_4px_15px_rgba(16,185,129,0.4)] border border-white/20 flex items-center gap-2">
-                                        اطلاعیه جدید
+                                    <?php if ( ! empty( $notice['badge'] ) ) : ?>
+                                    <span class="bg-copper/90 backdrop-blur-md text-white px-3.5 py-2 rounded-xl text-xs font-bold shadow-[0_4px_15px_rgba(200,104,47,0.4)] border border-white/20 flex items-center gap-2">
+                                        <?php echo esc_html( $notice['badge'] ); ?>
                                     </span>
                                     <?php endif; ?>
                                 </div>
@@ -701,7 +765,7 @@
     <section id="faq" class="pt-32 pb-40 bg-gradient-to-b from-slate-50 to-white relative z-10 overflow-hidden scroll-reveal">
         <!-- Decorative Pattern -->
         <div class="absolute inset-0 opacity-30 pointer-events-none z-0"
-            style="background-image: url('<?php echo get_template_directory_uri(); ?>/images/bpattern2.svg'); background-repeat: repeat; background-size: 300px;">
+            style="background-image: url('<?php echo get_template_directory_uri(); ?>/images/bpattern.png'); background-repeat: repeat; background-size: contain; background-position:top right;">
         </div>
 
         <!-- Ambient Glows -->
@@ -717,11 +781,11 @@
                 class="max-w-4xl mx-auto text-center mb-24 fade-up-element opacity-0 translate-y-10 transition-all duration-1000 ease-out">
                 <h4
                     class="text-copper font-bold tracking-widest mb-4 flex items-center justify-center gap-4 font-peyda">
-                    <span class="w-12 h-0.5 bg-copper/30"></span> پشتیبانی و راهنمایی <span
+                    <span class="w-12 h-0.5 bg-copper/30"></span> <?php echo esc_html($faq_kicker ?: 'پشتیبانی و راهنمایی'); ?> <span
                         class="w-12 h-0.5 bg-copper/30"></span>
                 </h4>
-                <h2 class="text-4xl lg:text-5xl font-black text-navy mb-6 font-peyda"><?php echo esc_html($faq_title ?: 'سوالات متداول'); ?></h2>
-                <p class="text-slate-500 text-lg max-w-2xl mx-auto"><?php echo esc_html($faq_description ?: 'پاسخ به پرتکرارترین پرسش‌های شما در زمینه ثبت‌نام در مناقصات، نحوه همکاری و استخدام در مجتمع مس سرچشمه.'); ?></p>
+                <h2 class="text-4xl lg:text-5xl font-black text-navy mb-6 font-peyda leading-relaxed"><?php echo esc_html($faq_title ?: 'سوالات متداول'); ?></h2>
+                <p class="text-slate-500 text-lg max-w-2xl mx-auto"><?php echo esc_html($faq_description ?: 'پاسخ به پرتکرارترین پرسش‌های شما در زمینه ثبت‌نام در مناقصات، نحوه همکاری و استخدام در صنایع و معادن مس کرمان زمین.'); ?></p>
             </div>
 
             
@@ -779,39 +843,54 @@
                         <h4 class="text-copper font-bold tracking-widest mb-4 flex items-center gap-3 font-peyda">
                             <span class="w-8 h-0.5 bg-copper"></span> صدای شما
                         </h4>
-                        <h2 class="text-4xl lg:text-5xl font-black text-white mb-6 font-peyda">در ارتباط باشیم</h2>
+                        <h2 class="text-4xl lg:text-5xl font-black text-white mb-6 font-peyda leading-relaxed">در ارتباط باشیم</h2>
                         <p class="text-slate-300 leading-relaxed font-light text-lg">
-                            نظرات، پیشنهادات و درخواست‌های خود را با ما در میان بگذارید. تیم پشتیبانی مجتمع مس سرچشمه در
+                            نظرات، پیشنهادات و درخواست‌های خود را با ما در میان بگذارید. تیم پشتیبانی صنایع و معادن مس کرمان زمین در
                             اسرع وقت پاسخگوی شما خواهد بود.
                         </p>
                     </div>
 
-                    <form class="space-y-5" onsubmit="event.preventDefault(); alert('پیام شما با موفقیت ثبت شد.');">
+                    <form id="frontContactForm" class="space-y-5 relative z-10" onsubmit="handleFrontFormSubmit(event)">
                         <div class="relative group">
-                            <input type="text" id="name"
+                            <input type="text" id="front_name" name="name" required
                                 class="peer w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white placeholder-transparent focus:outline-none focus:border-copper focus:bg-white/10 transition-all"
                                 placeholder="نام و نام خانوادگی">
-                            <label for="name"
+                            <label for="front_name"
                                 class="absolute right-6 -top-2.5 bg-navy px-2 text-sm text-copper transition-all peer-placeholder-shown:text-slate-400 peer-placeholder-shown:top-5 peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-copper peer-focus:bg-navy font-medium cursor-text">نام
-                                و نام خانوادگی</label>
+                                و نام خانوادگی *</label>
                         </div>
                         <div class="relative group">
-                            <input type="email" id="email"
+                            <input type="text" id="front_email" name="contact_info" required
                                 class="peer w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white placeholder-transparent focus:outline-none focus:border-copper focus:bg-white/10 transition-all"
                                 placeholder="ایمیل یا شماره تماس" dir="ltr">
-                            <label for="email"
+                            <label for="front_email"
                                 class="absolute right-6 -top-2.5 bg-navy px-2 text-sm text-copper transition-all peer-placeholder-shown:text-slate-400 peer-placeholder-shown:top-5 peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-copper peer-focus:bg-navy font-medium cursor-text">ایمیل
-                                یا موبایل</label>
+                                یا موبایل *</label>
                         </div>
                         <div class="relative group">
-                            <textarea id="message" rows="4"
+                            <select id="front_subject" name="subject" required
+                                class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white focus:outline-none focus:border-copper focus:bg-white/10 transition-all font-semibold appearance-none cursor-pointer">
+                                <option value="" disabled selected class="text-navy bg-navy-light">موضوع پیام را انتخاب کنید</option>
+                                <option value="public_relations" class="text-navy bg-white">روابط عمومی و رسانه</option>
+                                <option value="tenders" class="text-navy bg-white">مناقصات و مزایدات</option>
+                                <option value="sales" class="text-navy bg-white">فروش و بازرگانی</option>
+                                <option value="human_resources" class="text-navy bg-white">استخدام و منابع انسانی</option>
+                                <option value="other" class="text-navy bg-white">سایر موضوعات</option>
+                            </select>
+                            <label for="front_subject" class="absolute right-6 -top-2.5 bg-navy px-2 text-xs text-copper font-bold transition-colors">بخش مربوطه *</label>
+                            <div class="absolute left-6 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 group-focus-within:text-copper transition-colors">
+                                <?php echo kermancopper_icon('chevron-down', 'w-5 h-5'); ?>
+                            </div>
+                        </div>
+                        <div class="relative group">
+                            <textarea id="front_message" name="message" rows="4" required
                                 class="peer w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white placeholder-transparent focus:outline-none focus:border-copper focus:bg-white/10 transition-all resize-none"
                                 placeholder="پیام شما..."></textarea>
-                            <label for="message"
+                            <label for="front_message"
                                 class="absolute right-6 -top-2.5 bg-navy px-2 text-sm text-copper transition-all peer-placeholder-shown:text-slate-400 peer-placeholder-shown:top-5 peer-placeholder-shown:bg-transparent peer-focus:-top-2.5 peer-focus:text-copper peer-focus:bg-navy font-medium cursor-text">پیام
-                                شما</label>
+                                شما *</label>
                         </div>
-                        <button
+                        <button type="submit"
                             class="w-full bg-gradient-to-r from-copper-dark via-copper to-copper-light text-white font-black text-lg py-5 rounded-2xl transition-all shadow-[0_10px_30px_rgba(200,104,47,0.3)] hover:shadow-[0_15px_40px_rgba(200,104,47,0.5)] hover:-translate-y-1 mt-4 group relative overflow-hidden">
                             <span
                                 class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></span>
@@ -820,6 +899,7 @@
                             </span>
                         </button>
                     </form>
+                    <div id="frontFormAlert" class="hidden mt-6 p-5 rounded-2xl text-sm font-bold flex items-center gap-3"></div>
                 </div>
 
                 <!-- Info & Map Area -->
@@ -829,9 +909,14 @@
                     <!-- Premium Map Card -->
                     <div
                         class="w-full h-64 sm:h-80 rounded-[2rem] overflow-hidden relative group border border-white/10 shadow-2xl z-10 bg-navy-light flex items-center justify-center">
-                        <img src="<?php echo get_template_directory_uri(); ?>/images/map-dark.jpg" alt="Map Location Placeholder"
-                            class="absolute inset-0 w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-[50%] group-hover:opacity-80 transition-all duration-1000 group-hover:scale-105"
-                            onerror="this.src='https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80'; this.classList.add('opacity-30')">
+                        <?php if ( ! empty( $contact_map_link ) ) : ?>
+                        <a href="<?php echo esc_url( $contact_map_link ); ?>" target="_blank" rel="noopener noreferrer" class="absolute inset-0 z-20"></a>
+                        <?php endif; ?>
+                        <?php
+                        $map_img_src = ! empty( $contact_map_image ) ? $contact_map_image : get_template_directory_uri() . '/images/map-dark.jpg';
+                        ?>
+                        <img src="<?php echo esc_url( $map_img_src ); ?>" alt="نقشه"
+                            class="absolute inset-0 w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-[50%] group-hover:opacity-80 transition-all duration-1000 group-hover:scale-105">
                         <div
                             class="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent pointer-events-none">
                         </div>
@@ -848,7 +933,7 @@
                             </div>
                             <div
                                 class="mt-4 bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 text-white font-bold text-sm shadow-lg pointer-events-none">
-                                مجتمع مس سرچشمه
+                                صنایع و معادن مس کرمان زمین
                             </div>
                         </div>
                     </div>
@@ -862,9 +947,14 @@
                                 class="w-14 h-14 rounded-2xl bg-copper/10 text-copper flex items-center justify-center mb-5 group-hover:scale-110 group-hover:bg-copper group-hover:text-white transition-all duration-500 flex-shrink-0">
                                 <?php echo kermancopper_icon('map', 'w-6 h-6'); ?>
                             </div>
-                            <h5 class="text-white font-bold text-base mb-2 font-peyda">دفتر مرکزی</h5>
-                            <p class="text-sm text-slate-400 leading-relaxed font-medium">کرمان، رفسنجان<br>مجتمع مس
-                                سرچشمه</p>
+                            <h5 class="text-white font-bold text-base mb-2 font-peyda">آدرس</h5>
+                            <div class="text-sm text-slate-400 leading-relaxed font-medium space-y-2">
+                                <?php foreach ( $contact_addresses as $addr_item ) : 
+                                    if ( ! empty( $addr_item['address'] ) ) : ?>
+                                        <div><?php echo nl2br( esc_html( $addr_item['address'] ) ); ?></div>
+                                    <?php endif;
+                                endforeach; ?>
+                            </div>
                         </div>
                         <!-- Phone -->
                         <div
@@ -874,8 +964,16 @@
                                 <?php echo kermancopper_icon('phone-call', 'w-6 h-6'); ?>
                             </div>
                             <h5 class="text-white font-bold text-base mb-2 font-peyda">شماره تماس</h5>
-                            <p class="text-sm text-slate-400 leading-relaxed font-medium" dir="ltr">۰۳۴ - ۳۴۳۰
-                                ۰۰۰۰<br>۰۳۴ - ۳۴۳۰ ۰۰۰۱</p>
+                            <p class="text-sm text-slate-400 leading-relaxed font-medium" dir="ltr">
+                                <?php 
+                                if ( ! empty( $contact_phones ) ) {
+                                    $phones_list = wp_list_pluck( $contact_phones, 'phone' );
+                                    echo implode( '<br>', array_map( 'esc_html', $phones_list ) );
+                                } else {
+                                    echo '۰۳۴ - ۳۴۳۰ ۰۰۰۰'; // Fallback
+                                }
+                                ?>
+                            </p>
                         </div>
                         <!-- Email -->
                         <div
@@ -886,7 +984,15 @@
                             </div>
                             <h5 class="text-white font-bold text-base mb-2 font-peyda">پست الکترونیک</h5>
                             <p class="text-sm text-slate-400 leading-relaxed font-medium" dir="ltr">
-                                info@kermancopper.ir<br>pr@kermancopper.ir</p>
+                                <?php 
+                                if ( ! empty( $contact_emails ) ) {
+                                    $emails_list = wp_list_pluck( $contact_emails, 'email' );
+                                    echo implode( '<br>', array_map( 'esc_html', $emails_list ) );
+                                } else {
+                                    echo 'info@kermancopper.ir'; // Fallback
+                                }
+                                ?>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -894,5 +1000,83 @@
         </div>
     </section>
 </main>
+
+<script>
+(function() {
+    // Run shimmer once after pattern slide-in finishes (~2.5s)
+    var wrapper = document.querySelector('.hero-pattern-left-wrapper');
+    var shimmer = document.querySelector('.hero-pattern-shimmer');
+    if (!wrapper || !shimmer) return;
+
+    function playShimmer() {
+        shimmer.classList.remove('shimmer-play');
+        // Force reflow to restart animation
+        void shimmer.offsetWidth;
+        shimmer.classList.add('shimmer-play');
+    }
+
+    // Initial play after slide-in completes
+    setTimeout(function() {
+        wrapper.classList.add('pattern-visible');
+        playShimmer();
+    }, 2600);
+
+    // Replay on hover
+    wrapper.addEventListener('mouseenter', function() {
+        // Only replay if not in the middle of initial animation
+        if (wrapper.classList.contains('pattern-visible')) {
+            playShimmer();
+        }
+    });
+})();
+</script>
+
+<script>
+function handleFrontFormSubmit(event) {
+    event.preventDefault();
+    const form = event.target;
+    const btn = form.querySelector('button[type="submit"]');
+    const alertDiv = document.getElementById('frontFormAlert');
+    
+    if (!btn) return;
+    
+    btn.setAttribute('disabled', 'true');
+    const originalContent = btn.innerHTML;
+    btn.innerHTML = '<span class="flex items-center justify-center gap-2"><svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> در حال ارسال...</span>';
+
+    const formData = new FormData(form);
+    formData.append('action', 'kermancopper_submit_contact_form');
+
+    fetch('<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alertDiv.className = 'mt-6 p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center gap-3';
+            alertDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg> <span>' + data.data.message + '</span>';
+            alertDiv.classList.remove('hidden');
+            form.reset();
+        } else {
+            alertDiv.className = 'mt-6 p-5 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm font-bold flex items-center gap-3';
+            alertDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <span>' + (data.data ? data.data.message : 'خطایی رخ داد.') + '</span>';
+            alertDiv.classList.remove('hidden');
+        }
+    })
+    .catch(err => {
+        alertDiv.className = 'mt-6 p-5 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm font-bold flex items-center gap-3';
+        alertDiv.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 flex-shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> <span>اتصال برقرار نشد. لطفاً اینترنت خود را بررسی کنید.</span>';
+        alertDiv.classList.remove('hidden');
+    })
+    .finally(() => {
+        btn.innerHTML = originalContent;
+        btn.removeAttribute('disabled');
+        setTimeout(() => {
+            alertDiv.classList.add('hidden');
+        }, 5000);
+    });
+}
+</script>
 
 <?php get_footer(); ?>

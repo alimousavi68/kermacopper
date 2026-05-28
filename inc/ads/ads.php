@@ -478,27 +478,33 @@ function kermancopper_ads_collect_request_payload( $ad_id, $redirect_url, $use_a
     $password_confirm = isset( $_POST['password_confirm'] ) ? $_POST['password_confirm'] : '';
     $registration_reason = isset( $_POST['registration_reason'] ) ? sanitize_text_field( wp_unslash( $_POST['registration_reason'] ) ) : '';
 
-    if ( $mobile === '' || $email === '' || $company === '' || $company_type === '' || $activity_type === '' || $national_id === '' || $establishment_date === '' || $economic_number === '' || $registration_number === '' || $registration_location === '' || $ceo_name === '' || $ceo_national_id === '' || $ceo_mobile === '' || $phone === '' || $fax === '' || $website === '' || $postal_code === '' || $province === '' || $city === '' || $address === '' || $bank_sheba === '' || $bank_account === '' || $bank_branch === '' || $password === '' || $registration_reason === '' ) {
+    $is_user_logged_in = is_user_logged_in();
+
+    if ( $mobile === '' || $email === '' || $company === '' || $company_type === '' || $activity_type === '' || $national_id === '' || $establishment_date === '' || $economic_number === '' || $registration_number === '' || $registration_location === '' || $ceo_name === '' || $ceo_national_id === '' || $ceo_mobile === '' || $phone === '' || $fax === '' || $website === '' || $postal_code === '' || $province === '' || $city === '' || $address === '' || $bank_sheba === '' || $bank_account === '' || $bank_branch === '' || ( ! $is_user_logged_in && $password === '' ) || $registration_reason === '' ) {
         if ( $use_ajax ) {
             return new WP_Error( 'missing', 'لطفا همه فیلدهای ضروری را تکمیل کنید.' );
         }
         wp_safe_redirect( add_query_arg( 'ad_request', 'missing', $redirect_url ) );
         exit;
     }
-    if ( $password !== $password_confirm ) {
-        if ( $use_ajax ) {
-            return new WP_Error( 'password_mismatch', 'کلمه عبور و تکرار آن مطابقت ندارند.' );
+    
+    if ( ! $is_user_logged_in ) {
+        if ( $password !== $password_confirm ) {
+            if ( $use_ajax ) {
+                return new WP_Error( 'password_mismatch', 'کلمه عبور و تکرار آن مطابقت ندارند.' );
+            }
+            wp_safe_redirect( add_query_arg( 'ad_request', 'password_mismatch', $redirect_url ) );
+            exit;
         }
-        wp_safe_redirect( add_query_arg( 'ad_request', 'password_mismatch', $redirect_url ) );
-        exit;
-    }
-    if ( strlen( $password ) < 8 ) {
-        if ( $use_ajax ) {
-            return new WP_Error( 'password_short', 'کلمه عبور باید حداقل ۸ کاراکتر باشد.' );
+        if ( strlen( $password ) < 8 ) {
+            if ( $use_ajax ) {
+                return new WP_Error( 'password_short', 'کلمه عبور باید حداقل ۸ کاراکتر باشد.' );
+            }
+            wp_safe_redirect( add_query_arg( 'ad_request', 'password_short', $redirect_url ) );
+            exit;
         }
-        wp_safe_redirect( add_query_arg( 'ad_request', 'password_short', $redirect_url ) );
-        exit;
     }
+
     if ( ! is_email( $email ) ) {
         if ( $use_ajax ) {
             return new WP_Error( 'invalid_email', 'ایمیل وارد شده معتبر نیست.' );
@@ -515,13 +521,27 @@ function kermancopper_ads_collect_request_payload( $ad_id, $redirect_url, $use_a
         exit;
     }
     
-    // Check if user already exists with this National ID
-    if ( username_exists( $national_id ) ) {
-        if ( $use_ajax ) {
-            return new WP_Error( 'user_exists', 'کاربری با این کد ملی قبلا ثبت‌نام کرده است.' );
+    $existing_user_id = 0;
+    $is_existing_user = false;
+    if ( $is_user_logged_in ) {
+        $is_existing_user = true;
+        $existing_user_id = get_current_user_id();
+        $current_user = wp_get_current_user();
+        $national_id = $current_user->user_login;
+    } else {
+        // Check if user already exists with this National ID
+        $existing_user = get_user_by( 'login', $national_id );
+        if ( $existing_user ) {
+            if ( ! wp_check_password( $password, $existing_user->user_pass, $existing_user->ID ) ) {
+                if ( $use_ajax ) {
+                    return new WP_Error( 'user_exists_password_incorrect', 'این کد ملی قبلا ثبت‌نام شده است و کلمه عبور وارد شده نادرست است.' );
+                }
+                wp_safe_redirect( add_query_arg( 'ad_request', 'user_exists_password_incorrect', $redirect_url ) );
+                exit;
+            }
+            $is_existing_user = true;
+            $existing_user_id = $existing_user->ID;
         }
-        wp_safe_redirect( add_query_arg( 'ad_request', 'user_exists', $redirect_url ) );
-        exit;
     }
 
     return array(
@@ -555,6 +575,8 @@ function kermancopper_ads_collect_request_payload( $ad_id, $redirect_url, $use_a
         'password'              => $password,
         'registration_reason'   => $registration_reason,
         'attachment_ids'        => array(),
+        'is_existing_user'      => $is_existing_user,
+        'existing_user_id'      => $existing_user_id,
     );
 }
 
@@ -628,25 +650,55 @@ function kermancopper_ads_handle_request_otp() {
         wp_safe_redirect( add_query_arg( 'ad_request', $payload->get_error_code(), $redirect_url ) );
         exit;
     }
-    $otp_code = '12345';
+    
+    // Generate real random 5-digit code
+    $otp_code = sprintf( "%05d", rand( 10000, 99999 ) );
     $otp_token = wp_generate_password( 20, false, false );
     $payload['code'] = $otp_code;
     $payload['created_at'] = time();
     set_transient( 'kermancopper_ad_otp_' . $otp_token, $payload, 10 * MINUTE_IN_SECONDS );
-    $message = sprintf( 'کد تایید شما: %s', $otp_code );
-    $sent = apply_filters( 'kermancopper_ads_send_otp', true, $payload['mobile'], $otp_code, $message, $ad_id );
-    if ( ! $sent ) {
-        $sent = true;
-    }
+    
+    // Send email using wp_mail with a styled HTML body
+    $subject = 'کد تایید درخواست آگهی - مس کرمان';
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+    
+    $email_body = '
+    <div dir="rtl" style="font-family: Tahoma, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff;">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <h2 style="color: #0f172a; margin: 0; font-size: 20px; font-weight: bold;">صنایع مس کرمان</h2>
+            <div style="width: 50px; height: 3px; background-color: #c8682f; margin: 10px auto; border-radius: 2px;"></div>
+        </div>
+        <div style="color: #334155; font-size: 14px; line-height: 1.8; margin-bottom: 30px;">
+            <p>با سلام،</p>
+            <p>درخواست ثبت‌نام شما برای شرکت در آگهی <strong>' . esc_html( get_the_title( $ad_id ) ) . '</strong> با موفقیت ثبت موقت شد.</p>
+            <p>لطفاً برای تایید هویت و تکمیل نهایی فرآیند ثبت‌نام، از کد تایید زیر استفاده نمایید:</p>
+            <div style="text-align: center; margin: 30px 0;">
+                <span style="display: inline-block; font-size: 32px; font-weight: 900; letter-spacing: 6px; color: #c8682f; background-color: #f8fafc; border: 1.5px dashed #cbd5e1; padding: 12px 30px; border-radius: 12px; font-family: monospace;" dir="ltr">' . $otp_code . '</span>
+            </div>
+            <p style="color: #64748b; font-size: 12px; text-align: center;">این کد تا ۱۰ دقیقه دیگر معتبر است.</p>
+        </div>
+        <hr style="border: 0; border-top: 1px solid #f1f5f9; margin-bottom: 20px;">
+        <div style="text-align: center; font-size: 11px; color: #94a3b8;">
+            این ایمیل به صورت خودکار ارسال شده است، لطفاً به آن پاسخ ندهید.
+        </div>
+    </div>';
+    
+    wp_mail( $payload['email'], $subject, $email_body, $headers );
+    
+    // Check if we show the code in response (local/dev testing fallback)
+    $show_code_in_response = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( isset( $_SERVER['HTTP_HOST'] ) && ( strpos( $_SERVER['HTTP_HOST'], 'localhost' ) !== false || strpos( $_SERVER['HTTP_HOST'], '127.0.0.1' ) !== false ) );
+    
     if ( wp_doing_ajax() ) {
-        wp_send_json_success(
-            array(
-                'message'   => 'کد تایید ارسال شد. لطفا کد را وارد کنید.',
-                'otp_token' => $otp_token,
-                'otp_code'  => $otp_code,
-            )
+        $response_data = array(
+            'message'   => 'کد تایید به ایمیل شما ارسال شد. لطفا کد را وارد کنید.',
+            'otp_token' => $otp_token,
         );
+        if ( $show_code_in_response ) {
+            $response_data['otp_code'] = $otp_code;
+        }
+        wp_send_json_success( $response_data );
     }
+    
     $redirect_url = add_query_arg(
         array(
             'ad_request'       => 'otp_sent',
@@ -661,6 +713,69 @@ add_action( 'admin_post_kermancopper_ad_request_otp', 'kermancopper_ads_handle_r
 add_action( 'admin_post_nopriv_kermancopper_ad_request_otp', 'kermancopper_ads_handle_request_otp' );
 add_action( 'wp_ajax_kermancopper_ad_request_otp', 'kermancopper_ads_handle_request_otp' );
 add_action( 'wp_ajax_nopriv_kermancopper_ad_request_otp', 'kermancopper_ads_handle_request_otp' );
+
+// Resend OTP Action
+function kermancopper_ads_handle_resend_otp() {
+    if ( $_SERVER['REQUEST_METHOD'] !== 'POST' ) {
+        wp_send_json_error( array( 'code' => 'invalid_request', 'message' => 'درخواست نامعتبر است.' ), 400 );
+    }
+    
+    $otp_token = isset( $_POST['ad_request_token'] ) ? sanitize_text_field( wp_unslash( $_POST['ad_request_token'] ) ) : '';
+    if ( $otp_token === '' ) {
+        wp_send_json_error( array( 'code' => 'otp_missing', 'message' => 'توکن معتبر یافت نشد.' ), 400 );
+    }
+    
+    $payload = get_transient( 'kermancopper_ad_otp_' . $otp_token );
+    if ( ! is_array( $payload ) || empty( $payload['ad_id'] ) ) {
+        wp_send_json_error( array( 'code' => 'otp_expired', 'message' => 'درخواست منقضی شده است. لطفا فرم را مجددا ارسال کنید.' ), 400 );
+    }
+    
+    $otp_code = sprintf( "%05d", rand( 10000, 99999 ) );
+    $payload['code'] = $otp_code;
+    $payload['created_at'] = time();
+    
+    set_transient( 'kermancopper_ad_otp_' . $otp_token, $payload, 10 * MINUTE_IN_SECONDS );
+    
+    $ad_id = (int) $payload['ad_id'];
+    $subject = 'کد تایید جدید درخواست آگهی - مس کرمان';
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+    
+    $email_body = '
+    <div dir="rtl" style="font-family: Tahoma, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 16px; background-color: #ffffff;">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <h2 style="color: #0f172a; margin: 0; font-size: 20px; font-weight: bold;">صنایع مس کرمان</h2>
+            <div style="width: 50px; height: 3px; background-color: #c8682f; margin: 10px auto; border-radius: 2px;"></div>
+        </div>
+        <div style="color: #334155; font-size: 14px; line-height: 1.8; margin-bottom: 30px;">
+            <p>با سلام،</p>
+            <p>کد تایید جدید شما برای شرکت در آگهی <strong>' . esc_html( get_the_title( $ad_id ) ) . '</strong> صادر شد.</p>
+            <p>لطفاً برای تایید هویت و تکمیل نهایی فرآیند ثبت‌نام، از کد تایید زیر استفاده نمایید:</p>
+            <div style="text-align: center; margin: 30px 0;">
+                <span style="display: inline-block; font-size: 32px; font-weight: 900; letter-spacing: 6px; color: #c8682f; background-color: #f8fafc; border: 1.5px dashed #cbd5e1; padding: 12px 30px; border-radius: 12px; font-family: monospace;" dir="ltr">' . $otp_code . '</span>
+            </div>
+            <p style="color: #64748b; font-size: 12px; text-align: center;">این کد تا ۱۰ دقیقه دیگر معتبر است.</p>
+        </div>
+        <hr style="border: 0; border-top: 1px solid #f1f5f9; margin-bottom: 20px;">
+        <div style="text-align: center; font-size: 11px; color: #94a3b8;">
+            این ایمیل به صورت خودکار ارسال شده است، لطفاً به آن پاسخ ندهید.
+        </div>
+    </div>';
+    
+    wp_mail( $payload['email'], $subject, $email_body, $headers );
+    
+    $show_code_in_response = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( isset( $_SERVER['HTTP_HOST'] ) && ( strpos( $_SERVER['HTTP_HOST'], 'localhost' ) !== false || strpos( $_SERVER['HTTP_HOST'], '127.0.0.1' ) !== false ) );
+    
+    $response_data = array(
+        'message' => 'کد تایید جدید ارسال شد.',
+    );
+    if ( $show_code_in_response ) {
+        $response_data['otp_code'] = $otp_code;
+    }
+    
+    wp_send_json_success( $response_data );
+}
+add_action( 'wp_ajax_kermancopper_ad_request_resend_otp', 'kermancopper_ads_handle_resend_otp' );
+add_action( 'wp_ajax_nopriv_kermancopper_ad_request_resend_otp', 'kermancopper_ads_handle_resend_otp' );
 
 function kermancopper_ads_handle_request_verify() {
     if ( $_SERVER['REQUEST_METHOD'] !== 'POST' ) {
@@ -859,17 +974,22 @@ function kermancopper_ads_handle_request_verify() {
     update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_NOTE, $payload['note'] );
     update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS, $payload['attachment_ids'] );
 
-    // Create User Account
-    $user_id = wp_insert_user( array(
-        'user_login' => $payload['national_id'],
-        'user_pass'  => $payload['password'],
-        'user_email' => $payload['email'],
-        'first_name' => $payload['name'],
-        'role'       => 'subscriber',
-    ) );
+    // Create User Account or use existing user
+    $is_existing = ! empty( $payload['is_existing_user'] );
+    $user_id = $is_existing ? (int) $payload['existing_user_id'] : 0;
 
-    if ( ! is_wp_error( $user_id ) ) {
-        // Store extra fields in user meta
+    if ( ! $is_existing ) {
+        $user_id = wp_insert_user( array(
+            'user_login' => $payload['national_id'],
+            'user_pass'  => $payload['password'],
+            'user_email' => $payload['email'],
+            'first_name' => $payload['name'],
+            'role'       => 'subscriber',
+        ) );
+    }
+
+    if ( $user_id && ! is_wp_error( $user_id ) ) {
+        // Store/Update extra fields in user meta
         update_user_meta( $user_id, 'mobile', $payload['mobile'] );
         update_user_meta( $user_id, 'company', $payload['company'] );
         update_user_meta( $user_id, 'company_type', $payload['company_type'] );
@@ -880,11 +1000,18 @@ function kermancopper_ads_handle_request_verify() {
         update_user_meta( $user_id, 'city', $payload['city'] );
         update_user_meta( $user_id, 'address', $payload['address'] );
 
+        // Associate request post with user
+        wp_update_post( array(
+            'ID'          => $request_id,
+            'post_author' => $user_id,
+        ) );
+
         // Log the user in
         wp_clear_auth_cookie();
         wp_set_current_user( $user_id );
         wp_set_auth_cookie( $user_id );
     }
+    
     $attachments_count = is_array( $payload['attachment_ids'] ) ? count( $payload['attachment_ids'] ) : 0;
     update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS_COUNT, $attachments_count );
     update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_SEEN, '0' );
@@ -903,10 +1030,16 @@ function kermancopper_ads_handle_request_verify() {
         wp_mail( $admin_email, 'درخواست جدید آگهی', implode( "\n", $message_lines ) );
     }
     delete_transient( 'kermancopper_ad_otp_' . $otp_token );
+    
+    $dashboard_url = home_url( '/dashboard/' );
+    
     if ( wp_doing_ajax() ) {
-        wp_send_json_success( array( 'message' => 'درخواست شما با موفقیت ثبت شد.' ) );
+        wp_send_json_success( array(
+            'message'      => 'درخواست شما با موفقیت ثبت شد.',
+            'redirect_url' => $dashboard_url
+        ) );
     }
-    wp_safe_redirect( add_query_arg( 'ad_request', 'success', $redirect_url ) );
+    wp_safe_redirect( $dashboard_url );
     exit;
 }
 add_action( 'admin_post_kermancopper_ad_request_verify', 'kermancopper_ads_handle_request_verify' );
@@ -2211,3 +2344,65 @@ function kermancopper_ads_ajax_export_csv() {
         'label' => sprintf( '%d ردیف با موفقیت استخراج شد.', $rows_count )
     ) );
 }
+
+function kermancopper_ads_ajax_request_detail_panel() {
+    $current_user_id = get_current_user_id();
+    if ( ! $current_user_id ) {
+        wp_send_json_error( array( 'message' => 'دسترسی غیرمجاز.' ), 403 );
+    }
+    
+    $request_id = isset( $_GET['request_id'] ) ? absint( wp_unslash( $_GET['request_id'] ) ) : 0;
+    if ( ! $request_id ) {
+        wp_send_json_error( array( 'message' => 'درخواست معتبر نیست.' ), 400 );
+    }
+    
+    $request_post = get_post( $request_id );
+    if ( ! $request_post || $request_post->post_type !== KERMANCOPPER_AD_REQUEST_POST_TYPE ) {
+        wp_send_json_error( array( 'message' => 'درخواست یافت نشد.' ), 404 );
+    }
+    
+    if ( (int) $request_post->post_author !== $current_user_id ) {
+        wp_send_json_error( array( 'message' => 'شما مجاز به مشاهده این درخواست نیستید.' ), 403 );
+    }
+    
+    $meta_keys = array(
+        'company'               => 'نام شرکت (فارسی)',
+        'company_type'          => 'نوع شرکت',
+        'activity_type'         => 'نوع فعالیت',
+        'company_name_en'       => 'نام شرکت (انگلیسی)',
+        'national_id'           => 'شناسه ملی / کد ملی',
+        'establishment_date'    => 'تاریخ تاسیس',
+        'economic_number'       => 'شماره اقتصادی یا جواز',
+        'registration_number'   => 'شماره ثبت',
+        'registration_location' => 'محل ثبت',
+        'insurance_branch'      => 'شعبه بیمه',
+        'ceo_name'              => 'نام و نام خانوادگی مدیرعامل',
+        'ceo_national_id'       => 'کد ملی مدیر عامل',
+        'ceo_mobile'            => 'موبایل مدیرعامل',
+        'phone'                 => 'تلفن ثابت',
+        'fax'                   => 'نمابر (فکس)',
+        'website'               => 'آدرس وب‌سایت',
+        'email'                 => 'پست الکترونیک (ایمیل)',
+        'postal_code'           => 'کد پستی',
+        'province'              => 'استان',
+        'city'                  => 'شهر',
+        'address'               => 'نشانی دقیق پستی',
+        'bank_sheba'            => 'شماره شبا (IBAN)',
+        'bank_account'          => 'شماره حساب بانکی',
+        'bank_branch'           => 'نام و کد شعبه بانک',
+        'registration_reason'   => 'دلایل ثبت نام و سوابق',
+    );
+    
+    $fields = array();
+    foreach ( $meta_keys as $key => $label ) {
+        $meta_name = constant( 'KERMANCOPPER_AD_REQUEST_META_' . strtoupper( $key ) );
+        $val = get_post_meta( $request_id, $meta_name, true );
+        $fields[] = array(
+            'label' => $label,
+            'value' => $val,
+        );
+    }
+    
+    wp_send_json_success( array( 'fields' => $fields ) );
+}
+add_action( 'wp_ajax_kermancopper_ad_request_detail_panel', 'kermancopper_ads_ajax_request_detail_panel' );

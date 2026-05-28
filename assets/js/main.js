@@ -1,16 +1,16 @@
 const initMain = () => {
     // Back to Top Logic
     const backToTopBtn = document.getElementById('back-to-top');
-    
+
     if (backToTopBtn) {
         window.addEventListener('scroll', () => {
             if (window.scrollY > 500) {
-                backToTopBtn.classList.remove('opacity-0', 'translate-y-10');
+                backToTopBtn.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
             } else {
-                backToTopBtn.classList.add('opacity-0', 'translate-y-10');
+                backToTopBtn.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
             }
         });
-        
+
         backToTopBtn.addEventListener('click', () => {
             window.scrollTo({
                 top: 0,
@@ -26,7 +26,7 @@ const initMain = () => {
         const target = 32;
         const duration = 2000; // 2 seconds
         const increment = target / (duration / 16); // 60fps
-        
+
         const startCounter = () => {
             const interval = setInterval(() => {
                 count += increment;
@@ -37,7 +37,7 @@ const initMain = () => {
                 counterElement.innerText = Math.floor(count);
             }, 16);
         };
-        
+
         // Trigger when visible
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -47,7 +47,7 @@ const initMain = () => {
                 }
             });
         }, { threshold: 0.5 });
-        
+
         observer.observe(counterElement);
     }
 
@@ -58,18 +58,18 @@ const initMain = () => {
         faqItems.forEach(item => {
             const button = item.querySelector('button');
             const content = item.querySelector('.accordion-content');
-            
+
             if (button && content) {
                 button.addEventListener('click', () => {
                     const isActive = item.classList.contains('active');
-                    
+
                     // Close all others
                     faqItems.forEach(otherItem => {
                         otherItem.classList.remove('active');
                         const otherContent = otherItem.querySelector('.accordion-content');
-                        if(otherContent) otherContent.style.maxHeight = '0';
+                        if (otherContent) otherContent.style.maxHeight = '0';
                     });
-                    
+
                     // Toggle current
                     if (!isActive) {
                         item.classList.add('active');
@@ -81,32 +81,32 @@ const initMain = () => {
     }
 
     // Parallax Effect for Pattern
-     window.addEventListener('scroll', () => {
-         const scrolled = window.scrollY;
-         const patterns = document.querySelectorAll('.pattern-bg');
-         patterns.forEach(pattern => {
-             // Check if section is visible to avoid unnecessary calcs
-             const rect = pattern.parentElement.getBoundingClientRect();
-             if (rect.top < window.innerHeight && rect.bottom > 0) {
-                  // Simple parallax: move background slightly opposite to scroll
-                  const speed = 0.05; // Slower speed for subtle effect
-                  const yPos = (window.scrollY - pattern.parentElement.offsetTop) * speed;
-                  
-                  // Check for initial flip (scaleX(-1))
-                  if (pattern.dataset.flipped === undefined) {
-                      pattern.dataset.flipped = pattern.style.transform.includes('scaleX(-1)') || pattern.getAttribute('style')?.includes('scaleX(-1)');
-                  }
-                  const isFlipped = pattern.dataset.flipped === 'true';
-                  
-                  pattern.style.transform = isFlipped 
-                     ? `scaleX(-1) translateY(${yPos}px)` 
-                     : `translateY(${yPos}px)`;
-             }
-         });
-     });
+    window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        const patterns = document.querySelectorAll('.pattern-bg');
+        patterns.forEach(pattern => {
+            // Check if section is visible to avoid unnecessary calcs
+            const rect = pattern.parentElement.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                // Simple parallax: move background slightly opposite to scroll
+                const speed = 0.05; // Slower speed for subtle effect
+                const yPos = (window.scrollY - pattern.parentElement.offsetTop) * speed;
 
-     // Initialize Icons
-     // lucide icons removed
+                // Check for initial flip (scaleX(-1))
+                if (pattern.dataset.flipped === undefined) {
+                    pattern.dataset.flipped = pattern.style.transform.includes('scaleX(-1)') || pattern.getAttribute('style')?.includes('scaleX(-1)');
+                }
+                const isFlipped = pattern.dataset.flipped === 'true';
+
+                pattern.style.transform = isFlipped
+                    ? `scaleX(-1) translateY(${yPos}px)`
+                    : `translateY(${yPos}px)`;
+            }
+        });
+    });
+
+    // Initialize Icons
+    // lucide icons removed
 
     // Mobile Menu Logic
     const mobileBtn = document.getElementById('mobile-menu-btn');
@@ -116,16 +116,16 @@ const initMain = () => {
 
     function toggleMobileMenu() {
         if (!overlay || !sidebar) return;
-        
+
         const isHidden = overlay.classList.contains('hidden');
-        
+
         if (isHidden) {
             // Open
             overlay.classList.remove('hidden');
             setTimeout(() => overlay.classList.remove('opacity-0'), 10);
-            
-            sidebar.classList.remove('translate-x-full', 'opacity-0');
-            
+
+            sidebar.classList.remove('translate-x-full', 'opacity-0', 'invisible');
+
             // Change menu icon to X (Optional)
             if (mobileBtn) {
                 mobileBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-[26px] h-[26px]"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
@@ -136,8 +136,9 @@ const initMain = () => {
             sidebar.classList.add('translate-x-full', 'opacity-0');
             setTimeout(() => {
                 overlay.classList.add('hidden');
+                sidebar.classList.add('invisible');
             }, 300);
-            
+
             // Change X icon to menu
             if (mobileBtn) {
                 mobileBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-[26px] h-[26px]"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>';
@@ -208,7 +209,7 @@ const initMain = () => {
             const willOpen = submenu.classList.contains('hidden');
             submenu.classList.toggle('hidden');
             toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
-            const icon = toggle.querySelector('i');
+            const icon = toggle.querySelector('svg') || toggle.querySelector('i');
             if (icon) {
                 icon.classList.toggle('rotate-180', willOpen);
             }
@@ -259,8 +260,8 @@ const initMain = () => {
             slide.classList.remove('opacity-100');
             slide.classList.add('opacity-0');
         });
-        
-        const targetSlide = heroSlides[index]; 
+
+        const targetSlide = heroSlides[index];
         if (targetSlide) {
             targetSlide.classList.remove('opacity-0');
             targetSlide.classList.add('opacity-100');
@@ -410,13 +411,13 @@ const initMain = () => {
             const originalText = btn.innerHTML;
             btn.innerHTML = 'در حال ارسال...';
             btn.disabled = true;
-            
+
             setTimeout(() => {
                 btn.innerHTML = 'پیام ارسال شد <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-[18px] h-[18px]"><path d="M20 6 9 17l-5-5"/></svg>';
                 btn.classList.remove('bg-copper');
                 btn.classList.add('bg-green-600');
                 contactForm.reset();
-                
+
                 setTimeout(() => {
                     btn.innerHTML = originalText;
                     btn.classList.add('bg-copper');
@@ -454,31 +455,54 @@ const initMain = () => {
     const navBaseClass = isHome ? 'text-white/80' : 'text-slate-600';
     const navActiveClass = isHome ? 'text-white' : 'text-copper';
     links.forEach(link => {
-        link.addEventListener('click', function() {
+        link.addEventListener('click', function () {
             // Remove active state from all
             links.forEach(l => {
                 l.classList.remove(navActiveClass);
                 l.classList.add(navBaseClass);
-                // Find sibling underline and hide it
-                const parent = l.parentElement;
-                const underline = parent.querySelector('.nav-underline');
-                if (underline) underline.classList.add('hidden');
             });
-            
+
             // Add active state to current
             this.classList.remove(navBaseClass);
             this.classList.add(navActiveClass);
-            // Show sibling underline
-            const parent = this.parentElement;
-            const underline = parent.querySelector('.nav-underline');
-            if (underline) underline.classList.remove('hidden');
-            
+
             // Close mobile menu if open
             if (overlay && !overlay.classList.contains('hidden')) {
                 toggleMobileMenu();
             }
         });
     });
+
+    // Global Header Parallax Scroll Effect for Internal Pages
+    if (!document.body.classList.contains('home')) {
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            const heroHeader = document.querySelector('header');
+            if (!heroHeader) return;
+
+            const heroHeight = heroHeader.offsetHeight;
+            if (scrollY > heroHeight) return;
+
+            const ratio = scrollY / heroHeight;
+
+            const bgImg = heroHeader.querySelector('.hero-bg-image');
+            if (bgImg) {
+                bgImg.style.transform = `translateY(${scrollY * 0.3}px) scale(${1 + ratio * 0.05})`;
+            }
+
+            const textContainer = heroHeader.querySelector('.hero-text-container') || heroHeader.querySelector('.container.relative.z-20') || heroHeader.querySelector('.container');
+            if (textContainer) {
+                textContainer.style.transform = `translateY(${scrollY * 0.38}px)`;
+                textContainer.style.opacity = `${1 - ratio * 1.5}`;
+            }
+
+            const glow = heroHeader.querySelector('.hero-glow-accent');
+            if (glow) {
+                glow.style.transform = `translateY(${scrollY * 0.45}px)`;
+                glow.style.opacity = `${0.35 - ratio * 0.9}`;
+            }
+        });
+    }
 
 
     // ==========================================
@@ -495,19 +519,19 @@ const initMain = () => {
                 el.classList.remove('border-copper/30', 'shadow-[0_20px_50px_-15px_rgba(200,104,47,0.15)]');
 
                 const title = el.querySelector('button span');
-                if(title) {
+                if (title) {
                     title.classList.remove('text-copper', 'border-copper');
                     title.classList.add('text-navy', 'border-transparent');
                 }
 
                 const icon = el.querySelector('.faq-icon');
-                if(icon) {
+                if (icon) {
                     icon.classList.remove('bg-copper/10', 'text-copper', 'rotate-180');
                     icon.classList.add('bg-slate-50', 'text-slate-400');
                 }
 
                 const content = el.querySelector('.faq-content');
-                if(content) {
+                if (content) {
                     content.style.maxHeight = '0';
                     content.style.opacity = '0';
                     content.classList.remove('pb-8', 'pt-2');
@@ -521,19 +545,19 @@ const initMain = () => {
                 item.classList.add('border-copper/30', 'shadow-[0_20px_50px_-15px_rgba(200,104,47,0.15)]');
 
                 const title = item.querySelector('button span');
-                if(title) {
+                if (title) {
                     title.classList.remove('text-navy', 'border-transparent');
                     title.classList.add('text-copper', 'border-copper');
                 }
 
                 const icon = item.querySelector('.faq-icon');
-                if(icon) {
+                if (icon) {
                     icon.classList.remove('bg-slate-50', 'text-slate-400');
                     icon.classList.add('bg-copper/10', 'text-copper', 'rotate-180');
                 }
 
                 const content = item.querySelector('.faq-content');
-                if(content) {
+                if (content) {
                     content.classList.remove('pb-0', 'pt-0');
                     content.classList.add('pb-8', 'pt-2');
                     content.style.maxHeight = content.scrollHeight + 50 + 'px'; // +50 for padding
@@ -568,7 +592,7 @@ const initMain = () => {
             const pattern = heroHeader.querySelector('.hero-pattern-left');
             if (pattern) {
                 pattern.style.transform = `scaleX(-1) translateY(${scrollY * 0.22}px)`;
-                pattern.style.opacity = `${0.55 - ratio * 0.8}`;
+                pattern.style.opacity = `${1 - ratio * 1.5}`;
             }
 
             const glow = heroHeader.querySelector('.hero-glow-accent');
@@ -639,8 +663,8 @@ const initMain = () => {
                 if (entry.isIntersecting) {
                     const target = entry.target;
                     const finalValue = parseInt(target.getAttribute('data-target'));
-                    const duration = 2000; 
-                    const stepTime = 20; 
+                    const duration = 2000;
+                    const stepTime = 20;
                     const steps = duration / stepTime;
                     const increment = finalValue / steps;
                     let current = 0;
@@ -741,20 +765,20 @@ const initMain = () => {
             carousel.addEventListener('mouseleave', () => {
                 isDown = false;
                 carousel.classList.remove('active');
-                startAutoplay(); 
+                startAutoplay();
             });
 
             carousel.addEventListener('mouseup', () => {
                 isDown = false;
                 carousel.classList.remove('active');
-                startAutoplay(); 
+                startAutoplay();
             });
 
             carousel.addEventListener('mousemove', (e) => {
                 if (!isDown) return;
                 e.preventDefault();
                 const x = e.pageX - carousel.offsetLeft;
-                const walk = (x - startX) * 2; 
+                const walk = (x - startX) * 2;
                 carousel.scrollLeft = scrollLeft - walk;
             });
 
@@ -767,6 +791,35 @@ const initMain = () => {
 
             startAutoplay();
         }
+
+        // Remove mask-image after sweepShimmer animation
+        // const shimmer = document.querySelector('.hero-pattern-shimmer');
+        // if (shimmer) {
+        //     shimmer.addEventListener('animationend', (e) => {
+        //         if (e.animationName === 'sweepShimmer') {
+        //             const wrapper = document.querySelector('.hero-pattern-left-wrapper');
+        //             const patternLeft = document.querySelector('.hero-pattern-left');
+
+        //             if (wrapper) {
+        //                 wrapper.style.transition = 'opacity 0.3s ease';
+        //                 wrapper.style.opacity = '0.5';
+        //                 wrapper.style.maskImage = 'none';
+        //                 wrapper.style.webkitMaskImage = 'none';
+        //                 // Gradually change opacity to 0.5 over 1 second
+
+
+
+        //             }
+        //             if (patternLeft) {
+        //                 patternLeft.style.transition = 'opacity 0.3s ease';
+        //                 patternLeft.style.opacity = '0.5';
+        //                 patternLeft.style.maskImage = 'none';
+        //                 patternLeft.style.webkitMaskImage = 'none';
+
+        //             }
+        //         }
+        //     });
+        // }
     }
 };
 if (document.readyState === 'loading') {

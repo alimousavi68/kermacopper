@@ -16,21 +16,20 @@ while ( have_posts() ) :
     }
     ?>
 
-    <!-- POST HEADER HERO -->
-    <header class="relative min-h-[500px] lg:min-h-[600px] flex items-end justify-center overflow-hidden bg-navy-dark pt-40 pb-20">
+    <header class="relative min-h-[500px] lg:min-h-[600px] flex items-end justify-center overflow-hidden bg-navy pt-40 pb-20">
         <!-- Background Image -->
         <div class="absolute inset-0 w-full h-full">
             <img src="<?php echo esc_url( $thumbnail_url ); ?>" class="hero-bg-image w-full h-full object-cover opacity-60 mix-blend-overlay" alt="<?php the_title_attribute(); ?>">
             <!-- Gradients for text readability -->
-            <div class="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy-dark/60 to-transparent z-10"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/60 to-transparent z-10"></div>
             <!-- Accent glow -->
-            <div class="absolute bottom-0 right-0 w-[50%] h-[50%] bg-copper/20 rounded-full blur-[100px] z-15 pointer-events-none">
+            <div class="hero-glow-accent absolute -top-[20%] -right-[10%] w-[55%] h-[55%] bg-copper/35 rounded-full blur-[120px] animate-pulse-slow z-15 pointer-events-none">
             </div>
         </div>
 
-        <div class="container mx-auto px-6 lg:px-12 relative z-20 font-peyda max-w-5xl">
+        <div class="hero-text-container container mx-auto px-6 lg:px-12 relative z-20 font-peyda max-w-5xl">
             <!-- Breadcrumb & Badges -->
-            <div class="flex flex-wrap items-center gap-4 mb-6 animate-fade-in-up delay-100">
+            <div class="flex flex-wrap items-center gap-4 mb-6 animate-fade-in-down delay-100">
                 <a href="<?php echo esc_url( get_post_type_archive_link( 'post' ) ?: home_url( '/news/' ) ); ?>" class="text-slate-300 hover:text-white transition-colors text-sm font-bold flex items-center gap-1">
                     <?php echo kermancopper_icon('home', 'w-4 h-4'); ?> اخبار
                 </a>
@@ -49,12 +48,12 @@ while ( have_posts() ) :
             </div>
 
             <!-- Title -->
-            <h1 class="text-2xl/[1.5] sm:text-3xl/[1.5] lg:text-4xl/[1.5] xl:text-5xl/[1.5] font-black text-white mb-8 animate-fade-in-up delay-200">
+            <h1 class="text-2xl/[1.5] sm:text-3xl/[1.5] lg:text-4xl/[1.5] xl:text-5xl/[1.5] font-black text-white mb-8 animate-fade-in-down delay-200">
                 <?php the_title(); ?>
             </h1>
 
             <!-- Meta Info -->
-            <div class="flex flex-wrap items-center gap-6 text-slate-300 text-sm font-sans font-medium animate-fade-in-up delay-300 border-t border-white/10 pt-6">
+            <div class="flex flex-wrap items-center gap-6 text-slate-300 text-sm font-sans font-medium animate-fade-in-down delay-300 border-t border-white/10 pt-6">
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 rounded-full bg-copper/20 flex items-center justify-center text-copper-light">
                         <?php echo kermancopper_icon('user', 'w-4 h-4'); ?>

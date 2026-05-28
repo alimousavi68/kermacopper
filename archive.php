@@ -8,15 +8,15 @@
 get_header(); ?>
 
     <!-- ARCHIVE HERO SECTION -->
-    <header class="relative min-h-[450px] lg:min-h-[500px] flex items-center justify-center overflow-hidden bg-navy-dark pt-32 lg:pt-40 pb-16">
+    <header class="relative min-h-[450px] lg:min-h-[500px] flex items-center justify-center overflow-hidden bg-navy pt-32 lg:pt-40 pb-16">
         <!-- Background Image -->
         <div class="absolute inset-0 w-full h-full">
-            <img src="<?php echo get_template_directory_uri(); ?>/images/pano sarcheshmeh.jpg" class="hero-bg-image w-full h-full object-cover opacity-35 mix-blend-overlay will-change-transform" alt="<?php echo esc_attr( get_the_archive_title() ); ?>">
-            <div class="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy-dark/70 to-transparent z-10"></div>
-            <div class="absolute inset-0 bg-gradient-to-l from-navy-dark/50 via-transparent to-navy-dark/50 z-10"></div>
+            <img src="<?php $hero_bg_image_id = get_theme_mod( 'kermancopper_home_hero_slide_1_image_id' ); $hero_bg_image_url = $hero_bg_image_id ? wp_get_attachment_image_url( $hero_bg_image_id, 'full' ) : ''; echo esc_url( $hero_bg_image_url ?: ( get_template_directory_uri() . '/images/pano sarcheshmeh.jpg' ) ); ?>" class="hero-bg-image w-full h-full object-cover opacity-35 mix-blend-overlay will-change-transform" alt="<?php echo esc_attr( get_the_archive_title() ); ?>">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-transparent z-10"></div>
+            <div class="absolute inset-0 bg-gradient-to-l from-navy/50 via-transparent to-navy/50 z-10"></div>
 
             <!-- Glow Accent -->
-            <div class="absolute -top-[20%] left-1/2 -translate-x-1/2 w-[70%] h-[70%] bg-copper/20 rounded-full blur-[140px] z-15">
+            <div class="hero-glow-accent absolute -top-[20%] -right-[10%] w-[55%] h-[55%] bg-copper/35 rounded-full blur-[120px] animate-pulse-slow z-15">
             </div>
         </div>
 
@@ -24,17 +24,17 @@ get_header(); ?>
         <div class="absolute inset-0 bg-[radial-gradient(rgba(200,104,47,0.15)_1px,transparent_1px)] bg-[size:32px_32px] opacity-60 z-10">
         </div>
 
-        <div class="container mx-auto px-6 lg:px-12 relative z-20 text-center font-peyda">
-            <div class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass-panel mb-6 border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.2)] animate-fade-in-up delay-100 mx-auto">
+        <div class="hero-text-container container mx-auto px-6 lg:px-12 relative z-20 text-center font-peyda">
+            <div class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass-panel mb-6 border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.2)] animate-fade-in-down delay-100 mx-auto">
                 <?php echo kermancopper_icon('radio', 'w-4 h-4 text-copper-light'); ?>
                 <span class="text-copper-light text-xs font-extrabold tracking-widest">پایگاه اطلاع‌رسانی و مستندات</span>
             </div>
 
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-4 animate-fade-in-up delay-200">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-4 animate-fade-in-down delay-200">
                 <?php echo get_the_archive_title(); ?>
             </h1>
 
-            <div class="text-base text-slate-400 mx-auto font-light leading-relaxed animate-fade-in-up delay-300 mb-10">
+            <div class="text-base text-slate-400 mx-auto font-light leading-relaxed animate-fade-in-down delay-300 mb-10">
                 <?php echo get_the_archive_description(); ?>
             </div>
         </div>
@@ -84,15 +84,16 @@ get_header(); ?>
                                 $post_count++;
                                 if ( $post_count === 1 && ! is_paged() ) {
                                     // Featured Post
-                                    $thumbnail_url = get_the_post_thumbnail_url( get_the_ID(), 'full' );
+                                    $thumbnail_url = get_the_post_thumbnail_url( get_the_ID(), 'kermancopper-news-thumbnail' );
                                     if ( ! $thumbnail_url ) {
                                         $thumbnail_url = get_template_directory_uri() . '/images/about/realistic_mine.png';
                                     }
                                     ?>
+                                    <!-- DEBUG THUMBNAIL URL: <?php echo esc_html($thumbnail_url); ?> -->
                                     <article class="sm:col-span-2 post-card scroll-reveal delay-100 relative group cursor-pointer" onclick="window.location.href='<?php the_permalink(); ?>'">
                                         <div class="relative h-[320px] sm:h-[400px] lg:h-[500px] w-full overflow-hidden bg-navy-dark">
-                                            <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php the_title_attribute(); ?>" class="post-image w-full h-full object-cover">
-                                            <div class="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/30 to-transparent"></div>
+                                            <img src="<?php echo esc_url( $thumbnail_url ); ?>" alt="<?php the_title_attribute(); ?>" class="post-image absolute inset-0 w-full h-full object-cover">
+                                            <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/60 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500"></div>
                                             <div class="absolute top-6 right-6 post-category-badge px-4 py-2 rounded-xl text-xs font-bold font-peyda shadow-sm">
                                                 <span class="flex items-center gap-2">
                                                     <span class="w-2 h-2 rounded-full bg-copper animate-pulse"></span>

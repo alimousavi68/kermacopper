@@ -9,15 +9,15 @@ get_header();
 ?>
 
     <!-- ARCHIVE HERO SECTION -->
-    <header class="relative min-h-[450px] lg:min-h-[500px] flex items-center justify-center overflow-hidden bg-navy-dark pt-32 lg:pt-40 pb-16">
+    <header class="relative min-h-[450px] lg:min-h-[500px] flex items-center justify-center overflow-hidden bg-navy pt-32 lg:pt-40 pb-16">
         <!-- Background Image -->
         <div class="absolute inset-0 w-full h-full">
-            <img src="<?php echo get_template_directory_uri(); ?>/images/pano sarcheshmeh.jpg" class="hero-bg-image w-full h-full object-cover opacity-35 mix-blend-overlay will-change-transform" alt="<?php echo esc_attr( post_type_archive_title('', false) ); ?>">
-            <div class="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy-dark/70 to-transparent z-10"></div>
-            <div class="absolute inset-0 bg-gradient-to-l from-navy-dark/50 via-transparent to-navy-dark/50 z-10"></div>
+            <img src="<?php $hero_bg_image_id = get_theme_mod( 'kermancopper_home_hero_slide_1_image_id' ); $hero_bg_image_url = $hero_bg_image_id ? wp_get_attachment_image_url( $hero_bg_image_id, 'full' ) : ''; echo esc_url( $hero_bg_image_url ?: ( get_template_directory_uri() . '/images/pano sarcheshmeh.jpg' ) ); ?>" class="hero-bg-image w-full h-full object-cover opacity-35 mix-blend-overlay will-change-transform" alt="<?php echo esc_attr( post_type_archive_title('', false) ); ?>">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-transparent z-10"></div>
+            <div class="absolute inset-0 bg-gradient-to-l from-navy/50 via-transparent to-navy/50 z-10"></div>
 
             <!-- Glow Accent -->
-            <div class="absolute -top-[20%] left-1/2 -translate-x-1/2 w-[70%] h-[70%] bg-copper/20 rounded-full blur-[140px] z-15">
+            <div class="hero-glow-accent absolute -top-[20%] -right-[10%] w-[55%] h-[55%] bg-copper/35 rounded-full blur-[120px] animate-pulse-slow z-15">
             </div>
         </div>
 
@@ -25,17 +25,17 @@ get_header();
         <div class="absolute inset-0 bg-[radial-gradient(rgba(200,104,47,0.15)_1px,transparent_1px)] bg-[size:32px_32px] opacity-60 z-10">
         </div>
 
-        <div class="container mx-auto px-6 lg:px-12 relative z-20 text-center font-peyda">
-            <div class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass-panel mb-6 border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.2)] animate-fade-in-up delay-100 mx-auto">
+        <div class="hero-text-container container mx-auto px-6 lg:px-12 relative z-20 text-center font-peyda">
+            <div class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass-panel mb-6 border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.2)] animate-fade-in-down delay-100 mx-auto">
                 <?php echo kermancopper_icon('tag', 'w-4 h-4 text-copper-light'); ?>
                 <span class="text-copper-light text-xs font-extrabold tracking-widest">آگهی‌ها، مناقصات و مزایدات</span>
             </div>
 
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-4 animate-fade-in-up delay-200">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-4 animate-fade-in-down delay-200">
                 <?php post_type_archive_title(); ?>
             </h1>
 
-            <p class="text-base text-slate-400 mx-auto font-light leading-relaxed animate-fade-in-up delay-300 mb-10 max-w-3xl">
+            <p class="text-base text-slate-400 mx-auto font-light leading-relaxed animate-fade-in-down delay-300 mb-10 max-w-3xl">
                 بررسی و جستجوی تمامی آگهی‌های ثبت شده
             </p>
         </div>
@@ -67,14 +67,14 @@ get_header();
 
             <div class="flex flex-col lg:flex-row gap-10 items-stretch">
                 <!-- Sidebar (Desktop Filters) -->
-                <aside id="filter-sidebar" class="lg:w-80 lg:sticky lg:top-[120px] lg:self-start bg-white rounded-[2rem] border border-slate-200/80 shadow-[0_15px_50px_rgba(0,0,0,0.03)] p-8 lg:block hidden scroll-reveal">
+                <aside id="filter-sidebar" class="lg:w-80  lg:self-start bg-white rounded-[2rem] border border-slate-200/80 shadow-[0_15px_50px_rgba(0,0,0,0.03)] p-8 lg:block hidden scroll-reveal">
                     <?php get_template_part('template-parts/ads/filter-form'); ?>
                 </aside>
 
                 <!-- Grid & Loop Area -->
                 <div class="flex-1 flex flex-col justify-between">
                     <!-- Filters Action Bar -->
-                    <div class="flex flex-wrap items-center justify-between gap-4 mb-8 p-4 bg-white rounded-2xl border border-slate-200/80 shadow-[0_15px_50px_rgba(0,0,0,0.03)] scroll-reveal">
+                    <div class="flex flex-wrap items-center justify-between gap-4 mb-5 p-4 bg-white rounded-2xl border border-slate-200/80 shadow-[0_15px_50px_rgba(0,0,0,0.03)] scroll-reveal">
                         <div class="flex items-center gap-4">
                             <button id="mobile-filter-toggle" class="lg:hidden flex items-center gap-2 px-5 py-3 rounded-xl bg-copper text-white font-bold hover:opacity-95 shadow-[0_10px_25px_rgba(200,104,47,0.2)] transition-all">
                                 <?php echo kermancopper_icon('filter', 'w-5 h-5'); ?>
@@ -153,51 +153,76 @@ get_header();
 .filter-content {
     margin-top: 1rem;
 }
+
+/* Scoped overrides to restore border radiuses on archive page */
+#filter-sidebar, 
+#mobile-filter-content,
+#mobile-filter-close,
+#mobile-filter-toggle {
+    border-radius: 2rem !important;
+}
+
+.ad-card,
+.ad-card-image,
+.skeleton-container {
+    border-radius: 1rem !important;
+}
+
+#mobile-filter-modal select, 
+#mobile-filter-modal input,
+#filter-sidebar select,
+#filter-sidebar input,
+#sort-select {
+    border-radius: 0.75rem !important;
+}
+
 .ad-card {
     background: #ffffff;
-    border: 1px solid rgba(226, 232, 240, 0.8);
-    border-radius: 2rem;
+    border: 1.5px solid rgba(226, 232, 240, 0.9);
+    border-radius: 1rem;
     overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.02);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.02);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 .ad-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
-    border-color: rgba(200, 104, 47, 0.25);
+    box-shadow: 0 25px 50px -12px rgba(200, 104, 47, 0.12);
+    border-color: rgba(200, 104, 47, 0.35);
 }
 .ad-card-image {
     height: 200px;
     background-size: cover;
     background-position: center;
+    border-radius: 1rem 1rem 0 0 !important;
 }
 .status-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
     padding: 0.35rem 0.85rem;
-    border-radius: 9999px;
+    border-radius: 9999px !important;
     font-size: 0.75rem;
-    font-weight: 700;
+    font-weight: 800;
 }
 .status-badge.active {
-    background: rgba(22, 101, 52, 0.1);
-    color: #166534;
+    background: rgba(22, 101, 52, 0.12);
+    color: #15803d; /* Darker emerald for high contrast */
 }
 .status-badge.closed {
-    background: rgba(153, 27, 27, 0.1);
-    color: #991b1b;
+    background: rgba(153, 27, 27, 0.12);
+    color: #b91c1c; /* Darker red for high contrast */
 }
 
 /* Styling Inputs Inside Filters */
 #filter-sidebar input, #filter-sidebar select,
 #mobile-filter-modal input, #mobile-filter-modal select {
-    border-radius: 1rem !important;
-    border-color: #e2e8f0 !important;
-    background-color: #f8fafc !important;
+    border-radius: 0.75rem !important;
+    background-color: #ffffff !important;
+    border: 1px solid rgba(200, 104, 47, 0.4) !important;
+    box-shadow: 0 4px 20px rgba(26, 34, 53, 0.03) !important, 0 20px 40px -15px rgba(26, 34, 53, 0.06) !important;
     padding-top: 0.875rem !important;
     padding-bottom: 0.875rem !important;
     font-weight: 600 !important;
@@ -208,11 +233,11 @@ get_header();
 #mobile-filter-modal input:focus, #mobile-filter-modal select:focus {
     border-color: #c8682f !important;
     background-color: #ffffff !important;
-    box-shadow: 0 0 0 3px rgba(200, 104, 47, 0.15) !important;
+    box-shadow: 0 0 0 4px rgba(200, 104, 47, 0.2) !important;
 }
 #filter-sidebar button[type="submit"],
 #mobile-filter-modal button[type="submit"] {
-    border-radius: 1rem !important;
+    border-radius: 0.75rem !important;
     background: linear-gradient(to left, #c8682f, #e28652) !important;
     font-weight: 800 !important;
     font-family: 'peyda', sans-serif !important;
@@ -222,8 +247,8 @@ get_header();
 }
 #filter-sidebar a#reset-filters,
 #mobile-filter-modal a#reset-filters {
-    border-radius: 1rem !important;
-    border-color: #e2e8f0 !important;
+    border-radius: 0.75rem !important;
+    border-color: rgba(200, 104, 47, 0.4) !important;
     padding-top: 1rem !important;
     padding-bottom: 1rem !important;
     font-weight: 800 !important;

@@ -68,7 +68,7 @@ class KermanCopper_Nav_Walker extends Walker_Nav_Menu {
             $atts['href']   = ! empty( $item->url )        ? $item->url        : '';
             
             // Link Classes
-            $base_link_class = 'nav-link flex items-center gap-1 transition-colors duration-200 relative py-4';
+            $base_link_class = 'nav-link flex items-center gap-1 transition-colors duration-200 relative py-1 whitespace-nowrap';
             if ( in_array( 'current-menu-item', $classes ) || in_array( 'current-menu-parent', $classes ) ) {
                 $base_link_class .= ' active';
             }
@@ -95,17 +95,10 @@ class KermanCopper_Nav_Walker extends Walker_Nav_Menu {
                 $item_output .= kermancopper_icon('chevron-down', 'w-2.5 h-2.5 opacity-50');
             }
             
-            // Underline (Moved inside a tag)
-            $opacity_class = ( in_array( 'current-menu-item', $classes ) ) ? 'opacity-100' : 'opacity-0 group-hover:opacity-100';
-            // Adjusted bottom-1 (0.25rem = 4px) relative to a (which has py-4 = 16px padding).
-            // Text is vertically centered. bottom-1 is 4px from bottom edge of a.
-            // Since a is taller now, bottom-1 puts the line near the bottom of the padding area.
-            $item_output .= '<div class="nav-underline absolute bottom-1 left-1/2 -translate-x-1/2 h-[2.5px] bg-copper w-1/2 rounded-full transition-all duration-300 ' . $opacity_class . '"></div>';
-
             $item_output .= '</a>';
             
             // Separator
-            $item_output .= '<span class="menu-separator text-slate-200 mx-8 xl:mx-12">|</span>';
+            $item_output .= '<span class="menu-separator h-4 w-px bg-white/15 mx-2 lg:mx-3 xl:mx-4"></span>';
 
             $item_output .= $args->after;
 
@@ -160,7 +153,7 @@ class KermanCopper_Nav_Walker extends Walker_Nav_Menu {
 
 class KermanCopper_Mobile_Nav_Walker extends Walker_Nav_Menu {
     public function start_lvl( &$output, $depth = 0, $args = null ) {
-        $output .= '<ul class="mobile-submenu hidden mt-2 space-y-2 pr-4 border-r border-slate-100 list-none">';
+        $output .= '<ul class="mobile-submenu hidden mt-2 space-y-1.5 list-none w-full">';
     }
 
     public function end_lvl( &$output, $depth = 0, $args = null ) {
@@ -173,7 +166,7 @@ class KermanCopper_Mobile_Nav_Walker extends Walker_Nav_Menu {
 
         $classes[] = 'mobile-menu-item';
         $class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args, $depth ) );
-        $class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
+        $class_names = $class_names ? ' class="' . esc_attr( $class_names ) . ' w-full"' : ' class="w-full"';
 
         $output .= '<li' . $class_names . '>';
 
@@ -183,9 +176,15 @@ class KermanCopper_Mobile_Nav_Walker extends Walker_Nav_Menu {
         $atts['rel']    = ! empty( $item->xfn )        ? $item->xfn        : '';
         $atts['href']   = ! empty( $item->url )        ? $item->url        : '';
 
+        if ( in_array( 'current-menu-item', $classes ) || in_array( 'current-menu-parent', $classes ) ) {
+            $active_class = ' text-copper font-extrabold';
+        } else {
+            $active_class = '';
+        }
+
         $link_class = $depth === 0
-            ? 'block py-3 text-base font-bold text-slate-800 hover:text-copper transition-colors'
-            : 'block py-2 text-sm text-slate-600 hover:text-copper transition-colors';
+            ? 'block py-3 text-xl sm:text-2xl font-bold text-white/95 hover:text-copper text-center w-full transition-all duration-300' . $active_class
+            : 'block py-2 text-base sm:text-lg font-medium text-white/70 hover:text-copper text-center w-full transition-all duration-300' . $active_class;
 
         $atts['class'] = $link_class;
 
@@ -201,23 +200,19 @@ class KermanCopper_Mobile_Nav_Walker extends Walker_Nav_Menu {
         $title = apply_filters( 'the_title', $item->title, $item->ID );
         $title = apply_filters( 'nav_menu_item_title', $title, $item, $args, $depth );
 
-        if ( $depth === 0 ) {
-            $output .= '<div class="flex items-center justify-between gap-3 border-b border-slate-100 pb-2 last:border-0">';
-        }
+        $output .= '<div class="flex items-center justify-center relative py-3 w-full mobile-menu-item-wrapper">';
 
         $output .= '<a' . $attributes . '>';
         $output .= $args->link_before . $title . $args->link_after;
         $output .= '</a>';
 
-        if ( $depth === 0 && $has_children ) {
-            $output .= '<button type="button" class="mobile-submenu-toggle w-9 h-9 flex items-center justify-center rounded-sm border border-slate-100 text-slate-500 hover:text-copper hover:border-copper transition-colors" aria-expanded="false">';
-            $output .= kermancopper_icon('chevron-down', 'w-4 h-4 transition-transform');
+        if ( $has_children ) {
+            $output .= '<button type="button" class="mobile-submenu-toggle absolute left-4 w-8 h-8 flex items-center justify-center rounded-full border border-white/10 text-white/40 hover:text-copper hover:border-copper transition-all duration-300 bg-white/5 hover:bg-copper/10" aria-expanded="false">';
+            $output .= kermancopper_icon('chevron-down', 'w-3.5 h-3.5 transition-transform duration-300');
             $output .= '</button>';
         }
 
-        if ( $depth === 0 ) {
-            $output .= '</div>';
-        }
+        $output .= '</div>';
     }
 
     public function end_el( &$output, $item, $depth = 0, $args = null ) {

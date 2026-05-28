@@ -1,0 +1,62 @@
+.kermancopper-repeater-items {
+    margin: 0 0 15px 0;
+    padding: 0;
+    list-style: none;
+}
+.kermancopper-repeater-item {
+    background: #fff;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+.kermancopper-repeater-item-header {
+    padding: 10px;
+    background: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.kermancopper-repeater-item-header .dashicons-menu {
+    cursor: move;
+    color: #a0a5aa;
+    margin-left: 5px; /* RTL */
+}
+.kermancopper-repeater-item-title {
+    flex: 1;
+    font-weight: 600;
+}
+.kermancopper-repeater-item-remove {
+    background: none;
+    border: none;
+    color: #a00;
+    cursor: pointer;
+    padding: 0;
+}
+.kermancopper-repeater-item-remove:hover {
+    color: #f00;
+}
+.kermancopper-repeater-item-content {
+    padding: 15px;
+    display: none;
+}
+.kermancopper-repeater-field {
+    margin-bottom: 10px;
+}
+.kermancopper-repeater-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+.kermancopper-repeater-field input[type="text"],
+.kermancopper-repeater-field textarea {
+    width: 100%;
+}
+.kermancopper-repeater-field textarea {
+    min-height: 80px;
+}
+.kermancopper-repeater-add {
+    width: 100%;
+    text-align: center;
+}
