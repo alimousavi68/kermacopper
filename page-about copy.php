@@ -738,96 +738,96 @@ get_header();
     <div class="relative z-20">
         <div class="container mx-auto px-6 lg:px-12 pt-12">
 
-            <!-- ─── SECTION 1: HUBS & BENTO GRID ─── -->
+            <!-- ─── SECTION 1: HISTORY & BENTO GRID ─── -->
             <section class="mt-28 mb-32">
                 <!-- Section Header -->
                 <div class="section-label-container scroll-reveal">
-                    <span class="premium-section-badge">هویت و ماموریت</span>
-                    <h2 class="section-main-title">ساختار دانش‌بنیان و اهداف راهبردی</h2>
+                    <span class="premium-section-badge">ریشه‌ها و اصالت</span>
+                    <h2 class="section-main-title">میراث معدن‌کاری و سیر تاریخی</h2>
                     <div class="section-title-line"></div>
                 </div>
- 
+
                 <!-- Bento Grid -->
                 <div class="bento-grid-container">
-                    <!-- Card 1: Relaunch (2 cols wide) -->
+                    <!-- Card 1: Ancient History (2 cols wide) -->
                     <div class="bento-card bento-card-light bento-card-2col scroll-reveal">
                         <div>
                             <div class="bento-card-header-badge">
                                 <span class="bento-card-badge-dot"></span>
-                                <span class="bento-card-badge-text">توسعه و بازراه‌اندازی</span>
+                                <span class="bento-card-badge-text">قدمت تاریخی</span>
                             </div>
-                            <h3 class="bento-card-title">بازوی فناورانه و دانش‌بنیان صنعت مس</h3>
+                            <h3 class="bento-card-title">مس کرمان؛ میراث ۶۰۰۰ ساله فلزکاری</h3>
                             <p class="bento-card-desc">
-                                شرکت صنایع و معادن مس کرمان زمین از اواخر سال ۱۴۰۳ با تصمیم مدیران وقت شرکت ملی صنایع مس ایران به عنوان بازوی فناورانه و دانش‌بنیان شرکت ملی صنایع مس ایران بازراه‌اندازی گردید. هدف ما هدایت پتانسیل‌های علمی در جهت بهره‌وری حداکثری از پتانسیل‌های موجود در صنعت مس کشور است.
+                                کاوش‌های باستان‌شناختی در محوطه‌هایی همچون «تل ابلیس» و «تپه یحیی» گواه آن است که استان کرمان از نخستین خاستگاه‌های ذوب مس و متالورژی در جهان باستان بوده است. نیاکان ما در این دشت پهناور، قرن‌ها پیش از عصر صنعتی مدرن، با روش‌های سنتی اقدام به استخراج کانسارها و ساخت ابزار مفرغی و مسی می‌کردند. این میراث تاریخی، الهام‌بخش ما در احیا و توسعه پیشرفته‌ترین روش‌های فرآوری فلز سرخ در عصر حاضر است.
                             </p>
                         </div>
                         <div class="bento-card-footer">
-                            <span>پیشران علمی صنایع مس ایران</span>
+                            <span>پیشینه کهن فلات ایران</span>
                             <span class="bento-card-footer-dot"></span>
-                            <span>احیا و توسعه جدید: اواخر ۱۴۰۳</span>
+                            <span>از تل ابلیس تا صنعت نوین</span>
                         </div>
                     </div>
 
-                    <!-- Card 2: Core Focus (Dark Contrast Card) -->
+                    <!-- Card 2: Discovery (Dark Contrast Card) -->
                     <div class="bento-card bento-card-dark scroll-reveal delay-100">
                         <div>
                             <div class="bento-card-icon">
                                 <?php echo kermancopper_icon('search', 'w-5 h-5'); ?>
                             </div>
-                            <h3 class="bento-card-title">استحصال عناصر استراتژیک</h3>
+                            <h3 class="bento-card-title">اکتشاف ذخیره سرچشمه</h3>
                             <p class="bento-card-desc">
-                                در حال حاضر بنابر سیاست‌ها و برنامه‌های کلان شرکت ملی صنایع مس ایران، تمرکز فعالیت این شرکت عمدتاً بر روی استحصال عناصر گرانبها، اقتصادی و استراتژیک از پسماندها، باطله‌ها و پسماندهای لیچ‌شده می‌باشد.
+                                در اواخر دهه ۱۳۴۰ خورشیدی، وجود یک کانسار مس پورفیری عظیم در دره سرچشمه کرمان با ارزیابی‌های ژئوشیمیایی پیشرفته تایید شد. این ذخیره بزرگ، یکی از غنی‌ترین توده‌های معدنی مس جهان است که نقطه‌عطفی در ورود ایران به صنعت متالورژی سنگین گردید.
                             </p>
                         </div>
                         <div class="bento-card-footer">
-                            <span style="color: #94a3b8; font-weight: 400;">بازیابی پیشرفته پسماندها</span>
-                            <span style="color: #E28652;">ارزش‌آفرینی مجدد</span>
+                            <span style="color: #94a3b8; font-weight: 400;">آغاز مطالعات سیستماتیک</span>
+                            <span style="color: #E28652;">۱۳۴۶ خورشیدی</span>
                         </div>
                     </div>
 
-                    <!-- Card 3: Technology Philosophy -->
+                    <!-- Card 3: Modern Enterprise -->
                     <div class="bento-card bento-card-light scroll-reveal delay-100">
                         <div>
                             <div class="bento-card-icon">
                                 <?php echo kermancopper_icon('factory', 'w-5 h-5'); ?>
                             </div>
-                            <h3 class="bento-card-title">فلسفه حیات و نگاه فناورانه</h3>
+                            <h3 class="bento-card-title">تجهیز و توسعه صنعتی</h3>
                             <p class="bento-card-desc">
-                                حجم بسیاری از ثروت ملی نهفته در باطله‌ها و پسماندها با گذشت زمان و همزمان با پیشرفت تکنولوژی عیان می‌شود. در این میان چنانچه نگاه فناورانه و دانش‌بنیان به محیط پیرامونی وجود نداشته باشد، عدم‌النفع بزرگی عاید کشور می‌گردد.
+                                به موازات پیشرفت طراحی‌ها، کارخانجات تغلیظ، ذوب و پالایشگاه الکترولیز مس برنامه‌ریزی و احداث گردید تا چرخه استخراج تا شمش مس کاتدی در قلب استان کرمان تکمیل گردد. مس کرمان زمین امروزه با ارتقای دانش مهندسی، یکی از پیشتازان بازارهای منطقه‌ای است.
                             </p>
                         </div>
                         <div class="bento-card-footer" style="justify-content: space-between;">
-                            <span style="color: #64748b; font-weight: 500;">جلوگیری از عدم‌النفع ملی</span>
-                            <span>تولید پایدار ثروت</span>
+                            <span style="color: #64748b; font-weight: 500;">کاتد مس با خلوص عالی</span>
+                            <span>هاب متالورژی ایران</span>
                         </div>
                     </div>
 
-                    <!-- Card 4: Support & Profit (2 cols wide) -->
+                    <!-- Card 4: Environment & CSR (2 cols wide) -->
                     <div class="bento-card bento-card-light bento-card-2col scroll-reveal delay-200">
                         <div>
                             <div class="bento-card-icon">
                                 <?php echo kermancopper_icon('leaf', 'w-5 h-5'); ?>
                             </div>
-                            <h3 class="bento-card-title">تحول ساختاری در تولید سود و ثروت</h3>
+                            <h3 class="bento-card-title">توسعه پایدار بومی و مسئولیت‌های زیست‌محیطی</h3>
                             <p class="bento-card-desc">
-                                مادامیکه این شرکت به عنوان یکی از شرکت‌های فرعی و صددرصدی شرکت ملی صنایع مس ایران از توجه و حمایت لازم در جهت تحقق این اهداف برخوردار باشد، با سرعت می‌تواند تحولی چشمگیر و شگرف در تولید سود و ثروت برای صاحبان سهام و توسعه صنعت مس ایجاد نماید.
+                                ما متعهد به ایجاد هم‌زیستی مسالمت‌آمیز میان صنعت سنگین و حفظ اکوسیستم‌های طبیعی کرمان هستیم. احداث کارخانجات اسید سولفوریک با هدف پالایش کامل گازهای خروجی کوره، توسعه فناوری‌های بازیافت آب و کاهش نرخ مصرف انرژی الکتریکی در صنایع فرآوری، گامی جدی در جهت معدن‌کاری سبز است.
                             </p>
                         </div>
                         <div class="bento-card-footer">
-                            <span>شرکت صددرصدی فرعی صنایع مس ایران</span>
+                            <span>پروژه‌های معدن‌کاری سبز</span>
                             <span class="bento-card-footer-dot"></span>
-                            <span>خلق ارزش و سودآوری پایدار</span>
+                            <span>مدیریت یکپارچه منابع آب و بازچرخانی</span>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- ─── SECTION 2: EXECUTIVE AXES ─── -->
+            <!-- ─── SECTION 2: VALUE CHAIN ─── -->
             <section class="mb-32">
                 <!-- Section Header -->
                 <div class="section-label-container scroll-reveal">
-                    <span class="premium-section-badge">محورهای راهبردی</span>
-                    <h2 class="section-main-title">سیاست‌های اجرایی کوتاه‌مدت و بلندمدت</h2>
+                    <span class="premium-section-badge">فرآیندها و دستاوردها</span>
+                    <h2 class="section-main-title">زنجیره کامل ارزش؛ از خاک تا کاتد مس</h2>
                     <div class="section-title-line"></div>
                 </div>
 
@@ -836,13 +836,13 @@ get_header();
                     <!-- Timeline Connector line -->
                     <div class="value-chain-timeline"></div>
 
-                    <!-- Step 1: Short-term policy -->
+                    <!-- Step 1: Mining -->
                     <div class="value-chain-step-row scroll-reveal">
                         <!-- Image -->
                         <div class="vc-col-img">
                             <div class="vc-image-frame-v2">
-                                <img src="<?php echo get_template_directory_uri(); ?>/images/about/realistic_mine.png" alt="مشارکت دانش‌بنیان و بخش خصوصی">
-                                <span class="vc-badge-v2">محور اول: سیاست کوتاه‌مدت</span>
+                                <img src="<?php echo get_template_directory_uri(); ?>/images/about/realistic_mine.png" alt="معدن‌کاری و استخراج مس روباز">
+                                <span class="vc-badge-v2">گام نخست: استخراج</span>
                             </div>
                         </div>
                         <!-- Content -->
@@ -850,46 +850,104 @@ get_header();
                             <div class="vc-content-header">
                                 <div class="vc-num-badge">۱</div>
                                 <div class="vc-titles">
-                                    <h3 class="vc-title-fa">مشارکت فعال و هم‌افزایی با بخش خصوصی</h3>
-                                    <span class="vc-title-en">Private Sector Partnership</span>
+                                    <h3 class="vc-title-fa">استخراج روباز</h3>
+                                    <span class="vc-title-en">Open-Pit Mining</span>
                                 </div>
                             </div>
                             <p class="vc-desc">
-                                اجرای سیاست‌های کوتاه‌مدت با تمرکز بر مشارکت هوشمندانه با بخش خصوصی توانمند، دانش‌بنیان و دارای مجوزهای قانونی برای این‌گونه فعالیت‌ها در حوزه محیط‌زیست انجام می‌پذیرد تا فرآیند بازآوری پسماندها با سرعت و بهره‌وری بالا عملیاتی گردد.
+                                استخراج مواد معدنی کانسار پورفیری سرچشمه با روش استخراج روباز در پله‌هایی با ارتفاع مناسب صورت می‌پذیرد. عملیات چال‌زنی، آتش‌باری سنگ‌های سخت و ترابری با غول‌پیکرترین کامیون‌های معدنی سنگ‌شکن‌ها را به کار می‌اندازد. نظارت مانیتورینگ آنلاین دیسپچینگ، ضامن امنیت و راندمان این فرآیند شبانه‌روزی است.
                             </p>
                             <div class="vc-tags-row">
-                                <span class="vc-tag">بخش خصوصی توانمند</span>
-                                <span class="vc-tag">توسعه دانش‌بنیان</span>
-                                <span class="vc-tag">مجوزهای زیست‌محیطی</span>
+                                <span class="vc-tag">دیسپچینگ هوشمند</span>
+                                <span class="vc-tag">چال‌زنی سنگین</span>
+                                <span class="vc-tag">ارتفاع پله: ۱۵ متر</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Step 2: Long-term policy (Reversed layout) -->
+                    <!-- Step 2: Concentration (Reversed layout) -->
                     <div class="value-chain-step-row scroll-reveal">
                         <!-- Content (First on desktop, second on mobile) -->
                         <div class="vc-col-content">
                             <div class="vc-content-header">
                                 <div class="vc-num-badge">۲</div>
                                 <div class="vc-titles">
-                                    <h3 class="vc-title-fa">احداث پلنت‌های تخصصی و بومی‌سازی دانش فنی</h3>
-                                    <span class="vc-title-en">Long-Term Feasibility & Plants</span>
+                                    <h3 class="vc-title-fa">تغلیظ سنگ مس</h3>
+                                    <span class="vc-title-en">Concentration</span>
                                 </div>
                             </div>
                             <p class="vc-desc">
-                                در راستای تحقق اهداف بلندمدت، تدوین طرح‌های توجیهی فنی-اقتصادی (F.S) و تهیه دانش فنی در حوزه‌های استحصال عناصر از پسماند و باطله به منظور سرمایه‌گذاری برای احداث پلنت‌های تخصصی و مدرن در دستور کار قرار دارد.
+                                سنگ معدن خرد شده در آسیاب‌های گلوله‌ای و نیمه‌خودشناور به ابعاد میکرومتری خرد می‌شود. سپس در سلول‌های فلوتاسیون با افزودن شناورکننده‌های شیمیایی، ذرات مس‌دار از باطله جدا شده و عیار مس سنگ خام از ۰.۶٪ به ۲۸٪ در قالب کنسانتره مس صعود می‌کند.
                             </p>
                             <div class="vc-tags-row">
-                                <span class="vc-tag">تدوین طرح توجیهی (F.S)</span>
-                                <span class="vc-tag">تهیه دانش فنی اختصاصی</span>
-                                <span class="vc-tag">احداث پلنت‌های صنعتی</span>
+                                <span class="vc-tag">فلوتاسیون پیشرفته</span>
+                                <span class="vc-tag">عیار محصول: ۲۸٪</span>
+                                <span class="vc-tag">آسیاب نیمه‌خودشناور (SAG)</span>
                             </div>
                         </div>
                         <!-- Image (Second on desktop, first on mobile) -->
                         <div class="vc-col-img vc-col-img-reverse">
                             <div class="vc-image-frame-v2">
-                                <img src="<?php echo get_template_directory_uri(); ?>/images/about/image1.png" alt="احداث پلنت‌های تخصصی استحصال عناصر">
-                                <span class="vc-badge-v2">محور دوم: سیاست بلندمدت</span>
+                                <img src="<?php echo get_template_directory_uri(); ?>/images/about/image1.png" alt="تغلیظ و فرآوری مس">
+                                <span class="vc-badge-v2">گام دوم: فرآوری و تغلیظ</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Smelting -->
+                    <div class="value-chain-step-row scroll-reveal">
+                        <!-- Image -->
+                        <div class="vc-col-img">
+                            <div class="vc-image-frame-v2">
+                                <img src="<?php echo get_template_directory_uri(); ?>/images/about/realistic_foundry.png" alt="ذوب و ریخته‌گری مس">
+                                <span class="vc-badge-v2">گام سوم: ذوب و ریخته‌گری</span>
+                            </div>
+                        </div>
+                        <!-- Content -->
+                        <div class="vc-col-content">
+                            <div class="vc-content-header">
+                                <div class="vc-num-badge">۳</div>
+                                <div class="vc-titles">
+                                    <h3 class="vc-title-fa">ذوب و تولید آند</h3>
+                                    <span class="vc-title-en">Smelting</span>
+                                </div>
+                            </div>
+                            <p class="vc-desc">
+                                کنسانتره مس تغلیظ شده در کوره‌های پیشرفته شعله‌ای و فلش حرارت داده می‌شود تا ناخالصی‌ها در قالب سرباره تخلیه و مس مات با عیار بالای ۶۰٪ حاصل شود. در مرحله بعد مس تاول‌زا تولید و سرانجام مس آندی با خلوص ۹۹.۳٪ برای ریخته‌گری در چرخ آند ریخته می‌شود.
+                            </p>
+                            <div class="vc-tags-row">
+                                <span class="vc-tag">کوره‌های فلش پیشرفته</span>
+                                <span class="vc-tag">خلوص آند: ۹۹.۳٪</span>
+                                <span class="vc-tag">چرخ آند گردان</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Refining (Reversed layout) -->
+                    <div class="value-chain-step-row scroll-reveal">
+                        <!-- Content -->
+                        <div class="vc-col-content">
+                            <div class="vc-content-header">
+                                <div class="vc-num-badge">۴</div>
+                                <div class="vc-titles">
+                                    <h3 class="vc-title-fa">تصفیه الکترولیتی</h3>
+                                    <span class="vc-title-en">Refining & Cathode</span>
+                                </div>
+                            </div>
+                            <p class="vc-desc">
+                                در آخرین مرحله از زنجیره تولید، صفحات آند مس در وان‌های الکترولیت حاوی سولفات مس قرار گرفته و با اعمال جریان الکتریکی، یون‌های خالص مس به سمت ورقه‌های کاتد جذب می‌شوند. محصول نهایی، کاتد مس با خلوص عالی ۹۹.۹۹٪ است که آماده عرضه در بورس کالا و بازارهای صادراتی جهانی است.
+                            </p>
+                            <div class="vc-tags-row">
+                                <span class="vc-tag">خلوص کاتد: ۹۹.۹۹٪</span>
+                                <span class="vc-tag">استاندارد عالی LME Grade A</span>
+                                <span class="vc-tag">الکترولیز صنعتی مدرن</span>
+                            </div>
+                        </div>
+                        <!-- Image -->
+                        <div class="vc-col-img vc-col-img-reverse">
+                            <div class="vc-image-frame-v2">
+                                <img src="<?php echo get_template_directory_uri(); ?>/images/about/mes-premium.png" alt="الکترولیز و کاتد مس خالص">
+                                <span class="vc-badge-v2">گام چهارم: الکترولیز و کاتد</span>
                             </div>
                         </div>
                     </div>
@@ -906,13 +964,13 @@ get_header();
                 <div class="vision-grid-row">
                     <!-- Left: Text and CTAs -->
                     <div class="vision-left-col font-peyda">
-                        <span class="vision-section-badge">چشم‌انداز و رویکرد</span>
-                        <h2 class="vision-title">خلق ثروت پایدار با بازفرآوری مواد و فلزات استراتژیک</h2>
+                        <span class="vision-section-badge">چشم‌انداز و استراتژی</span>
+                        <h2 class="vision-title">با تکیه بر خودباوری ملی، مس‌آفرین آینده کشوریم</h2>
                         <p class="vision-desc">
-                            نگاه هوشمندانه، تیز و دقیق می‌تواند در کوتاه‌مدت تاثیرات شگرفی در تولید ثروت ملی ایجاد نماید. شرکت صنایع و معادن مس کرمان زمین بر پایه‌ی این اصول استوار است.
+                            صنایع و معادن مس کرمان زمین مصمم است با تکیه بر توان داخلی و پیاده‌سازی فناوری‌های نوین، فرآیندهای سنتی را دگرگون ساخته و تولید پایدار خود را به تراز بین‌المللی برساند.
                         </p>
                         <div class="vision-cta-buttons">
-                            <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="cta-btn-primary">تماس با ما</a>
+                            <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="cta-btn-primary">تماس مستقیم با ما</a>
                             <a href="<?php echo esc_url( home_url( '/#news' ) ); ?>" class="cta-btn-secondary">اخبار و رویدادها</a>
                         </div>
                     </div>
@@ -925,8 +983,8 @@ get_header();
                                 <div class="value-card-icon-box">
                                     <?php echo kermancopper_icon('shield-check', 'w-5 h-5'); ?>
                                 </div>
-                                <h4 class="value-card-title">تعهد به نوآوری علمی</h4>
-                                <p class="value-card-desc">بهره‌گیری از آخرین تکنولوژی‌ها و متدهای علمی دانش‌بنیان در استحصال عناصر.</p>
+                                <h4 class="value-card-title">تعهد به کیفیت مطلق</h4>
+                                <p class="value-card-desc">تولیدات ما طبق آخرین استانداردهای LME بوده و در بازارهای جهانی قابل رقابت است.</p>
                             </div>
                             
                             <!-- Value 2 -->
@@ -934,8 +992,8 @@ get_header();
                                 <div class="value-card-icon-box">
                                     <?php echo kermancopper_icon('users', 'w-5 h-5'); ?>
                                 </div>
-                                <h4 class="value-card-title">مشارکت‌های راهبردی</h4>
-                                <p class="value-card-desc">همکاری تنگاتنگ با بخش خصوصی متخصص و شرکت‌های توانمند در سراسر کشور.</p>
+                                <h4 class="value-card-title">توسعه سرمایه انسانی</h4>
+                                <p class="value-card-desc">ایجاد زمینه رشد تخصصی برای هزاران جوان بااستعداد بومی استان کرمان.</p>
                             </div>
 
                             <!-- Value 3 -->
@@ -943,8 +1001,8 @@ get_header();
                                 <div class="value-card-icon-box">
                                     <?php echo kermancopper_icon('sprout', 'w-5 h-5'); ?>
                                 </div>
-                                <h4 class="value-card-title">حفظ زیست‌بوم بومی</h4>
-                                <p class="value-card-desc">کاهش اثرات مخرب پسماندهای صنعتی و تبدیل تهدیدهای محیط‌زیستی به فرصت‌های اقتصادی.</p>
+                                <h4 class="value-card-title">حفظ محیط زیست</h4>
+                                <p class="value-card-desc">کاهش آلایندگی با سیستم‌های کنترل آنلاین و فیلتراسیون کوره ذوب.</p>
                             </div>
 
                             <!-- Value 4 -->
@@ -952,13 +1010,14 @@ get_header();
                                 <div class="value-card-icon-box">
                                     <?php echo kermancopper_icon('award', 'w-5 h-5'); ?>
                                 </div>
-                                <h4 class="value-card-title">توسعه پایدار ثروت ملی</h4>
-                                <p class="value-card-desc">خلق ارزش افزوده شگرف برای سهام‌داران و حفاظت فعال از سرمایه‌های ملی فلات ایران.</p>
+                                <h4 class="value-card-title">رونق بازارهای ملی</h4>
+                                <p class="value-card-desc">تضمین تامین پایدار مواد اولیه برای صنایع پایین‌دستی برق، فولاد و الکترونیک.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
+
         </div>
     </div>
 
