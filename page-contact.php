@@ -28,12 +28,12 @@ get_header();
             <!-- Badge -->
             <div class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass-panel mb-6 border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.2)] animate-fade-in-down delay-100 mx-auto">
                 <span class="text-copper-light text-xs font-extrabold tracking-widest">ارتباط مستقیم با صنایع و معادن مس کرمان زمین</span>
-            </div>
+            </div> 
 
             <!-- Title -->
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-4 animate-fade-in-down delay-200">
                 همواره پاسخگوی <span class="text-transparent bg-clip-text bg-gradient-to-l from-copper-dark via-copper to-copper-light">شما هستیم</span>
-            </h1>
+            </h1> 
 
             <p class="text-base text-slate-400 mx-auto font-light leading-relaxed animate-fade-in-down delay-300 mb-20">
                 درگاه ارتباط مستقیم با واحد روابط عمومی، بخش فروش و مناقصات، صنایع مس کرمان زمین

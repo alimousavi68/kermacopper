@@ -16,7 +16,7 @@
                     </a>
                     <div class="hidden sm:block w-px h-8 bg-white/10"></div>
                     <p class="text-sm text-slate-500 font-medium text-center sm:text-right">
-                        تمامی حقوق مادی و معنوی برای <span class="text-slate-300">صنایع مس کرمان زمین</span> محفوظ است © ۱۴۰۴
+                        تمامی حقوق مادی و معنوی برای <span class="text-slate-300">صنایع مس کرمان زمین</span> است © ۱۴۰۴
                     </p>
                 </div>
 
