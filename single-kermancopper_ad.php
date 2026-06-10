@@ -35,7 +35,7 @@ get_header(); ?>
         $status = $is_expired ? 'closed' : 'active';
         $can_submit = ! $is_expired;
         $status_label = $status === 'closed' ? __( 'بسته شده', 'kermancopper' ) : __( 'فعال و معتبر', 'kermancopper' );
-        $thumbnail = get_the_post_thumbnail_url( $ad_id, 'full' );
+        $thumbnail = get_the_post_thumbnail_url( $ad_id, 'kermancopper-hero-thumbnail' );
         if ( ! $thumbnail ) {
             $thumbnail = get_template_directory_uri() . '/images/image2.jpg';
         }

@@ -26,6 +26,15 @@
             font-display: swap;
         }
 
+      @font-face {
+            font-family: 'IRANYekanX';
+            src: url('<?php echo get_template_directory_uri(); ?>/fonts/IRANYekanX/woff2/IRANYekanX-Regular.woff2') format('woff2'),
+                 url('<?php echo get_template_directory_uri(); ?>/fonts/IRANYekanX/woff/IRANYekanX-Regular.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+
        
 
       html {
@@ -34,7 +43,7 @@
       }
 
       body {
-        font-family: 'PeydaWebVF', sans-serif;
+        font-family: 'PeydaWebVF', 'IRANYekanX', sans-serif;
         -moz-font-feature-settings: "ss02";
         -webkit-font-feature-settings: "ss02";
         font-feature-settings: "ss02";
@@ -90,7 +99,7 @@
       .hero-pattern-left-wrapper {
         opacity: 0;
         will-change: transform, opacity;
-        animation: slideInPattern 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+        animation: slideInPattern 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0s forwards;
       }
       
       @keyframes slideInPattern {

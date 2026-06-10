@@ -20,9 +20,10 @@ require_once KERMANCOPPER_DIR . '/inc/kermancopper-icons.php';
 function kermancopper_setup() {
     add_theme_support( 'title-tag' );
     add_theme_support( 'post-thumbnails' );
-    add_image_size( 'kermancopper-ad-thumbnail', 350, 182, true );
-    add_image_size( 'kermancopper-notice-thumbnail', 225, 300, true );
-    add_image_size( 'kermancopper-news-thumbnail', 898, 600, true );
+    add_image_size( 'kermancopper-ad-thumbnail', 600, 400, true );
+    add_image_size( 'kermancopper-notice-thumbnail', 450, 600, true );
+    add_image_size( 'kermancopper-news-thumbnail', 800, 500, true );
+    add_image_size( 'kermancopper-hero-thumbnail', 1200, 600, true );
     add_theme_support( 'custom-logo' );
     add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
     

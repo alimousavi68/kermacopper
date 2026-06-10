@@ -144,7 +144,7 @@ if ( empty( $blog_desc ) ) {
                                     <?php
                                 } else {
                                     // Standard Post
-                                    $thumbnail_url = get_the_post_thumbnail_url( get_the_ID(), 'medium_large' );
+                                    $thumbnail_url = get_the_post_thumbnail_url( get_the_ID(), 'kermancopper-news-thumbnail' );
                                     if ( ! $thumbnail_url ) {
                                         $thumbnail_url = get_template_directory_uri() . '/images/about/realistic_foundry.png';
                                     }

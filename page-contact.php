@@ -36,7 +36,7 @@ get_header();
             </h1>
 
             <p class="text-base text-slate-400 mx-auto font-light leading-relaxed animate-fade-in-down delay-300 mb-20">
-                درگاه ارتباط مستقیم با واحد روابط عمومی، بخش فروش و مناقصات، دفتر مرکزی و کارخانجات مجتمع مس کرمان زمین
+                درگاه ارتباط مستقیم با واحد روابط عمومی، بخش فروش و مناقصات، صنایع مس کرمان زمین
             </p>
         </div>
 

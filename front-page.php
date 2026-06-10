@@ -205,7 +205,7 @@
         </div>
 
         <div class="hero-text-container container mx-auto px-6 lg:px-12 relative z-20 flex flex-col items-start text-right mt-6 lg:mt-8 xl:mt-10 2xl:mt-12 font-peyda">
-            <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full glass-panel mb-4 xl:mb-6 border border-white/20 animate-fade-in-up delay-100">
+            <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full glass-panel mb-4 xl:mb-6 border border-white/20 animate-fade-in-up delay-75">
                 <span class="relative flex h-3 w-3">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-copper opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-3 w-3 bg-copper"></span>
@@ -213,18 +213,18 @@
                 <span class="text-copper-light text-xs font-extrabold tracking-widest"><?php echo esc_html( $hero_badge_text ); ?></span>
             </div>
 
-            <h1 class="text-xl sm:text-2xl md:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl xl:leading-[1.1] font-black text-white leading-[1.2] mb-3 max-w-4xl text-right animate-fade-in-up delay-200">
+            <h1 class="text-xl sm:text-2xl md:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl xl:leading-[1.1] font-black text-white leading-[1.2] mb-3 max-w-4xl text-right animate-fade-in-up delay-100">
                 <?php echo esc_html( $hero_title ?: 'افتخار ملی، نوآوری در' ); ?> <span class="text-transparent bg-clip-text bg-gradient-to-l from-copper-dark via-copper to-copper-light"><?php echo esc_html( $hero_title_highlight ?: 'صنعت مس ایران' ); ?></span>
             </h1>
-            <div class="text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl text-slate-400 font-semibold tracking-wider mb-4 xl:mb-6 uppercase text-right animate-fade-in-up delay-300" dir="ltr">
+            <div class="text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl text-slate-400 font-semibold tracking-wider mb-4 xl:mb-6 uppercase text-right animate-fade-in-up delay-150" dir="ltr">
                 <?php echo esc_html( $hero_subtitle ?: "National Pride, Innovation in Iran's Copper Industry" ); ?>
             </div>
 
-            <p class="text-sm md:text-base xl:text-lg 2xl:text-xl xl:leading-relaxed text-slate-300 max-w-2xl leading-relaxed mb-6 xl:mb-8 font-light text-right animate-fade-in-up delay-400">
+            <p class="text-sm md:text-base xl:text-lg 2xl:text-xl xl:leading-relaxed text-slate-300 max-w-2xl leading-relaxed mb-6 xl:mb-8 font-light text-right animate-fade-in-up delay-200">
                 <?php echo esc_html( $hero_description ?: 'تکیه بر تخصص بومی و پتانسیل‌های بی‌کران دشت‌های کرمان، صنایع و معادن مس کرمان زمین را به نماد پایداری، خودکفایی و حضور پرقدرت در بازارهای جهانی تبدیل کرده است.' ); ?>
             </p>
 
-            <div class="flex justify-start flex-wrap gap-4 mb-4 animate-fade-in-up delay-500">
+            <div class="flex justify-start flex-wrap gap-4 mb-4 animate-fade-in-up delay-300">
                 <?php if ( $hero_button_primary_text && $hero_button_primary_url ) : ?>
                 <a href="<?php echo esc_url( $hero_button_primary_url ); ?>" class="bg-copper hover:bg-copper-light text-white px-6 py-3 rounded-full text-sm font-bold transition-all hover:shadow-[0_10px_30px_rgba(200,104,47,0.4)] flex items-center gap-2 hover:-translate-y-1">
                     <?php echo esc_html( $hero_button_primary_text ); ?>
@@ -383,11 +383,11 @@
 
                     <!-- Right Column (First flex child, Mine) -->
                     <div
-                        class="w-1/2 h-[75%] lg:h-[80%] mt-0 relative z-10 transition-all duration-1000 ease-out group-hover:-translate-y-4 group-hover:rotate-1 about-fade-up opacity-0 translate-y-10 delay-[200ms]">
+                        class="w-1/2 h-[75%] lg:h-[80%] mt-0 relative z-10 transition-all duration-500 ease-out group-hover:-translate-y-4 group-hover:rotate-1 about-fade-up opacity-0 translate-y-10 delay-[75ms]">
                         <div
                             class="about-parallax-item w-full h-full rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] border-4 sm:border-8 border-white/80 bg-white relative">
                             <img src="<?php echo esc_url($about_image_1_url); ?>"
-                                class="w-full h-full object-cover transition-transform duration-1000 ease-out hover:scale-110"
+                                class="w-full h-full object-cover transition-transform duration-500 ease-out hover:scale-110"
                                 alt="Mine">
                             <div class="absolute inset-0 bg-navy/10 mix-blend-multiply pointer-events-none"></div>
                         </div>
@@ -395,11 +395,11 @@
 
                     <!-- Left Column (Second flex child, offset, Foundry) -->
                     <div
-                        class="w-1/2 h-[85%] lg:h-[90%] mt-12 sm:mt-20 relative z-20 transition-all duration-1000 ease-out group-hover:-translate-y-6 group-hover:-rotate-1 about-fade-up opacity-0 translate-y-10 delay-[400ms]">
+                        class="w-1/2 h-[85%] lg:h-[90%] mt-12 sm:mt-20 relative z-20 transition-all duration-500 ease-out group-hover:-translate-y-6 group-hover:-rotate-1 about-fade-up opacity-0 translate-y-10 delay-[150ms]">
                         <div
                             class="about-parallax-item w-full h-full rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-[0_30px_60px_-15px_rgba(200,104,47,0.15)] border-4 sm:border-8 border-white bg-white relative">
                             <img src="<?php echo esc_url($about_image_2_url); ?>"
-                                class="w-full h-full object-cover transition-transform duration-1000 ease-out hover:scale-110"
+                                class="w-full h-full object-cover transition-transform duration-500 ease-out hover:scale-110"
                                 alt="Foundry">
                             <div class="absolute inset-0 bg-navy/10 mix-blend-multiply pointer-events-none"></div>
                         </div>
@@ -407,7 +407,7 @@
 
                     <!-- Overlapping Horizontal Glass Badge -->
                     <div
-                        class="absolute -bottom-6 sm:bottom-4 left-1/2 -translate-x-1/2 w-[90%] sm:w-max min-w-[320px] glass-panel-dark p-4 sm:p-5 lg:px-8 lg:py-6 rounded-[2rem] shadow-[0_25px_50px_-12px_rgba(26,34,53,0.5)] border border-white/10 z-30 flex items-center justify-between gap-6 sm:gap-10 transition-all duration-1000 hover:scale-105 hover:border-copper/40 hover:shadow-[0_30px_60px_-15px_rgba(200,104,47,0.3)] about-fade-up opacity-0 translate-y-10 delay-[600ms]">
+                        class="absolute -bottom-6 sm:bottom-4 left-1/2 -translate-x-1/2 w-[90%] sm:w-max min-w-[320px] glass-panel-dark p-4 sm:p-5 lg:px-8 lg:py-6 rounded-[2rem] shadow-[0_25px_50px_-12px_rgba(26,34,53,0.5)] border border-white/10 z-30 flex items-center justify-between gap-6 sm:gap-10 transition-all duration-500 hover:scale-105 hover:border-copper/40 hover:shadow-[0_30px_60px_-15px_rgba(200,104,47,0.3)] about-fade-up opacity-0 translate-y-10 delay-[225ms]">
                         <div class="flex items-center gap-3 sm:gap-4">
                             <div
                                 class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-copper/20 to-copper/5 flex items-center justify-center border border-copper/20 shadow-inner flex-shrink-0">
@@ -444,7 +444,7 @@
 
         <div class="container mx-auto px-6 lg:px-12 relative z-10">
             <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-                <div class="ads-fade-up opacity-0 translate-y-10 transition-all duration-[1000ms] ease-out">
+                <div class="ads-fade-up opacity-0 translate-y-10 transition-all duration-[500ms] ease-out">
                     <h4 class="text-copper font-bold tracking-widest mb-4 flex items-center gap-4 font-peyda">
                         <span class="w-12 h-0.5 bg-copper"></span> فرصت‌های همکاری
                     </h4>
@@ -453,7 +453,7 @@
                 </div>
                 <!-- Premium Filters -->
                 <div
-                    class="flex bg-white p-1.5 rounded-2xl shadow-sm border border-slate-200 ads-fade-up opacity-0 translate-y-10 transition-all duration-[1000ms] delay-[200ms] ease-out overflow-x-auto hide-scrollbar max-w-full">
+                    class="flex bg-white p-1.5 rounded-2xl shadow-sm border border-slate-200 ads-fade-up opacity-0 translate-y-10 transition-all duration-[500ms] delay-[75ms] ease-out overflow-x-auto hide-scrollbar max-w-full">
                     <button
                         class="relative px-3 sm:px-6 md:px-8 py-2 sm:py-2.5 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm bg-copper text-white shadow-[0_4px_15px_rgba(200,104,47,0.3)] transition-all duration-300 z-10 transform scale-100 whitespace-nowrap flex-shrink-0">همه موارد</button>
                     <button
@@ -515,11 +515,11 @@
                             ? 'bg-rose-50 text-rose-600 border border-rose-100/50'
                             : 'bg-emerald-50 text-emerald-600 border border-emerald-100/50';
                         ?>
-                        <div class="ads-fade-up opacity-0 translate-y-10 transition-all duration-[1000ms] ease-out h-full ad-item" style="transition-delay: <?php echo esc_attr($delay); ?>ms" data-type="<?php echo esc_attr( $ad_type_slug ); ?>">
+                        <div class="ads-fade-up opacity-0 translate-y-10 transition-all duration-[500ms] ease-out h-full ad-item" style="transition-delay: <?php echo esc_attr($delay); ?>ms" data-type="<?php echo esc_attr( $ad_type_slug ); ?>">
                             <a href="<?php echo esc_url( get_permalink() ); ?>" class="ads-parallax-item bg-white rounded-[2rem] p-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200/60 hover:shadow-[0_20px_40px_-15px_rgba(200,104,47,0.15)] hover:border-copper/40 transition-all duration-500 group cursor-pointer flex flex-col h-full relative overflow-hidden block">
                                 <div class="absolute inset-0 bg-gradient-to-br from-copper/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                                 <div class="h-52 rounded-3xl overflow-hidden mb-6 relative shadow-inner">
-                                    <img src="<?php echo esc_url( $thumbnail ); ?>" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" alt="<?php echo esc_attr( get_the_title() ); ?>">
+                                    <img src="<?php echo esc_url( $thumbnail ); ?>" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="<?php echo esc_attr( get_the_title() ); ?>">
                                     <div class="absolute inset-0 bg-navy/0 group-hover:bg-navy/10 transition-colors duration-500 pointer-events-none"></div>
                                     <div class="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl text-xs font-bold text-navy flex items-center gap-2 shadow-[0_4px_12px_rgba(0,0,0,0.08)] border border-white/20">
                                         <?php echo kermancopper_icon('<?php echo esc_attr($ad_type_icon); ?>', 'w-4 h-4 text-copper'); ?> <?php echo esc_html( $ad_type_label ); ?>
@@ -561,7 +561,7 @@
 
         <div class="container mx-auto px-6 lg:px-12 relative z-10">
             <div
-                class="text-center mb-16 fade-up-element opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+                class="text-center mb-16 fade-up-element opacity-0 translate-y-10 transition-all duration-500 ease-out">
                 <h4
                     class="text-copper font-bold tracking-widest mb-4 flex items-center justify-center gap-4 font-peyda">
                     <span class="w-12 h-0.5 bg-copper"></span> پایگاه خبری و اطلاع‌رسانی <span
@@ -576,7 +576,7 @@
                 <!-- Latest News (Now on the right visually/first in DOM) -->
                 <?php if ($news_has_content): ?>
                 <div
-                    class="lg:col-span-8 flex flex-col fade-up-element opacity-0 translate-y-10 transition-all duration-1000 delay-[200ms] ease-out h-full">
+                    class="lg:col-span-8 flex flex-col fade-up-element opacity-0 translate-y-10 transition-all duration-500 delay-[75ms] ease-out h-full">
                     <div class="flex items-center justify-between mb-8">
                         <h3 class="text-2xl font-black text-white font-peyda flex items-center gap-3">
                             <div
@@ -600,7 +600,7 @@
                         <a href="<?php echo esc_url($featured_news['url']); ?>"
                             class="news-parallax-item relative rounded-[2rem] overflow-hidden group shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-white/10 hover:border-copper/40 transition-colors duration-500 flex flex-col min-h-[400px] h-full">
                             <img src="<?php echo esc_url($featured_news['image']); ?>"
-                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                                class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                 alt="<?php echo esc_attr($featured_news['title']); ?>">
                             <div
                                 class="absolute inset-0 bg-gradient-to-t from-navy via-navy/60 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-500">
@@ -666,7 +666,7 @@
                 <!-- Announcements (Vertical Banners - Now on the left visually/second in DOM) -->
                 <?php if ($notices_has_content): ?>
                 <div
-                    class="lg:col-span-4 flex flex-col fade-up-element opacity-0 translate-y-10 transition-all duration-1000 delay-[400ms] ease-out h-[400px] sm:h-[500px] lg:h-full min-h-0">
+                    class="lg:col-span-4 flex flex-col fade-up-element opacity-0 translate-y-10 transition-all duration-500 delay-[150ms] ease-out h-[400px] sm:h-[500px] lg:h-full min-h-0">
                     <div class="flex items-center justify-between mb-8 shrink-0">
                         <h3 class="text-2xl font-black text-white font-peyda flex items-center gap-3">
                             <div
@@ -692,7 +692,7 @@
                             <!-- Slide -->
                             <a href="<?php echo esc_url($notice['url']); ?>" class="relative w-full h-full flex-shrink-0 snap-center group block">
                                 <img src="<?php echo esc_url($notice['image']); ?>"
-                                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                                    class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                     alt="<?php echo esc_attr($notice['title']); ?>">
                                 <div
                                     class="absolute inset-0 bg-gradient-to-t from-navy via-navy/60 to-navy/10 group-hover:via-navy/50 transition-all duration-500">
@@ -778,7 +778,7 @@
 
         <div class="container mx-auto px-6 lg:px-12 relative z-10">
             <div
-                class="max-w-4xl mx-auto text-center mb-24 fade-up-element opacity-0 translate-y-10 transition-all duration-1000 ease-out">
+                class="max-w-4xl mx-auto text-center mb-24 fade-up-element opacity-0 translate-y-10 transition-all duration-500 ease-out">
                 <h4
                     class="text-copper font-bold tracking-widest mb-4 flex items-center justify-center gap-4 font-peyda">
                     <span class="w-12 h-0.5 bg-copper/30"></span> <?php echo esc_html($faq_kicker ?: 'پشتیبانی و راهنمایی'); ?> <span
@@ -797,7 +797,7 @@
 
                 <?php if ($faq_has_items): ?>
                 <?php foreach ($faq_items as $index => $faq_item): ?>
-                <div class="faq-item faq-fade-up opacity-0 translate-y-10 transition-all duration-[1000ms] delay-[<?php echo esc_attr(($index+1)*100); ?>ms] ease-out bg-white rounded-3xl border border-slate-100/80 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_50px_-15px_rgba(200,104,47,0.15)] hover:border-copper/30 relative z-10 group"
+                <div class="faq-item faq-fade-up opacity-0 translate-y-10 transition-all duration-[500ms] delay-[<?php echo esc_attr(($index+1)*100); ?>ms] ease-out bg-white rounded-3xl border border-slate-100/80 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_50px_-15px_rgba(200,104,47,0.15)] hover:border-copper/30 relative z-10 group"
                     data-active="<?php echo $index === 0 ? 'true' : 'false'; ?>">
                     <button class="w-full text-right p-8 flex justify-between items-center focus:outline-none"
                         onclick="toggleFaq(this)">
@@ -838,7 +838,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 items-center">
                 <!-- Form Area -->
                 <div
-                    class="lg:col-span-5 contact-fade-up opacity-0 translate-y-10 transition-all duration-1000 delay-[200ms] ease-out">
+                    class="lg:col-span-5 contact-fade-up opacity-0 translate-y-10 transition-all duration-500 delay-[75ms] ease-out">
                     <div class="mb-12">
                         <h4 class="text-copper font-bold tracking-widest mb-4 flex items-center gap-3 font-peyda">
                             <span class="w-8 h-0.5 bg-copper"></span> صدای شما
@@ -904,7 +904,7 @@
 
                 <!-- Info & Map Area -->
                 <div
-                    class="lg:col-span-7 contact-fade-up opacity-0 translate-y-10 transition-all duration-1000 delay-[400ms] ease-out h-full flex flex-col gap-6 mt-12 lg:mt-0">
+                    class="lg:col-span-7 contact-fade-up opacity-0 translate-y-10 transition-all duration-500 delay-[150ms] ease-out h-full flex flex-col gap-6 mt-12 lg:mt-0">
 
                     <!-- Premium Map Card -->
                     <div
@@ -916,7 +916,7 @@
                         $map_img_src = ! empty( $contact_map_image ) ? $contact_map_image : get_template_directory_uri() . '/images/map-dark.jpg';
                         ?>
                         <img src="<?php echo esc_url( $map_img_src ); ?>" alt="نقشه"
-                            class="absolute inset-0 w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-[50%] group-hover:opacity-80 transition-all duration-1000 group-hover:scale-105">
+                            class="absolute inset-0 w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-[50%] group-hover:opacity-80 transition-all duration-500 group-hover:scale-105">
                         <div
                             class="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent pointer-events-none">
                         </div>

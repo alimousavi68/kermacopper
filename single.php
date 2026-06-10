@@ -10,7 +10,7 @@ get_header();
 while ( have_posts() ) :
     the_post();
 
-    $thumbnail_url = get_the_post_thumbnail_url( get_the_ID(), 'full' );
+    $thumbnail_url = get_the_post_thumbnail_url( get_the_ID(), 'kermancopper-hero-thumbnail' );
     if ( ! $thumbnail_url ) {
         $thumbnail_url = get_template_directory_uri() . '/images/about/realistic_mine.png';
     }
