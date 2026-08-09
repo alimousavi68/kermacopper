@@ -157,7 +157,7 @@ get_header(); ?>
             <?php endif; ?>
 
             <!-- Post Content -->
-            <div class="prose prose-lg max-w-none text-slate-700 leading-loose bg-white border border-slate-200/80 rounded-[2rem] shadow-[0_8px_30px_rgba(0,0,0,0.02)] p-8 sm:p-10 mb-12 post-content scroll-reveal">
+            <div class="post-content text-slate-700 leading-loose bg-white border border-slate-200/80 rounded-[2rem] shadow-[0_8px_30px_rgba(0,0,0,0.02)] p-8 sm:p-10 mb-12 scroll-reveal">
                 <?php the_content(); ?>
             </div>
 
