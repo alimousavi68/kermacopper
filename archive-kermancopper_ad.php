@@ -72,7 +72,7 @@ get_header();
                 </aside>
 
                 <!-- Grid & Loop Area -->
-                <div class="flex-1 flex flex-col justify-between">
+                <div class="flex-1 flex flex-col">
                     <!-- Filters Action Bar -->
                     <div class="flex flex-wrap items-center justify-between gap-4 mb-5 p-4 bg-white rounded-2xl border border-slate-200/80 shadow-[0_15px_50px_rgba(0,0,0,0.03)] scroll-reveal">
                         <div class="flex items-center gap-4">
