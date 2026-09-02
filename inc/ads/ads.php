@@ -471,6 +471,62 @@ function kermancopper_ads_find_user_by_national_id( $national_id ) {
     return false;
 }
 
+function kermancopper_ads_get_dashboard_url() {
+    $dashboard_page = get_page_by_path( 'dashboard' );
+    return $dashboard_page ? get_permalink( $dashboard_page->ID ) : home_url( '/dashboard/' );
+}
+
+function kermancopper_ads_request_exists_for_ad( $ad_id, $national_id, $exclude_request_id = 0 ) {
+    $ad_id = absint( $ad_id );
+    $national_id = preg_replace( '/\s+/', '', trim( (string) $national_id ) );
+    $exclude_request_id = absint( $exclude_request_id );
+
+    if ( ! $ad_id || $national_id === '' ) {
+        return false;
+    }
+
+    $query_args = array(
+        'post_type'      => KERMANCOPPER_AD_REQUEST_POST_TYPE,
+        'post_status'    => 'any',
+        'posts_per_page' => 1,
+        'fields'         => 'ids',
+        'no_found_rows'  => true,
+        'meta_query'     => array(
+            'relation' => 'AND',
+            array(
+                'key'   => KERMANCOPPER_AD_REQUEST_META_AD_ID,
+                'value' => $ad_id,
+            ),
+            array(
+                'key'   => KERMANCOPPER_AD_REQUEST_META_NATIONAL_ID,
+                'value' => $national_id,
+            ),
+        ),
+    );
+
+    if ( $exclude_request_id ) {
+        $query_args['post__not_in'] = array( $exclude_request_id );
+    }
+
+    $existing_request = new WP_Query( $query_args );
+
+    return $existing_request->have_posts();
+}
+
+function kermancopper_ads_validate_establishment_date( $establishment_date ) {
+    $establishment_date = trim( (string) $establishment_date );
+
+    if ( $establishment_date === '' || ! preg_match( '/^\d{4}-\d{2}-\d{2}$/', $establishment_date ) ) {
+        return new WP_Error( 'invalid_establishment_date', 'تاریخ تاسیس وارد شده معتبر نیست.' );
+    }
+
+    if ( $establishment_date > current_time( 'Y-m-d' ) ) {
+        return new WP_Error( 'future_establishment_date', 'تاریخ تاسیس نمی‌تواند بعد از تاریخ امروز باشد.' );
+    }
+
+    return true;
+}
+
 function kermancopper_ads_collect_request_payload( $ad_id, $redirect_url, $use_ajax = false ) {
     $mobile = isset( $_POST['request_mobile'] ) ? sanitize_text_field( wp_unslash( $_POST['request_mobile'] ) ) : '';
     $email = isset( $_POST['request_email'] ) ? sanitize_email( wp_unslash( $_POST['request_email'] ) ) : '';
@@ -480,9 +536,11 @@ function kermancopper_ads_collect_request_payload( $ad_id, $redirect_url, $use_a
     $activity_type = isset( $_POST['activity_type'] ) ? sanitize_text_field( wp_unslash( $_POST['activity_type'] ) ) : '';
     $company_name_en = isset( $_POST['company_name_en'] ) ? sanitize_text_field( wp_unslash( $_POST['company_name_en'] ) ) : '';
     $national_id = isset( $_POST['national_id'] ) ? sanitize_text_field( wp_unslash( $_POST['national_id'] ) ) : '';
-    $establishment_date = isset( $_POST['establishment_date'] ) ? sanitize_text_field( wp_unslash( $_POST['establishment_date'] ) ) : '';
-    if ( $establishment_date !== '' ) {
-        $establishment_date = kermancopper_ads_normalize_expiry_date_for_storage( $establishment_date );
+    $national_id = preg_replace( '/\s+/', '', $national_id );
+    $establishment_date_raw = isset( $_POST['establishment_date'] ) ? sanitize_text_field( wp_unslash( $_POST['establishment_date'] ) ) : '';
+    $establishment_date = '';
+    if ( $establishment_date_raw !== '' ) {
+        $establishment_date = kermancopper_ads_normalize_expiry_date_for_storage( $establishment_date_raw );
     }
     $economic_number = isset( $_POST['economic_number'] ) ? sanitize_text_field( wp_unslash( $_POST['economic_number'] ) ) : '';
     $registration_number = isset( $_POST['registration_number'] ) ? sanitize_text_field( wp_unslash( $_POST['registration_number'] ) ) : '';
@@ -507,7 +565,7 @@ function kermancopper_ads_collect_request_payload( $ad_id, $redirect_url, $use_a
 
     $is_user_logged_in = is_user_logged_in();
 
-    if ( $mobile === '' || $email === '' || $company === '' || $company_type === '' || $activity_type === '' || $national_id === '' || $establishment_date === '' || $economic_number === '' || $registration_number === '' || $registration_location === '' || $ceo_name === '' || $ceo_national_id === '' || $ceo_mobile === '' || $phone === '' || $fax === '' || $website === '' || $postal_code === '' || $province === '' || $city === '' || $address === '' || $bank_sheba === '' || $bank_account === '' || $bank_branch === '' || ( ! $is_user_logged_in && $password === '' ) || $registration_reason === '' ) {
+    if ( $mobile === '' || $email === '' || $company === '' || $company_type === '' || $activity_type === '' || $national_id === '' || $establishment_date_raw === '' || $economic_number === '' || $registration_number === '' || $registration_location === '' || $ceo_name === '' || $ceo_national_id === '' || $ceo_mobile === '' || $phone === '' || $fax === '' || $postal_code === '' || $province === '' || $city === '' || $address === '' || $bank_sheba === '' || $bank_account === '' || $bank_branch === '' || ( ! $is_user_logged_in && $password === '' ) || $registration_reason === '' ) {
         if ( $use_ajax ) {
             return new WP_Error( 'missing', 'لطفا همه فیلدهای ضروری را تکمیل کنید.' );
         }
@@ -515,21 +573,21 @@ function kermancopper_ads_collect_request_payload( $ad_id, $redirect_url, $use_a
         exit;
     }
     
-    if ( ! $is_user_logged_in ) {
-        if ( $password !== $password_confirm ) {
-            if ( $use_ajax ) {
-                return new WP_Error( 'password_mismatch', 'کلمه عبور و تکرار آن مطابقت ندارند.' );
-            }
-            wp_safe_redirect( add_query_arg( 'ad_request', 'password_mismatch', $redirect_url ) );
-            exit;
+    if ( $establishment_date === '' ) {
+        if ( $use_ajax ) {
+            return new WP_Error( 'invalid_establishment_date', 'تاریخ تاسیس وارد شده معتبر نیست.' );
         }
-        if ( strlen( $password ) < 8 ) {
-            if ( $use_ajax ) {
-                return new WP_Error( 'password_short', 'کلمه عبور باید حداقل ۸ کاراکتر باشد.' );
-            }
-            wp_safe_redirect( add_query_arg( 'ad_request', 'password_short', $redirect_url ) );
-            exit;
+        wp_safe_redirect( add_query_arg( 'ad_request', 'invalid_establishment_date', $redirect_url ) );
+        exit;
+    }
+
+    $establishment_date_validation = kermancopper_ads_validate_establishment_date( $establishment_date );
+    if ( is_wp_error( $establishment_date_validation ) ) {
+        if ( $use_ajax ) {
+            return $establishment_date_validation;
         }
+        wp_safe_redirect( add_query_arg( 'ad_request', $establishment_date_validation->get_error_code(), $redirect_url ) );
+        exit;
     }
 
     if ( ! is_email( $email ) ) {
@@ -550,6 +608,7 @@ function kermancopper_ads_collect_request_payload( $ad_id, $redirect_url, $use_a
     
     $existing_user_id = 0;
     $is_existing_user = false;
+    $existing_user = false;
     if ( $is_user_logged_in ) {
         $is_existing_user = true;
         $existing_user_id = get_current_user_id();
@@ -558,6 +617,17 @@ function kermancopper_ads_collect_request_payload( $ad_id, $redirect_url, $use_a
     } else {
         // Reuse the existing account when this national ID has already been registered.
         $existing_user = kermancopper_ads_find_user_by_national_id( $national_id );
+    }
+
+    if ( kermancopper_ads_request_exists_for_ad( $ad_id, $national_id ) ) {
+        if ( $use_ajax ) {
+            return new WP_Error( 'duplicate_national_id_for_ad', 'شما قبلاً با این شناسه ملی در این آگهی ثبت نام کرده‌اید.' );
+        }
+        wp_safe_redirect( add_query_arg( 'ad_request', 'duplicate_national_id_for_ad', $redirect_url ) );
+        exit;
+    }
+
+    if ( ! $is_user_logged_in ) {
         if ( $existing_user ) {
             if ( ! wp_check_password( $password, $existing_user->user_pass, $existing_user->ID ) ) {
                 if ( $use_ajax ) {
@@ -568,6 +638,21 @@ function kermancopper_ads_collect_request_payload( $ad_id, $redirect_url, $use_a
             }
             $is_existing_user = true;
             $existing_user_id = $existing_user->ID;
+        } else {
+            if ( $password !== $password_confirm ) {
+                if ( $use_ajax ) {
+                    return new WP_Error( 'password_mismatch', 'کلمه عبور و تکرار آن مطابقت ندارند.' );
+                }
+                wp_safe_redirect( add_query_arg( 'ad_request', 'password_mismatch', $redirect_url ) );
+                exit;
+            }
+            if ( strlen( $password ) < 8 ) {
+                if ( $use_ajax ) {
+                    return new WP_Error( 'password_short', 'کلمه عبور باید حداقل ۸ کاراکتر باشد.' );
+                }
+                wp_safe_redirect( add_query_arg( 'ad_request', 'password_short', $redirect_url ) );
+                exit;
+            }
         }
     }
 
@@ -599,6 +684,7 @@ function kermancopper_ads_collect_request_payload( $ad_id, $redirect_url, $use_a
         'bank_sheba'            => $bank_sheba,
         'bank_account'          => $bank_account,
         'bank_branch'           => $bank_branch,
+        'note'                  => '',
         'password'              => $password,
         'registration_reason'   => $registration_reason,
         'attachment_ids'        => array(),
@@ -748,12 +834,24 @@ function kermancopper_ads_ajax_check_national_id() {
 
     $national_id = isset( $_POST['national_id'] ) ? sanitize_text_field( wp_unslash( $_POST['national_id'] ) ) : '';
     $national_id = preg_replace( '/\s+/', '', $national_id );
+    $ad_id = isset( $_POST['ad_id'] ) ? absint( $_POST['ad_id'] ) : 0;
 
     if ( $national_id === '' ) {
         wp_send_json_success(
             array(
-                'exists'  => false,
-                'message' => '',
+                'exists'           => false,
+                'duplicate_for_ad' => false,
+                'message'          => '',
+            )
+        );
+    }
+
+    if ( $ad_id && kermancopper_ads_request_exists_for_ad( $ad_id, $national_id ) ) {
+        wp_send_json_success(
+            array(
+                'exists'           => true,
+                'duplicate_for_ad' => true,
+                'message'          => 'شما قبلاً با این شناسه ملی در این آگهی ثبت نام کرده‌اید.',
             )
         );
     }
@@ -762,16 +860,18 @@ function kermancopper_ads_ajax_check_national_id() {
     if ( ! $existing_user ) {
         wp_send_json_success(
             array(
-                'exists'  => false,
-                'message' => 'این کد ملی برای ایجاد حساب جدید در دسترس است.',
+                'exists'           => false,
+                'duplicate_for_ad' => false,
+                'message'          => 'این کد ملی برای ایجاد حساب جدید در دسترس است.',
             )
         );
     }
 
     wp_send_json_success(
         array(
-            'exists'  => true,
-            'message' => 'این کد ملی قبلاً ثبت شده است. پس از تایید اطلاعات، درخواست با همان حساب کاربری قبلی ثبت می‌شود و باید رمز عبور همان حساب را وارد کنید.',
+            'exists'           => true,
+            'duplicate_for_ad' => false,
+            'message'          => 'این کد ملی قبلاً ثبت شده است. برای ادامه فقط رمز عبور همان حساب را وارد کنید.',
         )
     );
 }
@@ -904,6 +1004,14 @@ function kermancopper_ads_handle_request_verify() {
             wp_send_json_error( array( 'code' => 'expired', 'message' => 'مهلت ثبت درخواست به پایان رسیده است.' ), 400 );
         }
         wp_safe_redirect( add_query_arg( 'ad_request', 'expired', $redirect_url ) );
+        exit;
+    }
+    if ( kermancopper_ads_request_exists_for_ad( $ad_id, $payload['national_id'] ) ) {
+        if ( wp_doing_ajax() ) {
+            wp_send_json_error( array( 'code' => 'duplicate_national_id_for_ad', 'message' => 'شما قبلاً با این شناسه ملی در این آگهی ثبت نام کرده‌اید.' ), 400 );
+        }
+        delete_transient( 'kermancopper_ad_otp_' . $otp_token );
+        wp_safe_redirect( add_query_arg( 'ad_request', 'duplicate_national_id_for_ad', $redirect_url ) );
         exit;
     }
     $author_id = (int) get_current_user_id();
@@ -1047,29 +1155,69 @@ function kermancopper_ads_handle_request_verify() {
         ) );
     }
 
-    if ( $user_id && ! is_wp_error( $user_id ) ) {
-        // Store/Update extra fields in user meta
-        update_user_meta( $user_id, 'mobile', $payload['mobile'] );
-        update_user_meta( $user_id, 'company', $payload['company'] );
-        update_user_meta( $user_id, 'company_type', $payload['company_type'] );
-        update_user_meta( $user_id, 'activity_type', $payload['activity_type'] );
-        update_user_meta( $user_id, 'national_id', $payload['national_id'] );
-        update_user_meta( $user_id, 'phone', $payload['phone'] );
-        update_user_meta( $user_id, 'province', $payload['province'] );
-        update_user_meta( $user_id, 'city', $payload['city'] );
-        update_user_meta( $user_id, 'address', $payload['address'] );
+    if ( ! $user_id || is_wp_error( $user_id ) ) {
+        $detail = is_wp_error( $user_id ) ? $user_id->get_error_message() : 'ایجاد یا اتصال حساب کاربری ناموفق بود.';
+        wp_delete_post( $request_id, true );
+        delete_transient( 'kermancopper_ad_otp_' . $otp_token );
+        kermancopper_ads_cleanup_attachments( $payload['attachment_ids'] );
 
-        // Associate request post with user
-        wp_update_post( array(
-            'ID'          => $request_id,
-            'post_author' => $user_id,
-        ) );
+        if ( wp_doing_ajax() ) {
+            wp_send_json_error(
+                array(
+                    'code'    => 'submit_error',
+                    'message' => 'ثبت درخواست با خطا روبه‌رو شد. جزئیات: ' . $detail,
+                ),
+                400
+            );
+        }
 
-        // Log the user in
-        wp_clear_auth_cookie();
-        wp_set_current_user( $user_id );
-        wp_set_auth_cookie( $user_id );
+        $redirect_url = add_query_arg(
+            array(
+                'ad_request'        => 'submit_error',
+                'ad_request_detail' => $detail,
+            ),
+            $redirect_url
+        );
+        wp_safe_redirect( $redirect_url );
+        exit;
     }
+
+    // Store/Update extra fields in user meta
+    update_user_meta( $user_id, 'mobile', $payload['mobile'] );
+    update_user_meta( $user_id, 'company', $payload['company'] );
+    update_user_meta( $user_id, 'company_type', $payload['company_type'] );
+    update_user_meta( $user_id, 'activity_type', $payload['activity_type'] );
+    update_user_meta( $user_id, 'company_name_en', $payload['company_name_en'] );
+    update_user_meta( $user_id, 'national_id', $payload['national_id'] );
+    update_user_meta( $user_id, 'establishment_date', $payload['establishment_date'] );
+    update_user_meta( $user_id, 'economic_number', $payload['economic_number'] );
+    update_user_meta( $user_id, 'registration_number', $payload['registration_number'] );
+    update_user_meta( $user_id, 'registration_location', $payload['registration_location'] );
+    update_user_meta( $user_id, 'insurance_branch', $payload['insurance_branch'] );
+    update_user_meta( $user_id, 'ceo_name', $payload['ceo_name'] );
+    update_user_meta( $user_id, 'ceo_national_id', $payload['ceo_national_id'] );
+    update_user_meta( $user_id, 'ceo_mobile', $payload['ceo_mobile'] );
+    update_user_meta( $user_id, 'phone', $payload['phone'] );
+    update_user_meta( $user_id, 'fax', $payload['fax'] );
+    update_user_meta( $user_id, 'website', $payload['website'] );
+    update_user_meta( $user_id, 'postal_code', $payload['postal_code'] );
+    update_user_meta( $user_id, 'province', $payload['province'] );
+    update_user_meta( $user_id, 'city', $payload['city'] );
+    update_user_meta( $user_id, 'address', $payload['address'] );
+    update_user_meta( $user_id, 'bank_sheba', $payload['bank_sheba'] );
+    update_user_meta( $user_id, 'bank_account', $payload['bank_account'] );
+    update_user_meta( $user_id, 'bank_branch', $payload['bank_branch'] );
+
+    // Associate request post with user
+    wp_update_post( array(
+        'ID'          => $request_id,
+        'post_author' => $user_id,
+    ) );
+
+    // Log the user in
+    wp_clear_auth_cookie();
+    wp_set_current_user( $user_id );
+    wp_set_auth_cookie( $user_id );
     
     $attachments_count = is_array( $payload['attachment_ids'] ) ? count( $payload['attachment_ids'] ) : 0;
     update_post_meta( $request_id, KERMANCOPPER_AD_REQUEST_META_ATTACHMENTS_COUNT, $attachments_count );
@@ -1090,7 +1238,13 @@ function kermancopper_ads_handle_request_verify() {
     }
     delete_transient( 'kermancopper_ad_otp_' . $otp_token );
     
-    $dashboard_url = home_url( '/dashboard/' );
+    $dashboard_url = add_query_arg(
+        array(
+            'tab'                => 'requests',
+            'registration_notice' => $is_existing ? 'existing' : 'new',
+        ),
+        kermancopper_ads_get_dashboard_url()
+    );
     
     if ( wp_doing_ajax() ) {
         wp_send_json_success( array(
@@ -1780,7 +1934,7 @@ function kermancopper_ads_render_requests_page() {
                     array( 'label' => 'نمابر (فکس)', 'value' => $meta['fax'], 'required' => true ),
                     array( 'label' => 'تلفن همراه', 'value' => $meta['mobile'], 'required' => true ),
                     array( 'label' => 'ایمیل', 'value' => $meta['email'], 'required' => true ),
-                    array( 'label' => 'وب‌سایت', 'value' => $meta['website'], 'required' => true ),
+                    array( 'label' => 'وب‌سایت', 'value' => $meta['website'], 'required' => false ),
                     array( 'label' => 'استان', 'value' => $meta['province'], 'required' => true ),
                     array( 'label' => 'شهر', 'value' => $meta['city'], 'required' => true ),
                     array( 'label' => 'کد پستی', 'value' => $meta['postal_code'], 'required' => true ),

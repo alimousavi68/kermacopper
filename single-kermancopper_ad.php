@@ -74,6 +74,12 @@ get_header(); ?>
             $request_message = 'کلمه عبور باید حداقل ۸ کاراکتر باشد.';
         } elseif ( $request_message_code === 'user_exists_password_incorrect' ) {
             $request_message = 'این کد ملی قبلا ثبت‌نام شده است و برای ثبت درخواست جدید باید رمز عبور همان حساب را وارد کنید.';
+        } elseif ( $request_message_code === 'duplicate_national_id_for_ad' ) {
+            $request_message = 'شما قبلاً با این شناسه ملی در این آگهی ثبت نام کرده‌اید.';
+        } elseif ( $request_message_code === 'invalid_establishment_date' ) {
+            $request_message = 'تاریخ تاسیس وارد شده معتبر نیست.';
+        } elseif ( $request_message_code === 'future_establishment_date' ) {
+            $request_message = 'تاریخ تاسیس نمی‌تواند بعد از تاریخ امروز باشد.';
         } elseif ( $request_message_code === 'expired' ) {
             $request_message = 'مهلت ثبت درخواست به پایان رسیده است.';
         } elseif ( $request_message_code === 'invalid_ad' ) {
@@ -351,7 +357,7 @@ get_header(); ?>
                                     </div>
                                     <div>
                                         <label class="block text-sm font-bold text-slate-700 mb-2" for="establishment_date">تاریخ تاسیس *</label>
-                                        <input type="text" id="establishment_date" name="establishment_date" class="w-full rounded-2xl border border-slate-300 bg-slate-50 px-6 py-4 text-navy placeholder-transparent focus:outline-none focus:border-copper focus:bg-white transition-all font-semibold kermancopper-ad-datepicker" data-jdp <?php echo esc_attr( $info_required ); ?> value="<?php echo esc_attr( $user_establishment_date ); ?>" />
+                                        <input type="text" id="establishment_date" name="establishment_date" class="w-full rounded-2xl border border-slate-300 bg-slate-50 px-6 py-4 text-navy placeholder-transparent focus:outline-none focus:border-copper focus:bg-white transition-all font-semibold kermancopper-ad-datepicker" data-jdp data-jdp-max-date="today" <?php echo esc_attr( $info_required ); ?> value="<?php echo esc_attr( $user_establishment_date ); ?>" />
                                     </div>
                                     <div>
                                         <label class="block text-sm font-bold text-slate-700 mb-2" for="economic_number">شماره اقتصادی یا جواز *</label>
@@ -414,8 +420,8 @@ get_header(); ?>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label class="block text-sm font-bold text-slate-700 mb-2" for="website">آدرس وب سایت *</label>
-                                        <input type="text" id="website" name="website" class="w-full rounded-2xl border border-slate-300 bg-slate-50 px-6 py-4 text-navy placeholder-transparent focus:outline-none focus:border-copper focus:bg-white transition-all font-semibold" <?php echo esc_attr( $info_required ); ?> value="<?php echo esc_attr( $user_website ); ?>" />
+                                        <label class="block text-sm font-bold text-slate-700 mb-2" for="website">آدرس وب سایت</label>
+                                        <input type="text" id="website" name="website" class="w-full rounded-2xl border border-slate-300 bg-slate-50 px-6 py-4 text-navy placeholder-transparent focus:outline-none focus:border-copper focus:bg-white transition-all font-semibold" value="<?php echo esc_attr( $user_website ); ?>" />
                                     </div>
                                     <div>
                                         <label class="block text-sm font-bold text-slate-700 mb-2" for="request_email">پست الکترونیک (ایمیل) *</label>
@@ -477,12 +483,12 @@ get_header(); ?>
                             <!-- Section 5: Credentials & Reasoning -->
                             <div class="form-section space-y-6">
                                 <h3 class="text-lg font-black text-navy font-peyda mb-6 pb-2 border-b border-slate-100 flex items-center gap-2">
-                                    <span class="w-2.5 h-2.5 rounded-full bg-copper"></span> <?php echo $is_user_logged_in ? 'سوابق و دلایل درخواست' : 'تنظیمات حساب کاربری و سوابق'; ?>
+                                    <span class="w-2.5 h-2.5 rounded-full bg-copper"></span> <?php echo $is_user_logged_in ? 'سوابق و دلایل درخواست' : 'اطلاعات حساب کاربری و سوابق'; ?>
                                 </h3>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <?php if ( ! $is_user_logged_in ) : ?>
                                         <div>
-                                            <label class="block text-sm font-bold text-slate-700 mb-2" for="password">کلمه عبور حساب کاربری *</label>
+                                            <label class="block text-sm font-bold text-slate-700 mb-2" for="password">کلمه عبور برای ایجاد حساب کاربری *</label>
                                             <input type="password" id="password" name="password" class="w-full rounded-2xl border border-slate-300 bg-slate-50 px-6 py-4 text-navy placeholder-transparent focus:outline-none focus:border-copper focus:bg-white transition-all font-semibold" <?php echo esc_attr( $info_required ); ?> />
                                         </div>
                                         <div>
@@ -642,10 +648,13 @@ get_header(); ?>
         var citySelect = document.getElementById('city');
         var nationalIdField = document.getElementById('national_id');
         var nationalIdStatus = document.getElementById('national-id-status');
+        var establishmentDateField = document.getElementById('establishment_date');
         var passwordField = document.getElementById('password');
         var passwordConfirmField = document.getElementById('password_confirm');
         var passwordLabel = passwordField ? form.querySelector('label[for="password"]') : null;
         var passwordConfirmLabel = passwordConfirmField ? form.querySelector('label[for="password_confirm"]') : null;
+        var isExistingNationalIdAccount = false;
+        var isDuplicateNationalIdForAd = false;
 
         var otpTimerInterval = null;
         var otpResendBtn = document.getElementById('otp-resend-btn');
@@ -730,11 +739,80 @@ get_header(); ?>
 
         var updatePasswordLabels = function(isExistingAccount) {
             if (passwordLabel) {
-                passwordLabel.textContent = isExistingAccount ? 'رمز عبور حساب کاربری موجود *' : 'کلمه عبور حساب کاربری *';
+                passwordLabel.textContent = isExistingAccount ? 'رمز عبور حساب کاربری موجود (جهت تایید هویت) *' : 'کلمه عبور برای ایجاد حساب کاربری *';
             }
             if (passwordConfirmLabel) {
-                passwordConfirmLabel.textContent = isExistingAccount ? 'تکرار رمز عبور همان حساب *' : 'تکرار کلمه عبور *';
+                passwordConfirmLabel.textContent = 'تکرار کلمه عبور *';
+                if (passwordConfirmLabel.parentElement) {
+                    passwordConfirmLabel.parentElement.style.display = isExistingAccount ? 'none' : '';
+                }
             }
+            if (passwordConfirmField) {
+                passwordConfirmField.required = !isExistingAccount;
+                passwordConfirmField.disabled = isExistingAccount;
+                if (isExistingAccount) {
+                    passwordConfirmField.value = '';
+                    passwordConfirmField.classList.remove('border-red-500');
+                }
+            }
+        };
+
+        var normalizeToEnglishDigits = function(value) {
+            if (!value) {
+                return '';
+            }
+            var persian = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            var arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+
+            return value.replace(/[۰-۹٠-٩]/g, function(char) {
+                var persianIndex = persian.indexOf(char);
+                if (persianIndex > -1) {
+                    return String(persianIndex);
+                }
+                var arabicIndex = arabic.indexOf(char);
+                return arabicIndex > -1 ? String(arabicIndex) : char;
+            });
+        };
+
+        var validateEstablishmentDate = function() {
+            if (!establishmentDateField || !establishmentDateField.value.trim()) {
+                return true;
+            }
+
+            var value = establishmentDateField.value.trim();
+            var parts = value.split('/');
+            if (parts.length !== 3) {
+                establishmentDateField.classList.add('border-red-500');
+                setMessage('تاریخ تاسیس وارد شده معتبر نیست.', false);
+                establishmentDateField.focus();
+                return false;
+            }
+
+            var jalaliValue = normalizeToEnglishDigits(parts.join(''));
+            var today = new Date();
+            var todayFormatter = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            });
+            var todayParts = todayFormatter.formatToParts(today);
+            var currentJalali = '';
+
+            todayParts.forEach(function(part) {
+                if (part.type === 'year' || part.type === 'month' || part.type === 'day') {
+                    currentJalali += normalizeToEnglishDigits(part.value).replace(/[^\d]/g, '');
+                }
+            });
+
+            if (currentJalali && jalaliValue > currentJalali) {
+                establishmentDateField.classList.add('border-red-500');
+                setMessage('تاریخ تاسیس نمی‌تواند بعد از تاریخ امروز باشد.', false);
+                establishmentDateField.focus();
+                return false;
+            }
+
+            establishmentDateField.classList.remove('border-red-500');
+            return true;
         };
 
         var nationalIdLookupController = null;
@@ -766,6 +844,7 @@ get_header(); ?>
                 var lookupData = new FormData();
                 lookupData.append('action', 'kermancopper_check_national_id');
                 lookupData.append('national_id', nationalId);
+                lookupData.append('ad_id', form.querySelector('input[name="ad_id"]').value || '');
 
                 fetch(form.getAttribute('data-ajax-url'), {
                     method: 'POST',
@@ -776,11 +855,19 @@ get_header(); ?>
                 .then(function(result) {
                     if (!result.success) {
                         updateNationalIdStatus('بررسی کد ملی با خطا روبه‌رو شد. هنگام ثبت نهایی دوباره کنترل می‌شود.', 'error');
+                        isExistingNationalIdAccount = false;
+                        isDuplicateNationalIdForAd = false;
                         updatePasswordLabels(false);
                         return;
                     }
 
-                    if (result.data.exists) {
+                    isExistingNationalIdAccount = !!result.data.exists;
+                    isDuplicateNationalIdForAd = !!result.data.duplicate_for_ad;
+
+                    if (isDuplicateNationalIdForAd) {
+                        updateNationalIdStatus(result.data.message, 'error');
+                        updatePasswordLabels(true);
+                    } else if (result.data.exists) {
                         updateNationalIdStatus(result.data.message, 'warning');
                         updatePasswordLabels(true);
                     } else {
@@ -793,6 +880,8 @@ get_header(); ?>
                         return;
                     }
                     updateNationalIdStatus('بررسی کد ملی با خطا روبه‌رو شد. هنگام ثبت نهایی دوباره کنترل می‌شود.', 'error');
+                    isExistingNationalIdAccount = false;
+                    isDuplicateNationalIdForAd = false;
                     updatePasswordLabels(false);
                 });
             };
@@ -965,6 +1054,19 @@ get_header(); ?>
                 return;
             }
 
+            if (!validateEstablishmentDate()) {
+                return;
+            }
+
+            if (isDuplicateNationalIdForAd) {
+                if (nationalIdField) {
+                    nationalIdField.classList.add('border-red-500');
+                    nationalIdField.focus();
+                }
+                setMessage('شما قبلاً با این شناسه ملی در این آگهی ثبت نام کرده‌اید.', false);
+                return;
+            }
+
             // Validate email
             var emailField = document.getElementById('request_email');
             if (emailField && emailField.value) {
@@ -980,13 +1082,13 @@ get_header(); ?>
             }
 
             // Validate password match if visible
-            if (passwordField && passwordConfirmField && !passwordField.closest('.form-section').classList.contains('hidden') && passwordField.hasAttribute('required')) {
-                if (passwordField.value.length < 8) {
+            if (passwordField && !passwordField.closest('.form-section').classList.contains('hidden') && passwordField.hasAttribute('required')) {
+                if (!isExistingNationalIdAccount && passwordField.value.length < 8) {
                     passwordField.classList.add('border-red-500');
                     setMessage('کلمه عبور باید حداقل ۸ کاراکتر باشد.', false);
                     passwordField.focus();
                     return;
-                } else if (passwordField.value !== passwordConfirmField.value) {
+                } else if (!isExistingNationalIdAccount && passwordConfirmField && passwordField.value !== passwordConfirmField.value) {
                     passwordField.classList.add('border-red-500');
                     passwordConfirmField.classList.add('border-red-500');
                     setMessage('کلمه عبور و تکرار آن مطابقت ندارند.', false);
@@ -1068,6 +1170,8 @@ get_header(); ?>
                 setMessage('خطا در ارتباط با سرور. لطفا دوباره تلاش کنید.', false);
             });
         });
+
+        updatePasswordLabels(false);
     };
     document.addEventListener('DOMContentLoaded', init);
 })();

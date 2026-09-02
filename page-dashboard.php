@@ -268,6 +268,35 @@ get_header(); ?>
             }
             ?>
 
+            <?php
+            $registration_notice = isset( $_GET['registration_notice'] ) ? sanitize_key( wp_unslash( $_GET['registration_notice'] ) ) : '';
+            if ( $registration_notice === 'new' ) :
+            ?>
+                <div class="mb-8 p-6 bg-emerald-50 border border-emerald-200 rounded-3xl flex items-start gap-4 animate-fade-in">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
+                        <?php echo kermancopper_icon('check-circle', 'w-6 h-6'); ?>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-emerald-800 mb-1">ثبت‌نام و درخواست شما با موفقیت انجام شد</h4>
+                        <p class="text-emerald-700 leading-relaxed font-medium">
+                            شما هم‌اکنون به پنل کاربری خود وارد شده‌اید. می‌توانید با استفاده از <strong>شناسه ملی</strong> و <strong>رمز عبوری</strong> که در هنگام ثبت‌نام وارد کرده‌اید، در مراجعات بعدی به این پنل وارد شوید و اطلاعات خود را تکمیل یا وضعیت درخواست‌هایتان را پیگیری کنید.
+                        </p>
+                    </div>
+                </div>
+            <?php elseif ( $registration_notice === 'existing' ) : ?>
+                <div class="mb-8 p-6 bg-emerald-50 border border-emerald-200 rounded-3xl flex items-start gap-4 animate-fade-in">
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
+                        <?php echo kermancopper_icon('check-circle', 'w-6 h-6'); ?>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-emerald-800 mb-1">درخواست شما با موفقیت به حساب کاربری متصل و ثبت شد</h4>
+                        <p class="text-emerald-700 leading-relaxed font-medium">
+                            درخواست جدید به حساب کاربری شما متصل گردید. می‌توانید از این پنل وضعیت درخواست‌های خود را پیگیری کنید.
+                        </p>
+                    </div>
+                </div>
+            <?php endif; ?>
+
             <!-- Stats cards row -->
             <div class="grid grid-cols-3 gap-2 md:gap-6 mb-8 stats-grid">
                 <!-- Card 1: Total -->
