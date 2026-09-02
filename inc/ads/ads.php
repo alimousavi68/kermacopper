@@ -444,6 +444,33 @@ function kermancopper_ads_is_ad_open( $ad_id ) {
     return true;
 }
 
+function kermancopper_ads_find_user_by_national_id( $national_id ) {
+    $national_id = trim( (string) $national_id );
+    if ( $national_id === '' ) {
+        return false;
+    }
+
+    $user = get_user_by( 'login', $national_id );
+    if ( $user instanceof WP_User ) {
+        return $user;
+    }
+
+    $users = get_users(
+        array(
+            'meta_key'   => 'national_id',
+            'meta_value' => $national_id,
+            'number'     => 1,
+            'count_total' => false,
+        )
+    );
+
+    if ( ! empty( $users ) && $users[0] instanceof WP_User ) {
+        return $users[0];
+    }
+
+    return false;
+}
+
 function kermancopper_ads_collect_request_payload( $ad_id, $redirect_url, $use_ajax = false ) {
     $mobile = isset( $_POST['request_mobile'] ) ? sanitize_text_field( wp_unslash( $_POST['request_mobile'] ) ) : '';
     $email = isset( $_POST['request_email'] ) ? sanitize_email( wp_unslash( $_POST['request_email'] ) ) : '';
@@ -529,8 +556,8 @@ function kermancopper_ads_collect_request_payload( $ad_id, $redirect_url, $use_a
         $current_user = wp_get_current_user();
         $national_id = $current_user->user_login;
     } else {
-        // Check if user already exists with this National ID
-        $existing_user = get_user_by( 'login', $national_id );
+        // Reuse the existing account when this national ID has already been registered.
+        $existing_user = kermancopper_ads_find_user_by_national_id( $national_id );
         if ( $existing_user ) {
             if ( ! wp_check_password( $password, $existing_user->user_pass, $existing_user->ID ) ) {
                 if ( $use_ajax ) {
@@ -685,17 +712,11 @@ function kermancopper_ads_handle_request_otp() {
     
     wp_mail( $payload['email'], $subject, $email_body, $headers );
     
-    // Check if we show the code in response (local/dev testing fallback)
-    $show_code_in_response = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( isset( $_SERVER['HTTP_HOST'] ) && ( strpos( $_SERVER['HTTP_HOST'], 'localhost' ) !== false || strpos( $_SERVER['HTTP_HOST'], '127.0.0.1' ) !== false ) );
-    
     if ( wp_doing_ajax() ) {
         $response_data = array(
             'message'   => 'کد تایید به ایمیل شما ارسال شد. لطفا کد را وارد کنید.',
             'otp_token' => $otp_token,
         );
-        if ( $show_code_in_response ) {
-            $response_data['otp_code'] = $otp_code;
-        }
         wp_send_json_success( $response_data );
     }
     
@@ -713,6 +734,49 @@ add_action( 'admin_post_kermancopper_ad_request_otp', 'kermancopper_ads_handle_r
 add_action( 'admin_post_nopriv_kermancopper_ad_request_otp', 'kermancopper_ads_handle_request_otp' );
 add_action( 'wp_ajax_kermancopper_ad_request_otp', 'kermancopper_ads_handle_request_otp' );
 add_action( 'wp_ajax_nopriv_kermancopper_ad_request_otp', 'kermancopper_ads_handle_request_otp' );
+
+function kermancopper_ads_ajax_check_national_id() {
+    if ( $_SERVER['REQUEST_METHOD'] !== 'POST' ) {
+        wp_send_json_error(
+            array(
+                'code'    => 'invalid_request',
+                'message' => 'درخواست نامعتبر است.',
+            ),
+            405
+        );
+    }
+
+    $national_id = isset( $_POST['national_id'] ) ? sanitize_text_field( wp_unslash( $_POST['national_id'] ) ) : '';
+    $national_id = preg_replace( '/\s+/', '', $national_id );
+
+    if ( $national_id === '' ) {
+        wp_send_json_success(
+            array(
+                'exists'  => false,
+                'message' => '',
+            )
+        );
+    }
+
+    $existing_user = kermancopper_ads_find_user_by_national_id( $national_id );
+    if ( ! $existing_user ) {
+        wp_send_json_success(
+            array(
+                'exists'  => false,
+                'message' => 'این کد ملی برای ایجاد حساب جدید در دسترس است.',
+            )
+        );
+    }
+
+    wp_send_json_success(
+        array(
+            'exists'  => true,
+            'message' => 'این کد ملی قبلاً ثبت شده است. پس از تایید اطلاعات، درخواست با همان حساب کاربری قبلی ثبت می‌شود و باید رمز عبور همان حساب را وارد کنید.',
+        )
+    );
+}
+add_action( 'wp_ajax_kermancopper_check_national_id', 'kermancopper_ads_ajax_check_national_id' );
+add_action( 'wp_ajax_nopriv_kermancopper_check_national_id', 'kermancopper_ads_ajax_check_national_id' );
 
 // Resend OTP Action
 function kermancopper_ads_handle_resend_otp() {
@@ -763,14 +827,9 @@ function kermancopper_ads_handle_resend_otp() {
     
     wp_mail( $payload['email'], $subject, $email_body, $headers );
     
-    $show_code_in_response = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( isset( $_SERVER['HTTP_HOST'] ) && ( strpos( $_SERVER['HTTP_HOST'], 'localhost' ) !== false || strpos( $_SERVER['HTTP_HOST'], '127.0.0.1' ) !== false ) );
-    
     $response_data = array(
         'message' => 'کد تایید جدید ارسال شد.',
     );
-    if ( $show_code_in_response ) {
-        $response_data['otp_code'] = $otp_code;
-    }
     
     wp_send_json_success( $response_data );
 }

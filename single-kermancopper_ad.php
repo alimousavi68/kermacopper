@@ -68,6 +68,12 @@ get_header(); ?>
             $request_message = 'کد تایید یافت نشد. دوباره تلاش کنید.';
         } elseif ( $request_message_code === 'otp_send_failed' ) {
             $request_message = 'ارسال کد تایید با خطا روبه‌رو شد.';
+        } elseif ( $request_message_code === 'password_mismatch' ) {
+            $request_message = 'کلمه عبور و تکرار آن مطابقت ندارند.';
+        } elseif ( $request_message_code === 'password_short' ) {
+            $request_message = 'کلمه عبور باید حداقل ۸ کاراکتر باشد.';
+        } elseif ( $request_message_code === 'user_exists_password_incorrect' ) {
+            $request_message = 'این کد ملی قبلا ثبت‌نام شده است و برای ثبت درخواست جدید باید رمز عبور همان حساب را وارد کنید.';
         } elseif ( $request_message_code === 'expired' ) {
             $request_message = 'مهلت ثبت درخواست به پایان رسیده است.';
         } elseif ( $request_message_code === 'invalid_ad' ) {
@@ -263,7 +269,7 @@ get_header(); ?>
                                 <label class="block text-sm font-bold text-slate-800 text-center" for="otp_digit_1">کد تایید ۵ رقمی *</label>
                                 
                                 <!-- 5 Digit Input Fields -->
-                                <div class="flex flex-row-reverse justify-center gap-3 font-mono" dir="ltr" id="otp-digits-container">
+                                <div class="flex justify-center gap-3 font-mono" dir="ltr" id="otp-digits-container">
                                     <input type="text" maxlength="1" pattern="[0-9]*" inputmode="numeric" class="otp-digit-input w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl font-black rounded-xl" id="otp_digit_1" data-index="1" <?php echo esc_attr( $otp_disabled ); ?> />
                                     <input type="text" maxlength="1" pattern="[0-9]*" inputmode="numeric" class="otp-digit-input w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl font-black rounded-xl" id="otp_digit_2" data-index="2" <?php echo esc_attr( $otp_disabled ); ?> />
                                     <input type="text" maxlength="1" pattern="[0-9]*" inputmode="numeric" class="otp-digit-input w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl font-black rounded-xl" id="otp_digit_3" data-index="3" <?php echo esc_attr( $otp_disabled ); ?> />
@@ -283,11 +289,6 @@ get_header(); ?>
                                     <button type="button" id="otp-resend-btn" class="text-copper hover:text-copper-dark transition-colors hidden font-bold flex items-center gap-1">
                                         <?php echo kermancopper_icon('rotate-ccw', 'w-4 h-4'); ?> ارسال مجدد کد تایید
                                     </button>
-                                </div>
-                                
-                                <div class="w-full mt-4 p-4 rounded-2xl bg-amber-50/50 border border-amber-200 text-amber-700 text-xs font-semibold flex items-center gap-2 dev-helper-box hidden">
-                                    <?php echo kermancopper_icon('alert-triangle', 'w-4 h-4 flex-shrink-0'); ?>
-                                    <span>کد تایید ارسال شده (صرفاً در محیط لوکال جهت تست): <strong id="dev-otp-code"></strong></span>
                                 </div>
                             </div>
                         </div>
@@ -344,6 +345,9 @@ get_header(); ?>
                                     <div>
                                         <label class="block text-sm font-bold text-slate-700 mb-2" for="national_id">شناسه ملی / کد ملی *</label>
                                         <input type="text" id="national_id" name="national_id" class="w-full rounded-2xl border border-slate-300 bg-slate-50 px-6 py-4 text-navy placeholder-transparent focus:outline-none focus:border-copper focus:bg-white transition-all font-semibold" <?php echo esc_attr( $info_required ); ?> value="<?php echo esc_attr( $user_national_id ); ?>" />
+                                        <?php if ( ! $is_user_logged_in ) : ?>
+                                            <p id="national-id-status" class="mt-2 hidden text-xs font-semibold"></p>
+                                        <?php endif; ?>
                                     </div>
                                     <div>
                                         <label class="block text-sm font-bold text-slate-700 mb-2" for="establishment_date">تاریخ تاسیس *</label>
@@ -636,6 +640,12 @@ get_header(); ?>
         var infoSection = form.querySelector('[data-step-section="info"]');
         var provinceSelect = document.getElementById('province');
         var citySelect = document.getElementById('city');
+        var nationalIdField = document.getElementById('national_id');
+        var nationalIdStatus = document.getElementById('national-id-status');
+        var passwordField = document.getElementById('password');
+        var passwordConfirmField = document.getElementById('password_confirm');
+        var passwordLabel = passwordField ? form.querySelector('label[for="password"]') : null;
+        var passwordConfirmLabel = passwordConfirmField ? form.querySelector('label[for="password_confirm"]') : null;
 
         var otpTimerInterval = null;
         var otpResendBtn = document.getElementById('otp-resend-btn');
@@ -704,6 +714,93 @@ get_header(); ?>
             }
         };
 
+        var updateNationalIdStatus = function(message, type) {
+            if (!nationalIdStatus) {
+                return;
+            }
+            if (!message) {
+                nationalIdStatus.textContent = '';
+                nationalIdStatus.className = 'mt-2 hidden text-xs font-semibold';
+                return;
+            }
+            var toneClass = type === 'success' ? 'text-emerald-700' : (type === 'error' ? 'text-rose-600' : 'text-amber-700');
+            nationalIdStatus.textContent = message;
+            nationalIdStatus.className = 'mt-2 text-xs font-semibold ' + toneClass;
+        };
+
+        var updatePasswordLabels = function(isExistingAccount) {
+            if (passwordLabel) {
+                passwordLabel.textContent = isExistingAccount ? 'رمز عبور حساب کاربری موجود *' : 'کلمه عبور حساب کاربری *';
+            }
+            if (passwordConfirmLabel) {
+                passwordConfirmLabel.textContent = isExistingAccount ? 'تکرار رمز عبور همان حساب *' : 'تکرار کلمه عبور *';
+            }
+        };
+
+        var nationalIdLookupController = null;
+        var lastNationalIdChecked = '';
+
+        if (nationalIdField && nationalIdStatus) {
+            var checkNationalId = function() {
+                var nationalId = nationalIdField.value.replace(/\s+/g, '');
+
+                if (!nationalId) {
+                    lastNationalIdChecked = '';
+                    updateNationalIdStatus('', '');
+                    updatePasswordLabels(false);
+                    return;
+                }
+
+                if (nationalId === lastNationalIdChecked) {
+                    return;
+                }
+                lastNationalIdChecked = nationalId;
+
+                updateNationalIdStatus('در حال بررسی کد ملی...', 'info');
+
+                if (nationalIdLookupController) {
+                    nationalIdLookupController.abort();
+                }
+                nationalIdLookupController = new AbortController();
+
+                var lookupData = new FormData();
+                lookupData.append('action', 'kermancopper_check_national_id');
+                lookupData.append('national_id', nationalId);
+
+                fetch(form.getAttribute('data-ajax-url'), {
+                    method: 'POST',
+                    body: lookupData,
+                    signal: nationalIdLookupController.signal
+                })
+                .then(function(r) { return r.json(); })
+                .then(function(result) {
+                    if (!result.success) {
+                        updateNationalIdStatus('بررسی کد ملی با خطا روبه‌رو شد. هنگام ثبت نهایی دوباره کنترل می‌شود.', 'error');
+                        updatePasswordLabels(false);
+                        return;
+                    }
+
+                    if (result.data.exists) {
+                        updateNationalIdStatus(result.data.message, 'warning');
+                        updatePasswordLabels(true);
+                    } else {
+                        updateNationalIdStatus(result.data.message, 'success');
+                        updatePasswordLabels(false);
+                    }
+                })
+                .catch(function(err) {
+                    if (err && err.name === 'AbortError') {
+                        return;
+                    }
+                    updateNationalIdStatus('بررسی کد ملی با خطا روبه‌رو شد. هنگام ثبت نهایی دوباره کنترل می‌شود.', 'error');
+                    updatePasswordLabels(false);
+                });
+            };
+
+            nationalIdField.addEventListener('blur', checkNationalId);
+            nationalIdField.addEventListener('change', checkNationalId);
+        }
+
         var startTimer = function (seconds) {
             if (otpTimerInterval) {
                 clearInterval(otpTimerInterval);
@@ -764,13 +861,6 @@ get_header(); ?>
                     if (result.success) {
                         setMessage(result.data.message, true);
                         startTimer(120);
-                        if (result.data.otp_code) {
-                            var devBox = form.querySelector('.dev-helper-box');
-                            if (devBox) {
-                                devBox.classList.remove('hidden');
-                                document.getElementById('dev-otp-code').textContent = result.data.otp_code;
-                            }
-                        }
                     } else {
                         setMessage(result.data.message || 'خطا در ارسال مجدد کد', false);
                     }
@@ -890,8 +980,6 @@ get_header(); ?>
             }
 
             // Validate password match if visible
-            var passwordField = document.getElementById('password');
-            var passwordConfirmField = document.getElementById('password_confirm');
             if (passwordField && passwordConfirmField && !passwordField.closest('.form-section').classList.contains('hidden') && passwordField.hasAttribute('required')) {
                 if (passwordField.value.length < 8) {
                     passwordField.classList.add('border-red-500');
@@ -953,14 +1041,6 @@ get_header(); ?>
                     setMessage(result.data.message, true);
                     
                     startTimer(120);
-                    
-                    if (result.data.otp_code) {
-                        var devBox = form.querySelector('.dev-helper-box');
-                        if (devBox) {
-                            devBox.classList.remove('hidden');
-                            document.getElementById('dev-otp-code').textContent = result.data.otp_code;
-                        }
-                    }
                     
                     setTimeout(function() {
                         var firstOtp = document.getElementById('otp_digit_1');
